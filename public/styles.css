@@ -333,6 +333,7 @@ td:first-child { font-weight: 500; color: var(--text-1); }
 .site-footer li a:hover { color: var(--text-1); text-decoration: underline; }
 .updates-form { grid-column: 1 / -1; max-width: 32rem; }
 .updates-form p { margin: 0 0 .8rem; color: var(--text-2); }
+.page-signup { margin-top: var(--space-6); margin-bottom: var(--space-6); }
 .updates-row { display: flex; gap: var(--space-2); }
 .updates-row input { flex: 1; min-width: 0; height: 40px; padding: 0 var(--space-3); border: 1px solid var(--line-control); border-radius: var(--radius); background: var(--surface-1); color: var(--text-1); font: 400 15px var(--font-sans); }
 .updates-row input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }

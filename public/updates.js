@@ -1,10 +1,12 @@
-// Sends the footer updates form as JSON to the Colliedesk web form channel and reports the
+// Sends every updates form on the page as JSON to the Colliedesk web form channel and reports the
 // result in the form's status line. Without this script the box does nothing harmful: the
 // endpoint only accepts JSON.
 (function () {
   document.addEventListener('DOMContentLoaded', function () {
-    var form = document.querySelector('[data-updates-form]');
-    if (!form) return;
+    document.querySelectorAll('[data-updates-form]').forEach(bind);
+  });
+
+  function bind(form) {
     var status = form.querySelector('.updates-status');
     var button = form.querySelector('button');
     var say = function (text, state) { status.textContent = text; status.dataset.state = state; };
@@ -25,5 +27,5 @@
         say('Could not reach the server. Check your connection and try again.', 'error');
       }).then(function () { button.disabled = false; });
     });
-  });
+  }
 })();

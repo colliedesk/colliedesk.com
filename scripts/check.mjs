@@ -15,6 +15,7 @@ const REQUIRED_PAGES = [
   '/self-hosted-helpdesk', '/migrate/freshdesk/done-for-you', '/helpdesk-for-small-teams',
   '/vs/zammad', '/vs/chatwoot', '/vs/freescout', '/vs/zoho-desk', '/vs/happyfox', '/vs/gorgias',
   '/vs/hubspot-service-hub', '/vs/groove', '/freshdesk-alternative', '/freshdesk-pricing-history', '/compare',
+  '/build-log',
 ];
 const AI_CRAWLERS = ['GPTBot', 'OAI-SearchBot', 'ChatGPT-User', 'ClaudeBot', 'PerplexityBot', 'Google-Extended'];
 
@@ -120,12 +121,25 @@ for (const file of pages) {
   if (/Be Vietnam Pro/i.test(html)) fail(`${where}: banned typeface referenced`);
   // Every page offers the updates box: an email field with a label, posting to the web form
   // channel of HC Labs' own Colliedesk workspace, plus the empty honeypot the endpoint expects.
-  const form = html.match(/<form[^>]*data-updates-form[^>]*>[\s\S]*?<\/form>/)?.[0] || '';
-  if (!form) fail(`${where}: updates form missing`);
-  else {
+  // A page may carry more than one box (the footer one plus one in the page), so each box needs
+  // its own field id for its label to point at.
+  const forms = [...html.matchAll(/<form[^>]*data-updates-form[^>]*>[\s\S]*?<\/form>/g)].map((m) => m[0]);
+  if (!forms.length) fail(`${where}: updates form missing`);
+  const fieldIds = [];
+  for (const form of forms) {
     if (!form.includes(`action="${UPDATES_FORM_URL}"`)) fail(`${where}: updates form does not post to ${UPDATES_FORM_URL}`);
-    if (!/<label for="updates-email"/.test(form) || !/<input[^>]*id="updates-email"[^>]*type="email"[^>]*required/.test(form)) fail(`${where}: updates form has no labelled required email field`);
+    const id = form.match(/<input[^>]*id="([^"]+)"[^>]*type="email"[^>]*required/)?.[1];
+    if (!id || !form.includes(`<label for="${id}"`)) fail(`${where}: updates form has no labelled required email field`);
+    else fieldIds.push(id);
     if (!/<input[^>]*name="website"[^>]*tabindex="-1"/.test(form)) fail(`${where}: updates form has no honeypot`);
+  }
+  if (new Set(fieldIds).size !== fieldIds.length) fail(`${where}: two updates forms share an email field id`);
+  // /build-log is where X profile links land: the signup box must come before the footer,
+  // not only in it.
+  if (urlPath === '/build-log') {
+    const footerAt = html.indexOf('<footer');
+    const firstForm = html.search(/<form[^>]*data-updates-form/);
+    if (firstForm === -1 || footerAt === -1 || firstForm > footerAt) fail(`${where}: no updates form above the footer`);
   }
 
   for (const m of html.matchAll(/<script([^>]*)>([\s\S]*?)<\/script>/g)) {

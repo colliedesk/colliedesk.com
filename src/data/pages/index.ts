@@ -1,5 +1,6 @@
 // Every page of the site, in llms.txt and sitemap order.
 import type { Page } from '../../lib/page';
+import buildLog from './build-log';
 import changelog from './changelog';
 import compare from './compare';
 import freshdeskAlternative from './freshdesk-alternative';
@@ -37,7 +38,7 @@ export function allPages(): readonly Page[] {
   cache ??= [
     home, pricing, migrateFreshdesk, migrateFreshdeskDoneForYou, migrateFreshdeskExport, migrateZendeskExport,
     compare, vsFreshdesk, vsZendesk, vsHelpScout, vsFront, vsZammad, vsChatwoot, vsFreescout,
-    vsZohoDesk, vsHappyfox, vsGorgias, vsHubspotServiceHub, vsGroove, freshdeskAlternative, freshdeskPricingHistory, selfHostedHelpdesk, helpdeskForSmallTeams, openSource, roadmapPage(), changelog,
+    vsZohoDesk, vsHappyfox, vsGorgias, vsHubspotServiceHub, vsGroove, freshdeskAlternative, freshdeskPricingHistory, selfHostedHelpdesk, helpdeskForSmallTeams, openSource, roadmapPage(), changelog, buildLog,
     privacy, terms, ...docsPages(),
   ];
   return cache;

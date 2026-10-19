@@ -1,13 +1,26 @@
 ---
-// Release-notes signup. Plain HTML posted by public/updates.js (sent as JSON, result shown in the
-// status line); the empty "website" field is the honeypot the endpoint expects.
+// Email signup. Plain HTML posted by public/updates.js (sent as JSON, result shown in the
+// status line); the empty "website" field is the honeypot the endpoint expects. A page can
+// hold more than one box, so each box gets its own field id.
 import { UPDATES_FORM_URL } from '../lib/site';
+
+interface Props {
+  id?: string;
+  title?: string;
+  text?: string;
+}
+
+const {
+  id = 'updates-email',
+  title = 'Release notes by email',
+  text = 'One email when a release ships. Reply "stop" and we take you off the list.',
+} = Astro.props;
 ---
 <form class="updates-form" data-updates-form action={UPDATES_FORM_URL} method="post">
-  <label for="updates-email" class="footer-title">Release notes by email</label>
-  <p>One email when a release ships. Reply "stop" and we take you off the list.</p>
+  <label for={id} class="footer-title">{title}</label>
+  <p>{text}</p>
   <div class="updates-row">
-    <input id="updates-email" name="email" type="email" autocomplete="email" required placeholder="you@company.com">
+    <input id={id} name="email" type="email" autocomplete="email" required placeholder="you@company.com">
     <button type="submit" class="btn btn-primary">Subscribe</button>
   </div>
   <input class="updates-trap" name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
