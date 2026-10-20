@@ -36,7 +36,12 @@ it does not write pages. Credits: stay within the owner's DataForSEO budget (Ope
 4. `KNOWN_DEBT` in `scripts/content-qa.mjs` has one open `seo:improve` issue per rule, listing its pages.
 5. A competitor changed a price (read the source on a `/vs` page older than 90 days) → issue to update it.
 
-## 4. Digest
+## 4. Patterns: every quarter (January, April, July, October)
+
+Refresh [serp-patterns.md](serp-patterns.md) with its Refresh steps, in one `seo:improve` PR.
+Each issue names its page type (a field in the template), so the writer reads the right pattern.
+
+## 5. Digest
 
 Comment on the pinned issue #68 `SEO weekly digest`: pages shipped, Search Console clicks and
 impressions (this 28 days vs last), sign-ups by landing page, issues opened, credits spent.

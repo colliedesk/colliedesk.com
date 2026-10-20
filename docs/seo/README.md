@@ -21,7 +21,8 @@ increase, wants hosted and does not need PSA/RMM.
 ## The loop
 
 1. **Research, weekly** ([research-and-audit.md](research-and-audit.md)): open at most 2 `seo:new`
-   issues, one keyword each, with a brief.
+   issues, one keyword each, with a brief. Every quarter, refresh
+   [serp-patterns.md](serp-patterns.md): what the top 3 pages do, by page type.
 2. **Write** ([write-and-qa.md](write-and-qa.md)): take the oldest open `seo:new` issue, write the
    page on a branch, open a PR that closes the issue. Do not merge yet.
 3. **Agent QA**: a second agent that did not write the page runs the QA checklist and the claim
@@ -56,5 +57,6 @@ until it has the label `content:approved` and a fully verified `## Claim check` 
 
 `scripts/content-qa.mjs` (`pnpm check:content`, in CI) fails any marketing page that reads above
 grade 10, uses an em dash or an AI-slop phrase, has no call to action in the body, or quotes a
-competitor price without a source link. `KNOWN_DEBT` lists pages that miss a rule today; each rule
-has one `seo:improve` issue (CTA: #67), and the gate fails when a fixed page is still listed.
+competitor price without a source link, has a title over 60 characters or a meta description outside
+120–160, or links fewer than 2 other pages on the site (limits from [serp-patterns.md](serp-patterns.md)).
+`KNOWN_DEBT` lists pages that miss a rule today; each rule has one `seo:improve` issue (CTA: #67; title and description: #71; links: #72), and the gate fails when a fixed page is still listed.
