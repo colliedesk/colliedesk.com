@@ -11,7 +11,8 @@ export const organization = (): JsonLd => ({
   sameAs: [REPO],
 });
 
-export const softwareApplication = (): JsonLd => ({
+// ladder: false while Founding is the only plan on sale (see src/data/pages/pricing.ts).
+export const softwareApplication = ({ ladder = true }: { ladder?: boolean } = {}): JsonLd => ({
   '@context': 'https://schema.org',
   '@type': 'SoftwareApplication',
   name: NAME,
@@ -29,7 +30,7 @@ export const softwareApplication = (): JsonLd => ({
   offers: [
     { '@type': 'Offer', name: 'Self-hosted', price: '0', priceCurrency: 'USD', description: 'Free forever, every feature, AGPL-3.0.' },
     // Only plans that can be bought today; Unlimited is coming soon.
-    ...CLOUD_PLANS.filter((p) => !p.comingSoon).map((p) => ({
+    ...CLOUD_PLANS.filter((p) => ladder && !p.comingSoon).map((p) => ({
       '@type': 'Offer', name: `Colliedesk Cloud ${p.name}`, price: String(p.monthly), priceCurrency: 'USD',
       description: `${p.name} plan, per workspace per month (${dollars(p.yearly)} per year). ${agentsLabel(p)} and ${p.storage} of attachments, no per-agent fees.`,
       priceSpecification: { '@type': 'UnitPriceSpecification', price: String(p.monthly), priceCurrency: 'USD', unitText: 'workspace per month' },
