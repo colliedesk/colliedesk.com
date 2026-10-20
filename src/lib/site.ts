@@ -90,7 +90,7 @@ export const FOOTER: readonly FooterColumn[] = [
     title: 'Build',
     links: [
       { href: '/docs', label: 'Docs' },
-      { href: '/docs/install', label: 'Self-host' },
+      { href: '/docs/self-host', label: 'Self-host' },
       { href: REPO, label: 'GitHub' },
       { href: '/llms.txt', label: 'llms.txt' },
     ],

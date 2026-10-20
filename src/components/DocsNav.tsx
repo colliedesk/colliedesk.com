@@ -1,14 +1,35 @@
-import type { DocsNavItem } from '../lib/page';
+import type { DocsNavGroup, DocsNavItem } from '../lib/page';
 
-export function DocsNav({ items, current }: { items: readonly DocsNavItem[]; current: string }) {
+function Links({ items, current }: { items: readonly DocsNavItem[]; current: string }) {
+  return (
+    <ul>
+      {items.map(({ href, label }) => (
+        <li key={href}><a href={href} aria-current={href === current ? 'page' : undefined}>{label}</a></li>
+      ))}
+    </ul>
+  );
+}
+
+export function DocsNav({ groups, current }: { groups: readonly DocsNavGroup[]; current: string }) {
   return (
     <nav className="docs-nav" aria-label="Docs">
-      <p className="docs-nav-title">User guides</p>
-      <ul>
-        {items.map(({ href, label }) => (
-          <li key={href}><a href={href} aria-current={href === current ? 'page' : undefined}>{label}</a></li>
-        ))}
-      </ul>
+      {groups.map(({ title, items }) => (
+        <div key={title} className="docs-nav-group">
+          <p className="docs-nav-title">{title}</p>
+          <ul>
+            {items.map((item) =>
+              'items' in item ? (
+                <li key={item.title} className="docs-nav-subgroup">
+                  <p className="docs-nav-subtitle">{item.title}</p>
+                  <Links items={item.items} current={current} />
+                </li>
+              ) : (
+                <li key={item.href}><a href={item.href} aria-current={item.href === current ? 'page' : undefined}>{item.label}</a></li>
+              ),
+            )}
+          </ul>
+        </div>
+      ))}
     </nav>
   );
 }

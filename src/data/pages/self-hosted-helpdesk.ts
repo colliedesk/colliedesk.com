@@ -14,7 +14,7 @@ const faq: Faq[] = [
   },
   {
     q: 'What must I back up?',
-    a: 'Two things: the PostgreSQL database and the attachments volume. The [install guide](/docs/install#data-to-back-up) has the exact `pg_dump` steps.',
+    a: 'Two things: the PostgreSQL database and the attachments volume. The [backups guide](/docs/self-host/database#data-to-back-up) has the exact `pg_dump` steps.',
   },
   {
     q: 'Can I move from self-hosted to Cloud, or back?',
@@ -48,7 +48,7 @@ curl -fsSL https://raw.githubusercontent.com/colliedesk/colliedesk/main/install.
   --name "My Support Desk" --email "admin@example.com"
 \`\`\`
 
-The command starts the stack, creates the workspace and prints a one-time sign-in link. Re-running it keeps your existing \`.env\`. Step-by-step from a clone, image tags and database hardening: [install guide](/docs/install).
+The command starts the stack, creates the workspace and prints a one-time sign-in link. Re-running it keeps your existing \`.env\`. Step-by-step from a clone, image tags and database hardening: [install guide](/docs/self-host).
 
 ## What you take on
 

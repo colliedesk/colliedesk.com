@@ -60,7 +60,7 @@ curl -fsSL https://raw.githubusercontent.com/colliedesk/colliedesk/main/install.
   --name "Example Support" --email "admin@example.com"
 \`\`\`
 
-The installer starts Colliedesk and PostgreSQL with the published container image, keeps secrets in a local \`.env\`, and prints a one-time sign-in URL. Colliedesk has no passwords. Full guide: [Install and create a workspace](/docs/install).
+The installer starts Colliedesk and PostgreSQL with the published container image, keeps secrets in a local \`.env\`, and prints a one-time sign-in URL. Colliedesk has no passwords. Full guide: [Self-host Colliedesk](/docs/self-host).
 
 ## Clean room
 

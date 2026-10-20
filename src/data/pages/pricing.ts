@@ -32,7 +32,7 @@ const faq: Faq[] = [
   },
   {
     q: 'Is self-hosting really free?',
-    a: `Yes. Self-hosting is free, forever, with every feature. The code is AGPL-3.0 on [GitHub](${REPO}). Read the [install guide](/docs/install).`,
+    a: `Yes. Self-hosting is free, forever, with every feature. The code is AGPL-3.0 on [GitHub](${REPO}). Read the [install guide](/docs/self-host).`,
   },
   {
     q: 'What is the founding offer?',
