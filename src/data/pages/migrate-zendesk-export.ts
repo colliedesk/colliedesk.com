@@ -74,6 +74,8 @@ The API is the route that works on every plan and lets a tool count what it read
 
 Colliedesk imports from Freshdesk today, with a reconcile report that proves nothing was lost. A Zendesk importer is on the [roadmap](/roadmap). Comparing the two products first? Read [Colliedesk vs Zendesk](/vs/zendesk).
 
+See [Colliedesk pricing](/pricing): one flat price per workspace, no per-agent fees.
+
 ## Sources
 
 - Data export: [support.zendesk.com article 203662346](https://support.zendesk.com/hc/en-us/articles/203662346-Exporting-data-to-a-JSON-CSV-or-XML-file)
@@ -84,7 +86,7 @@ const page: Page = {
   jsonLd: [],
   name: 'Export tickets from Zendesk',
   path: '/migrate/zendesk/export',
-  updated: '2026-10-15',
+  updated: '2026-10-20',
   section: 'Migrate',
   title: 'How to export Zendesk tickets with comments: CSV, JSON, API',
   description:

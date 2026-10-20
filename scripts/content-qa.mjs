@@ -51,16 +51,7 @@ const RULE_FINDING = {
   cta: 'no call to action', source: 'competitor price', title: 'title is',
   description: 'meta description is', links: 'other page',
 };
-export const KNOWN_DEBT = {
-  cta: [
-    '/migrate/zendesk/export', '/open-source', '/vs/chatwoot', '/vs/front', '/vs/gorgias', '/vs/groove',
-    '/vs/happyfox', '/vs/help-scout', '/vs/hubspot-service-hub', '/vs/zoho-desk',
-  ],
-  links: [
-    '/open-source', '/vs/chatwoot', '/vs/freescout', '/vs/front', '/vs/gorgias', '/vs/groove', '/vs/happyfox',
-    '/vs/help-scout', '/vs/hubspot-service-hub', '/vs/zammad', '/vs/zoho-desk',
-  ],
-};
+export const KNOWN_DEBT = {};
 
 // Lines a reader reads as sentences: no headings, tables, lists, quotes, images, HTML or code.
 function proseOf(md) {

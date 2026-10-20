@@ -26,7 +26,7 @@ const faq: Faq[] = [
 const body = `## The short answer
 
 - **Choose Front** if your team lives in email across many shared and personal inboxes, wants a Gmail-like workspace with comments on every thread, and needs many channels today. It is a mature product.
-- **Choose Colliedesk** if you want a shared inbox whose price does not grow with every seat, and data you can export or self-host without asking anyone. Colliedesk is alpha; read the status table first.
+- **Choose Colliedesk** if you want a shared inbox whose [price does not grow with every seat](/pricing), and data you can export or [self-host](/self-hosted-helpdesk) without asking anyone. Colliedesk is alpha; read the status table first.
 
 ## Price, side by side
 
@@ -64,12 +64,19 @@ ${statusTable}
 Read on ${PRICES_READ}. Prices change; check the vendor page before you decide.
 
 - Front pricing: [front.com/pricing](https://front.com/pricing)
-- Account data export: [help.front.com](https://help.front.com/t/182vg7)`;
+- Account data export: [help.front.com](https://help.front.com/t/182vg7)
+
+## Related comparisons
+
+- [Colliedesk vs Help Scout](/vs/help-scout)
+- [Colliedesk vs Groove](/vs/groove)
+- [Colliedesk vs Zendesk](/vs/zendesk)
+- [All helpdesk comparisons](/compare)`;
 
 const page: Page = {
   jsonLd: [],
   path: '/vs/front',
-  updated: '2026-10-15',
+  updated: '2026-10-20',
   section: 'Compare',
   title: 'Colliedesk vs Front: a flat-priced, open-source alternative',
   description:

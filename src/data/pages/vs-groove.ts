@@ -21,7 +21,7 @@ const faq: Faq[] = [
 const body = `## The short answer
 
 - **Choose Helply** (formerly Groove) if you want AI agents to answer most tickets and you are happy to pay by AI usage.
-- **Choose Colliedesk** if you want a classic shared inbox and helpdesk with a flat price, where AI drafts (coming after beta) and a human decides, and your data in an open database. Colliedesk is alpha; read the status table first.
+- **Choose Colliedesk** if you want a classic shared inbox and helpdesk with a [flat price](/pricing), where AI drafts (coming after beta) and a human decides, and your data in an [open database](/open-source). Colliedesk is alpha; read the status table first.
 
 ## Price, side by side
 
@@ -54,12 +54,19 @@ Read on ${PRICES_READ}. Prices change; check the vendor page before you decide.
 
 - Helply about (formerly Groove): [helply.com/about](https://helply.com/about)
 - Helply pricing: [helply.com/pricing](https://helply.com/pricing)
-- Groove export: [help.groovehq.com](https://help.groovehq.com/help/970-export-your-groove-conversations)`;
+- Groove export: [help.groovehq.com](https://help.groovehq.com/help/970-export-your-groove-conversations)
+
+## Related comparisons
+
+- [Colliedesk vs Help Scout](/vs/help-scout)
+- [Colliedesk vs Front](/vs/front)
+- [Colliedesk vs HappyFox](/vs/happyfox)
+- [All helpdesk comparisons](/compare)`;
 
 const page: Page = {
   jsonLd: [],
   path: '/vs/groove',
-  updated: '2026-10-16',
+  updated: '2026-10-20',
   section: 'Compare',
   title: 'Colliedesk vs Groove (now Helply): flat price vs AI credits',
   description:

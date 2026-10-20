@@ -33,7 +33,7 @@ it does not write pages. Credits: stay within the owner's DataForSEO budget (Ope
    - has CTR under 1% at position ≤ 10 (title and description do not match the query);
    - gets search traffic but no sign-ups while similar pages convert.
 3. `run_site_audit` monthly: open issues for crawl, speed or markup errors.
-4. `KNOWN_DEBT` in `scripts/content-qa.mjs` has one open `seo:improve` issue per rule, listing its pages.
+4. `KNOWN_DEBT` in `scripts/content-qa.mjs` is empty today. If it gains entries, each rule needs one open `seo:improve` issue listing its pages.
 5. A competitor changed a price (read the source on a `/vs` page older than 90 days) → issue to update it.
 
 ## 4. Patterns: every quarter (January, April, July, October)

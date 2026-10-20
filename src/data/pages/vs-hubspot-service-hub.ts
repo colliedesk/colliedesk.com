@@ -21,7 +21,7 @@ const faq: Faq[] = [
 const body = `## The short answer
 
 - **Choose HubSpot Service Hub** if your sales and marketing already run on HubSpot and you want tickets on the same contact records.
-- **Choose Colliedesk** if you need a helpdesk, not a CRM suite, and want one flat price with AI at cost. Colliedesk is alpha; read the status table first.
+- **Choose Colliedesk** if you need [a helpdesk for a small team](/helpdesk-for-small-teams), not a CRM suite, and want [one flat price](/pricing), with AI at model cost +30% (coming after beta). Colliedesk is alpha; read the status table first.
 
 ## Price, side by side
 
@@ -59,12 +59,19 @@ Read on ${PRICES_READ}. Prices change; check the vendor page before you decide.
 
 - Service Hub product page: [hubspot.com/products/service](https://www.hubspot.com/products/service)
 - Product and services catalog: [legal.hubspot.com](https://legal.hubspot.com/hubspot-product-and-services-catalog)
-- Export records: [knowledge.hubspot.com](https://knowledge.hubspot.com/import-and-export/export-records)`;
+- Export records: [knowledge.hubspot.com](https://knowledge.hubspot.com/import-and-export/export-records)
+
+## Related comparisons
+
+- [Colliedesk vs Zendesk](/vs/zendesk)
+- [Colliedesk vs Freshdesk](/vs/freshdesk)
+- [Colliedesk vs Zoho Desk](/vs/zoho-desk)
+- [All helpdesk comparisons](/compare)`;
 
 const page: Page = {
   jsonLd: [],
   path: '/vs/hubspot-service-hub',
-  updated: '2026-10-16',
+  updated: '2026-10-20',
   section: 'Compare',
   title: 'Colliedesk vs HubSpot Service Hub: $49 flat vs per seat',
   description:

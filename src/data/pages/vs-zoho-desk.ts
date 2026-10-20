@@ -22,7 +22,7 @@ const faq: Faq[] = [
 const body = `## The short answer
 
 - **Choose Zoho Desk** if you already run Zoho CRM or Zoho One, or you have one to three agents and the free plan is enough.
-- **Choose Colliedesk** if you have 4 to 10 agents, want AI without moving up a plan tier, and want your data in an open database you can self-host. Colliedesk is alpha; read the status table first.
+- **Choose Colliedesk** if you have [4 to 10 agents](/helpdesk-for-small-teams), want AI [without moving up a plan tier](/pricing), and want your data in an open database you can [self-host](/self-hosted-helpdesk). Colliedesk is alpha; read the status table first.
 
 ## Price, side by side
 
@@ -61,12 +61,19 @@ Read on ${PRICES_READ}. Prices change; check the vendor page before you decide.
 
 - Zoho Desk pricing: [zoho.com/desk/pricing](https://www.zoho.com/desk/pricing.html)
 - Express plan: [zoho.com/desk/express](https://www.zoho.com/desk/express/)
-- Backups: [help.zoho.com, backing up your help desk data](https://help.zoho.com/portal/en/kb/desk/data-administration/backup-and-data-archive/articles/backing-up-your-help-desk-data)`;
+- Backups: [help.zoho.com, backing up your help desk data](https://help.zoho.com/portal/en/kb/desk/data-administration/backup-and-data-archive/articles/backing-up-your-help-desk-data)
+
+## Related comparisons
+
+- [Colliedesk vs Freshdesk](/vs/freshdesk)
+- [Colliedesk vs Zendesk](/vs/zendesk)
+- [Colliedesk vs HappyFox](/vs/happyfox)
+- [All helpdesk comparisons](/compare)`;
 
 const page: Page = {
   jsonLd: [],
   path: '/vs/zoho-desk',
-  updated: '2026-10-16',
+  updated: '2026-10-20',
   section: 'Compare',
   title: 'Colliedesk vs Zoho Desk: flat $49 vs per-user plans',
   description:

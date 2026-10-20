@@ -17,7 +17,7 @@ export const HOME_LEDE =
 export const HOME_FAQ: Faq[] = [
   {
     q: 'What is Colliedesk?',
-    a: 'Colliedesk is an open-source (AGPL-3.0) helpdesk for small support teams, made by HC Labs. It is the open-source alternative to Freshdesk, Zendesk and Help Scout: a shared inbox for your team, AI included at cost, one flat price per workspace.',
+    a: 'Colliedesk is an open-source (AGPL-3.0) helpdesk for small support teams, made by HC Labs. It is the open-source alternative to Freshdesk, Zendesk and Help Scout: a shared inbox for your team, AI at model cost +30% (coming after beta), one flat price per workspace.',
   },
   {
     q: 'Is Colliedesk free?',

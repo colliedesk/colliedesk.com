@@ -21,7 +21,7 @@ const faq: Faq[] = [
 const body = `## The short answer
 
 - **Choose Gorgias** if you run an e-commerce store and want store and order data next to every ticket, with order management automation. That is what it is built for.
-- **Choose Colliedesk** if your ticket volume is growing and you do not want the bill to grow with it, or you are not an e-commerce team. Colliedesk is alpha; read the status table first.
+- **Choose Colliedesk** if your ticket volume is growing and you do not want [the bill to grow with it](/pricing), or you are not an e-commerce team. Colliedesk is alpha; read the status table first.
 
 ## Price, side by side
 
@@ -51,12 +51,19 @@ ${statusTable}
 
 Read on ${PRICES_READ}. Prices change; check the vendor page before you decide.
 
-- Gorgias pricing: [gorgias.com/pricing](https://www.gorgias.com/pricing)`;
+- Gorgias pricing: [gorgias.com/pricing](https://www.gorgias.com/pricing)
+
+## Related comparisons
+
+- [Colliedesk vs Zendesk](/vs/zendesk)
+- [Colliedesk vs Freshdesk](/vs/freshdesk)
+- [Colliedesk vs Help Scout](/vs/help-scout)
+- [All helpdesk comparisons](/compare)`;
 
 const page: Page = {
   jsonLd: [],
   path: '/vs/gorgias',
-  updated: '2026-10-16',
+  updated: '2026-10-20',
   section: 'Compare',
   title: 'Colliedesk vs Gorgias: flat $49 vs pricing by ticket volume',
   description:

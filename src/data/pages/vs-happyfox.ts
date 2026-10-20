@@ -17,7 +17,7 @@ const faq: Faq[] = [
 const body = `## The short answer
 
 - **Choose HappyFox** if you need a mature, established helpdesk today and the per-agent price fits your budget.
-- **Choose Colliedesk** if you have 3 to 10 agents and want one flat price with AI included at cost. Colliedesk is alpha; read the status table first.
+- **Choose Colliedesk** if you have [3 to 10 agents](/helpdesk-for-small-teams) and want [one flat price](/pricing), with AI at model cost +30% (coming after beta). Colliedesk is alpha; read the status table first.
 
 ## Price, side by side
 
@@ -50,12 +50,19 @@ ${statusTable}
 Read on ${PRICES_READ}. Prices change; check the vendor page before you decide.
 
 - HappyFox pricing: [happyfox.com/help-desk-price](https://www.happyfox.com/help-desk-price/)
-- HappyFox Autopilot: [happyfox.com/autopilot](https://www.happyfox.com/autopilot/)`;
+- HappyFox Autopilot: [happyfox.com/autopilot](https://www.happyfox.com/autopilot/)
+
+## Related comparisons
+
+- [Colliedesk vs Freshdesk](/vs/freshdesk)
+- [Colliedesk vs Zoho Desk](/vs/zoho-desk)
+- [Colliedesk vs Zendesk](/vs/zendesk)
+- [All helpdesk comparisons](/compare)`;
 
 const page: Page = {
   jsonLd: [],
   path: '/vs/happyfox',
-  updated: '2026-10-16',
+  updated: '2026-10-20',
   section: 'Compare',
   title: 'Colliedesk vs HappyFox: flat $49 vs $24–99 per agent',
   description:
