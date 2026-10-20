@@ -1,3 +1,4 @@
+import { PRICE } from '../../lib/site';
 import { Badge } from '../Badge';
 import { INBOX_LIST, INCOMING, ProductCrop } from './ProductCrop';
 
@@ -6,9 +7,9 @@ export function Facts() {
   return (
     <section className="facts" aria-label="Colliedesk in three facts">
       <div className="wrap facts-row">
-        <a href="/pricing"><b>$490 a year</b><span>for the whole team, not per agent</span></a>
+        <a href="/pricing"><b>{PRICE.yearly} a year</b><span>for up to 10 agents, not per agent</span></a>
         <a href="/migrate/freshdesk#5-check-the-reconcile-report"><b>0 lost</b><span>a reconcile report on every import</span></a>
-        <a href="/docs/install"><b>AGPL-3.0</b><span>self-host free with one command</span></a>
+        <a href="/docs/self-host"><b>AGPL-3.0</b><span>self-host free with one command</span></a>
       </div>
     </section>
   );

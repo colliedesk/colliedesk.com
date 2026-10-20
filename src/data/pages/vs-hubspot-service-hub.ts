@@ -38,8 +38,8 @@ HubSpot prices are in USD per seat per month, from the HubSpot product and servi
 
 | Team | HubSpot Service Hub Professional | Colliedesk Cloud |
 |---|---|---|
-| 5 agents | 5 × $100 = **$500 per month** + credits beyond the plan | $49 per month + AI usage |
-| 10 agents | 10 × $100 = **$1,000 per month** + credits beyond the plan | $49 per month + AI usage |
+| 5 agents | 5 × $100 = **$500 per month** + credits beyond the plan | $69 per month (Team) + AI usage |
+| 10 agents | 10 × $100 = **$1,000 per month** + credits beyond the plan | $69 per month (Team) + AI usage |
 
 ## Leaving: what HubSpot gives you
 
@@ -66,10 +66,10 @@ const page: Page = {
   path: '/vs/hubspot-service-hub',
   updated: '2026-10-16',
   section: 'Compare',
-  title: 'Colliedesk vs HubSpot Service Hub: a helpdesk at $49 flat vs $100 per seat',
+  title: 'Colliedesk vs HubSpot Service Hub: a helpdesk at $69 flat for up to 10 agents vs $100 per seat',
   description:
-    'Colliedesk vs HubSpot Service Hub: HubSpot $20–150 per seat with AI on credits vs Colliedesk flat $49 per workspace with AI at cost. Sourced prices and export limits.',
-  summary: 'HubSpot Service Hub $20–150 per seat, AI customer agent on credits (~$0.50 per resolution) vs Colliedesk flat $49 per workspace',
+    'Colliedesk vs HubSpot Service Hub: HubSpot $20–150 per seat with AI on credits vs Colliedesk at one flat price per workspace (Team $69 for up to 10 agents) with AI at cost. Sourced prices and export limits.',
+  summary: 'HubSpot Service Hub $20–150 per seat, AI customer agent on credits (~$0.50 per resolution) vs Colliedesk Team at a flat $69 per workspace',
   eyebrow: 'Compare · HubSpot Service Hub alternative',
   h1: 'Colliedesk vs HubSpot Service Hub',
   lede: 'HubSpot Service Hub puts tickets inside a CRM suite and prices by seat. Colliedesk is a helpdesk with one flat price. Here are the numbers, with sources.',

@@ -15,6 +15,16 @@ export interface DocsNavItem {
   label: string;
 }
 
+export interface DocsNavSubgroup {
+  title: string;
+  items: DocsNavItem[];
+}
+
+export interface DocsNavGroup {
+  title: string;
+  items: (DocsNavItem | DocsNavSubgroup)[];
+}
+
 export interface Page {
   /** URL path without trailing slash: "/" or "/pricing". */
   path: string;
@@ -48,8 +58,8 @@ export interface Page {
   pre?: 'pricing-plans';
   /** Price-by-team-size chart and fit columns between the hero and the prose (/vs pages). */
   vs?: VsPricing;
-  /** Side navigation for docs pages. */
-  docsNav?: DocsNavItem[];
+  /** Side navigation for docs pages, one group per docs directory. */
+  docsNav?: DocsNavGroup[];
   /** Repository file the page is rendered from. */
   sourceUrl?: string;
 }

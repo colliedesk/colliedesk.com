@@ -1,0 +1,38 @@
+name: Content approval
+
+# Required check: SEO content merges only after a person adds the label content:approved
+# (scripts/content-approval.mjs). New commits remove the label, so the person approves what merges.
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, labeled, unlabeled, edited]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: content-approval-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  content-approval:
+    runs-on: ubuntu-latest
+    timeout-minutes: 1
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      PR: ${{ github.event.pull_request.number }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          sparse-checkout: scripts/content-approval.mjs
+          sparse-checkout-cone-mode: false
+      - name: New commits need a new approval
+        if: >-
+          github.event.action == 'synchronize' &&
+          contains(github.event.pull_request.labels.*.name, 'content:approved')
+        run: gh pr edit "$PR" --remove-label content:approved
+      - run: |
+          gh pr view "$PR" --json headRefName,labels,body > pr.json
+          gh api --paginate --slurp "repos/$GH_REPO/pulls/$PR/files" > files.json
+          node scripts/content-approval.mjs pr.json files.json

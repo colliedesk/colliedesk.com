@@ -45,6 +45,7 @@ jobs:
           path: product
           sparse-checkout: |
             docs/user
+            docs/self-host
             ROADMAP.md
           sparse-checkout-cone-mode: false
       - id: compare
@@ -64,13 +65,28 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
+      # A pull request whose branch also exists in colliedesk/colliedesk builds against that branch,
+      # so a docs change that spans both repos can be checked before either side merges.
+      - id: product
+        env:
+          INPUT_REF: ${{ inputs.product_ref }}
+          HEAD_REF: ${{ github.head_ref }}
+        run: |
+          ref=$INPUT_REF
+          if [ -z "$ref" ] && [ -n "$HEAD_REF" ] &&
+            git ls-remote --exit-code --heads https://github.com/colliedesk/colliedesk.git "$HEAD_REF" >/dev/null; then
+            ref=$HEAD_REF
+          fi
+          echo "product ref: ${ref:-main}"
+          echo "ref=$ref" >> "$GITHUB_OUTPUT"
       - uses: actions/checkout@v5
         with:
           repository: colliedesk/colliedesk
-          ref: ${{ inputs.product_ref }}
+          ref: ${{ steps.product.outputs.ref }}
           path: product
           sparse-checkout: |
             docs/user
+            docs/self-host
             ROADMAP.md
           sparse-checkout-cone-mode: false
       - uses: pnpm/action-setup@v4
@@ -87,6 +103,8 @@ jobs:
       - run: cp founding-state.json _site/founding-state.txt
       - run: pnpm run check
       - run: pnpm run check:render
+      - run: pnpm test
+      - run: pnpm run check:content
       - uses: actions/upload-pages-artifact@v4
         if: github.event_name != 'pull_request'
         with:

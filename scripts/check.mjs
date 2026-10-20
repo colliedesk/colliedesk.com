@@ -259,8 +259,10 @@ if (privacyPage) {
 // The Freshdesk page leads with price, so its chart must let a visitor pick a team size, say where
 // Colliedesk stops being the cheaper choice, and carry a price read date that is kept fresh.
 // Expected figures are worked by hand from Freshdesk's monthly-billing list prices (Growth $23,
-// Pro $66, Copilot $35 per agent) against Colliedesk Team $49 per workspace, also billed monthly,
-// so both sides of the chart use the same billing period.
+// Pro $66, Copilot $35 per agent) against the Colliedesk plan that covers the team, also billed
+// monthly: Solo $19 (1 agent), Small $39 (3), Team $69 (10), Team 25 $149 (25). The "costs less"
+// line is held to Freshdesk's annual prices too (Growth $19): at 1 agent Solo $19 only matches it,
+// and at 2 agents 2 x $19 = $38 is under Small $39, so the claim starts at 3 agents (3 x $19 = $57).
 const PRICE_MAX_AGE_DAYS = 90;
 {
   const vsHtml = read('vs/freshdesk.html');
@@ -276,13 +278,15 @@ const PRICE_MAX_AGE_DAYS = 90;
   // A bar total renders as "$19<small>", so this cannot match $190 or $490.
   const total = (html, amount) => html.includes(`>${amount}<small>`);
   const block = (n) => chart.match(new RegExp(`data-size="${n}"[\\s\\S]*?(?=data-size=|<p class="vs-fit-line")`))?.[0] ?? '';
-  if (!total(list(3), '$69') || !total(list(3), '$49')) fail('/vs/freshdesk: 3 agents must show Freshdesk Growth $69 and Colliedesk $49');
-  if (!total(list(5), '$505') || !block(5).includes('$5,472 a year')) fail('/vs/freshdesk: 5 agents must show Freshdesk Pro + Copilot $505 and a $5,472 yearly saving');
-  if (!total(list(1), '$23')) fail('/vs/freshdesk: 1 agent must show Freshdesk Growth $23, cheaper than Colliedesk');
-  if (!/billed monthly/.test(chart)) fail('/vs/freshdesk: chart must say Freshdesk prices are billed monthly, like the Colliedesk $49');
+  if (!total(list(3), '$69') || !total(list(3), '$39')) fail('/vs/freshdesk: 3 agents must show Freshdesk Growth $69 and Colliedesk Small $39');
+  // 5 agents: Pro + Copilot 5 x ($66 + $35) = $505 against Team $69: $436 a month, $5,232 a year.
+  if (!total(list(5), '$505') || !total(list(5), '$69') || !block(5).includes('$5,232 a year')) fail('/vs/freshdesk: 5 agents must show Freshdesk Pro + Copilot $505, Colliedesk Team $69 and a $5,232 yearly saving');
+  if (!total(list(1), '$23') || !total(list(1), '$19')) fail('/vs/freshdesk: 1 agent must show Freshdesk Growth $23 and Colliedesk Solo $19');
+  if (!/billed monthly/.test(chart)) fail('/vs/freshdesk: chart must say Freshdesk prices are billed monthly, like the Colliedesk prices');
   if (!/from 3 to 25 agents/.test(chart)) fail('/vs/freshdesk: chart must say Colliedesk costs less from 3 to 25 agents');
-  // 25 agents: Growth 25 x $23 = $575, Colliedesk Team 25 is $99 flat.
-  if (!total(list(25), '$575') || !total(list(25), '$99')) fail('/vs/freshdesk: 25 agents must show Freshdesk Growth $575 and Colliedesk Team 25 $99');
+  if (/from [12] to 25 agents|every team size from 1/.test(vsHtml + vsMd)) fail('/vs/freshdesk: must not claim Colliedesk costs less at 1 or 2 agents; Solo $19 matches Freshdesk Growth billed annually');
+  // 25 agents: Growth 25 x $23 = $575, Colliedesk Team 25 is $149 flat.
+  if (!total(list(25), '$575') || !total(list(25), '$149')) fail('/vs/freshdesk: 25 agents must show Freshdesk Growth $575 and Colliedesk Team 25 $149');
   if (!/more than 25 agents/.test(vsHtml)) fail('/vs/freshdesk: "not for you yet" must stop at 25 agents');
   const readOn = chart.match(/data-read-on="(\d{4}-\d{2}-\d{2})"/)?.[1];
   if (!readOn) fail('/vs/freshdesk: price chart has no data-read-on date');
@@ -295,31 +299,79 @@ const PRICE_MAX_AGE_DAYS = 90;
 
 // Price comparisons outside /vs/freshdesk must also put both sides on one billing period. Expected
 // figures are worked by hand: five agents on Freshdesk Pro + Copilot billed annually are
-// 5 x ($55 + $29) x 12 = $5,040 a year against Colliedesk Team $490 a year, a 90% saving (floor);
-// billed monthly they are 5 x ($66 + $35) = $505 a month against $49.
+// 5 x ($55 + $29) x 12 = $5,040 a year against Colliedesk Team $690 a year (five agents need Team:
+// Small stops at 3); billed monthly they are 5 x ($66 + $35) = $505 a month against $69.
 {
-  const home = read('index.html');
   const homeMd = read('index.md');
-  if (!homeMd.includes('$5,040') || !homeMd.includes('$490') || !/per year, billed annually/.test(homeMd)) fail('/: five-agent bill must compare yearly totals billed annually ($5,040 vs $490)');
-  if (!read('pricing.md').includes('$5,040 a year') || read('pricing.md').includes('$420 per month')) fail('/pricing: five-agent comparison must be $5,040 a year billed annually or $505 a month billed monthly');
-  if (!read('helpdesk-for-small-teams.md').includes('| 5 | $115 | $505 | $49 |')) fail('/helpdesk-for-small-teams: table must use Freshdesk monthly-billing prices (5 agents: $115, $505) against $49 a month');
-  if (!read('freshdesk-alternative.md').includes('$40.83')) fail('/freshdesk-alternative: annual-billed table must show Colliedesk at $40.83 a month ($490 a year)');
+  if (!homeMd.includes('$5,040') || !homeMd.includes('$690') || !/per year, billed annually/.test(homeMd)) fail('/: five-agent bill must compare yearly totals billed annually ($5,040 vs $690)');
+  const pricingMd = read('pricing.md');
+  if (!pricingMd.includes('$5,040 a year') || !pricingMd.includes('$690 a year') || pricingMd.includes('$420 per month')) fail('/pricing: five-agent comparison must be $5,040 a year billed annually or $505 a month billed monthly, against Team $690 a year');
+  // Monthly billing on both sides: 2 agents $46 / $202 vs Small $39; 5 agents $115 / $505 vs Team $69.
+  const small = read('helpdesk-for-small-teams.md');
+  if (!small.includes('| 2 | $46 | $202 | $39 (Small) |') || !small.includes('| 5 | $115 | $505 | $69 (Team) |')) fail('/helpdesk-for-small-teams: table must use Freshdesk monthly-billing prices (2 agents: $46, $202; 5 agents: $115, $505) against Small $39 and Team $69 a month');
+  // $690 / 12 = $57.50.
+  if (!read('freshdesk-alternative.md').includes('$57.50')) fail('/freshdesk-alternative: annual-billed table must show Colliedesk at $57.50 a month ($690 a year)');
 }
 
-// Cloud plan limits. Team: 10 agents, 100 GB. Team 25: 25 agents, 250 GB, $99 a month or $990 a year.
+// Colliedesk is never "the lowest" or "the cheapest": with up to five agents, plans capped at five
+// cost less (Zammad Starter and Zoho Desk Express, 5 x €7 = €35 a month, against Team $57.50 a
+// month billed annually). The Freshdesk alternatives page must show those plans next to ours.
+{
+  const superlative = /Colliedesk(?:[^.|]|\.\d){0,160}\bis the (lowest|cheapest)\b|\bthe (lowest|cheapest)(?:[^.|]|\.\d){0,60}\bis Colliedesk\b/i;
+  for (const urlPath of urlPaths) {
+    const name = urlPath === '/' ? 'index' : urlPath.slice(1);
+    if (name.startsWith('docs')) continue;
+    const m = read(`${name}.md`).match(superlative);
+    if (m) fail(`${urlPath}: claims Colliedesk is the lowest price ("${m[0].slice(0, 90)}"); Zammad Starter and Zoho Desk Express cost less up to five agents`);
+  }
+  const alt = read('freshdesk-alternative.md');
+  if (!/€35 \(Starter, max 5 agents\)/.test(alt) || !/€35 \(Express, max 5 users\)/.test(alt)) fail('/freshdesk-alternative: 5-agent table must list Zammad Starter and Zoho Desk Express at €35');
+}
+
+// The old prices (Team $49 / $490, Team 25 $99 / $990) must not survive anywhere on the site. Other
+// vendors may still charge $49 or $99 per agent, so only phrases that describe Colliedesk count.
+// /docs and llms-full.txt (which embeds them) render docs/user from colliedesk/colliedesk; their
+// prices are fixed there, and every site page in llms-full.txt is already checked through its twin.
+{
+  const stale = /\$490 (a|per) year|\$990|\$49 per workspace|flat \$49|\$49 (per month|a month) \+ AI usage|\$99 per workspace|\$99 a month for up to 25|\$40\.83/;
+  const ownCopy = (f) => /\.(html|md|txt)$/.test(f) && !/[\\/]docs[\\/]/.test(f.slice(outDir.length - 1)) && !f.endsWith('llms-full.txt');
+  for (const file of files.filter(ownCopy)) {
+    const m = readFileSync(file, 'utf8').match(stale);
+    if (m) fail(`${file.slice(outDir.length - 1)}: old Colliedesk price "${m[0]}"; the ladder is Solo $19, Small $39, Team $69, Team 25 $149, Unlimited $349`);
+  }
+}
+
+// Cloud plan ladder (owner decision 20/10/2026), one flat price per workspace, a year = 10 months:
+// Solo $19 / $190, 1 agent, 10 GB; Small $39 / $390, 3 agents, 30 GB; Team $69 / $690, 10 agents,
+// 100 GB; Team 25 $149 / $1,490, 25 agents, 250 GB; Unlimited $349 a month billed annually only
+// ($3,490 a year), unlimited agents, 1 TB, coming soon with no checkout. No free Cloud plan.
 // Extra storage is not sold self-serve, so no add-on price may appear. Teams above the caps are
 // never sent to "contact us" for 10 agents: Team 25 covers up to 25.
+const LADDER = [
+  { monthly: '$19', yearly: '$190', agents: '1 agent', storage: '10 GB' },
+  { monthly: '$39', yearly: '$390', agents: 'Up to 3 agents', storage: '30 GB' },
+  { monthly: '$69', yearly: '$690', agents: 'Up to 10 agents', storage: '100 GB' },
+  { monthly: '$149', yearly: '$1,490', agents: 'Up to 25 agents', storage: '250 GB' },
+  { monthly: '$349', yearly: '$3,490', agents: 'Unlimited agents', storage: '1 TB' },
+];
 {
   const supportMail = 'support@colliedesk.com';
   for (const name of ['pricing.html', 'pricing.md']) {
     const text = read(name);
-    for (const needle of ['Team 25', '$99', '$990', 'Up to 25 agents', '250 GB of attachments', '100 GB of attachments', '$490', 'Need more storage? Email us', supportMail]) {
+    for (const { monthly, yearly, agents, storage } of LADDER) {
+      for (const needle of [monthly, yearly, agents, `${storage} of attachments`]) if (!text.includes(needle)) fail(`/${name}: missing "${needle}"`);
+    }
+    for (const needle of ['Coming soon', 'billed annually', 'Need more storage? Email us', supportMail, 'no card', 'No automatic charge', 'Cancel anytime', 'Limited to 10 workspaces']) {
       if (!text.includes(needle)) fail(`/${name}: missing "${needle}"`);
     }
     if (/\+\s?100 GB|\$10 (a|per) month/.test(text)) fail(`/${name}: shows an extra-storage price; it is not sold self-serve`);
     if (!/customer email/i.test(text)) fail(`/${name}: does not say customer email keeps arriving over the cap`);
   }
-  if (!/"name":"Colliedesk Cloud Team 25"[^}]*"price":"99"|"price":"99"[^}]*"name":"Colliedesk Cloud Team 25"/.test(read('pricing.html'))) fail('/pricing: JSON-LD has no Team 25 offer at 99');
+  const ld = read('pricing.html');
+  for (const [name, price] of [['Colliedesk Cloud Solo', '19'], ['Colliedesk Cloud Small', '39'], ['Colliedesk Cloud Team', '69'], ['Colliedesk Cloud Team 25', '149']]) {
+    if (!ld.includes(`"name":"${name}","price":"${price}"`)) fail(`/pricing: JSON-LD has no ${name} offer at ${price}`);
+  }
+  if (ld.includes('"name":"Colliedesk Cloud Unlimited"')) fail('/pricing: JSON-LD offers Unlimited, which cannot be bought yet');
   const stale = /(more than|above|over) 10 agents|Above that, email us/i;
   for (const file of pages) {
     const urlPath = urlPathOf(file);
@@ -330,8 +382,9 @@ const PRICE_MAX_AGE_DAYS = 90;
 
 // Status honesty: the product is alpha and live on Colliedesk Cloud. No page may promise a
 // release that has already happened ("v0.2"), call the product pre-alpha or say checkout is
-// coming. The Team and Team 25 cards must start the free trial at the real signup entry, and
-// every "Start free trial" button must go to the same place.
+// coming. The Solo, Small, Team and Team 25 cards must start the free trial at the real signup
+// entry, every "Start free trial" button must go to the same place, and the Unlimited card (coming
+// soon) must offer no link at all.
 const TRIAL_URL = 'https://app.colliedesk.com/sign-in';
 {
   const stale = /v0\.[2-9]|pre-alpha|checkout link is coming soon|\bin testing\b/i;
@@ -340,11 +393,15 @@ const TRIAL_URL = 'https://app.colliedesk.com/sign-in';
     if (m) fail(`${file.slice(outDir.length - 1)}: stale status claim "${m[0]}"`);
   }
   const pricing = read('pricing.html');
-  for (const plan of ['Cloud Team', 'Cloud Team 25']) {
-    const card = pricing.match(new RegExp(`<article class="plan">\\s*<h2 class="plan-name">${plan}\\b[\\s\\S]*?</article>`))?.[0] ?? '';
+  const cardOf = (plan) => pricing.match(new RegExp(`<article class="plan[^"]*"[^>]*>\\s*<h2 class="plan-name"[^>]*>${plan}</h2>[\\s\\S]*?</article>`))?.[0] ?? '';
+  for (const plan of ['Solo', 'Small', 'Team', 'Team 25']) {
+    const card = cardOf(plan);
     if (!card) fail(`/pricing: ${plan} card missing`);
     else if (!card.includes(`href="${TRIAL_URL}"`)) fail(`/pricing: ${plan} card has no free-trial CTA to ${TRIAL_URL}`);
   }
+  const unlimited = cardOf('Unlimited');
+  if (!unlimited) fail('/pricing: Unlimited card missing');
+  else if (!unlimited.includes('Coming soon') || unlimited.includes('<a ')) fail('/pricing: Unlimited card must say Coming soon and offer no checkout or trial link');
   for (const file of pages) {
     for (const m of readFileSync(file, 'utf8').matchAll(/<a[^>]*href="([^"]*)"[^>]*>\s*Start free trial/g)) {
       if (m[1] !== TRIAL_URL) fail(`${urlPathOf(file)}: "Start free trial" links to ${m[1]}, not ${TRIAL_URL}`);
@@ -395,7 +452,7 @@ const TRIAL_URL = 'https://app.colliedesk.com/sign-in';
   const home = read('index.html');
   const h1 = home.match(/<h1[\s\S]*?<\/h1>/)?.[0] ?? '';
   const spoken = h1.match(/<span class="visually-hidden">([^<]*)<\/span>/)?.[1] ?? '';
-  for (const claim of ['$490 a year for your whole team', '$1,140–5,040 on Freshdesk', '€1,140–9,900 on Zendesk', '$1,500–2,700 on Help Scout']) {
+  for (const claim of ['$690 a year for your whole team', '$1,140–5,040 on Freshdesk', '€1,140–9,900 on Zendesk', '$1,500–2,700 on Help Scout']) {
     if (!spoken.includes(claim)) fail(`/: h1 screen-reader text lacks "${claim}"`);
   }
   if (/% cheaper/.test(h1) || /% cheaper/.test(read('index.md'))) fail('/: hero must state prices, not a "% cheaper" claim');
@@ -410,9 +467,9 @@ const TRIAL_URL = 'https://app.colliedesk.com/sign-in';
     if (end > 5) fail(`styles.css: rotating h1 animation "${rule.trim()}" runs to ${end}s; WCAG 2.2.2 allows 5s`);
   }
   // Closing block: a year of Freshdesk bills for five agents against Colliedesk Team billed yearly.
-  // 12 x $420 = $5,040; $5,040 - $490 = $4,550.
+  // 12 x $420 = $5,040; $5,040 - $690 = $4,350.
   if (!home.includes('Keep the difference')) fail('/: closing block "Keep the difference" missing');
-  if (!home.includes('$5,040') || !home.includes('$4,550')) fail('/: closing block must show $5,040 a year and the $4,550 difference');
+  if (!home.includes('$5,040') || !home.includes('$4,350')) fail('/: closing block must show $5,040 a year and the $4,350 difference');
   for (const [name, needles] of [
     ['index.html', ['Why per workspace, not per agent?', 'Who is behind Colliedesk?', 'What happens over the limit?']],
     ['pricing.html', ['Why per workspace, not per agent?', 'Every feature on every plan']],
