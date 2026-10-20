@@ -87,6 +87,8 @@ jobs:
       - run: cp founding-state.json _site/founding-state.txt
       - run: pnpm run check
       - run: pnpm run check:render
+      - run: pnpm test
+      - run: pnpm run check:content
       - uses: actions/upload-pages-artifact@v4
         if: github.event_name != 'pull_request'
         with:
