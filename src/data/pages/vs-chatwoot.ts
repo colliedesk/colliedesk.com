@@ -38,8 +38,8 @@ Chatwoot Cloud prices are per agent per month, as shown on the Chatwoot pricing 
 
 | Team | Chatwoot Business | Colliedesk Cloud |
 |---|---|---|
-| 5 agents | 5 × $39 = **$195 per month** | $49 per month + AI usage |
-| 10 agents | 10 × $39 = **$390 per month** | $49 per month + AI usage |
+| 5 agents | 5 × $39 = **$195 per month** | $69 per month (Team) + AI usage |
+| 10 agents | 10 × $39 = **$390 per month** | $69 per month (Team) + AI usage |
 
 Business is the Chatwoot plan with automation rules and teams.
 
@@ -74,8 +74,8 @@ const page: Page = {
   section: 'Compare',
   title: 'Colliedesk vs Chatwoot: email helpdesk with flat pricing vs omnichannel inbox',
   description:
-    'Colliedesk vs Chatwoot: Chatwoot $19–99 per agent with AI credits vs Colliedesk flat $49 per workspace. What each Freshdesk importer brings over, with sources.',
-  summary: 'Chatwoot $19–99 per agent, Freshdesk import without attachments on paid plans vs Colliedesk flat $49, importer with attachments and reconcile report (available now)',
+    'Colliedesk vs Chatwoot: Chatwoot $19–99 per agent with AI credits vs Colliedesk at one flat price per workspace (Team $69 for up to 10 agents). What each Freshdesk importer brings over, with sources.',
+  summary: 'Chatwoot $19–99 per agent, Freshdesk import without attachments on paid plans vs Colliedesk Team at a flat $69, importer with attachments and reconcile report (available now)',
   eyebrow: 'Compare · Open source',
   h1: 'Colliedesk vs Chatwoot',
   lede: 'Chatwoot is an open-source inbox built around chat and messaging. Colliedesk is an open-source helpdesk built for teams leaving Freshdesk. Here is the difference, with sources.',

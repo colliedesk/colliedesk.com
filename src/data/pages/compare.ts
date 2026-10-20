@@ -2,8 +2,8 @@
 // new comparison appears here once it is added below (pnpm check fails if one is missing).
 import { techArticle } from '../../lib/schema';
 import type { Page } from '../../lib/page';
-import { PRICE } from '../../lib/site';
-import { MAX_AGENTS, TEAM_SIZES, teamLabel } from '../../lib/vs-pricing';
+import { dollars, UNLIMITED } from '../../lib/site';
+import { MAX_AGENTS, oursFor, TEAM_SIZES, teamLabel } from '../../lib/vs-pricing';
 import freshdeskAlternative from './freshdesk-alternative';
 import freshdeskPricingHistory from './freshdesk-pricing-history';
 import vsChatwoot from './vs-chatwoot';
@@ -26,7 +26,7 @@ export const COMPARISONS: readonly Page[] = [
 ];
 
 const competitorOf = (p: Page): string => p.h1.replace(/^Colliedesk vs /, '');
-const oursAt = (agents: number): string => (agents <= 10 ? PRICE.monthly : PRICE.team25Monthly);
+const oursAt = (agents: number): string => `${dollars(oursFor(agents).monthly)} a month (${oursFor(agents).name})`;
 
 const body = `## Colliedesk Cloud by team size
 
@@ -34,9 +34,9 @@ One price per workspace, billed monthly. Every feature on every plan; the plans 
 
 | Team | Colliedesk Cloud |
 |---|---|
-${TEAM_SIZES.map((n) => `| ${teamLabel(n)} | ${oursAt(n)} a month |`).join('\n')}
+${TEAM_SIZES.map((n) => `| ${teamLabel(n)} | ${oursAt(n)} |`).join('\n')}
 
-Above ${MAX_AGENTS} agents, self-host with no agent limit or email us. Self-hosting is free with every feature.
+Above ${MAX_AGENTS} agents, Unlimited is coming soon at ${dollars(UNLIMITED.monthly)} a month, billed annually. Until then, self-host with no agent limit or email us. Self-hosting is free with every feature.
 
 ## Pick the tool you use today
 

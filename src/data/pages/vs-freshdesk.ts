@@ -1,18 +1,19 @@
 import { faqPage, techArticle } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
-import { PRICE } from '../../lib/site';
+import { dollars, PRICE, SMALL } from '../../lib/site';
 import { readOnLabel, rowsAt, usd, vsMarkdown, type VsPricing } from '../../lib/vs-pricing';
 import { collieFacts as c, statusTable } from './collie-status';
 
 const pricing: VsPricing = {
   competitor: 'Freshdesk',
   readOn: '2026-10-17',
-  // Monthly-billing prices, so they compare like for like with Colliedesk billed monthly.
+  // Monthly-billing prices, so they compare like for like with Colliedesk billed monthly. The
+  // annual-billing prices (Growth $19, Pro $55, Copilot $29) only limit where we claim to cost less.
   billing: 'per agent, billed monthly',
   plans: [
-    { name: 'Freshdesk Growth', perAgent: 23 },
-    { name: 'Freshdesk Pro', perAgent: 66 },
-    { name: 'Freshdesk Pro + Freddy AI Copilot', perAgent: 66, aiPerAgent: 35 },
+    { name: 'Freshdesk Growth', perAgent: 23, annualPerAgent: 19 },
+    { name: 'Freshdesk Pro', perAgent: 66, annualPerAgent: 55 },
+    { name: 'Freshdesk Pro + Freddy AI Copilot', perAgent: 66, aiPerAgent: 35, annualPerAgent: 55 + 29 },
   ],
   forYou: [
     'You pay Freshdesk per agent, then again per agent for AI, and the bill grows with every hire.',
@@ -33,7 +34,7 @@ const PRICES_READ = readOnLabel(pricing.readOn);
 const faq: Faq[] = [
   {
     q: 'What is the best open-source alternative to Freshdesk?',
-    a: 'Colliedesk is an open-source (AGPL-3.0) helpdesk built for small teams leaving Freshdesk: flat $49 per workspace per month, AI included at cost, and a Freshdesk importer (available now). It is alpha today, so check the status table before you switch.',
+    a: `Colliedesk is an open-source (AGPL-3.0) helpdesk built for small teams leaving Freshdesk: one flat price per workspace (Team is ${PRICE.monthly} a month for up to 10 agents), AI included at cost, and a Freshdesk importer (available now). It is alpha today, so check the status table before you switch.`,
   },
   {
     q: 'How much does Freshdesk cost for 5 agents with AI?',
@@ -105,13 +106,13 @@ const page: Page = {
   jsonLd: [],
   path: '/vs/freshdesk',
   section: 'Compare',
-  title: `Colliedesk vs Freshdesk: ${PRICE.monthly} or ${PRICE.team25Monthly} a month for the whole team, not $19–107 per agent`,
+  title: `Colliedesk vs Freshdesk: ${PRICE.monthly} a month for up to 10 agents, not $19–107 per agent`,
   description:
     `An honest comparison of Colliedesk and Freshdesk: published prices, AI add-on costs, export limits and what Colliedesk can and cannot do yet. Prices read ${PRICES_READ}.`,
-  summary: 'Freshdesk $19–107 per agent plus $29–35 Copilot vs Colliedesk $49 per workspace; export limits; honest status',
+  summary: `Freshdesk $19–107 per agent plus $29–35 Copilot vs Colliedesk flat plans from ${PRICE.range} per workspace (Team ${PRICE.monthly} for up to 10 agents); export limits; honest status`,
   eyebrow: 'Compare · Freshdesk alternative',
   h1: 'Colliedesk vs Freshdesk',
-  lede: `Five agents on ${fiveAgents?.name ?? 'Freshdesk'} pay ${usd(fiveAgents?.usd ?? 0)} a month. Colliedesk Cloud Team is ${PRICE.monthly} for the whole workspace, up to 10 agents (${PRICE.team25Monthly} for up to 25). Pick your team size to see where Colliedesk fits, and where it does not.`,
+  lede: `Five agents on ${fiveAgents?.name ?? 'Freshdesk'} pay ${usd(fiveAgents?.usd ?? 0)} a month. Colliedesk Cloud Team is ${PRICE.monthly} for the whole workspace, up to 10 agents (Small ${dollars(SMALL.monthly)} for up to 3, Team 25 ${PRICE.team25Monthly} for up to 25). Pick your team size to see where Colliedesk fits, and where it does not.`,
   cta: true,
   vs: pricing,
   preMd: vsMarkdown(pricing),

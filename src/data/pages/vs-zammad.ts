@@ -39,8 +39,8 @@ Zammad hosted prices are in euros, per agent per month, excluding VAT, as publis
 
 | Team | Zammad Professional (hosted) | Colliedesk Cloud |
 |---|---|---|
-| 5 agents | 5 × €16–18 = **€80–90 per month** + €0.03 per AI call | $49 per month + AI usage |
-| 10 agents | 10 × €16–18 = **€160–180 per month** + €0.03 per AI call | $49 per month + AI usage |
+| 5 agents | 5 × €16–18 = **€80–90 per month** + €0.03 per AI call | $69 per month (Team) + AI usage |
+| 10 agents | 10 × €16–18 = **€160–180 per month** + €0.03 per AI call | $69 per month (Team) + AI usage |
 
 ## Moving from Freshdesk
 
@@ -76,8 +76,8 @@ const page: Page = {
   section: 'Compare',
   title: 'Colliedesk vs Zammad: two open-source helpdesks, flat price vs per agent',
   description:
-    'Colliedesk vs Zammad, both AGPL-3.0: Zammad hosted €7–27 per agent plus €0.03 per AI call vs Colliedesk flat $49 per workspace. Freshdesk migration compared honestly.',
-  summary: 'Zammad €7–27 per agent hosted, €0.03 per AI call, released Freshdesk migrator vs Colliedesk flat $49, importer available now (alpha) with reconcile report',
+    'Colliedesk vs Zammad, both AGPL-3.0: Zammad hosted €7–27 per agent plus €0.03 per AI call vs Colliedesk at one flat price per workspace (Team $69 for up to 10 agents). Freshdesk migration compared honestly.',
+  summary: 'Zammad €7–27 per agent hosted, €0.03 per AI call, released Freshdesk migrator vs Colliedesk Team at a flat $69, importer available now (alpha) with reconcile report',
   eyebrow: 'Compare · Open source',
   h1: 'Colliedesk vs Zammad',
   lede: 'Both are open source under AGPL-3.0. Zammad is mature and charges per agent; Colliedesk is young and charges per workspace. Here is where each one wins, with sources.',
