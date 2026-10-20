@@ -31,7 +31,7 @@ increase, wants hosted and does not need PSA/RMM.
    live pages that fall, stall on page 2 or do not convert. Treat them like step 2.
 6. **Conversions first**: every research and audit run starts from the PostHog query in
    research-and-audit.md and favours page types that brought sign-ups.
-7. **Digest**: after the weekly run, post a short comment on the pinned issue `SEO weekly digest`:
+7. **Digest**: after the weekly run, post a short comment on the pinned issue #68 `SEO weekly digest`:
    what shipped, what moved (clicks, positions, sign-ups by landing page), what is next.
 
 ## Limits
@@ -48,4 +48,4 @@ increase, wants hosted and does not need PSA/RMM.
 `scripts/content-qa.mjs` (`pnpm check:content`, in CI) fails any marketing page that reads above
 grade 10, uses an em dash or an AI-slop phrase, has no call to action in the body, or quotes a
 competitor price without a source link. `KNOWN_DEBT` lists pages that miss a rule today; each rule
-has one `seo:improve` issue, and the gate fails when a fixed page is still listed.
+has one `seo:improve` issue (CTA: #67), and the gate fails when a fixed page is still listed.

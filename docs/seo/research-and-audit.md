@@ -38,6 +38,6 @@ it does not write pages. Credits: keep a run under $5 of DataForSEO (OpenSEO sho
 
 ## 4. Digest
 
-Comment on the pinned issue `SEO weekly digest`: pages shipped, Search Console clicks and
+Comment on the pinned issue #68 `SEO weekly digest`: pages shipped, Search Console clicks and
 impressions (this 28 days vs last), sign-ups by landing page, issues opened, credits spent.
 Five lines or fewer. No numbers without their source.
