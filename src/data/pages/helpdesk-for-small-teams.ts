@@ -61,7 +61,7 @@ const page: Page = {
   section: 'Product',
   title: 'Helpdesk for small teams: one flat price for 2 to 10 agents',
   description:
-    'A helpdesk for small support teams of 2 to 10 agents: one flat $49 per workspace instead of per-agent fees, AI included at cost, open source. Price by team size and honest status.',
+    'A helpdesk for support teams of 2 to 10 agents: one flat $49 per workspace, no per-agent fees, AI at cost, open source. Price by team size.',
   summary: 'Small-team helpdesk: price by team size (2, 3, 5, 10 agents) vs Freshdesk, what small teams need, honest status',
   eyebrow: 'For small teams',
   h1: 'A helpdesk priced for a small team',

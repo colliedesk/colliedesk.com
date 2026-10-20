@@ -67,9 +67,9 @@ const page: Page = {
   name: 'Colliedesk overview',
   path: '/',
   section: 'Product',
-  title: `Colliedesk: $${OURS_YEAR} a year for your whole support team, not per agent`,
+  title: `Colliedesk: $${OURS_YEAR} a year for your whole team, not per agent`,
   description:
-    `Colliedesk is an open-source helpdesk for small support teams, $${OURS_YEAR} a year for up to 10 agents, where five agents pay Freshdesk ${rangeLabel(FRESHDESK_RANGE)} a year. Leave Freshdesk with all your data. $49 per workspace, no per-agent fees.`,
+    `Open-source helpdesk for small support teams: $${OURS_YEAR} a year for up to 10 agents, no per-agent fees. Leave Freshdesk with all your data.`,
   summary: `What Colliedesk is, what we sell, what AI agents can do through MCP, status, founding offer; competitor prices read ${PRICES_READ}`,
   h1: HOME_H1,
   lede: HOME_LEDE,

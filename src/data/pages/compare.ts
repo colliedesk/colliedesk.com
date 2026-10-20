@@ -57,9 +57,9 @@ const page: Page = {
   path: '/compare',
   section: 'Compare',
   name: 'Compare Colliedesk',
-  title: 'Compare Colliedesk with Freshdesk, Zendesk, Help Scout and other helpdesks',
+  title: 'Colliedesk vs Freshdesk, Zendesk, Help Scout and more',
   description:
-    'Every Colliedesk comparison in one place: Freshdesk, Zendesk, Help Scout, Zoho Desk, Front, Zammad and more. Published prices with read dates, and what each tool does better.',
+    'Every Colliedesk comparison in one place: Freshdesk, Zendesk, Help Scout, Zoho Desk, Front, Zammad and more, with a read date for every price.',
   summary: 'Hub of every comparison page, with the Colliedesk Cloud price at 1 to 25 agents',
   eyebrow: 'Compare',
   h1: 'Compare Colliedesk with the helpdesk you use today',

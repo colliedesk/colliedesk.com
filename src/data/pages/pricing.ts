@@ -82,9 +82,9 @@ const page: Page = {
   name: 'Pricing',
   path: '/pricing',
   section: 'Product',
-  title: 'Colliedesk pricing: $49 or $99 per workspace, no per-agent fees, 14-day free trial',
+  title: 'Colliedesk pricing: $49 per workspace, no per-agent fees',
   description:
-    'Colliedesk Cloud starts with a 14-day free trial, no card. Team costs $49 per workspace per month ($490 per year) for up to 10 agents, Team 25 costs $99 ($990 per year) for up to 25. No per-agent fees. Self-hosting is free.',
+    '14-day free trial, no card. Team: $49 per workspace per month for up to 10 agents. Team 25: $99 for up to 25. No per-agent fees. Self-hosting is free.',
   summary: '14-day free trial, no card; Team $49 per workspace per month or $490 per year, up to 10 agents, 100 GB; Team 25 $99 or $990 per year, up to 25 agents, 250 GB; no per-agent fees; founding offer; AI at LLM cost +30% or your own key; self-host free',
   eyebrow: 'Pricing',
   h1: 'One flat price per workspace. No per-agent fees.',

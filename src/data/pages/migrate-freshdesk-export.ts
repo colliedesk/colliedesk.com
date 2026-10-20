@@ -86,7 +86,7 @@ const page: Page = {
   path: '/migrate/freshdesk/export',
   updated: '2026-10-15',
   section: 'Migrate',
-  title: 'How to export tickets from Freshdesk (with conversations and attachments)',
+  title: 'How to export Freshdesk tickets with conversations',
   description:
     'Three ways to export Freshdesk tickets: the CSV export (fields only), the account export (full XML backup) and the API. What each one keeps, and the steps.',
   summary: 'Export Freshdesk tickets: CSV export (fields only) vs account export (XML backup) vs API; steps and limits',

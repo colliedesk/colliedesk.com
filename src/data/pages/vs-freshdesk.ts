@@ -105,9 +105,9 @@ const page: Page = {
   jsonLd: [],
   path: '/vs/freshdesk',
   section: 'Compare',
-  title: `Colliedesk vs Freshdesk: ${PRICE.monthly} or ${PRICE.team25Monthly} a month for the whole team, not $19–107 per agent`,
+  title: `Colliedesk vs Freshdesk: ${PRICE.monthly} flat vs $19–107 per agent`,
   description:
-    `An honest comparison of Colliedesk and Freshdesk: published prices, AI add-on costs, export limits and what Colliedesk can and cannot do yet. Prices read ${PRICES_READ}.`,
+    `Colliedesk vs Freshdesk, honestly: published prices, AI add-on costs, export limits and what Colliedesk cannot do yet. Prices read ${PRICES_READ}.`,
   summary: 'Freshdesk $19–107 per agent plus $29–35 Copilot vs Colliedesk $49 per workspace; export limits; honest status',
   eyebrow: 'Compare · Freshdesk alternative',
   h1: 'Colliedesk vs Freshdesk',

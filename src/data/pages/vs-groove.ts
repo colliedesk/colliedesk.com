@@ -61,9 +61,9 @@ const page: Page = {
   path: '/vs/groove',
   updated: '2026-10-16',
   section: 'Compare',
-  title: 'Colliedesk vs Groove (now Helply): a flat-price helpdesk vs AI credits',
+  title: 'Colliedesk vs Groove (now Helply): flat price vs AI credits',
   description:
-    'Groove is now Helply, priced by AI credits from $49 per month. Colliedesk is an open-source helpdesk at a flat $49 per workspace with AI at cost. Export limits and honest status.',
+    'Groove is now Helply, priced by AI credits from $49 per month. Colliedesk is open source at a flat $49 per workspace with AI at cost.',
   summary: 'Groove is now Helply: AI credits from $49 per month, JSON-only export vs Colliedesk flat $49 per workspace helpdesk',
   eyebrow: 'Compare · Groove alternative',
   h1: 'Colliedesk vs Groove (now Helply)',

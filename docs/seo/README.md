@@ -59,4 +59,4 @@ until it has the label `content:approved` and a fully verified `## Claim check` 
 grade 10, uses an em dash or an AI-slop phrase, has no call to action in the body, or quotes a
 competitor price without a source link, has a title over 60 characters or a meta description outside
 120–160, or links fewer than 2 other pages on the site (limits from [serp-patterns.md](serp-patterns.md)).
-`KNOWN_DEBT` lists pages that miss a rule today; each rule has one `seo:improve` issue (CTA: #67; title and description: #71; links: #72), and the gate fails when a fixed page is still listed.
+`KNOWN_DEBT` lists pages that miss a rule today; each rule has one `seo:improve` issue (CTA: #67; links: #72), and the gate fails when a fixed page is still listed.
