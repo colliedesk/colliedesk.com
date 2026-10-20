@@ -48,7 +48,7 @@ The Copilot price did not render in the 16 January 2026 archive; it is $29 befor
 | 2025 | 5 × $49 = $245 per month | 5 × ($49 + $29) = $390 per month |
 | Today | 5 × $55 = $275 per month | 5 × ($55 + $29) = **$420 per month** |
 
-For comparison, [Colliedesk Cloud](/pricing) is $49 per workspace per month for up to 10 agents, with AI at model cost +30% or on your own key. Planning to leave? Start with [Freshdesk alternatives](/freshdesk-alternative) and [migrate from Freshdesk](/migrate/freshdesk).
+For comparison, [Colliedesk Cloud](/pricing) Team is $69 per workspace per month for up to 10 agents, with AI at model cost +30% or on your own key. Planning to leave? Start with [Freshdesk alternatives](/freshdesk-alternative) and [migrate from Freshdesk](/migrate/freshdesk).
 
 ## Method
 

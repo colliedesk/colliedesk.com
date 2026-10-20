@@ -7,7 +7,7 @@ import { collieFacts as c, statusTable } from './collie-status';
 const faq: Faq[] = [
   {
     q: 'Is Zoho Desk cheaper than Colliedesk?',
-    a: `For very small teams, yes. Zoho Desk has a free plan for 3 users and Express from €7 per user per month (up to 5 users). From 4 agents on Standard (€14 per user, billed annually, read on ${PRICES_READ}), the per-user bill passes Colliedesk's flat $49 per workspace.`,
+    a: `For very small teams, yes. Zoho Desk has a free plan for 3 users and Express from €7 per user per month (up to 5 users). On Standard (€14 per user, billed annually, read on ${PRICES_READ}), five users pay €70 a month, about the same as Colliedesk Team at $69 for up to 10 agents; from six users (€84) Zoho costs more. Zia needs Professional (€23 per user), so four users with AI already pay €92.`,
   },
   {
     q: 'Which Zoho Desk plan has Zia AI?',
@@ -39,8 +39,8 @@ Zoho showed us prices in euros, per user per month, billed annually, on ${PRICES
 
 | Team | Zoho Desk Professional (with Zia) | Colliedesk Cloud |
 |---|---|---|
-| 5 agents | 5 × €23 = **€115 per month** | $49 per month + AI usage |
-| 10 agents | 10 × €23 = **€230 per month** | $49 per month + AI usage |
+| 5 agents | 5 × €23 = **€115 per month** | $69 per month (Team) + AI usage |
+| 10 agents | 10 × €23 = **€230 per month** | $69 per month (Team) + AI usage |
 
 ## Leaving: what Zoho Desk gives you
 
@@ -68,10 +68,10 @@ const page: Page = {
   path: '/vs/zoho-desk',
   updated: '2026-10-16',
   section: 'Compare',
-  title: 'Colliedesk vs Zoho Desk: flat $49 per workspace vs per-user plans',
+  title: 'Colliedesk vs Zoho Desk: flat $69 for up to 10 agents vs per-user plans',
   description:
-    'Colliedesk vs Zoho Desk: Zoho €7–40 per user with Zia on Professional and up vs Colliedesk flat $49 per workspace. Backup limits and honest status, with sources.',
-  summary: 'Zoho Desk free for 3 users, €7–40 per user, Zia from Professional, backups by primary contact without attachments vs Colliedesk flat $49',
+    'Colliedesk vs Zoho Desk: Zoho €7–40 per user with Zia on Professional and up vs Colliedesk at one flat price per workspace (Team $69 for up to 10 agents). Backup limits and honest status, with sources.',
+  summary: 'Zoho Desk free for 3 users, €7–40 per user, Zia from Professional, backups by primary contact without attachments vs Colliedesk Team at a flat $69',
   eyebrow: 'Compare · Zoho Desk alternative',
   h1: 'Colliedesk vs Zoho Desk',
   lede: 'Zoho Desk is cheap per user and strong inside the Zoho suite. For a team of five with AI, the per-user price adds up. Here are the numbers, with sources.',

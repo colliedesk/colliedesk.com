@@ -23,6 +23,14 @@ to use another checkout. `typecheck` works without it.
 
 - `src/data/pages/*.ts`: one typed `Page` (`src/lib/page.ts`) per page: title, description, hero,
   Markdown body, FAQ, JSON-LD. `src/data/pages/index.ts` lists them in llms.txt and sitemap order.
+- `src/content/blog/*.md`: blog posts, one Markdown file each with YAML front matter
+  (`src/lib/blog-post.ts` lists the fields and fails the build on a missing or unknown one). The file
+  name is the slug under `/blog/`; `/blog` lists every post, newest first.
+- `public/admin/`: the browser editor for blog posts at https://colliedesk.com/admin/ (Sveltia CMS,
+  pinned version). "Sign In with GitHub" asks for a one-time code sent to the owner's company email
+  (Cloudflare Access on cms-auth.colliedesk.com, hclabsco/infra `colliedesk-cms-auth.tf`); no GitHub
+  account or token is needed. Saving a draft opens a pull request from `cms/blog/<slug>`; it needs
+  the `content:approved` label like every content PR, and Publish in the editor merges it.
 - `src/components/*.tsx`: React components for the header, footer parts, hero, pricing plans and the
   home page sections. `.astro` files render them to static HTML with `html(Component, props)` from
   `src/lib/render-react.ts` (`react-dom/server`), inside `<Fragment set:html={...} />`; there is no
@@ -42,6 +50,7 @@ to use another checkout. `typecheck` works without it.
 ## Content
 
 - `/docs` and `/roadmap` render `docs/user/*.md` and `ROADMAP.md` from [colliedesk/colliedesk](https://github.com/colliedesk/colliedesk). Edit those files there, not here. Every 15 minutes CI compares those docs on `main` with `/product-docs-version.txt` on the live site (`scripts/product-docs-version.sh`) and rebuilds when they differ. To preview unmerged docs, run the Site workflow with `product_ref` set to a branch of colliedesk/colliedesk: it builds, checks and uploads the site as an artifact without deploying. Pull requests there that touch the docs build this site too, so a broken link fails before merge.
+- SEO: an agent researches, writes and audits pages as described in [docs/seo](docs/seo/README.md); `pnpm check:content` checks the copy and a person approves every SEO page (required check `content-approval`).
 - Shared facts (prices, positioning, repo URL) are in `src/lib/site.ts`. Competitor prices carry their source and read date on each `/vs` page.
 - Mark unshipped features with `**Coming v0.N**` in Markdown; the build turns it into a badge.
 - Deploy: GitHub Pages from `.github/workflows/site.yml`, custom domain `colliedesk.com`, output directory `_site` (`_headers` keeps the Cloudflare Pages rules for `pnpm serve`).

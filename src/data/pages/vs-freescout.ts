@@ -65,8 +65,8 @@ const page: Page = {
   section: 'Compare',
   title: 'Colliedesk vs FreeScout: two AGPL helpdesks, paid modules vs every feature free',
   description:
-    'Colliedesk vs FreeScout, both AGPL-3.0: FreeScout sells modules and has no official cloud; Colliedesk ships every feature free and offers flat $49 hosting. Freshdesk import compared.',
-  summary: 'FreeScout free core plus paid modules, no official cloud or Freshdesk importer vs Colliedesk every feature free, flat $49 Cloud, importer available now (alpha)',
+    'Colliedesk vs FreeScout, both AGPL-3.0: FreeScout sells modules and has no official cloud; Colliedesk ships every feature free and offers flat-priced hosting (Team $69 a month for up to 10 agents). Freshdesk import compared.',
+  summary: 'FreeScout free core plus paid modules, no official cloud or Freshdesk importer vs Colliedesk every feature free, flat-priced Cloud (Team $69), importer available now (alpha)',
   eyebrow: 'Compare · Open source',
   h1: 'Colliedesk vs FreeScout',
   lede: 'Both are open source under AGPL-3.0. FreeScout is a lightweight PHP helpdesk with paid modules. Colliedesk keeps every feature in the free code. Here is the difference, with sources.',

@@ -7,7 +7,7 @@ import { collieFacts as c, statusTable } from './collie-status';
 const faq: Faq[] = [
   {
     q: 'What is a good Front alternative that is not priced per seat?',
-    a: 'Colliedesk Cloud is $49 per workspace per month for up to 10 agents, and self-hosting is free. Colliedesk is an open-source (AGPL-3.0) shared inbox and helpdesk. It is in alpha, and the email channel works today.',
+    a: 'Colliedesk Cloud is one flat price per workspace: Team is $69 a month for up to 10 agents, Small $39 for up to 3. Self-hosting is free. Colliedesk is an open-source (AGPL-3.0) shared inbox and helpdesk. It is in alpha, and the email channel works today.',
   },
   {
     q: 'How does Front charge for AI?',
@@ -44,7 +44,7 @@ Front prices below are from the Front pricing page, per seat per month billed an
 
 | Team | Front Professional + Copilot (annual) | Colliedesk Cloud |
 |---|---|---|
-| 5 agents | 5 × ($65 + $20) = **$425 per month** | $49 per month + AI usage |
+| 5 agents | 5 × ($65 + $20) = **$425 per month** | $69 per month (Team) + AI usage |
 
 ## Leaving: what Front gives you
 
@@ -74,7 +74,7 @@ const page: Page = {
   title: 'Colliedesk vs Front: an open-source Front alternative with flat pricing',
   description:
     'Colliedesk vs Front for small support teams: per-seat plans and a $20 Copilot add-on vs one flat workspace price. Sourced prices, export limits and honest status.',
-  summary: 'Front $25–105 per seat plus $20 Copilot vs Colliedesk flat $49 per workspace; export only through Front Support',
+  summary: 'Front $25–105 per seat plus $20 Copilot vs Colliedesk Team at a flat $69 per workspace; export only through Front Support',
   eyebrow: 'Compare · Front alternative',
   h1: 'Colliedesk vs Front',
   lede: 'Front is a polished shared inbox. For a team of five, the seat count and the AI add-on decide the bill. Here are the numbers, with sources.',

@@ -1,0 +1,62 @@
+name: SEO task
+description: A new page or an improvement for the agentic SEO loop (docs/seo/README.md).
+title: 'seo: '
+labels: []
+body:
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Kind
+      description: Add the matching label, seo:new or seo:improve.
+      options:
+        - New page (seo:new)
+        - Improve a live page (seo:improve)
+    validations:
+      required: true
+  - type: dropdown
+    id: page-type
+    attributes:
+      label: Page type
+      description: The section of docs/seo/serp-patterns.md the writer follows.
+      options:
+        - Comparison (/vs/<tool>)
+        - Alternatives list
+        - Migration guide
+        - Pricing explainer
+        - Other (name the closest pattern in the brief)
+    validations:
+      required: true
+  - type: input
+    id: keyword
+    attributes:
+      label: Target keyword or page
+      description: One keyword for a new page; the path for an improvement.
+      placeholder: freshdesk export tickets to csv
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence
+      description: Volume, KD, Search Console position/impressions/CTR, conversions. Each number with its source and date.
+    validations:
+      required: true
+  - type: textarea
+    id: intent
+    attributes:
+      label: Reader and intent
+      description: Who searches this, what they want to do next, which call to action fits.
+    validations:
+      required: true
+  - type: textarea
+    id: gap
+    attributes:
+      label: Top 3 results and the gap
+      description: What the top 3 pages cover, what they miss, and the data or steps this page adds.
+    validations:
+      required: true
+  - type: textarea
+    id: brief
+    attributes:
+      label: Brief
+      description: Title idea, sections, FAQ questions, internal links to and from.

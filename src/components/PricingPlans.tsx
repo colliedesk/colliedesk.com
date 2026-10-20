@@ -1,67 +1,72 @@
 import { FOUNDING_SLOTS, foundingState } from '../lib/founding';
-import { CONTACT_EMAIL, FOUNDING_CHECKOUT, MONEY_BACK, PRICE, REPO, TRIAL_HREF } from '../lib/site';
+import {
+  agentsLabel, CLOUD_PLANS, CONTACT_EMAIL, dollars, FOUNDING_CHECKOUT, MONEY_BACK, PRICE, REPO, TRIAL_HREF, type CloudPlan,
+} from '../lib/site';
 import { FoundingMeter } from './FoundingMeter';
 
-// The three plans above the pricing prose; the Markdown twin carries the same facts as a table.
+// One card per Cloud plan: the price, one headline for agents and storage, and who it is for.
+// Every plan has every feature, so the cards carry no feature lists.
+function CloudCard({ plan }: { plan: CloudPlan }) {
+  return (
+    <article className={plan.comingSoon ? 'plan plan-soon' : 'plan'}>
+      <h2 className="plan-name">{plan.name}</h2>
+      <p className="plan-price"><strong>{dollars(plan.monthly)}</strong> <span>/ month</span></p>
+      <p className="plan-alt">{plan.annualOnly ? `billed annually, ${dollars(plan.yearly)} per year` : `or ${dollars(plan.yearly)} per year`}</p>
+      <p className="plan-size"><strong>{agentsLabel(plan)}</strong> <span>{plan.storage} of attachments</span></p>
+      <p className="plan-who">{plan.who}</p>
+      {plan.comingSoon ? <p className="plan-soon-note">Coming soon</p> : <a className="btn btn-primary" href={TRIAL_HREF}>Start free trial</a>}
+    </article>
+  );
+}
+
+// The plans above the pricing prose; the Markdown twin carries the same facts as a table.
 export function PricingPlans() {
   const state = foundingState();
   return (
-    <section className="wrap plans" aria-label="Plans">
-      <article className="plan">
-        <h2 className="plan-name">Self-host</h2>
-        <p className="plan-price"><strong>$0</strong> <span>forever</span></p>
+    <section className="wrap plans-section" aria-label="Plans">
+      <div className="plans plans-ladder">
+        {CLOUD_PLANS.map((plan) => <CloudCard key={plan.name} plan={plan} />)}
+      </div>
+      <div className="plans-reassure">
+        <p><strong>Every plan, every feature.</strong> Unlimited conversations, no per-agent fees, AI at LLM cost +30% or your own key. We run, update and back it up.</p>
         <ul>
-          <li>Every feature, no paywalled edition</li>
-          <li>AGPL-3.0, your server, your PostgreSQL</li>
-          <li>AI with your own model key</li>
+          <li>14-day free trial, no card</li>
+          <li>No automatic charge: when the trial ends, you pick a plan or export your data</li>
+          <li>Cancel anytime</li>
         </ul>
-        <a className="btn btn-ghost" href={REPO} rel="noopener">Self-host free <span aria-hidden="true">↗</span></a>
-      </article>
-      <article className="plan plan-featured" aria-labelledby="plan-founding">
-        <p className="plan-flag">{state.open ? `Only ${FOUNDING_SLOTS} workspaces` : 'Closed: all places taken'}</p>
-        <h2 className="plan-name" id="plan-founding">Founding</h2>
-        <p className="plan-price">{state.open && <s aria-label={`was ${PRICE.yearly}`}>{PRICE.yearly}</s>} <strong>$100</strong> <span>per workspace / year</span></p>
-        <ul>
-          <li>Price locked for life</li>
-          <li>Free Freshdesk migration, with a reconcile report</li>
-          <li>Up to 10 agents, no per-agent fees</li>
-          <li>20 GB of attachments, imported files included</li>
-          <li>AI at LLM cost +30%, or bring your own key</li>
-        </ul>
-        {state.open ? (
-          <div className="plan-cta">
-            <FoundingMeter state={state} />
-            <a className="btn btn-primary" href={FOUNDING_CHECKOUT} rel="noopener">Join for $100/year</a>
-            <p className="plan-guarantee"><a href="/terms#refunds">{MONEY_BACK}</a>. Full refund, no questions asked.</p>
-          </div>
-        ) : <p>Founding is closed. Existing founding customers keep this price for life.</p>}
-      </article>
-      <article className="plan">
-        <h2 className="plan-name">Cloud Team</h2>
-        <p className="plan-price"><strong>$49</strong> <span>per workspace / month</span></p>
-        <p className="plan-alt">or $490 per year</p>
-        <ul>
-          <li>We run, update and back it up</li>
-          <li>14-day free trial, no card (30 days if you import from Freshdesk)</li>
-          <li>Up to 10 agents, unlimited conversations</li>
-          <li>100 GB of attachments, imported files included</li>
-          <li>No per-agent fees</li>
-          <li>AI at LLM cost +30%, or bring your own key</li>
-        </ul>
-        <a className="btn btn-primary" href={TRIAL_HREF}>Start free trial</a>
-      </article>
-      <article className="plan">
-        <h2 className="plan-name">Cloud Team 25</h2>
-        <p className="plan-price"><strong>{PRICE.team25Monthly}</strong> <span>per workspace / month</span></p>
-        <p className="plan-alt">or {PRICE.team25Yearly} per year</p>
-        <ul>
-          <li>Everything in Team</li>
-          <li>Up to 25 agents, unlimited conversations</li>
-          <li>250 GB of attachments, imported files included</li>
-          <li>Flat price, no per-agent fees</li>
-        </ul>
-        <a className="btn btn-primary" href={TRIAL_HREF}>Start free trial</a>
-      </article>
+      </div>
+      <div className="plans">
+        <article className="plan plan-featured" aria-labelledby="plan-founding">
+          <p className="plan-flag">{state.open ? `Only ${FOUNDING_SLOTS} workspaces` : 'Closed: all places taken'}</p>
+          <h2 className="plan-name" id="plan-founding">Founding</h2>
+          <p className="plan-price">{state.open && <s aria-label={`was ${PRICE.yearly}`}>{PRICE.yearly}</s>} <strong>$100</strong> <span>per workspace / year</span></p>
+          <ul>
+            <li>Limited to {FOUNDING_SLOTS} workspaces, then closed for good</li>
+            <li>Price locked for life</li>
+            <li>Freshdesk migration done for you, with a reconcile report</li>
+            <li>Up to 10 agents, no per-agent fees</li>
+            <li>20 GB of attachments, imported files included</li>
+          </ul>
+          {state.open ? (
+            <div className="plan-cta">
+              <FoundingMeter state={state} />
+              <a className="btn btn-primary" href={FOUNDING_CHECKOUT} rel="noopener">Join for $100/year</a>
+              <p className="plan-guarantee"><a href="/terms#refunds">{MONEY_BACK}</a>. Full refund, no questions asked.</p>
+            </div>
+          ) : <p>Founding is closed. Existing founding customers keep this price for life.</p>}
+        </article>
+        <article className="plan">
+          <h2 className="plan-name">Self-host</h2>
+          <p className="plan-price"><strong>$0</strong> <span>forever</span></p>
+          <ul>
+            <li>Every feature, no paywalled edition</li>
+            <li>AGPL-3.0, your server, your PostgreSQL</li>
+            <li>No agent limit</li>
+            <li>AI with your own model key</li>
+          </ul>
+          <a className="btn btn-ghost" href={REPO} rel="noopener">Self-host free <span aria-hidden="true">↗</span></a>
+        </article>
+      </div>
       <p className="plans-note">
         Need more storage? Email us at <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>. Customer email always arrives, even over the
         cap; only agent uploads and new imports pause, and we warn you at 80%.

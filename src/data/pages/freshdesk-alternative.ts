@@ -5,7 +5,7 @@ import type { Faq, Page } from '../../lib/page';
 const faq: Faq[] = [
   {
     q: 'What is the best open-source Freshdesk alternative?',
-    a: 'It depends on your channels and timing. Zammad is the most mature open-source helpdesk and its Freshdesk migrator is released today. Chatwoot fits teams whose support is mostly chat and messaging. FreeScout is a light PHP helpdesk with paid modules. Colliedesk is built for small email-support teams leaving Freshdesk, at a flat $49 per workspace, with an importer and reconcile report available now, in alpha.',
+    a: 'It depends on your channels and timing. Zammad is the most mature open-source helpdesk and its Freshdesk migrator is released today. Chatwoot fits teams whose support is mostly chat and messaging. FreeScout is a light PHP helpdesk with paid modules. Colliedesk is built for small email-support teams leaving Freshdesk, at one flat price per workspace (Team $69 a month for up to 10 agents), with an importer and reconcile report available now, in alpha.',
   },
   {
     q: 'Why are teams leaving Freshdesk?',
@@ -13,7 +13,7 @@ const faq: Faq[] = [
   },
   {
     q: 'Which Freshdesk alternative is cheapest for 5 agents?',
-    a: `Among the paid plans we compared on ${PRICES_READ}, Colliedesk Cloud at $490 a year per workspace ($40.83 a month, or $49 billed monthly) is the lowest helpdesk price for 5 agents. Helply (formerly Groove) starts at $49, but that buys AI credits. Zoho Desk Express (€7 per user, max 5) and the free plans of Zoho Desk and HubSpot are cheaper if you can live with their limits.`,
+    a: `Among the paid plans we compared on ${PRICES_READ}, the lowest prices for 5 agents are plans capped at five: Zammad Starter and Zoho Desk Express, each €7 per agent, so €35 a month. Colliedesk Cloud Team is $690 a year per workspace ($57.50 a month, or $69 billed monthly), which keeps the same price up to 10 agents. Helply (formerly Groove) starts at $49 a month, but that buys AI credits. The free plans of Zoho Desk and HubSpot cost nothing if you can live with their limits.`,
   },
 ];
 
@@ -23,14 +23,14 @@ Prices for 5 agents per month, billed annually, from each vendor's page on ${PRI
 
 | Helpdesk | 5 agents | Pricing model | Open source | Freshdesk import | Comparison |
 |---|---|---|---|---|---|
-| **Colliedesk** | **$40.83** ($490 a year) + AI usage | Flat per workspace, up to 10 agents | AGPL-3.0 | Available now (alpha), with reconcile report | — |
-| Zammad | €80–90 (Professional) | Per agent (hosted, in euros) | AGPL-3.0 | Released, self-serve | [vs Zammad](/vs/zammad) |
+| **Colliedesk** | **$57.50** (Team, $690 a year) + AI usage | Flat per workspace, up to 10 agents | AGPL-3.0 | Available now (alpha), with reconcile report | — |
+| Zammad | €35 (Starter, max 5 agents); €80–90 (Professional) | Per agent (hosted, in euros) | AGPL-3.0 | Released, self-serve | [vs Zammad](/vs/zammad) |
 | Chatwoot | $195 (Business) | Per agent | MIT (core) | Paid plans; no attachments | [vs Chatwoot](/vs/chatwoot) |
 | FreeScout | Hosting + modules | Free core, paid modules, no official cloud | AGPL-3.0 | Third-party or community module | [vs FreeScout](/vs/freescout) |
 | Zendesk | €825 (with Copilot) | Per agent (in euros) | No | — | [vs Zendesk](/vs/zendesk) |
 | Help Scout | $125 (Standard) | Per user, plus $0.75 per AI resolution | No | — | [vs Help Scout](/vs/help-scout) |
 | Front | $425 (Professional + Copilot) | Per seat | No | — | [vs Front](/vs/front) |
-| Zoho Desk | €115 (Professional, with Zia) | Per user (in euros) | No | Free migration offered by Zoho | [vs Zoho Desk](/vs/zoho-desk) |
+| Zoho Desk | €35 (Express, max 5 users); €115 (Professional, with Zia) | Per user (in euros) | No | Free migration offered by Zoho | [vs Zoho Desk](/vs/zoho-desk) |
 | HappyFox | $120 (Basic, max 5) | Per agent | No | — | [vs HappyFox](/vs/happyfox) |
 | Gorgias | $77–1,227 by tickets, with AI Agent | By ticket volume | No | — | [vs Gorgias](/vs/gorgias) |
 | HubSpot Service Hub | $500 (Professional) | Per seat | No | — | [vs HubSpot](/vs/hubspot-service-hub) |
@@ -39,7 +39,7 @@ Prices for 5 agents per month, billed annually, from each vendor's page on ${PRI
 
 ## How to choose
 
-1. **Count your agents.** One or two agents: per-agent plans are often cheaper than any flat price. Three to ten: a flat price wins.
+1. **Count your agents.** One or two agents: the cheapest per-agent plans cost about the same as a small flat plan. Three to ten: a flat price wins.
 2. **Name your channels.** Mostly email: a ticket helpdesk. Mostly chat and messaging apps: an omnichannel inbox such as Chatwoot.
 3. **Decide where the data lives.** If it must stay on your servers, pick an open-source helpdesk you can self-host: Colliedesk, Zammad, FreeScout or Chatwoot.
 4. **Price the AI.** Per-seat AI add-ons and per-resolution fees can cost more than the helpdesk. Ask for the price at your ticket volume.

@@ -1,7 +1,7 @@
 import { FOUNDING_SLOTS, foundingState } from '../../lib/founding';
 import { FoundingMeter } from '../FoundingMeter';
 import { FRESHDESK_MONTH, FRESHDESK_YEAR, OURS_YEAR } from '../../data/pages/home-sections';
-import { FOUNDING_CHECKOUT, MONEY_BACK, TRIAL_HREF } from '../../lib/site';
+import { FOUNDING_CHECKOUT, MONEY_BACK, PRICE, TRIAL_HREF } from '../../lib/site';
 import { usd } from '../../lib/vs-pricing';
 
 function Founding() {
@@ -15,7 +15,7 @@ function Founding() {
             {state.open ? (
               <>
                 <h2 id="founding-title">$100 a year. Locked for life.</h2>
-                <p className="section-lede">For small teams planning to leave Freshdesk. Only {FOUNDING_SLOTS} workspaces get it. Cloud Team lists at $490 a year. Your price never goes up, and we migrate your Freshdesk data for free.</p>
+                <p className="section-lede">For small teams planning to leave Freshdesk. Only {FOUNDING_SLOTS} workspaces get it. Cloud Team lists at {PRICE.yearly} a year. Your price never goes up, and we migrate your Freshdesk data for free.</p>
               </>
             ) : (
               <>
