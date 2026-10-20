@@ -1,6 +1,7 @@
 # Write and QA a page
 
-Input: one open issue labelled `seo:new` or `seo:improve`. Output: a green PR that closes it.
+Input: one open issue labelled `seo:new` or `seo:improve`. Output: a PR that closes it, passes
+every check and waits for a person's approval. The writer and the QA reviewer are different agents.
 
 ## Write
 
@@ -21,8 +22,9 @@ Input: one open issue labelled `seo:new` or `seo:improve`. Output: a green PR th
 
 ## QA checklist
 
-Run it as a separate pass, after writing. Read the page as the reader in the brief, not as its writer.
-A "no" on any line fails the page; fix it and run the whole checklist again.
+A second agent runs it in a fresh context: give it the issue, the diff and the rendered page, not
+the writer's notes. It reads the page as the reader in the brief. A "no" on any line fails the page;
+the writer fixes it and the reviewer runs the whole checklist again.
 
 1. Does the first screen answer the question in the title?
 2. Is every number, date and feature claim true? Open each source link; check Colliedesk features
@@ -34,8 +36,27 @@ A "no" on any line fails the page; fix it and run the whole checklist again.
 7. Is the call to action the next step for this intent, not a generic "sign up"?
 8. Does `pnpm check:content` pass without a new `KNOWN_DEBT` entry?
 
+## Claim check
+
+The reviewer lists every factual claim on the page: each price, date, number, limit, competitor
+feature and Colliedesk feature. For each one it opens the source and reads the claim there.
+
+```
+## Claim check
+
+| Claim | Source | Verified |
+|---|---|---|
+| Freshdesk Pro is $55 per agent per month, billed annually | https://www.freshworks.com/freshdesk/pricing/ (read 20 October 2026) | yes |
+```
+
+`Verified` is `yes` only when the source states the claim today. Anything else fails
+`content-approval`: fix or remove the claim. A claim with no source cannot stay on the page.
+
 ## PR
 
-- Title: `content: <what the reader gets>`. Body: `Closes #N`, the keyword, what the page adds over
-  the top 3 results, and the QA checklist with each answer.
-- Merge when CI is green. After merge, request indexing is not needed; the sitemap carries the page.
+- Branch `seo/<slug>`, label from the issue. Title: `content: <what the reader gets>`.
+- Body: `Closes #N`, the keyword, what the page adds over the top 3 results, the QA checklist
+  with each answer, and the claim check.
+- Ask for review: comment on the PR with the file to read and the 3 claims most worth a check.
+- Do not merge and do not add `content:approved`. A person adds it after reading. If they comment,
+  fix on the same branch; the new commit removes the label and they approve again.

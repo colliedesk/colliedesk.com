@@ -1,11 +1,11 @@
 # Weekly research and audit
 
 Run once a week, research first. Each run opens issues from `.github/ISSUE_TEMPLATE/seo-task.yml`;
-it does not write pages. Credits: keep a run under $5 of DataForSEO (OpenSEO shows the cost).
+it does not write pages. Credits: stay within the owner's DataForSEO budget (OpenSEO shows the cost).
 
 ## 1. Conversions (start here)
 
-1. In PostHog project 666761, list the landing pages (`$entry_pathname`, `$host = colliedesk.com`)
+1. In PostHog (Colliedesk project), list the landing pages (`$entry_pathname`, `$host = colliedesk.com`)
    of sessions in the last 28 days that reached trial sign-up or founding checkout.
 2. Note the page types that convert (vs page, migration guide, pricing history, article). Weight
    step 2 and step 3 toward those types. With no conversions yet, weight toward migration and
