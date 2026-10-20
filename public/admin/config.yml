@@ -6,8 +6,14 @@ backend:
   name: github
   repo: colliedesk/colliedesk.com
   branch: main
-  # Sign in with a fine-grained token for this repository only
-  # (Contents and Pull requests: read and write).
+  # "Sign In with GitHub" opens cms-auth.colliedesk.com/auth: a one-time code to the owner's
+  # company email (Cloudflare Access), no GitHub account or token in the browser. Every GitHub call
+  # goes through that Worker, which uses a GitHub App limited to this repository
+  # (hclabsco/infra infra/cloudflare/colliedesk-cms-auth.tf).
+  base_url: https://cms-auth.colliedesk.com
+  auth_endpoint: auth
+  api_root: https://cms-auth.colliedesk.com/api/v3
+  graphql_api_root: https://cms-auth.colliedesk.com/api/graphql
 
 publish_mode: editorial_workflow
 media_folder: public/images/blog

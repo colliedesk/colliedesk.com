@@ -27,9 +27,10 @@ to use another checkout. `typecheck` works without it.
   (`src/lib/blog-post.ts` lists the fields and fails the build on a missing or unknown one). The file
   name is the slug under `/blog/`; `/blog` lists every post, newest first.
 - `public/admin/`: the browser editor for blog posts at https://colliedesk.com/admin/ (Sveltia CMS,
-  pinned version). Sign in with a fine-grained GitHub token for this repository only (Contents and
-  Pull requests: read and write). Saving a draft opens a pull request from `cms/blog/<slug>`; it
-  needs the `content:approved` label like every content PR, and Publish in the editor merges it.
+  pinned version). "Sign In with GitHub" asks for a one-time code sent to the owner's company email
+  (Cloudflare Access on cms-auth.colliedesk.com, hclabsco/infra `colliedesk-cms-auth.tf`); no GitHub
+  account or token is needed. Saving a draft opens a pull request from `cms/blog/<slug>`; it needs
+  the `content:approved` label like every content PR, and Publish in the editor merges it.
 - `src/components/*.tsx`: React components for the header, footer parts, hero, pricing plans and the
   home page sections. `.astro` files render them to static HTML with `html(Component, props)` from
   `src/lib/render-react.ts` (`react-dom/server`), inside `<Fragment set:html={...} />`; there is no
