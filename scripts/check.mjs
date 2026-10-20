@@ -312,6 +312,21 @@ const PRICE_MAX_AGE_DAYS = 90;
   if (!read('freshdesk-alternative.md').includes('$57.50')) fail('/freshdesk-alternative: annual-billed table must show Colliedesk at $57.50 a month ($690 a year)');
 }
 
+// Colliedesk is never "the lowest" or "the cheapest": with up to five agents, plans capped at five
+// cost less (Zammad Starter and Zoho Desk Express, 5 x €7 = €35 a month, against Team $57.50 a
+// month billed annually). The Freshdesk alternatives page must show those plans next to ours.
+{
+  const superlative = /Colliedesk(?:[^.|]|\.\d){0,160}\bis the (lowest|cheapest)\b|\bthe (lowest|cheapest)(?:[^.|]|\.\d){0,60}\bis Colliedesk\b/i;
+  for (const urlPath of urlPaths) {
+    const name = urlPath === '/' ? 'index' : urlPath.slice(1);
+    if (name.startsWith('docs')) continue;
+    const m = read(`${name}.md`).match(superlative);
+    if (m) fail(`${urlPath}: claims Colliedesk is the lowest price ("${m[0].slice(0, 90)}"); Zammad Starter and Zoho Desk Express cost less up to five agents`);
+  }
+  const alt = read('freshdesk-alternative.md');
+  if (!/€35 \(Starter, max 5 agents\)/.test(alt) || !/€35 \(Express, max 5 users\)/.test(alt)) fail('/freshdesk-alternative: 5-agent table must list Zammad Starter and Zoho Desk Express at €35');
+}
+
 // The old prices (Team $49 / $490, Team 25 $99 / $990) must not survive anywhere on the site. Other
 // vendors may still charge $49 or $99 per agent, so only phrases that describe Colliedesk count.
 // /docs and llms-full.txt (which embeds them) render docs/user from colliedesk/colliedesk; their

@@ -9,7 +9,7 @@ const FRESHDESK_READ = '17 October 2026';
 const faq: Faq[] = [
   {
     q: 'What is the cheapest helpdesk for a team of 3 to 10 agents?',
-    a: `Among the paid options we compare, Colliedesk Cloud is one flat price per workspace: Small is $39 a month for up to 3 agents and Team $69 for up to 10, so the price does not grow with every hire. Freshdesk Growth is $23 per agent per month billed monthly (read on ${FRESHDESK_READ}): $69 at 3 agents, $230 at 10. Self-hosting Colliedesk is free.`,
+    a: `It depends on the size. With 3 to 5 agents, plans capped at five cost less: [Zammad Starter](/vs/zammad) and [Zoho Desk Express](/vs/zoho-desk) are €7 per agent per month, €21–35, and Zoho's free plan covers 3 users. Colliedesk Cloud is one flat price per workspace: Small is $39 a month for up to 3 agents and Team $69 for up to 10, so the price does not grow with every hire. Freshdesk Growth is $23 per agent per month billed monthly (read on ${FRESHDESK_READ}): $69 at 3 agents, $230 at 10. Self-hosting Colliedesk is free.`,
   },
   {
     q: 'Is a flat price worse for a one- or two-person team?',
