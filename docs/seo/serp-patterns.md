@@ -23,6 +23,21 @@ fetched and its main content counted (words, `h2`, tables, links). Refresh every
 Word count is not a target: a longer page only wins when the extra sections answer real questions.
 Use the section lists below to find what is missing, then write those sections.
 
+## Internal links: the cal.com pattern
+
+cal.com ranks its own comparison posts (`/blog/setmore-vs-cal.com`, read 20 October 2026) with
+links in two places. Every page here follows it:
+
+1. **In the sentence.** The anchor is the exact phrase the reader would click: "round-robin
+   scheduling", not "click here". Link 2–3 phrases of the short answer to the page that explains
+   them: price phrases to `/pricing`, "leaving Freshdesk" or "importer" to `/migrate/freshdesk`,
+   "self-host" to `/self-hosted-helpdesk`, "open database" or "code you can fork" to `/open-source`,
+   team size to `/helpdesk-for-small-teams`. Never add a sentence only to carry a link.
+2. **Related comparisons, at the end.** cal.com ends each post with 3 "Recommended reads". Our
+   `/vs` pages end with `## Related comparisons`: 3 `/vs` pages for tools the same reader also
+   considers, then `/compare`. Pick by reader (open source, email-first, per-agent suites), not
+   at random, and keep each set different.
+
 ## Comparison page (`/vs/<tool>`)
 
 Keyword measured: `freshdesk vs help scout`. Top 3: kayako.com (2,234 words, 9 `h2`, FAQ),

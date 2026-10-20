@@ -22,7 +22,7 @@ const faq: Faq[] = [
 const body = `## The short answer
 
 - **Choose Zammad** if you need a mature open-source helpdesk now: many channels (email, chat, Telegram, Facebook, WhatsApp, SMS, phone), SLAs, a knowledge base, and a released Freshdesk migrator.
-- **Choose Colliedesk** if your team is 3 to 10 agents and you want one flat price instead of per-agent fees, AI without a per-call fee on top, and an import that proves nothing was lost. Colliedesk is alpha; read the status table first.
+- **Choose Colliedesk** if your team is 3 to 10 agents and you want [one flat price](/pricing) instead of per-agent fees, AI without a per-call fee on top, and an [import that proves nothing was lost](/migrate/freshdesk). Colliedesk is alpha; read the status table first.
 
 ## Price, side by side
 
@@ -59,8 +59,6 @@ Zammad is ahead here, and we say so.
 
 ${statusTable}
 
-See [Colliedesk pricing](/pricing), or [compare Colliedesk with other helpdesks](/compare).
-
 ## Sources
 
 Read on ${PRICES_READ}. Prices change; check the vendor page before you decide.
@@ -69,7 +67,14 @@ Read on ${PRICES_READ}. Prices change; check the vendor page before you decide.
 - Freshdesk migration: [docs.zammad.org migration/freshdesk](https://docs.zammad.org/en/latest/migration/freshdesk.html)
 - Migration overview: [docs.zammad.org migration](https://docs.zammad.org/en/latest/migration/index.html)
 - Software requirements: [docs.zammad.org prerequisites](https://docs.zammad.org/en/latest/prerequisites/software.html)
-- Licence: [github.com/zammad/zammad](https://github.com/zammad/zammad)`;
+- Licence: [github.com/zammad/zammad](https://github.com/zammad/zammad)
+
+## Related comparisons
+
+- [Colliedesk vs FreeScout](/vs/freescout)
+- [Colliedesk vs Chatwoot](/vs/chatwoot)
+- [Colliedesk vs Freshdesk](/vs/freshdesk)
+- [All helpdesk comparisons](/compare)`;
 
 const page: Page = {
   jsonLd: [],

@@ -21,7 +21,7 @@ const faq: Faq[] = [
 const body = `## The short answer
 
 - **Choose FreeScout** if you want a mature, self-hosted helpdesk in the style of Help Scout, you already run PHP, and you are fine buying modules for the knowledge base, live chat, tags or workflows.
-- **Choose Colliedesk** if you want every feature in the open-source code, an official hosted option at one flat price, and a Freshdesk importer that proves nothing was lost. Colliedesk is alpha; read the status table first.
+- **Choose Colliedesk** if you want every feature in the open-source code, an official hosted option at [one flat price](/pricing), and a [Freshdesk importer](/migrate/freshdesk) that proves nothing was lost. Colliedesk is alpha; read the status table first.
 
 ## Side by side
 
@@ -47,8 +47,6 @@ const body = `## The short answer
 
 ${statusTable}
 
-See [Colliedesk pricing](/pricing), or [compare Colliedesk with other helpdesks](/compare).
-
 ## Sources
 
 Read on ${PRICES_READ}.
@@ -58,7 +56,14 @@ Read on ${PRICES_READ}.
 - Hosting options: [FreeScout wiki, one-click installs](https://github.com/freescout-help-desk/freescout/wiki/One-Click-Installs)
 - Migration: [FreeScout wiki, migrate to FreeScout](https://github.com/freescout-help-desk/freescout/wiki/Migrate-to-FreeScout)
 - Community modules: [FreeScout wiki, community modules](https://github.com/freescout-help-desk/freescout/wiki/Community-Modules)
-- Requirements: [FreeScout installation guide](https://github.com/freescout-help-desk/freescout/wiki/Installation-Guide)`;
+- Requirements: [FreeScout installation guide](https://github.com/freescout-help-desk/freescout/wiki/Installation-Guide)
+
+## Related comparisons
+
+- [Colliedesk vs Zammad](/vs/zammad)
+- [Colliedesk vs Chatwoot](/vs/chatwoot)
+- [Colliedesk vs Help Scout](/vs/help-scout)
+- [All helpdesk comparisons](/compare)`;
 
 const page: Page = {
   jsonLd: [],

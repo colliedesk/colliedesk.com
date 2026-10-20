@@ -33,7 +33,7 @@ const PRICES_READ = readOnLabel(pricing.readOn);
 const faq: Faq[] = [
   {
     q: 'What is the best open-source alternative to Freshdesk?',
-    a: 'Colliedesk is an open-source (AGPL-3.0) helpdesk built for small teams leaving Freshdesk: flat $49 per workspace per month, AI included at cost, and a Freshdesk importer (available now). It is alpha today, so check the status table before you switch.',
+    a: 'Colliedesk is an open-source (AGPL-3.0) helpdesk built for small teams leaving Freshdesk: flat $49 per workspace per month, AI at model cost +30% (coming after beta), and a Freshdesk importer (available now). It is alpha today, so check the status table before you switch.',
   },
   {
     q: 'How much does Freshdesk cost for 5 agents with AI?',
@@ -99,11 +99,19 @@ Read on ${PRICES_READ}. Prices change; check the vendor page before you decide.
 - Freshdesk pricing: [freshworks.com/freshdesk/pricing](https://www.freshworks.com/freshdesk/pricing/)
 - Ticket export (fields only, archived excluded): [support.freshdesk.com article 225158](https://support.freshdesk.com/support/solutions/articles/225158)
 - API pagination, 30-day default, archived tickets: [developers.freshdesk.com/api](https://developers.freshdesk.com/api/)
-- API rate limits: [support.freshdesk.com article 225439](https://support.freshdesk.com/support/solutions/articles/225439-what-are-the-rate-limits-for-the-api-calls-to-freshdesk-)`;
+- API rate limits: [support.freshdesk.com article 225439](https://support.freshdesk.com/support/solutions/articles/225439-what-are-the-rate-limits-for-the-api-calls-to-freshdesk-)
+
+## Related comparisons
+
+- [Colliedesk vs Zendesk](/vs/zendesk)
+- [Colliedesk vs Help Scout](/vs/help-scout)
+- [Colliedesk vs Zoho Desk](/vs/zoho-desk)
+- [All helpdesk comparisons](/compare)`;
 
 const page: Page = {
   jsonLd: [],
   path: '/vs/freshdesk',
+  updated: '2026-10-20',
   section: 'Compare',
   title: `Colliedesk vs Freshdesk: ${PRICE.monthly} flat vs $19–107 per agent`,
   description:

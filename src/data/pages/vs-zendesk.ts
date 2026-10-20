@@ -25,7 +25,7 @@ const faq: Faq[] = [
 const body = `## The short answer
 
 - **Choose Zendesk** if you need the enterprise default: a huge app marketplace, many channels, and AI agents that are already in production.
-- **Choose Colliedesk** if you are a small team where per-agent seats and per-resolution AI fees make up most of the bill, and you want an open-source helpdesk you can self-host or rent for a flat price. Colliedesk is alpha; read the status table first.
+- **Choose Colliedesk** if you are a small team where per-agent seats and per-resolution AI fees make up most of the bill, and you want an open-source helpdesk you can [self-host](/self-hosted-helpdesk) or rent for [a flat price](/pricing). Colliedesk is alpha; read the status table first.
 
 ## Price, side by side
 
@@ -66,11 +66,19 @@ Read on ${PRICES_READ}. Prices change; check the vendor page before you decide.
 - Zendesk pricing (euro page): [zendesk.de/pricing](https://www.zendesk.de/pricing/)
 - Native data export: [support.zendesk.com article 203662346](https://support.zendesk.com/hc/en-us/articles/203662346-Exporting-data-to-a-JSON-CSV-or-XML-file)
 - Incremental Export API: [developer.zendesk.com](https://developer.zendesk.com/api-reference/ticketing/ticket-management/incremental_exports/)
-- API rate limits: [developer.zendesk.com rate limits](https://developer.zendesk.com/api-reference/introduction/rate-limits/)`;
+- API rate limits: [developer.zendesk.com rate limits](https://developer.zendesk.com/api-reference/introduction/rate-limits/)
+
+## Related comparisons
+
+- [Colliedesk vs Freshdesk](/vs/freshdesk)
+- [Colliedesk vs Help Scout](/vs/help-scout)
+- [Colliedesk vs HubSpot Service Hub](/vs/hubspot-service-hub)
+- [All helpdesk comparisons](/compare)`;
 
 const page: Page = {
   jsonLd: [],
   path: '/vs/zendesk',
+  updated: '2026-10-20',
   section: 'Compare',
   title: 'Colliedesk vs Zendesk: flat price vs per-agent seats',
   description:

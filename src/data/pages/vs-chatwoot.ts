@@ -21,7 +21,7 @@ const faq: Faq[] = [
 const body = `## The short answer
 
 - **Choose Chatwoot** if most of your conversations come through chat and messaging apps and you want them in one inbox today. It is mature and widely used.
-- **Choose Colliedesk** if you run email support, you are leaving Freshdesk with years of tickets and attachments, and you want one flat price. Colliedesk is alpha; read the status table first.
+- **Choose Colliedesk** if you run email support, you are [leaving Freshdesk](/migrate/freshdesk) with years of tickets and attachments, and you want [one flat price](/pricing). Colliedesk is alpha; read the status table first.
 
 ## Price, side by side
 
@@ -58,8 +58,6 @@ Business is the Chatwoot plan with automation rules and teams.
 
 ${statusTable}
 
-See [Colliedesk pricing](/pricing), or [compare Colliedesk with other helpdesks](/compare).
-
 ## Sources
 
 Read on ${PRICES_READ}. Prices change; check the vendor page before you decide.
@@ -67,7 +65,14 @@ Read on ${PRICES_READ}. Prices change; check the vendor page before you decide.
 - Chatwoot Cloud pricing: [chatwoot.com/pricing](https://www.chatwoot.com/pricing)
 - Self-hosted plans: [chatwoot.com/pricing/self-hosted-plans](https://www.chatwoot.com/pricing/self-hosted-plans)
 - Freshdesk migration guide: [chatwoot.com help center](https://www.chatwoot.com/hc/user-guide/articles/1696159781-how-to-migrate-from-freshdesk-to-chatwoot)
-- Licence: [github.com/chatwoot/chatwoot](https://github.com/chatwoot/chatwoot)`;
+- Licence: [github.com/chatwoot/chatwoot](https://github.com/chatwoot/chatwoot)
+
+## Related comparisons
+
+- [Colliedesk vs Zammad](/vs/zammad)
+- [Colliedesk vs FreeScout](/vs/freescout)
+- [Colliedesk vs Help Scout](/vs/help-scout)
+- [All helpdesk comparisons](/compare)`;
 
 const page: Page = {
   jsonLd: [],

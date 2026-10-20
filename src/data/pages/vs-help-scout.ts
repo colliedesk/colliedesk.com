@@ -25,7 +25,7 @@ const faq: Faq[] = [
 const body = `## The short answer
 
 - **Choose Help Scout** if you want one of the most polished email-first helpdesks, with AI drafting already included. It is a good product.
-- **Choose Colliedesk** if you want a price that never depends on headcount or contacts, your data in a database you control, and code you can read and fork. Colliedesk is alpha; read the status table first.
+- **Choose Colliedesk** if you want a [price that never depends on headcount or contacts](/pricing), your data in a database you control, and [code you can read and fork](/open-source). Colliedesk is alpha; read the status table first.
 
 ## Price, side by side
 
@@ -60,8 +60,6 @@ ${c.export} A Help Scout importer is on the [roadmap](/roadmap) for later.
 
 ${statusTable}
 
-See [Colliedesk pricing](/pricing), or [compare Colliedesk with other helpdesks](/compare).
-
 ## Sources
 
 Read on ${PRICES_READ}. Prices change; check the vendor page before you decide.
@@ -69,7 +67,14 @@ Read on ${PRICES_READ}. Prices change; check the vendor page before you decide.
 - Help Scout pricing: [helpscout.com/pricing](https://www.helpscout.com/pricing/)
 - Data export: [docs.helpscout.com article 466](https://docs.helpscout.com/article/466-data-export)
 - Mailbox API and plan access: [docs.helpscout.com article 1140](https://docs.helpscout.com/article/1140-mailbox-api)
-- 2025 pricing change: [mjtsai.com](https://mjtsai.com/blog/2025/04/30/whither-help-scout) (third-party account)`;
+- 2025 pricing change: [mjtsai.com](https://mjtsai.com/blog/2025/04/30/whither-help-scout) (third-party account)
+
+## Related comparisons
+
+- [Colliedesk vs Front](/vs/front)
+- [Colliedesk vs Groove](/vs/groove)
+- [Colliedesk vs Freshdesk](/vs/freshdesk)
+- [All helpdesk comparisons](/compare)`;
 
 const page: Page = {
   jsonLd: [],
