@@ -206,6 +206,15 @@ const foundingOpen = existsSync(foundingFile) ? JSON.parse(readFileSync(founding
     }
   }
 }
+// The home page follows /pricing: while Founding is open it quotes Founding only, never the ladder.
+// Hand-worked: a year of Freshdesk Pro + Copilot for five agents is $5,040; $5,040 - $100 = $4,940.
+if (foundingOpen) {
+  for (const name of ['index.html', 'index.md']) {
+    const text = read(name);
+    if (/\bSolo\b|\bTeam 25\b|Plans from/.test(text)) fail(`/${name}: founding is open but the home page quotes the Cloud ladder`);
+    if (!text.includes('$100 a year') || !text.includes('$4,940')) fail(`/${name}: founding is open but the home page does not price Founding at $100 a year against Freshdesk's $5,040 ($4,940 kept)`);
+  }
+}
 
 for (const m of llms.matchAll(/\]\(([^)\s]+)\)/g)) checkLink(m[1], '/', 'llms.txt');
 
@@ -323,7 +332,8 @@ const PRICE_MAX_AGE_DAYS = 90;
 // Small stops at 3); billed monthly they are 5 x ($66 + $35) = $505 a month against $69.
 {
   const homeMd = read('index.md');
-  if (!homeMd.includes('$5,040') || !homeMd.includes('$690') || !/per year, billed annually/.test(homeMd)) fail('/: five-agent bill must compare yearly totals billed annually ($5,040 vs $690)');
+  const ours = foundingOpen ? '$100' : '$690';
+  if (!homeMd.includes('$5,040') || !homeMd.includes(ours) || !/per year, billed annually/.test(homeMd)) fail('/: five-agent bill must compare yearly totals billed annually ($5,040 vs $690)');
   const pricingMd = read('pricing.md');
   if (foundingOpen) {
     if (!pricingMd.includes('$5,040 a year') || !pricingMd.includes('$100 a year')) fail('/pricing: while founding is open, the five-agent comparison must be $5,040 a year against Founding $100 a year');
@@ -477,7 +487,7 @@ const TRIAL_URL = 'https://app.colliedesk.com/sign-in';
   const home = read('index.html');
   const h1 = home.match(/<h1[\s\S]*?<\/h1>/)?.[0] ?? '';
   const spoken = h1.match(/<span class="visually-hidden">([^<]*)<\/span>/)?.[1] ?? '';
-  for (const claim of ['$690 a year for your whole team', '$1,140–5,040 on Freshdesk', '€1,140–9,900 on Zendesk', '$1,500–2,700 on Help Scout']) {
+  for (const claim of [`${foundingOpen ? '$100' : '$690'} a year for your whole team`, '$1,140–5,040 on Freshdesk', '€1,140–9,900 on Zendesk', '$1,500–2,700 on Help Scout']) {
     if (!spoken.includes(claim)) fail(`/: h1 screen-reader text lacks "${claim}"`);
   }
   if (/% cheaper/.test(h1) || /% cheaper/.test(read('index.md'))) fail('/: hero must state prices, not a "% cheaper" claim');
@@ -494,7 +504,8 @@ const TRIAL_URL = 'https://app.colliedesk.com/sign-in';
   // Closing block: a year of Freshdesk bills for five agents against Colliedesk Team billed yearly.
   // 12 x $420 = $5,040; $5,040 - $690 = $4,350.
   if (!home.includes('Keep the difference')) fail('/: closing block "Keep the difference" missing');
-  if (!home.includes('$5,040') || !home.includes('$4,350')) fail('/: closing block must show $5,040 a year and the $4,350 difference');
+  // While Founding is open: $5,040 - $100 = $4,940.
+  if (!home.includes('$5,040') || !home.includes(foundingOpen ? '$4,940' : '$4,350')) fail(`/: closing block must show $5,040 a year and the ${foundingOpen ? '$4,940' : '$4,350'} difference`);
   for (const [name, needles] of [
     ['index.html', ['Why per workspace, not per agent?', 'Who is behind Colliedesk?', 'What happens over the limit?']],
     ['pricing.html', foundingOpen ? ['Why is there only one plan?', 'Limited to 10 workspaces', 'no card'] : ['Why per workspace, not per agent?', 'Every feature on every plan']],
