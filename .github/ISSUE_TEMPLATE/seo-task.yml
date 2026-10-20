@@ -13,6 +13,19 @@ body:
         - Improve a live page (seo:improve)
     validations:
       required: true
+  - type: dropdown
+    id: page-type
+    attributes:
+      label: Page type
+      description: The section of docs/seo/serp-patterns.md the writer follows.
+      options:
+        - Comparison (/vs/<tool>)
+        - Alternatives list
+        - Migration guide
+        - Pricing explainer
+        - Other (name the closest pattern in the brief)
+    validations:
+      required: true
   - type: input
     id: keyword
     attributes:

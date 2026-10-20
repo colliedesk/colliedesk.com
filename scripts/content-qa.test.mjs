@@ -10,9 +10,11 @@ Your team pays for every agent on Freshdesk. The bill grows when you hire. We th
 Colliedesk costs the same for one agent or ten. You pay for the workspace. Read the [Freshdesk pricing history](https://colliedesk.com/freshdesk-pricing-history) to see what changed and when.
 
 Start with a free trial and bring your tickets with you. See [pricing](https://colliedesk.com/pricing) for the plans.
+
+Small team? Read [the helpdesk guide for small teams](/helpdesk-for-small-teams).
 `;
 
-const page = (md, path = '/blog/move-off-freshdesk') => checkPage({ path, md });
+const page = (md, path = '/blog/move-off-freshdesk', head = {}) => checkPage({ path, md, ...head });
 
 test('clean article passes every rule', () => {
   assert.deepEqual(page(CLEAN), []);
@@ -76,4 +78,43 @@ test('accepts an external link or a /vs page as the source of a competitor price
 test("Colliedesk's own prices need no outside source", () => {
   const own = CLEAN.replace('Read the [Freshdesk pricing history](https://colliedesk.com/freshdesk-pricing-history) to see what changed and when.', 'Colliedesk Cloud Team is $69 a month.');
   assert.deepEqual(page(own), []);
+});
+
+// Titles and descriptions of the pages ranking top 3 for our keywords, measured 20 October 2026
+// (docs/seo/serp-patterns.md): titles 47 to 60 characters, descriptions 132 to 156.
+const TITLE_OK = 'Help Scout vs Freshdesk: An Honest 2026 Breakdown';
+const DESC_OK = 'Freshdesk ticketing runs from $19 per agent per month to $89 on annual billing. Here is what a 10-agent team pays, with every add-on counted.';
+
+test('accepts a title of 60 characters or fewer and a description of 120 to 160', () => {
+  assert.deepEqual(page(CLEAN, undefined, { title: TITLE_OK, description: DESC_OK }), []);
+});
+
+test('fails a title over 60 characters, which Google cuts off', () => {
+  const title = 'Colliedesk vs Freshdesk: $49 or $99 a month for the whole team, not $19–107 per agent';
+  const findings = page(CLEAN, undefined, { title, description: DESC_OK });
+  assert.equal(findings.length, 1);
+  assert.match(findings[0], /title is 85 characters/);
+});
+
+test('fails a description shorter than 120 or longer than 160 characters', () => {
+  for (const description of ['Freshdesk pricing, explained.', `${DESC_OK} ${DESC_OK}`]) {
+    const findings = page(CLEAN, undefined, { title: TITLE_OK, description });
+    assert.equal(findings.length, 1, description);
+    assert.match(findings[0], /meta description is \d+ characters/);
+  }
+});
+
+test('fails a body that links fewer than 2 other pages on this site', () => {
+  const findings = page(CLEAN.replace('Small team? Read [the helpdesk guide for small teams](/helpdesk-for-small-teams).', '')
+    .replace('Read the [Freshdesk pricing history](https://colliedesk.com/freshdesk-pricing-history) to see what changed and when.', ''));
+  assert.equal(findings.length, 1);
+  assert.match(findings[0], /links 1 other page/);
+});
+
+test('a link to the page itself or to the app is not an internal link', () => {
+  const md = CLEAN.replace('/helpdesk-for-small-teams', '/blog/move-off-freshdesk')
+    .replace('https://colliedesk.com/freshdesk-pricing-history', 'https://app.colliedesk.com/sign-in');
+  const findings = page(md);
+  assert.equal(findings.length, 1);
+  assert.match(findings[0], /links 1 other page/);
 });
