@@ -55,6 +55,8 @@ ${c.export}
 
 ${statusTable}
 
+See [Colliedesk pricing](/pricing), or [compare Colliedesk with other helpdesks](/compare).
+
 ## Sources
 
 Read on ${PRICES_READ}. Prices change; check the vendor page before you decide.
@@ -66,7 +68,7 @@ Read on ${PRICES_READ}. Prices change; check the vendor page before you decide.
 const page: Page = {
   jsonLd: [],
   path: '/vs/zoho-desk',
-  updated: '2026-10-16',
+  updated: '2026-10-20',
   section: 'Compare',
   title: 'Colliedesk vs Zoho Desk: flat $49 vs per-user plans',
   description:

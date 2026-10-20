@@ -59,6 +59,8 @@ Zammad is ahead here, and we say so.
 
 ${statusTable}
 
+See [Colliedesk pricing](/pricing), or [compare Colliedesk with other helpdesks](/compare).
+
 ## Sources
 
 Read on ${PRICES_READ}. Prices change; check the vendor page before you decide.
@@ -72,7 +74,7 @@ Read on ${PRICES_READ}. Prices change; check the vendor page before you decide.
 const page: Page = {
   jsonLd: [],
   path: '/vs/zammad',
-  updated: '2026-10-16',
+  updated: '2026-10-20',
   section: 'Compare',
   title: 'Colliedesk vs Zammad: open source, flat price vs per agent',
   description:

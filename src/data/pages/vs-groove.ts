@@ -48,6 +48,8 @@ ${c.export}
 
 ${statusTable}
 
+See [Colliedesk pricing](/pricing), or [compare Colliedesk with other helpdesks](/compare).
+
 ## Sources
 
 Read on ${PRICES_READ}. Prices change; check the vendor page before you decide.
@@ -59,7 +61,7 @@ Read on ${PRICES_READ}. Prices change; check the vendor page before you decide.
 const page: Page = {
   jsonLd: [],
   path: '/vs/groove',
-  updated: '2026-10-16',
+  updated: '2026-10-20',
   section: 'Compare',
   title: 'Colliedesk vs Groove (now Helply): flat price vs AI credits',
   description:

@@ -62,6 +62,8 @@ curl -fsSL https://raw.githubusercontent.com/colliedesk/colliedesk/main/install.
 
 The installer starts Colliedesk and PostgreSQL with the published container image, keeps secrets in a local \`.env\`, and prints a one-time sign-in URL. Colliedesk has no passwords. Full guide: [Self-host Colliedesk](/docs/self-host).
 
+Rather not run a server? [Colliedesk Cloud pricing](/pricing). Leaving Freshdesk? Read the [migration guide](/migrate/freshdesk).
+
 ## Clean room
 
 Colliedesk is written from its own public specification. Nobody working on it may open, copy, translate or paraphrase the source code of another helpdesk. Product ideas come from public descriptions only.

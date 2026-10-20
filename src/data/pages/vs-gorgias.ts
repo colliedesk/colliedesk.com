@@ -47,6 +47,8 @@ Gorgias prices are per month for the whole account, by tickets included, read on
 
 ${statusTable}
 
+See [Colliedesk pricing](/pricing), or [compare Colliedesk with other helpdesks](/compare).
+
 ## Sources
 
 Read on ${PRICES_READ}. Prices change; check the vendor page before you decide.
@@ -56,7 +58,7 @@ Read on ${PRICES_READ}. Prices change; check the vendor page before you decide.
 const page: Page = {
   jsonLd: [],
   path: '/vs/gorgias',
-  updated: '2026-10-16',
+  updated: '2026-10-20',
   section: 'Compare',
   title: 'Colliedesk vs Gorgias: flat $49 vs pricing by ticket volume',
   description:

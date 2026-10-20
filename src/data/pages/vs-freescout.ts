@@ -47,6 +47,8 @@ const body = `## The short answer
 
 ${statusTable}
 
+See [Colliedesk pricing](/pricing), or [compare Colliedesk with other helpdesks](/compare).
+
 ## Sources
 
 Read on ${PRICES_READ}.
@@ -61,7 +63,7 @@ Read on ${PRICES_READ}.
 const page: Page = {
   jsonLd: [],
   path: '/vs/freescout',
-  updated: '2026-10-16',
+  updated: '2026-10-20',
   section: 'Compare',
   title: 'Colliedesk vs FreeScout: paid modules vs every feature free',
   description:

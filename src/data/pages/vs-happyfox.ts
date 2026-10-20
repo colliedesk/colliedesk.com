@@ -45,6 +45,8 @@ AI is extra on HappyFox.
 
 ${statusTable}
 
+See [Colliedesk pricing](/pricing), or [compare Colliedesk with other helpdesks](/compare).
+
 ## Sources
 
 Read on ${PRICES_READ}. Prices change; check the vendor page before you decide.
@@ -55,7 +57,7 @@ Read on ${PRICES_READ}. Prices change; check the vendor page before you decide.
 const page: Page = {
   jsonLd: [],
   path: '/vs/happyfox',
-  updated: '2026-10-16',
+  updated: '2026-10-20',
   section: 'Compare',
   title: 'Colliedesk vs HappyFox: flat $49 vs $24–99 per agent',
   description:

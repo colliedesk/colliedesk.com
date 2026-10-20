@@ -60,6 +60,8 @@ ${c.export} A Help Scout importer is on the [roadmap](/roadmap) for later.
 
 ${statusTable}
 
+See [Colliedesk pricing](/pricing), or [compare Colliedesk with other helpdesks](/compare).
+
 ## Sources
 
 Read on ${PRICES_READ}. Prices change; check the vendor page before you decide.
