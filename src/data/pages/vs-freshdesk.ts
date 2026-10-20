@@ -51,7 +51,7 @@ const faq: Faq[] = [
 
 const body = `## Price, side by side
 
-Freshdesk prices are per agent per month, as published on ${PRICES_READ}. The first figure is billed monthly, the second billed annually.
+[Freshdesk prices](/freshdesk-pricing-history) are per agent per month, as published on ${PRICES_READ}. The first figure is billed monthly, the second billed annually.
 
 | | Freshdesk | Colliedesk |
 |---|---|---|
@@ -65,7 +65,7 @@ List prices before tax. AI usage on Colliedesk depends on ticket volume and the 
 
 ## Leaving: what Freshdesk gives you
 
-- The ticket export in the Freshdesk UI gives **ticket fields only**, as CSV or Excel. It does not include the conversation, and archived tickets are excluded.
+- The [ticket export](/migrate/freshdesk/export) in the Freshdesk UI gives **ticket fields only**, as CSV or Excel. It does not include the conversation, and archived tickets are excluded.
 - The API lists **100 tickets per page, up to 300 pages** (30,000 tickets) per filter, and only the **last 30 days** unless you pass \`updated_since\`.
 - Closed tickets with no activity for 120 days are **archived** and fetched through a separate endpoint.
 - API rate limits are **100, 400 or 700 calls per minute** on Growth, Pro and Enterprise.

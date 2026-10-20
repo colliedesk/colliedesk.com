@@ -29,9 +29,9 @@ cal.com ranks its own comparison posts (`/blog/setmore-vs-cal.com`, read 20 Octo
 links in two places. Every page here follows it:
 
 1. **In the sentence.** The anchor is the exact phrase the reader would click: "round-robin
-   scheduling", not "click here". Link 2–3 phrases of the short answer to the page that explains
-   them: price phrases to `/pricing`, "leaving Freshdesk" or "importer" to `/migrate/freshdesk`,
-   "self-host" to `/self-hosted-helpdesk`, "open database" or "code you can fork" to `/open-source`,
+   scheduling", not "click here". Link 2–3 phrases of the short answer or the first sections to the page
+   that explains them, where the text already has such a phrase: price phrases to `/pricing`, "leaving Freshdesk" or "importer" to `/migrate/freshdesk`,
+   "self-host" to `/self-hosted-helpdesk`, "Freshdesk prices" to `/freshdesk-pricing-history`, "ticket export" to `/migrate/freshdesk/export`, "open database" or "code you can fork" to `/open-source`,
    team size to `/helpdesk-for-small-teams`. Never add a sentence only to carry a link.
 2. **Related comparisons, at the end.** cal.com ends each post with 3 "Recommended reads". Our
    `/vs` pages end with `## Related comparisons`: 3 `/vs` pages for tools the same reader also
