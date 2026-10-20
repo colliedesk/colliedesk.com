@@ -74,6 +74,7 @@ Read on ${PRICES_READ}. Prices change; check the vendor page before you decide.
 const page: Page = {
   jsonLd: [],
   path: '/vs/help-scout',
+  updated: '2026-10-20',
   section: 'Compare',
   title: 'Colliedesk vs Help Scout: flat price vs per-user plans',
   description:
