@@ -68,7 +68,7 @@ const page: Page = {
   section: 'Compare',
   title: 'Colliedesk vs HubSpot Service Hub: $49 flat vs per seat',
   description:
-    'HubSpot Service Hub costs $20–150 per seat with AI on credits. Colliedesk is a flat $49 per workspace with AI at cost. Sourced prices, export limits.',
+    'HubSpot Service Hub costs $20–150 per seat with AI on credits. Colliedesk is a flat $49 per workspace, no per-seat fees. Sourced prices, export limits.',
   summary: 'HubSpot Service Hub $20–150 per seat, AI customer agent on credits (~$0.50 per resolution) vs Colliedesk flat $49 per workspace',
   eyebrow: 'Compare · HubSpot Service Hub alternative',
   h1: 'Colliedesk vs HubSpot Service Hub',

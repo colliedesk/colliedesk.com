@@ -60,7 +60,7 @@ const page: Page = {
   section: 'Compare',
   title: 'Colliedesk vs Gorgias: flat $49 vs pricing by ticket volume',
   description:
-    'Gorgias costs $50–750 per month by tickets, plus AI Agent. Colliedesk is a flat $49 per workspace with unlimited conversations. Sourced prices.',
+    'Gorgias prices by ticket volume: $50–750 per month on annual Basic to Advanced, plus AI Agent. Colliedesk is a flat $49 per workspace. Sourced prices.',
   summary: 'Gorgias $50–750 per month by ticket volume, $77–1,227 with AI Agent vs Colliedesk flat $49 with unlimited conversations',
   eyebrow: 'Compare · Gorgias alternative',
   h1: 'Colliedesk vs Gorgias',
