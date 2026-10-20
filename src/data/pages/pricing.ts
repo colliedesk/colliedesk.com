@@ -133,6 +133,18 @@ const foundingBody = `## One plan while we are young
 
 We sell one thing right now: **Founding**, for ${FOUNDING_SLOTS} support teams who want to leave Freshdesk. You get every feature, we move your Freshdesk history for you and prove nothing was lost, and you talk to the person who builds Colliedesk. When the ${FOUNDING_SLOTS} places are taken, Founding closes for good and your price stays at $100 a year.
 
+## Who Founding is for
+
+A support team that matches all five:
+
+- **3 to 10 agents** who mostly answer customer email.
+- You **pay for Freshdesk** today.
+- Your bill just went up, or is about to: a renewal increase, a discount ending, or AI locked behind a higher tier.
+- You want it **hosted**: we run, update and back it up.
+- You need a shared inbox and tickets, not a PSA, RMM, client billing or SSO.
+
+**Not for you if** your team has 11 or more agents or a deeply customised setup, you need a PSA or RMM for an MSP, you use a helpdesk other than Freshdesk (our importer reads Freshdesk only for now), or you are looking for a free tool. For free, [self-host Colliedesk](/docs/self-host).
+
 ## AI is included, not an add-on
 
 **Coming after beta**. AI features: draft replies and triage from your own past replies and knowledge base, and auto-answer for repetitive tickets with a human in the loop. There is no AI seat licence and no per-resolution fee.
@@ -154,7 +166,7 @@ const foundingPage = {
     `Colliedesk sells one plan while it is young: Founding, $100 per workspace per year for up to 10 agents, locked for life, with Freshdesk migration done for you. Only ${FOUNDING_SLOTS} places. 30-day money-back guarantee. Self-hosting is free.`,
   summary: `one plan while founding is open: $100 per workspace per year, locked for life, up to 10 agents, Freshdesk migration done for you, ${FOUNDING_SLOTS} places, 30-day money-back guarantee; 14-day free trial; self-host free`,
   h1: 'One plan. $100 a year, locked for life.',
-  lede: `For ${FOUNDING_SLOTS} support teams leaving Freshdesk. About $2 a week for the whole team, up to 10 agents. If it is not right within 30 days, we refund you in full.`,
+  lede: `For ${FOUNDING_SLOTS} support teams of 3 to 10 agents who pay for Freshdesk and just got a price rise. About $2 a week for the whole team. If it is not right within 30 days, we refund you in full.`,
   preMd: foundingPlansMd,
   body: foundingBody,
   faq: foundingFaq,

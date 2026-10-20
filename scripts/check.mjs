@@ -199,6 +199,11 @@ const foundingOpen = existsSync(foundingFile) ? JSON.parse(readFileSync(founding
     if (open && ladder.test(text)) fail(`${path}: founding is open but the page lists the Cloud ladder; sell Founding only`);
     if (open && !text.includes('$100')) fail(`${path}: founding is open but the page does not show the $100 price`);
     if (!open && !ladder.test(text)) fail(`${path}: founding is closed but the page does not list the Cloud ladder`);
+    // Founding is sold to one customer: 3 to 10 agents, paying for Freshdesk, facing a price rise.
+    // The page names them and names who it is not for, so the wrong buyer leaves before paying.
+    if (open && (!text.includes('3 to 10 agents') || !text.includes('Who Founding is for') || !text.includes('Not for you if'))) {
+      fail(`${path}: founding is open but the page does not name who Founding is for and who it is not for`);
+    }
   }
 }
 

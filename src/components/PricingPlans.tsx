@@ -46,6 +46,7 @@ export function PricingPlans() {
           <h2 className="plan-name" id="plan-founding">Founding</h2>
           <p className="plan-price">{state.open && <s aria-label={`was ${PRICE.yearly}`}>{PRICE.yearly}</s>} <strong>$100</strong> <span>per workspace / year</span></p>
           {state.open && <p className="plan-alt">About $2 a week for the whole team</p>}
+          {state.open && <p className="plan-who">For support teams of 3 to 10 agents who pay for Freshdesk and just got a price rise. <a href="#who-founding-is-for">Is that you?</a></p>}
           <ul>
             <li>Limited to {FOUNDING_SLOTS} workspaces, then closed for good</li>
             <li>Price locked for life</li>
