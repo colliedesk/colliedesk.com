@@ -12,7 +12,7 @@ const faq: Faq[] = [
   },
   {
     q: 'What does a done-for-you Freshdesk migration cost?',
-    a: 'Nothing extra. It is part of the founding plan ($100 per workspace per year) and is not sold separately. When founding places close, the offer closes with them; the importer stays free to run yourself.',
+    a: 'Nothing extra. It is part of the founding plan ($99 a quarter per workspace) and is not sold separately. When founding places close, the offer closes with them; the importer stays free to run yourself.',
   },
   {
     q: 'When can you start?',
@@ -43,12 +43,12 @@ Tickets (archived ones included), replies, private notes, attachments, tags, con
 
 | You are | Migration price |
 |---|---|
-| A founding customer ($100 per workspace per year, locked for life) | **Included.** Done-for-you migration is a founding benefit and is not sold separately. |
+| A founding customer ($99 a quarter per workspace, locked for life) | **Included.** Done-for-you migration is a founding benefit and is not sold separately. |
 | Self-hosting | Free: run the same importer yourself with the [import guide](/docs/import-freshdesk) |
 
 When founding places close, the done-for-you offer closes with them.
 
-${foundingOpen ? `[Become a founding customer, $100/year](${FOUNDING_CHECKOUT}). 30-day money-back guarantee: if it is not right for you, we refund the full $100, even after the migration ([terms](/terms#refunds)).` : `**Founding is closed: all ${FOUNDING_SLOTS} places are taken.** New teams can run the importer themselves with the [import guide](/docs/import-freshdesk).`}
+${foundingOpen ? `[Become a founding customer, $99/quarter](${FOUNDING_CHECKOUT}). 30-day money-back guarantee: if it is not right for you, we refund the full $99, even after the migration ([terms](/terms#refunds)).` : `**Founding is closed: all ${FOUNDING_SLOTS} places are taken.** New teams can run the importer themselves with the [import guide](/docs/import-freshdesk).`}
 
 ## What we need from you
 

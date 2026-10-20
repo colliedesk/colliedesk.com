@@ -1,5 +1,6 @@
 import { HOME_H1, HOME_H1_LEAD, HOME_LEDE } from '../../data/pages/home';
 import { HERO_RANGES, rangeLabel } from '../../data/pages/home-sections';
+import { foundingState } from '../../lib/founding';
 import { dollars, SOLO, TRIAL_HREF } from '../../lib/site';
 
 // The h1 names one competitor at a time with CSS only (public/styles.css, .h1-rotate): one pass
@@ -33,7 +34,11 @@ export function HeroCopy() {
         <a className="btn btn-primary btn-lg" href={TRIAL_HREF}>Start free trial <span aria-hidden="true">→</span></a>{' '}
         <a className="btn btn-lg" href="/migrate/freshdesk">Read the migration guide</a>
       </div>
-      <p className="hero-note">14-day free trial, no card · Plans from <b>{dollars(SOLO.monthly)}</b> a month · Founding price locked for life · <a href="#bill">See the five-agent bill</a></p>
+      {foundingState().open ? (
+        <p className="hero-note">14-day free trial, no card · One plan: <a href="/pricing">Founding, <b>$99</b> a quarter</a>, locked for life · <a href="#bill">See the five-agent bill</a></p>
+      ) : (
+        <p className="hero-note">14-day free trial, no card · Plans from <b>{dollars(SOLO.monthly)}</b> a month · Founding price locked for life · <a href="#bill">See the five-agent bill</a></p>
+      )}
     </div>
   );
 }

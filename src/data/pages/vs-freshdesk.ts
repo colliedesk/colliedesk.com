@@ -42,7 +42,7 @@ const faq: Faq[] = [
   },
   {
     q: 'Is Colliedesk ready to replace Freshdesk today?',
-    a: 'Not for most teams. Colliedesk is alpha: released and running on Colliedesk Cloud, with the email channel, Cc on replies, saved replies, attachments and the Freshdesk importer. A new conversation from the inbox, contact history and AI are not there yet, and the interface or schema may change. If your renewal is months away, the founding offer locks $100 per year for life and includes the migration.',
+    a: 'Not for most teams. Colliedesk is alpha: released and running on Colliedesk Cloud, with the email channel, Cc on replies, saved replies, attachments and the Freshdesk importer. A new conversation from the inbox, contact history and AI are not there yet, and the interface or schema may change. If your renewal is months away, the founding offer locks $99 a quarter for life and includes the migration.',
   },
   {
     q: 'Can I get my tickets out of Freshdesk with the full conversation?',

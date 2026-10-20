@@ -1,5 +1,11 @@
 // Home page facts shared by the HTML sections (src/components/home/*) and the Markdown twin.
+import { FOUNDING_SLOTS, foundingState } from '../../lib/founding';
 import { LADDER_LINE, PRICE, PRICES_READ, TEAM } from '../../lib/site';
+
+// While Founding is open it is the only plan we sell, so the home page prices Founding; once the
+// places are taken (the site rebuilds on that change) it prices Cloud Team.
+export const FOUNDING_OPEN = foundingState().open;
+export const OURS_NAME = FOUNDING_OPEN ? 'Colliedesk Founding' : 'Colliedesk Cloud Team';
 
 export interface PriceBar {
   name: string;
@@ -11,36 +17,26 @@ export interface PriceBar {
 }
 
 // 5 agents, list price per year, billed annually on every bar so the billing periods match.
-// USD only (Zendesk publishes EUR; shown in text).
+// Freshdesk only: it is the one tool our buyer pays for.
 export const BARS: readonly PriceBar[] = [
   { name: 'Freshdesk Pro + Freddy AI Copilot', usd: 5040, math: '5 × ($55 + $29) × 12', href: '/vs/freshdesk' },
-  { name: 'Help Scout Plus', usd: 2700, math: '5 × $45 × 12, + $0.75 per AI resolution', href: '/vs/help-scout' },
-  { name: 'Colliedesk Cloud Team', usd: TEAM.yearly, math: 'one workspace, up to 10 agents, + AI usage at cost +30%', href: '/pricing', ours: true },
+  { name: 'Freshdesk Growth, no AI', usd: 1140, math: '5 × $19 × 12', href: '/vs/freshdesk' },
+  FOUNDING_OPEN
+    ? { name: OURS_NAME, usd: 4 * 99, math: `4 × $99, one workspace, up to 10 agents, locked for life, only ${FOUNDING_SLOTS} places, + AI usage at cost +30%`, href: '/pricing', ours: true }
+    : { name: OURS_NAME, usd: TEAM.yearly, math: 'one workspace, up to 10 agents, + AI usage at cost +30%', href: '/pricing', ours: true },
 ];
 export const BAR_MAX = Math.max(...BARS.map((b) => b.usd));
 const OURS = BARS.find((b) => b.ours)?.usd;
 if (OURS === undefined) throw new Error('BARS needs one entry with ours: true');
 
-// Zendesk Suite Professional + Copilot for five agents for a year, in euros: 5 × (€115 + €50) × 12.
-export const ZENDESK_EUR = 9900;
-const usdOf = (name: string): number => {
-  const bar = BARS.find((b) => b.name.startsWith(name));
-  if (!bar) throw new Error(`BARS has no ${name} entry`);
-  return bar.usd;
-};
-// The hero names one competitor at a time with what five agents pay it in a year, from the
+// The hero names Freshdesk with what five agents pay it in a year, from the
 // cheapest plan to the dearest. The top of each range includes AI that Colliedesk does not ship
 // yet, so the hero states prices instead of a "% cheaper" claim.
 export interface HeroRange { name: string; currency: '$' | '€'; low: number; high: number }
 // Freshdesk Growth 5 × $19 × 12 to Pro + Copilot.
 export const FRESHDESK_RANGE: HeroRange = { name: 'Freshdesk', currency: '$', low: 5 * 19 * 12, high: BAR_MAX };
-export const HERO_RANGES: readonly HeroRange[] = [
-  FRESHDESK_RANGE,
-  // Zendesk Support Team 5 × €19 × 12 to Suite Professional + Copilot.
-  { name: 'Zendesk', currency: '€', low: 5 * 19 * 12, high: ZENDESK_EUR },
-  // Help Scout Standard 5 × $25 × 12 to Plus.
-  { name: 'Help Scout', currency: '$', low: 5 * 25 * 12, high: usdOf('Help Scout') },
-];
+// Our buyer pays for Freshdesk, so the hero names Freshdesk only.
+export const HERO_RANGES: readonly HeroRange[] = [FRESHDESK_RANGE];
 export const rangeLabel = (r: HeroRange): string =>
   `${r.currency}${r.low.toLocaleString('en-US')}–${r.high.toLocaleString('en-US')}`;
 // A year of Freshdesk Pro + Copilot for five agents, billed annually, against Cloud Team billed yearly.
@@ -94,25 +90,32 @@ ${AGENT_POINTS.map(([k, v]) => `- **${k}.** ${v}`).join('\n')}
 
 How approval works: [Agent requests and reply drafts](/docs/agent-requests).`;
 
+const cloudLine = FOUNDING_OPEN
+  ? `One plan while we are young: Founding, $99 a quarter per workspace for up to 10 agents, locked for life, for ${FOUNDING_SLOTS} teams. [Who it is for](/pricing#who-founding-is-for).`
+  : `One flat price per workspace, never per agent: ${LADDER_LINE}. Team is ${PRICE.monthly} a month or ${PRICE.yearly} a year.`;
+const flatLine = FOUNDING_OPEN
+  ? 'Founding is $99 a quarter per workspace for up to 10 agents, no per-agent fees. Self-host for $0.'
+  : `Team is ${PRICE.monthly} per workspace per month for up to 10 agents, no per-agent fees. Self-host for $0.`;
+const foundingTail = FOUNDING_OPEN ? '' : ` Cloud plans: ${LADDER_LINE}.`;
+
 export const homeSectionsMd = `## Wait, what are you selling me?
 
 Self-hosting is free, forever, with every feature. We sell two things:
 
-1. **Colliedesk Cloud**: we run it for you. One flat price per workspace, never per agent: ${LADDER_LINE}. Team is ${PRICE.monthly} a month or ${PRICE.yearly} a year.
+1. **Colliedesk Cloud**: we run it for you. ${cloudLine}
 2. **Migration**: we move your Freshdesk history (tickets, replies, attachments, tags) and give you a reconcile report that proves nothing was lost.
 
 ## Why teams switch
 
 - **Leave Freshdesk with all your data** (importer available now): tickets, replies, notes, checksummed attachments, tags and contacts, with a reconcile report. [Migration guide](/migrate/freshdesk).
 - **AI that answers tickets, included** (coming after beta): drafts, triage and auto-answer with a human in the loop. Model cost +30%, or bring your own key.
-- **Flat price**: Team is ${PRICE.monthly} per workspace per month for up to 10 agents, no per-agent fees. Self-host for $0.
+- **Flat price**: ${flatLine}
 
 ## The bill for five agents
 
-List prices per year, billed annually, read on ${PRICES_READ}.
+Freshdesk list prices per year, billed annually, read on ${PRICES_READ} ([details](/vs/freshdesk)).
 
 ${BARS.map((b) => `- ${b.name}: $${b.usd.toLocaleString('en-US')} (${b.math})`).join('\n')}
-- Zendesk Suite Professional + Copilot: 5 × (€115 + €50) × 12 = €9,900 ([details](/vs/zendesk))
 
 ## The boring parts already work
 
@@ -132,4 +135,4 @@ Colliedesk is AGPL-3.0. The code, your data and the export format are yours. [Ho
 
 ## Founding offer
 
-$100 per workspace per year, locked for life, with free Freshdesk migration and a reconcile report. Only 10 workspaces get it. Up to 10 agents, no per-agent fees, 20 GB of attachments including imported files. Cloud plans: ${LADDER_LINE}. AI at model cost +30% or your own key. Colliedesk Cloud is live; every workspace starts with a 14-day free trial.`;
+$99 a quarter per workspace, locked for life, with free Freshdesk migration and a reconcile report. Only 10 workspaces get it. Up to 10 agents, no per-agent fees, 20 GB of attachments including imported files.${foundingTail} AI at model cost +30% or your own key. Colliedesk Cloud is live; every workspace starts with a 14-day free trial.`;

@@ -4,24 +4,26 @@ import { faqPage, organization, softwareApplication } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
 import { faqMarkdown } from '../../lib/twin';
 import { statusTable } from './collie-status';
-import { FRESHDESK_MONTH, FRESHDESK_RANGE, FRESHDESK_YEAR, HERO_RANGES, homeSectionsMd, OURS_YEAR, rangeLabel } from './home-sections';
+import { FOUNDING_OPEN, FRESHDESK_MONTH, FRESHDESK_RANGE, FRESHDESK_YEAR, HERO_RANGES, homeSectionsMd, OURS_NAME, OURS_YEAR, rangeLabel } from './home-sections';
 
 // Headline: our yearly price, then what five agents pay each incumbent in a year (cheapest to dearest
 // plan, from home-sections.ts). The hero shows one competitor at a time; this sentence is what
 // screen readers, the twin and the title get.
 export const HOME_H1_LEAD = `$${OURS_YEAR} a year for your whole team. Five agents pay`;
-export const HOME_H1 = `${HOME_H1_LEAD} ${HERO_RANGES.map((r, i) => `${i === HERO_RANGES.length - 1 ? 'and ' : ''}${rangeLabel(r)} on ${r.name}`).join(', ')}.`;
+export const HOME_H1 = `${HOME_H1_LEAD} ${HERO_RANGES.map((r, i) => `${i > 0 && i === HERO_RANGES.length - 1 ? 'and ' : ''}${rangeLabel(r)} on ${r.name}`).join(', ')}.`;
 export const HOME_LEDE =
-  'Pay for the workspace, not for every agent, and bring your Freshdesk tickets with a report that proves nothing was lost.';
+  'For support teams of 3 to 10 agents who pay for Freshdesk and just got a price rise. Pay for the workspace, not for every agent, and bring every ticket with a report that proves nothing was lost.';
 
 export const HOME_FAQ: Faq[] = [
   {
     q: 'What is Colliedesk?',
-    a: 'Colliedesk is an open-source (AGPL-3.0) helpdesk for small support teams, made by HC Labs. It is the open-source alternative to Freshdesk, Zendesk and Help Scout: a shared inbox for your team, AI included at cost, one flat price per workspace.',
+    a: 'Colliedesk is an open-source (AGPL-3.0) helpdesk for support teams of 3 to 10 agents leaving Freshdesk, made by HC Labs. It is the open-source alternative to Freshdesk, Zendesk and Help Scout: a shared inbox for your team, AI included at cost, one flat price per workspace.',
   },
   {
     q: 'Is Colliedesk free?',
-    a: `Self-hosting is free, forever, with every feature. Colliedesk Cloud is one flat price per workspace, with no per-agent fees: ${LADDER_LINE}. There is no free Cloud plan; every workspace starts with a 14-day free trial, no card. See [pricing](/pricing).`,
+    a: FOUNDING_OPEN
+      ? 'Self-hosting is free, forever, with every feature. Colliedesk Cloud is sold as one plan while it is young: Founding, $99 a quarter per workspace for up to 10 agents, locked for life, for 10 teams. There is no free Cloud plan; every workspace starts with a 14-day free trial, no card. See [pricing](/pricing).'
+      : `Self-hosting is free, forever, with every feature. Colliedesk Cloud is one flat price per workspace, with no per-agent fees: ${LADDER_LINE}. There is no free Cloud plan; every workspace starts with a 14-day free trial, no card. See [pricing](/pricing).`,
   },
   {
     q: 'Is Colliedesk ready to use?',
@@ -30,7 +32,9 @@ export const HOME_FAQ: Faq[] = [
   PER_WORKSPACE_FAQ,
   {
     q: 'What happens over the limit?',
-    a: `Agents: each plan has a limit: Solo 1 agent, Small 3, Team 10, Team 25 up to 25. Pass it and you move up one plan; at 11 agents that is Team 25, ${PRICE.team25Monthly} a month. Above 25, Unlimited is coming soon; until then email us at ${CONTACT_EMAIL}, or self-host with no agent limit. Storage: we warn you at 80%. Over the cap, customer email keeps arriving with its attachments; only your own uploads and new imports pause until you free space or move up. Nothing is deleted. See [pricing](/pricing).`,
+    a: FOUNDING_OPEN
+      ? `Founding covers up to 10 agents and 20 GB of attachments, imported files included. With 11 or more agents, Founding is not the right fit: self-host with no agent limit, or write to ${CONTACT_EMAIL}. Storage: we warn you at 80%. Over the cap, customer email keeps arriving with its attachments; only your own uploads and new imports pause. Nothing is deleted. See [pricing](/pricing).`
+      : `Agents: each plan has a limit: Solo 1 agent, Small 3, Team 10, Team 25 up to 25. Pass it and you move up one plan; at 11 agents that is Team 25, ${PRICE.team25Monthly} a month. Above 25, Unlimited is coming soon; until then email us at ${CONTACT_EMAIL}, or self-host with no agent limit. Storage: we warn you at 80%. Over the cap, customer email keeps arriving with its attachments; only your own uploads and new imports pause until you free space or move up. Nothing is deleted. See [pricing](/pricing).`,
   },
   {
     q: 'Who is behind Colliedesk?',
@@ -50,7 +54,7 @@ const md = `${TAGLINE} ${POSITIONING}
 
 ${HOME_H1} ${HOME_LEDE} The Freshdesk importer is available now; reconcile report numbers shown on the site are an example.
 
-Status: alpha (0.0.x), live on Colliedesk Cloud with a 14-day free trial. Self-host free: ${REPO}. Cloud: ${LADDER_LINE}.
+Status: alpha (0.0.x), live on Colliedesk Cloud with a 14-day free trial. Self-host free: ${REPO}. Cloud: ${FOUNDING_OPEN ? 'Founding, $99 a quarter per workspace, locked for life, 10 places' : LADDER_LINE}.
 
 ${homeSectionsMd}
 
@@ -60,7 +64,7 @@ ${statusTable}
 ${faqMarkdown(HOME_FAQ)}
 ## Bring your tickets. Keep the difference.
 
-A year of Freshdesk Pro with Freddy AI Copilot for five agents, billed annually: 12 × $${FRESHDESK_MONTH} = $${FRESHDESK_YEAR.toLocaleString('en-US')}. Colliedesk Cloud Team for the same team: $${OURS_YEAR} a year. You keep $${(FRESHDESK_YEAR - OURS_YEAR).toLocaleString('en-US')}. [Start the free trial](${TRIAL_HREF}) or [move from Freshdesk](/migrate/freshdesk).`;
+A year of Freshdesk Pro with Freddy AI Copilot for five agents, billed annually: 12 × $${FRESHDESK_MONTH} = $${FRESHDESK_YEAR.toLocaleString('en-US')}. ${OURS_NAME} for the same team: $${OURS_YEAR} a year. You keep $${(FRESHDESK_YEAR - OURS_YEAR).toLocaleString('en-US')}. [Start the free trial](${TRIAL_HREF}) or [move from Freshdesk](/migrate/freshdesk).`;
 
 // The HTML is the Home view (src/components/home/*); the twin is the Markdown above.
 const page: Page = {
@@ -69,7 +73,7 @@ const page: Page = {
   section: 'Product',
   title: `Colliedesk: $${OURS_YEAR} a year for your whole support team, not per agent`,
   description:
-    `Colliedesk is an open-source helpdesk for small support teams, $${OURS_YEAR} a year for up to 10 agents, where five agents pay Freshdesk ${rangeLabel(FRESHDESK_RANGE)} a year. Leave Freshdesk with all your data. One flat price per workspace from ${PRICE.range} a month, no per-agent fees.`,
+    `Colliedesk is an open-source helpdesk for teams of 3 to 10 agents leaving Freshdesk, $${OURS_YEAR} a year for up to 10 agents, where five agents pay Freshdesk ${rangeLabel(FRESHDESK_RANGE)} a year. Leave Freshdesk with all your data. ${FOUNDING_OPEN ? 'One plan, locked for life, only 10 places' : `One flat price per workspace from ${PRICE.range} a month`}, no per-agent fees.`,
   summary: `What Colliedesk is, what we sell, what AI agents can do through MCP, status, founding offer; competitor prices read ${PRICES_READ}`,
   h1: HOME_H1,
   lede: HOME_LEDE,
@@ -77,6 +81,6 @@ const page: Page = {
   md,
   faq: [],
   bodyClass: 'home',
-  jsonLd: [organization(), softwareApplication(), faqPage(HOME_FAQ)],
+  jsonLd: [organization(), softwareApplication({ ladder: !FOUNDING_OPEN }), faqPage(HOME_FAQ)],
 };
 export default page;
