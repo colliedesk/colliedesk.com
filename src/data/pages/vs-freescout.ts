@@ -63,9 +63,9 @@ const page: Page = {
   path: '/vs/freescout',
   updated: '2026-10-16',
   section: 'Compare',
-  title: 'Colliedesk vs FreeScout: two AGPL helpdesks, paid modules vs every feature free',
+  title: 'Colliedesk vs FreeScout: paid modules vs every feature free',
   description:
-    'Colliedesk vs FreeScout, both AGPL-3.0: FreeScout sells modules and has no official cloud; Colliedesk ships every feature free and offers flat $49 hosting. Freshdesk import compared.',
+    'Colliedesk vs FreeScout, both AGPL-3.0: FreeScout sells modules and has no official cloud; Colliedesk ships every feature free, hosting $49 flat.',
   summary: 'FreeScout free core plus paid modules, no official cloud or Freshdesk importer vs Colliedesk every feature free, flat $49 Cloud, importer available now (alpha)',
   eyebrow: 'Compare · Open source',
   h1: 'Colliedesk vs FreeScout',

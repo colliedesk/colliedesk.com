@@ -57,9 +57,9 @@ const page: Page = {
   path: '/vs/happyfox',
   updated: '2026-10-16',
   section: 'Compare',
-  title: 'Colliedesk vs HappyFox: flat $49 per workspace vs $24–99 per agent',
+  title: 'Colliedesk vs HappyFox: flat $49 vs $24–99 per agent',
   description:
-    'Colliedesk vs HappyFox: HappyFox $24–99 per agent with AI sold separately vs Colliedesk flat $49 per workspace with AI at cost. Sourced prices and honest status.',
+    'HappyFox costs $24–99 per agent with AI sold separately. Colliedesk is a flat $49 per workspace, no per-agent fees. Sourced prices and honest status.',
   summary: 'HappyFox $24–99 per agent (Basic capped at 5), AI sold separately vs Colliedesk flat $49 per workspace',
   eyebrow: 'Compare · HappyFox alternative',
   h1: 'Colliedesk vs HappyFox',

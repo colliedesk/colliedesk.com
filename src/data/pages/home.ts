@@ -4,7 +4,7 @@ import { faqPage, organization, softwareApplication } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
 import { faqMarkdown } from '../../lib/twin';
 import { statusTable } from './collie-status';
-import { FRESHDESK_MONTH, FRESHDESK_RANGE, FRESHDESK_YEAR, HERO_RANGES, homeSectionsMd, OURS_YEAR, rangeLabel } from './home-sections';
+import { FRESHDESK_MONTH, FRESHDESK_YEAR, HERO_RANGES, homeSectionsMd, OURS_YEAR, rangeLabel } from './home-sections';
 
 // Headline: our yearly price, then what five agents pay each incumbent in a year (cheapest to dearest
 // plan, from home-sections.ts). The hero shows one competitor at a time; this sentence is what
@@ -67,9 +67,9 @@ const page: Page = {
   name: 'Colliedesk overview',
   path: '/',
   section: 'Product',
-  title: `Colliedesk: $${OURS_YEAR} a year for your whole support team, not per agent`,
+  title: `Colliedesk: $${OURS_YEAR} a year for your whole team, not per agent`,
   description:
-    `Colliedesk is an open-source helpdesk for small support teams, $${OURS_YEAR} a year for up to 10 agents, where five agents pay Freshdesk ${rangeLabel(FRESHDESK_RANGE)} a year. Leave Freshdesk with all your data. $49 per workspace, no per-agent fees.`,
+    `Open-source helpdesk for small support teams: $${OURS_YEAR} a year for up to 10 agents, no per-agent fees. Leave Freshdesk with all your data.`,
   summary: `What Colliedesk is, what we sell, what AI agents can do through MCP, status, founding offer; competitor prices read ${PRICES_READ}`,
   h1: HOME_H1,
   lede: HOME_LEDE,

@@ -75,9 +75,9 @@ const page: Page = {
   name: 'Open source, license and self-hosting',
   path: '/open-source',
   section: 'Product',
-  title: 'Colliedesk: open source helpdesk and ticketing system (AGPL-3.0), self-host or fork',
+  title: 'Colliedesk: open source helpdesk (AGPL-3.0), self-host free',
   description:
-    'Colliedesk is an AGPL-3.0 open source helpdesk and ticketing system by HC Labs. Self-hosting is free with every feature. What we sell, the license and CLA, and how to self-host.',
+    'Colliedesk is an AGPL-3.0 open source helpdesk by HC Labs. Self-hosting is free with every feature. What we sell, the license and CLA, how to self-host.',
   summary: 'AGPL-3.0-only license, CLA, what HC Labs sells, self-host in two commands, fork it, clean-room rule',
   eyebrow: 'Open source',
   h1: 'Open source, and honest about the business',

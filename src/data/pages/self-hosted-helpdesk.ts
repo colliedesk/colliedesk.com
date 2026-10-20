@@ -70,9 +70,9 @@ const page: Page = {
   name: 'Self-hosted helpdesk',
   path: '/self-hosted-helpdesk',
   section: 'Product',
-  title: 'Self-hosted helpdesk: open-source, every feature free, one install command',
+  title: 'Self-hosted helpdesk: open source, every feature free',
   description:
-    'Run Colliedesk, an open-source (AGPL-3.0) helpdesk, on your own server: Docker and PostgreSQL, one install command, every feature free. What you run, what you take on, and honest status.',
+    'Run Colliedesk, an open-source (AGPL-3.0) helpdesk, on your own server with Docker and PostgreSQL. One install command, every feature free.',
   summary: 'Self-host Colliedesk free: one container plus PostgreSQL 16, one install command, every feature, AGPL-3.0; what you must run yourself',
   eyebrow: 'Self-host',
   h1: 'A self-hosted helpdesk with nothing held back',
