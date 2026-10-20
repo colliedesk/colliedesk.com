@@ -1,6 +1,7 @@
 // Content QA for the marketing pages, read from their Markdown twins in _site/. A page fails when
 // its prose reads above READING_GRADE_MAX, uses an em dash or an AI-slop phrase, has no call to
-// action in the body, or quotes a competitor price without a source link. Pages listed in
+// action in the body, quotes a competitor price without a source link, has a title or meta
+// description outside the length the top results use, or links fewer than 2 other pages here. Pages listed in
 // KNOWN_DEBT may miss a rule until they are fixed; the list can only shrink. Exits 1 on any failure.
 // The judgement calls (is a claim true, is the article useful) are the content QA skill's job, in
 // docs/seo/; this script only checks what a machine can check.
@@ -32,14 +33,44 @@ const CTA_RE = /\]\((?:https:\/\/colliedesk\.com)?(?:\/pricing|\/migrate\/[^)\s]
 // A competitor price is sourced by an outside link or by the page that carries its source.
 const SOURCE_RE = /\]\((?:https:\/\/colliedesk\.com)?\/(?:vs\/[a-z-]+|freshdesk-pricing-history)\)|\]\(https?:\/\/(?!colliedesk\.com|app\.colliedesk\.com|github\.com\/colliedesk)[^)\s]+\)/;
 
+// Length limits from the pages ranking top 3 for our keywords (docs/seo/serp-patterns.md): Google
+// cuts titles near 60 characters and descriptions near 160.
+export const TITLE_MAX = 60;
+export const DESCRIPTION_MIN = 120;
+export const DESCRIPTION_MAX = 160;
+export const INTERNAL_LINKS_MIN = 2;
+// Body links to another page of this site; app.colliedesk.com is not one.
+const INTERNAL_LINK_RE = /\]\((?:https:\/\/colliedesk\.com)?(\/[^)\s#]*)(?:#[^)\s]*)?\)/g;
+
 // Docs, legal pages and release notes are not marketing copy.
 const EXEMPT = [/^\/docs(\/|$)/, /^\/roadmap$/, /^\/changelog$/, /^\/privacy$/, /^\/terms$/];
 
 // Pages that miss a rule today, by rule. Fix the page, then delete its line; never add one.
+// The finding text each debt rule waives, so the gate can tell when a listed page passes.
+const RULE_FINDING = {
+  cta: 'no call to action', source: 'competitor price', title: 'title is',
+  description: 'meta description is', links: 'other page',
+};
 export const KNOWN_DEBT = {
   cta: [
     '/migrate/zendesk/export', '/open-source', '/vs/chatwoot', '/vs/front', '/vs/gorgias', '/vs/groove',
     '/vs/happyfox', '/vs/help-scout', '/vs/hubspot-service-hub', '/vs/zoho-desk',
+  ],
+  title: [
+    '/', '/compare', '/freshdesk-alternative', '/freshdesk-pricing-history', '/migrate/freshdesk',
+    '/migrate/freshdesk/export', '/migrate/zendesk/export', '/open-source', '/pricing', '/self-hosted-helpdesk',
+    '/vs/chatwoot', '/vs/freescout', '/vs/freshdesk', '/vs/front', '/vs/gorgias', '/vs/groove', '/vs/happyfox',
+    '/vs/help-scout', '/vs/hubspot-service-hub', '/vs/zammad', '/vs/zendesk', '/vs/zoho-desk',
+  ],
+  description: [
+    '/', '/compare', '/freshdesk-alternative', '/freshdesk-pricing-history', '/helpdesk-for-small-teams',
+    '/migrate/freshdesk', '/migrate/freshdesk/done-for-you', '/migrate/zendesk/export', '/open-source', '/pricing',
+    '/self-hosted-helpdesk', '/vs/freescout', '/vs/freshdesk', '/vs/front', '/vs/gorgias', '/vs/groove',
+    '/vs/happyfox', '/vs/help-scout', '/vs/hubspot-service-hub', '/vs/zammad', '/vs/zendesk', '/vs/zoho-desk',
+  ],
+  links: [
+    '/open-source', '/vs/chatwoot', '/vs/freescout', '/vs/front', '/vs/gorgias', '/vs/groove', '/vs/happyfox',
+    '/vs/help-scout', '/vs/hubspot-service-hub', '/vs/zammad', '/vs/zoho-desk',
   ],
 };
 
@@ -71,7 +102,7 @@ export function readingGrade(text) {
 }
 
 /** Findings for one page's Markdown twin; an empty array means it passes. */
-export function checkPage({ path, md }, debt = {}) {
+export function checkPage({ path, md, title, description }, debt = {}) {
   const findings = [];
   const prose = proseOf(md);
   const owes = (rule) => debt[rule]?.includes(path);
@@ -94,7 +125,28 @@ export function checkPage({ path, md }, debt = {}) {
   if (priced && !SOURCE_RE.test(md) && !owes('source')) {
     findings.push(`${path}: competitor price with no source link on the page: "${priced.trim().slice(0, 80)}"`);
   }
+
+  if (title !== undefined && title.length > TITLE_MAX && !owes('title')) {
+    findings.push(`${path}: title is ${title.length} characters; keep it at ${TITLE_MAX} or fewer so Google shows all of it`);
+  }
+  if (description !== undefined && (description.length < DESCRIPTION_MIN || description.length > DESCRIPTION_MAX) && !owes('description')) {
+    findings.push(`${path}: meta description is ${description.length} characters; keep it between ${DESCRIPTION_MIN} and ${DESCRIPTION_MAX}`);
+  }
+  const linked = new Set([...md.matchAll(INTERNAL_LINK_RE)].map((m) => m[1].replace(/\/$/, '') || '/').filter((p) => p !== path));
+  if (linked.size < INTERNAL_LINKS_MIN && !owes('links')) {
+    findings.push(`${path}: body links ${linked.size} other page(s) on this site; link at least ${INTERNAL_LINKS_MIN} related pages`);
+  }
   return findings;
+}
+
+const decode = (s) => s.replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
+
+/** Title and meta description of the HTML page next to a Markdown twin. */
+export function headOf(html) {
+  return {
+    title: decode(html.match(/<title>([^<]*)<\/title>/)?.[1] ?? ''),
+    description: decode(html.match(/<meta name="description" content="([^"]*)"/)?.[1] ?? ''),
+  };
 }
 
 function walk(dir) {
@@ -114,7 +166,9 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     .filter((f) => f.endsWith('.md'))
     .map((f) => {
       const rel = relative(outDir, f).split(sep).join('/').replace(/\.md$/, '');
-      return { path: rel === 'index' ? '/' : `/${rel}`, md: readFileSync(f, 'utf8') };
+      const html = f.replace(/\.md$/, '.html');
+      const head = existsSync(html) ? headOf(readFileSync(html, 'utf8')) : {};
+      return { path: rel === 'index' ? '/' : `/${rel}`, md: readFileSync(f, 'utf8'), ...head };
     })
     .filter(({ path }) => !EXEMPT.some((re) => re.test(path)));
 
@@ -124,7 +178,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     for (const path of paths) {
       const p = pages.find((x) => x.path === path);
       if (!p) errors.push(`KNOWN_DEBT.${rule}: ${path} is not built; delete the entry`);
-      else if (!checkPage(p).some((f) => f.includes(rule === 'cta' ? 'no call to action' : 'competitor price'))) {
+      else if (!checkPage(p).some((f) => f.includes(RULE_FINDING[rule]))) {
         errors.push(`KNOWN_DEBT.${rule}: ${path} passes now; delete the entry`);
       }
     }

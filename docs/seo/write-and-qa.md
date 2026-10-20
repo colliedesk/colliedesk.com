@@ -6,11 +6,13 @@ every check and waits for a person's approval. The writer and the QA reviewer ar
 ## Write
 
 1. Read the issue brief: target keyword, search intent, the top 3 results and what they miss.
-2. Read the pages it links to (`src/data/pages/*.ts`) and `src/lib/site.ts` for prices and facts.
-3. Create a branch `seo/<slug>` from `origin/main`.
-4. Add or edit one `Page` module. New page: register it in `src/data/pages/index.ts`. Articles go
+2. Read [serp-patterns.md](serp-patterns.md) for this page type: the sections the top 3 cover and
+   the title shape. Cover those sections, then add what the brief says they miss.
+3. Read the pages it links to (`src/data/pages/*.ts`) and `src/lib/site.ts` for prices and facts.
+4. Create a branch `seo/<slug>` from `origin/main`.
+5. Add or edit one `Page` module. New page: register it in `src/data/pages/index.ts`. Articles go
    under `/blog/<slug>` when `/blog` exists (colliedesk.com#64); until then, a top-level path.
-5. Shape the page for the reader in the brief:
+6. Shape the page for the reader in the brief:
    - Answer the search question in the first two sentences.
    - One idea per section. Tables for numbers, numbered steps for procedures.
    - Every competitor price: a source link and the date you read it ("read 20 October 2026").
@@ -18,7 +20,7 @@ every check and waits for a person's approval. The writer and the QA reviewer ar
      and "migrate", `/pricing` for "price" and "alternative", `/#founding` near a renewal story.
    - 3–5 FAQ items with the questions people ask (People Also Ask in the SERP data).
    - Links to 2–3 related pages on this site, and from 1–2 of them back to this page.
-6. Run `pnpm build && pnpm check && pnpm check:content && pnpm check:render`.
+7. Run `pnpm build && pnpm check && pnpm check:content && pnpm check:render`.
 
 ## QA checklist
 
@@ -32,7 +34,7 @@ the writer fixes it and the reviewer runs the whole checklist again.
 3. Is there a claim about a customer, a quote or a result that has no source? Remove it.
 4. Does the page add something the top 3 results do not have? Name it in the PR description.
 5. Would a support lead with no SEO knowledge read it to the end? No filler intro, no repeated point.
-6. Are title (≤ 60 characters) and meta description (120–160 characters) specific to this page?
+6. Are title and meta description specific to this page? (`check:content` checks their length.)
 7. Is the call to action the next step for this intent, not a generic "sign up"?
 8. Does `pnpm check:content` pass without a new `KNOWN_DEBT` entry?
 
