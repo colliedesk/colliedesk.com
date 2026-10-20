@@ -11,8 +11,8 @@ function Bill() {
           <p className="eyebrow">The bill for five agents</p>
           <h2 id="bill">Per-agent pricing, then per-agent AI</h2>
           <p className="section-lede">
-            {`List prices per year, billed annually, read on ${PRICES_READ}. Zendesk publishes euros: Suite Professional with Copilot is 5 × (€115 + €50) × 12 = €9,900. `}
-            <a href="/vs/zendesk">Details</a>.
+            {`Freshdesk list prices per year, billed annually, read on ${PRICES_READ}. `}
+            <a href="/vs/freshdesk">Details</a>.
           </p>
         </div>
         <ul className="bars" aria-label="Yearly cost for five agents">

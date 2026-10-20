@@ -10,14 +10,14 @@ import { FOUNDING_OPEN, FRESHDESK_MONTH, FRESHDESK_RANGE, FRESHDESK_YEAR, HERO_R
 // plan, from home-sections.ts). The hero shows one competitor at a time; this sentence is what
 // screen readers, the twin and the title get.
 export const HOME_H1_LEAD = `$${OURS_YEAR} a year for your whole team. Five agents pay`;
-export const HOME_H1 = `${HOME_H1_LEAD} ${HERO_RANGES.map((r, i) => `${i === HERO_RANGES.length - 1 ? 'and ' : ''}${rangeLabel(r)} on ${r.name}`).join(', ')}.`;
+export const HOME_H1 = `${HOME_H1_LEAD} ${HERO_RANGES.map((r, i) => `${i > 0 && i === HERO_RANGES.length - 1 ? 'and ' : ''}${rangeLabel(r)} on ${r.name}`).join(', ')}.`;
 export const HOME_LEDE =
-  'Pay for the workspace, not for every agent, and bring your Freshdesk tickets with a report that proves nothing was lost.';
+  'For support teams of 3 to 10 agents who pay for Freshdesk and just got a price rise. Pay for the workspace, not for every agent, and bring every ticket with a report that proves nothing was lost.';
 
 export const HOME_FAQ: Faq[] = [
   {
     q: 'What is Colliedesk?',
-    a: 'Colliedesk is an open-source (AGPL-3.0) helpdesk for small support teams, made by HC Labs. It is the open-source alternative to Freshdesk, Zendesk and Help Scout: a shared inbox for your team, AI included at cost, one flat price per workspace.',
+    a: 'Colliedesk is an open-source (AGPL-3.0) helpdesk for support teams of 3 to 10 agents leaving Freshdesk, made by HC Labs. It is the open-source alternative to Freshdesk, Zendesk and Help Scout: a shared inbox for your team, AI included at cost, one flat price per workspace.',
   },
   {
     q: 'Is Colliedesk free?',
@@ -73,7 +73,7 @@ const page: Page = {
   section: 'Product',
   title: `Colliedesk: $${OURS_YEAR} a year for your whole support team, not per agent`,
   description:
-    `Colliedesk is an open-source helpdesk for small support teams, $${OURS_YEAR} a year for up to 10 agents, where five agents pay Freshdesk ${rangeLabel(FRESHDESK_RANGE)} a year. Leave Freshdesk with all your data. ${FOUNDING_OPEN ? 'One plan, locked for life, only 10 places' : `One flat price per workspace from ${PRICE.range} a month`}, no per-agent fees.`,
+    `Colliedesk is an open-source helpdesk for teams of 3 to 10 agents leaving Freshdesk, $${OURS_YEAR} a year for up to 10 agents, where five agents pay Freshdesk ${rangeLabel(FRESHDESK_RANGE)} a year. Leave Freshdesk with all your data. ${FOUNDING_OPEN ? 'One plan, locked for life, only 10 places' : `One flat price per workspace from ${PRICE.range} a month`}, no per-agent fees.`,
   summary: `What Colliedesk is, what we sell, what AI agents can do through MCP, status, founding offer; competitor prices read ${PRICES_READ}`,
   h1: HOME_H1,
   lede: HOME_LEDE,

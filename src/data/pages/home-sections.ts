@@ -17,10 +17,10 @@ export interface PriceBar {
 }
 
 // 5 agents, list price per year, billed annually on every bar so the billing periods match.
-// USD only (Zendesk publishes EUR; shown in text).
+// Freshdesk only: it is the one tool our buyer pays for.
 export const BARS: readonly PriceBar[] = [
   { name: 'Freshdesk Pro + Freddy AI Copilot', usd: 5040, math: '5 × ($55 + $29) × 12', href: '/vs/freshdesk' },
-  { name: 'Help Scout Plus', usd: 2700, math: '5 × $45 × 12, + $0.75 per AI resolution', href: '/vs/help-scout' },
+  { name: 'Freshdesk Growth, no AI', usd: 1140, math: '5 × $19 × 12', href: '/vs/freshdesk' },
   FOUNDING_OPEN
     ? { name: OURS_NAME, usd: 4 * 99, math: `4 × $99, one workspace, up to 10 agents, locked for life, only ${FOUNDING_SLOTS} places, + AI usage at cost +30%`, href: '/pricing', ours: true }
     : { name: OURS_NAME, usd: TEAM.yearly, math: 'one workspace, up to 10 agents, + AI usage at cost +30%', href: '/pricing', ours: true },
@@ -29,26 +29,14 @@ export const BAR_MAX = Math.max(...BARS.map((b) => b.usd));
 const OURS = BARS.find((b) => b.ours)?.usd;
 if (OURS === undefined) throw new Error('BARS needs one entry with ours: true');
 
-// Zendesk Suite Professional + Copilot for five agents for a year, in euros: 5 × (€115 + €50) × 12.
-export const ZENDESK_EUR = 9900;
-const usdOf = (name: string): number => {
-  const bar = BARS.find((b) => b.name.startsWith(name));
-  if (!bar) throw new Error(`BARS has no ${name} entry`);
-  return bar.usd;
-};
-// The hero names one competitor at a time with what five agents pay it in a year, from the
+// The hero names Freshdesk with what five agents pay it in a year, from the
 // cheapest plan to the dearest. The top of each range includes AI that Colliedesk does not ship
 // yet, so the hero states prices instead of a "% cheaper" claim.
 export interface HeroRange { name: string; currency: '$' | '€'; low: number; high: number }
 // Freshdesk Growth 5 × $19 × 12 to Pro + Copilot.
 export const FRESHDESK_RANGE: HeroRange = { name: 'Freshdesk', currency: '$', low: 5 * 19 * 12, high: BAR_MAX };
-export const HERO_RANGES: readonly HeroRange[] = [
-  FRESHDESK_RANGE,
-  // Zendesk Support Team 5 × €19 × 12 to Suite Professional + Copilot.
-  { name: 'Zendesk', currency: '€', low: 5 * 19 * 12, high: ZENDESK_EUR },
-  // Help Scout Standard 5 × $25 × 12 to Plus.
-  { name: 'Help Scout', currency: '$', low: 5 * 25 * 12, high: usdOf('Help Scout') },
-];
+// Our buyer pays for Freshdesk, so the hero names Freshdesk only.
+export const HERO_RANGES: readonly HeroRange[] = [FRESHDESK_RANGE];
 export const rangeLabel = (r: HeroRange): string =>
   `${r.currency}${r.low.toLocaleString('en-US')}–${r.high.toLocaleString('en-US')}`;
 // A year of Freshdesk Pro + Copilot for five agents, billed annually, against Cloud Team billed yearly.
@@ -125,10 +113,9 @@ Self-hosting is free, forever, with every feature. We sell two things:
 
 ## The bill for five agents
 
-List prices per year, billed annually, read on ${PRICES_READ}.
+Freshdesk list prices per year, billed annually, read on ${PRICES_READ} ([details](/vs/freshdesk)).
 
 ${BARS.map((b) => `- ${b.name}: $${b.usd.toLocaleString('en-US')} (${b.math})`).join('\n')}
-- Zendesk Suite Professional + Copilot: 5 × (€115 + €50) × 12 = €9,900 ([details](/vs/zendesk))
 
 ## The boring parts already work
 

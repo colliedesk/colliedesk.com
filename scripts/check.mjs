@@ -493,7 +493,12 @@ const TRIAL_URL = 'https://app.colliedesk.com/sign-in';
   const home = read('index.html');
   const h1 = home.match(/<h1[\s\S]*?<\/h1>/)?.[0] ?? '';
   const spoken = h1.match(/<span class="visually-hidden">([^<]*)<\/span>/)?.[1] ?? '';
-  for (const claim of [`${foundingOpen ? '$396' : '$690'} a year for your whole team`, '$1,140–5,040 on Freshdesk', '€1,140–9,900 on Zendesk', '$1,500–2,700 on Help Scout']) {
+  // The home page speaks to one buyer: a team of 3 to 10 agents paying for Freshdesk. The hero
+  // names Freshdesk only and the lede names that team.
+  if (/Zendesk|Help Scout/.test(h1)) fail('/: h1 must compare with Freshdesk only, the one tool our buyer pays for');
+  const lede = home.match(/<p class="lede">([\s\S]*?)<\/p>/)?.[1] ?? '';
+  if (!lede.includes('3 to 10 agents') || !lede.includes('pay for Freshdesk')) fail('/: hero lede must name the buyer: 3 to 10 agents who pay for Freshdesk');
+  for (const claim of [`${foundingOpen ? '$396' : '$690'} a year for your whole team`, '$1,140–5,040 on Freshdesk']) {
     if (!spoken.includes(claim)) fail(`/: h1 screen-reader text lacks "${claim}"`);
   }
   if (/% cheaper/.test(h1) || /% cheaper/.test(read('index.md'))) fail('/: hero must state prices, not a "% cheaper" claim');
