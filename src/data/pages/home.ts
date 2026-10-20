@@ -4,7 +4,7 @@ import { faqPage, organization, softwareApplication } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
 import { faqMarkdown } from '../../lib/twin';
 import { statusTable } from './collie-status';
-import { FRESHDESK_MONTH, FRESHDESK_RANGE, FRESHDESK_YEAR, HERO_RANGES, homeSectionsMd, OURS_YEAR, rangeLabel } from './home-sections';
+import { FRESHDESK_MONTH, FRESHDESK_YEAR, HERO_RANGES, homeSectionsMd, OURS_YEAR, rangeLabel } from './home-sections';
 
 // Headline: our yearly price, then what five agents pay each incumbent in a year (cheapest to dearest
 // plan, from home-sections.ts). The hero shows one competitor at a time; this sentence is what
