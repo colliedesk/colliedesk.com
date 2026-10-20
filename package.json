@@ -9,6 +9,8 @@
     "typecheck": "astro check",
     "check": "node scripts/check.mjs",
     "check:render": "node scripts/check-render.mjs",
+    "check:content": "node scripts/content-qa.mjs",
+    "test": "node --test scripts/*.test.mjs",
     "compare": "node scripts/compare-site.mjs",
     "serve": "node scripts/serve.mjs"
   },
