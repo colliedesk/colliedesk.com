@@ -386,7 +386,21 @@ td:first-child { font-weight: 500; color: var(--text-1); }
 .plan-price strong { font-size: 2.6rem; letter-spacing: -0.03em; }
 .plan-price span { color: var(--text-3); }
 .plan-alt { color: var(--text-3); margin: 0 0 1rem; }
-.plans-note { grid-column: 1 / -1; margin: 0; color: var(--text-2); }
+.plans-note { grid-column: 1 / -1; margin: var(--space-6) 0 0; color: var(--text-2); }
+.plans-ladder { grid-template-columns: repeat(auto-fit, minmax(10.5rem, 1fr)); gap: var(--space-4); }
+.plans-ladder .plan { padding: var(--space-5); }
+.plans-ladder .plan-price { white-space: nowrap; }
+.plans-ladder .plan-price strong { font-size: 2.2rem; }
+.plan-size { margin: 0 0 .6rem; display: grid; }
+.plan-size strong { font-size: 1.15rem; }
+.plan-size span { color: var(--text-2); }
+.plan-who { color: var(--text-2); margin: 0 0 1.25rem; }
+.plan-soon { background: transparent; }
+.plan-soon-note { margin: auto 0 0; min-height: 40px; display: flex; align-items: center; font-weight: 600; color: var(--text-2); }
+.plans-reassure { margin-top: var(--space-6); padding-top: var(--space-5); border-top: 1px solid var(--line); display: grid; gap: var(--space-2); }
+.plans-reassure p { margin: 0; }
+.plans-reassure ul { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-6); margin: 0; padding: 0; list-style: none; color: var(--text-2); }
+.plans-reassure li::before { content: "✓ "; color: var(--text-1); }
 .plan-flag { font: 600 13px var(--font-sans); color: var(--accent-text); margin: 0 0 .6rem; }
 .plan-featured { border: 1px solid var(--accent); box-shadow: var(--shadow-2), inset 0 3px var(--accent); }
 .plan-price s { color: var(--text-3); font-size: 1.3rem; margin-right: .2rem; text-decoration-thickness: 2px; }

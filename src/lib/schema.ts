@@ -1,7 +1,7 @@
 // JSON-LD builders. Only facts from site.ts; no ratings, reviews or counts we do not have.
 import { plain } from './markdown';
 import type { Faq, JsonLd, Page } from './page';
-import { NAME, ORIGIN, POSITIONING, REPO, UPDATED } from './site';
+import { agentsLabel, CLOUD_PLANS, dollars, NAME, ORIGIN, POSITIONING, REPO, UPDATED } from './site';
 
 export const organization = (): JsonLd => ({
   '@context': 'https://schema.org',
@@ -28,16 +28,12 @@ export const softwareApplication = (): JsonLd => ({
   dateModified: UPDATED,
   offers: [
     { '@type': 'Offer', name: 'Self-hosted', price: '0', priceCurrency: 'USD', description: 'Free forever, every feature, AGPL-3.0.' },
-    {
-      '@type': 'Offer', name: 'Colliedesk Cloud', price: '49', priceCurrency: 'USD',
-      description: 'Team plan, per workspace per month ($490 per year). Up to 10 agents and 100 GB of attachments, no per-agent fees.',
-      priceSpecification: { '@type': 'UnitPriceSpecification', price: '49', priceCurrency: 'USD', unitText: 'workspace per month' },
-    },
-    {
-      '@type': 'Offer', name: 'Colliedesk Cloud Team 25', price: '99', priceCurrency: 'USD',
-      description: 'Team 25 plan, per workspace per month ($990 per year). Up to 25 agents and 250 GB of attachments, no per-agent fees.',
-      priceSpecification: { '@type': 'UnitPriceSpecification', price: '99', priceCurrency: 'USD', unitText: 'workspace per month' },
-    },
+    // Only plans that can be bought today; Unlimited is coming soon.
+    ...CLOUD_PLANS.filter((p) => !p.comingSoon).map((p) => ({
+      '@type': 'Offer', name: `Colliedesk Cloud ${p.name}`, price: String(p.monthly), priceCurrency: 'USD',
+      description: `${p.name} plan, per workspace per month (${dollars(p.yearly)} per year). ${agentsLabel(p)} and ${p.storage} of attachments, no per-agent fees.`,
+      priceSpecification: { '@type': 'UnitPriceSpecification', price: String(p.monthly), priceCurrency: 'USD', unitText: 'workspace per month' },
+    })),
     {
       '@type': 'Offer', name: 'Founding customer', price: '100', priceCurrency: 'USD',
       description: 'Per workspace per year, locked for life, with free Freshdesk migration. Up to 10 agents and 20 GB of attachments.',

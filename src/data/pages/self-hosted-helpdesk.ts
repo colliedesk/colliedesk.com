@@ -28,7 +28,7 @@ const body = `## When self-hosting is the right call
 - You already run Docker services and have someone who keeps them patched and backed up.
 - You want to read the code that handles your customer data, or change it.
 
-If none of these apply, [Colliedesk Cloud](/pricing) runs the same code for $49 per workspace per month, and you can still export everything.
+If none of these apply, [Colliedesk Cloud](/pricing) runs the same code from $19 per workspace per month (Team: $69 for up to 10 agents), and you can still export everything.
 
 ## What you run
 

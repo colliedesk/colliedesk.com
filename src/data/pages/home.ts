@@ -1,4 +1,4 @@
-import { CONTACT_EMAIL, POSITIONING, PRICES_READ, REPO, TAGLINE, TRIAL_HREF } from '../../lib/site';
+import { CONTACT_EMAIL, LADDER_LINE, POSITIONING, PRICE, PRICES_READ, REPO, TAGLINE, TRIAL_HREF } from '../../lib/site';
 import { PER_WORKSPACE_FAQ } from './pricing';
 import { faqPage, organization, softwareApplication } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
@@ -21,7 +21,7 @@ export const HOME_FAQ: Faq[] = [
   },
   {
     q: 'Is Colliedesk free?',
-    a: 'Self-hosting is free, forever, with every feature. Colliedesk Cloud costs $49 per workspace per month or $490 per year, with no per-agent fees. See [pricing](/pricing).',
+    a: `Self-hosting is free, forever, with every feature. Colliedesk Cloud is one flat price per workspace, with no per-agent fees: ${LADDER_LINE}. There is no free Cloud plan; every workspace starts with a 14-day free trial, no card. See [pricing](/pricing).`,
   },
   {
     q: 'Is Colliedesk ready to use?',
@@ -30,7 +30,7 @@ export const HOME_FAQ: Faq[] = [
   PER_WORKSPACE_FAQ,
   {
     q: 'What happens over the limit?',
-    a: `Agents: Cloud Team covers up to 10. At 11 you move to Team 25, $99 a month for up to 25. Above 25, email us at ${CONTACT_EMAIL}, or self-host with no agent limit. Storage: we warn you at 80%. Over the cap, customer email keeps arriving with its attachments; only your own uploads and new imports pause until you free space or move up. Nothing is deleted. See [pricing](/pricing).`,
+    a: `Agents: each plan has a limit: Solo 1 agent, Small 3, Team 10, Team 25 up to 25. Pass it and you move up one plan; at 11 agents that is Team 25, ${PRICE.team25Monthly} a month. Above 25, Unlimited is coming soon; until then email us at ${CONTACT_EMAIL}, or self-host with no agent limit. Storage: we warn you at 80%. Over the cap, customer email keeps arriving with its attachments; only your own uploads and new imports pause until you free space or move up. Nothing is deleted. See [pricing](/pricing).`,
   },
   {
     q: 'Who is behind Colliedesk?',
@@ -50,7 +50,7 @@ const md = `${TAGLINE} ${POSITIONING}
 
 ${HOME_H1} ${HOME_LEDE} The Freshdesk importer is available now; reconcile report numbers shown on the site are an example.
 
-Status: alpha (0.0.x), live on Colliedesk Cloud with a 14-day free trial. Self-host free: ${REPO}. Cloud: $49 per workspace per month or $490 per year.
+Status: alpha (0.0.x), live on Colliedesk Cloud with a 14-day free trial. Self-host free: ${REPO}. Cloud: ${LADDER_LINE}.
 
 ${homeSectionsMd}
 
@@ -69,7 +69,7 @@ const page: Page = {
   section: 'Product',
   title: `Colliedesk: $${OURS_YEAR} a year for your whole support team, not per agent`,
   description:
-    `Colliedesk is an open-source helpdesk for small support teams, $${OURS_YEAR} a year for up to 10 agents, where five agents pay Freshdesk ${rangeLabel(FRESHDESK_RANGE)} a year. Leave Freshdesk with all your data. $49 per workspace, no per-agent fees.`,
+    `Colliedesk is an open-source helpdesk for small support teams, $${OURS_YEAR} a year for up to 10 agents, where five agents pay Freshdesk ${rangeLabel(FRESHDESK_RANGE)} a year. Leave Freshdesk with all your data. One flat price per workspace from ${PRICE.range} a month, no per-agent fees.`,
   summary: `What Colliedesk is, what we sell, what AI agents can do through MCP, status, founding offer; competitor prices read ${PRICES_READ}`,
   h1: HOME_H1,
   lede: HOME_LEDE,

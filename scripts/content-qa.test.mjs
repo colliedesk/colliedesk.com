@@ -74,6 +74,6 @@ test('accepts an external link or a /vs page as the source of a competitor price
 });
 
 test("Colliedesk's own prices need no outside source", () => {
-  const own = CLEAN.replace('Read the [Freshdesk pricing history](https://colliedesk.com/freshdesk-pricing-history) to see what changed and when.', 'Colliedesk Cloud is $49 a month.');
+  const own = CLEAN.replace('Read the [Freshdesk pricing history](https://colliedesk.com/freshdesk-pricing-history) to see what changed and when.', 'Colliedesk Cloud Team is $69 a month.');
   assert.deepEqual(page(own), []);
 });
