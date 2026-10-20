@@ -52,3 +52,11 @@ test('a claim marked anything but yes fails', () => {
   assert.equal(r.errors.length, 1);
   assert.match(r.errors[0], /not verified/);
 });
+
+test('a CMS branch or any change to a Markdown post makes approval required', () => {
+  const post = (status) => [{ filename: 'src/content/blog/freshdesk-export.md', status }];
+  assert.equal(contentApproval(pr({ branch: 'cms/blog/freshdesk-export', files: [] })).required, true);
+  assert.equal(contentApproval(pr({ branch: 'docs/x', files: post('added') })).required, true);
+  assert.equal(contentApproval(pr({ branch: 'docs/x', files: post('modified') })).required, true);
+  assert.equal(contentApproval(pr({ branch: 'docs/x', files: [{ filename: 'src/lib/blog.ts', status: 'added' }] })).required, false);
+});

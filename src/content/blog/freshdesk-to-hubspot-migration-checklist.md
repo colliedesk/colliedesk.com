@@ -1,7 +1,17 @@
-import type { Page } from '../../lib/page';
-import { techArticle } from '../../lib/schema';
+---
+title: "Freshdesk to HubSpot migration checklist: 10 checks"
+description: "Ten checks before accepting a Freshdesk-to-HubSpot migration: ticket history, private notes, attachments, CRM links, workflows, forums and email cutover."
+summary: "Ten migration acceptance checks, a representative pilot and full reconciliation before leaving Freshdesk"
+h1: "Freshdesk to HubSpot migration checklist"
+lede: "Verify that your team can read the history, open the files and keep answering customers before you switch."
+published: "2026-10-19"
+category: "Migration"
+about:
+  - "Freshdesk"
+  - "HubSpot Service Hub"
+---
 
-const body = `*By HC Labs · Published 19 October 2026 · Product documentation checked on the same date.*
+*By HC Labs · Published 19 October 2026 · Product documentation checked on the same date.*
 
 Moving support into the CRM your sales team already uses can make sense. The difficult question is what happens to years of replies, private notes, attachments and community discussions.
 
@@ -19,7 +29,7 @@ Check the destination with the accounts your agents will use. HubSpot lists its 
 
 Freshdesk's [ticket export documentation](https://support.freshdesk.com/support/solutions/articles/225158) says the CSV or Excel export does not contain the entire conversation or archived-ticket history. A spreadsheet of ticket fields is insufficient evidence of a complete backup.
 
-Take a full account export before changing routing or cancelling Freshdesk. Use the [account export instructions](https://support.freshdesk.com/support/solutions/articles/226393-how-do-i-export-the-data-in-my-account-) and inspect the downloaded files. Separately verify that attachment files and inline images are recoverable; a URL in an export does not prove you have a copy of the file.
+Take a full account export before changing routing or cancelling Freshdesk. Use the [account export instructions](https://support.freshdesk.com/support/solutions/articles/226393-how-do-i-export-the-data-in-my-account-) and inspect the downloaded files. Then check that attachment files and inline images can be opened. A URL in an export does not prove you have a copy of the file.
 
 **Pass when:** a second authorized person can open the backup and find a known old ticket, its replies, notes and files.
 
@@ -71,7 +81,7 @@ Inspect tickets from customers with multiple contacts, changed email addresses o
 
 If the knowledge base has already moved, test its public URLs, redirects, embedded images, search and access restrictions. A successful article migration does not establish that forum discussions moved too.
 
-For the community forum, choose explicitly: migrate it, retain it, or create an archive. Include authors, dates, replies, attachments, permissions and existing links in that decision. If you plan to keep one Freshdesk seat for the forum, obtain confirmation of the exact plan, cost and continuing forum access before changing the subscription.
+For the community forum, choose explicitly: migrate it, retain it, or create an archive. Include authors, dates, replies, attachments, permissions and existing links in that decision. Plan to keep one Freshdesk seat for the forum? Get the exact plan, cost and forum access in writing first. Then change the subscription.
 
 **Pass when:** customers can still reach the content they need, and someone owns the forum's ongoing hosting and moderation.
 
@@ -93,7 +103,7 @@ Rehearse with controlled mailboxes:
 
 ## Start with a representative pilot
 
-Choose a small sample, such as 20 tickets, that includes an old archived ticket, a long conversation, private notes, inline images, a departed agent, custom fields, and an active email thread with CCs. Run the relevant checks above on those cases before moving the rest.
+Choose a small sample, such as 20 tickets. Include an old archived ticket, a long conversation and private notes. Add inline images, a departed agent, custom fields and an active email thread with CCs. Run the relevant checks above on those cases before moving the rest.
 
 The sample tests the migration method. It does not prove the full dataset arrived. Follow it with reconciliation across the complete agreed scope.
 
@@ -103,29 +113,4 @@ Keep a simple acceptance record for each check: source ID, destination ID, expec
 
 HC Labs publishes this guide and builds Colliedesk, a separate open-source helpdesk. For Freshdesk-to-Colliedesk migration, see our [Freshdesk migration guide](/migrate/freshdesk) and [export checklist](/migrate/freshdesk/export). To compare product fit, see [Colliedesk and HubSpot Service Hub](/vs/hubspot-service-hub).
 
-[More support guides](/blog)`;
-
-const page: Page = {
-  jsonLd: [],
-  name: 'Freshdesk to HubSpot migration checklist',
-  path: '/blog/freshdesk-to-hubspot-migration-checklist',
-  updated: '2026-10-19',
-  section: 'Blog',
-  title: 'Freshdesk to HubSpot migration checklist: history, files and cutover',
-  description: 'Ten checks before accepting a Freshdesk-to-HubSpot migration: ticket history, private notes, attachments, CRM links, workflows, forums and email cutover.',
-  summary: 'Ten migration acceptance checks, a representative pilot and full reconciliation before leaving Freshdesk',
-  eyebrow: 'Blog · Migration',
-  h1: 'Freshdesk to HubSpot migration checklist',
-  lede: 'Verify that your team can read the history, open the files and keep answering customers before you switch.',
-  body,
-};
-page.jsonLd = [{
-  ...techArticle(page),
-  '@type': 'BlogPosting',
-  datePublished: page.updated,
-  about: [
-    { '@type': 'SoftwareApplication', name: 'Freshdesk' },
-    { '@type': 'SoftwareApplication', name: 'HubSpot Service Hub' },
-  ],
-}];
-export default page;
+[More support guides](/blog)

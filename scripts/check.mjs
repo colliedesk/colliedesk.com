@@ -80,7 +80,9 @@ if (!existsSync(outDir)) {
 }
 
 const files = walk(outDir);
-const pages = files.filter((f) => f.endsWith('.html') && !f.endsWith(`${sep}404.html`));
+// The editor at /admin (public/admin/) is not a site page: no twin, no sitemap entry, noindex.
+const isEditor = (f) => relative(outDir, f).split(sep)[0] === 'admin';
+const pages = files.filter((f) => f.endsWith('.html') && !f.endsWith(`${sep}404.html`) && !isEditor(f));
 const read = (name) => (existsSync(join(outDir, name)) ? readFileSync(join(outDir, name), 'utf8') : '');
 const llms = read('llms.txt');
 const llmsFull = read('llms-full.txt');
@@ -95,6 +97,10 @@ if (!/Sitemap: https:\/\/colliedesk\.com\/sitemap\.xml/.test(robots)) fail('robo
 for (const bot of AI_CRAWLERS) {
   if (!new RegExp(`User-agent: ${bot}\\s*\\nAllow: /`).test(robots)) fail(`robots.txt does not allow ${bot}`);
 }
+
+// The browser editor for blog posts: present, and kept out of search.
+if (!read('admin/index.html').includes('<meta name="robots" content="noindex, nofollow"')) fail('/admin: editor missing or not noindex');
+if (!read('admin/config.yml').includes('folder: src/content/blog')) fail('/admin: config.yml missing or not editing src/content/blog');
 
 const urlPaths = pages.map(urlPathOf);
 for (const required of REQUIRED_PAGES) {

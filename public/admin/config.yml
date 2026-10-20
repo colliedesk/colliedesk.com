@@ -1,0 +1,84 @@
+# Sveltia CMS at https://colliedesk.com/admin/. Docs: https://sveltiacms.app/en/docs
+# Saving a draft creates a branch cms/blog/<slug> and a pull request, so the post runs every
+# site check and waits for the content:approved label (scripts/content-approval.mjs) like any
+# other content PR. Publishing in the editor merges that pull request; it fails until approved.
+backend:
+  name: github
+  repo: colliedesk/colliedesk.com
+  branch: main
+  # Sign in with a fine-grained token for this repository only
+  # (Contents and Pull requests: read and write).
+
+publish_mode: editorial_workflow
+media_folder: public/images/blog
+public_folder: /images/blog
+
+# Match src/lib/blog-post.ts: an empty optional field is left out, not written as "" or null.
+output:
+  omit_empty_optional_fields: true
+  yaml:
+    quote: double
+
+collections:
+  - name: blog
+    label: Blog
+    label_singular: Post
+    folder: src/content/blog
+    create: true
+    extension: md
+    format: frontmatter
+    slug: "{{slug}}"
+    identifier_field: h1
+    summary: "{{published}} · {{h1}}"
+    sortable_fields:
+      fields: [published, h1]
+      default: { field: published, direction: descending }
+    fields:
+      - name: h1
+        label: Heading
+        widget: string
+        hint: The headline on the page. Also the post's name in the editor and on /blog.
+      - name: title
+        label: SEO title
+        widget: string
+        hint: The browser tab and the Google result. At most 60 characters.
+      - name: description
+        label: Meta description
+        widget: text
+        hint: Shown under the title in Google and on /blog. 120 to 160 characters.
+      - name: summary
+        label: Summary for AI readers
+        widget: string
+        hint: One line for llms.txt.
+      - name: lede
+        label: Lede
+        widget: text
+        required: false
+        hint: One sentence under the heading.
+      - name: category
+        label: Category
+        widget: select
+        options: [Migration, Pricing, Support workflows]
+        default: Migration
+      - name: published
+        label: Published
+        widget: datetime
+        time_format: false
+        format: YYYY-MM-DD
+        default: "{{now}}"
+      - name: updated
+        label: Updated
+        widget: datetime
+        time_format: false
+        format: YYYY-MM-DD
+        required: false
+        hint: Set it when you change a published post.
+      - name: about
+        label: Products the post is about
+        widget: list
+        required: false
+        hint: For example Freshdesk, HubSpot Service Hub.
+      - name: body
+        label: Body
+        widget: markdown
+        hint: "No em dash. Link at least 2 other pages of the site, and one of /pricing or /migrate/."

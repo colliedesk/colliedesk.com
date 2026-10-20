@@ -1,6 +1,7 @@
 // Required check `content-approval`: a pull request that publishes SEO content merges only after a
-// person approves it. Content means an `seo/` branch, an `seo:` label, or a new page module in
-// src/data/pages/. Such a PR needs the label content:approved, which only the owner adds (an agent
+// person approves it. Content means an `seo/` branch, a `cms/` branch (a draft saved in the editor at
+// /admin), an `seo:` label, a new page module in src/data/pages/, or any change to a Markdown post in
+// src/content/. Such a PR needs the label content:approved, which only the owner adds (an agent
 // hook refuses it, and the workflow removes it when new commits arrive), and a "## Claim check"
 // table in its body with every claim's source marked verified. Other PRs pass untouched.
 import { readFileSync } from 'node:fs';
@@ -22,8 +23,10 @@ function claimRows(body) {
 export function contentApproval({ branch, labels, files, body }) {
   const required =
     branch.startsWith('seo/') ||
+    branch.startsWith('cms/') ||
     labels.some((l) => l.startsWith('seo:')) ||
-    files.some((f) => f.status === 'added' && f.filename.startsWith('src/data/pages/'));
+    files.some((f) => f.status === 'added' && f.filename.startsWith('src/data/pages/')) ||
+    files.some((f) => f.filename.startsWith('src/content/'));
   if (!required) return { required, errors: [] };
 
   const errors = [];

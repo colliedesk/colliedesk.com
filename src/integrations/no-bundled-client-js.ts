@@ -1,6 +1,7 @@
 // Fails the build when any JavaScript other than public/theme.js, public/updates.js, public/analytics.js and public/consent.js would ship:
 // a bundle in _astro/ (a client:* directive, a processed <script>) or a script Astro inlined into a
-// page. JSON-LD blocks are data, not code, and stay allowed.
+// page. JSON-LD blocks are data, not code, and stay allowed. The editor at /admin (public/admin/) is
+// not a site page: it loads the pinned Sveltia CMS build and is never linked or indexed.
 import { readFile, readdir } from 'node:fs/promises';
 import type { AstroIntegration } from 'astro';
 
@@ -20,7 +21,7 @@ export const noBundledClientJs = (): AstroIntegration => ({
   hooks: {
     'astro:build:done': async ({ dir }) => {
       const problems = (await filesIn(new URL('_astro/', dir))).filter((f) => /\.m?js$/.test(f)).map((f) => `_astro/${f}`);
-      for (const page of (await filesIn(dir)).filter((f) => f.endsWith('.html'))) {
+      for (const page of (await filesIn(dir)).filter((f) => f.endsWith('.html') && !f.startsWith('admin/'))) {
         const html = await readFile(new URL(page, dir), 'utf8');
         for (const [, attrs = ''] of html.matchAll(/<script\b([^>]*)>/g)) {
           if (!ALLOWED_SCRIPT.test(attrs)) problems.push(`${page}: <script${attrs}>`);
