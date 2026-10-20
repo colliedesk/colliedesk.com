@@ -13,7 +13,7 @@ const faq: Faq[] = [
   },
   {
     q: 'Which Freshdesk alternative is cheapest for 5 agents?',
-    a: `Among the paid plans we compared on ${PRICES_READ}, Colliedesk Cloud Team at $690 a year per workspace ($57.50 a month, or $69 billed monthly) is the lowest helpdesk price for 5 agents. Helply (formerly Groove) starts at $49 a month, but that buys AI credits. Zoho Desk Express (€7 per user, max 5) and the free plans of Zoho Desk and HubSpot are cheaper if you can live with their limits.`,
+    a: `Among the paid plans we compared on ${PRICES_READ}, the lowest prices for 5 agents are plans capped at five: Zammad Starter and Zoho Desk Express, each €7 per agent, so €35 a month. Colliedesk Cloud Team is $690 a year per workspace ($57.50 a month, or $69 billed monthly), which keeps the same price up to 10 agents. Helply (formerly Groove) starts at $49 a month, but that buys AI credits. The free plans of Zoho Desk and HubSpot cost nothing if you can live with their limits.`,
   },
 ];
 
@@ -24,13 +24,13 @@ Prices for 5 agents per month, billed annually, from each vendor's page on ${PRI
 | Helpdesk | 5 agents | Pricing model | Open source | Freshdesk import | Comparison |
 |---|---|---|---|---|---|
 | **Colliedesk** | **$57.50** (Team, $690 a year) + AI usage | Flat per workspace, up to 10 agents | AGPL-3.0 | Available now (alpha), with reconcile report | — |
-| Zammad | €80–90 (Professional) | Per agent (hosted, in euros) | AGPL-3.0 | Released, self-serve | [vs Zammad](/vs/zammad) |
+| Zammad | €35 (Starter, max 5 agents); €80–90 (Professional) | Per agent (hosted, in euros) | AGPL-3.0 | Released, self-serve | [vs Zammad](/vs/zammad) |
 | Chatwoot | $195 (Business) | Per agent | MIT (core) | Paid plans; no attachments | [vs Chatwoot](/vs/chatwoot) |
 | FreeScout | Hosting + modules | Free core, paid modules, no official cloud | AGPL-3.0 | Third-party or community module | [vs FreeScout](/vs/freescout) |
 | Zendesk | €825 (with Copilot) | Per agent (in euros) | No | — | [vs Zendesk](/vs/zendesk) |
 | Help Scout | $125 (Standard) | Per user, plus $0.75 per AI resolution | No | — | [vs Help Scout](/vs/help-scout) |
 | Front | $425 (Professional + Copilot) | Per seat | No | — | [vs Front](/vs/front) |
-| Zoho Desk | €115 (Professional, with Zia) | Per user (in euros) | No | Free migration offered by Zoho | [vs Zoho Desk](/vs/zoho-desk) |
+| Zoho Desk | €35 (Express, max 5 users); €115 (Professional, with Zia) | Per user (in euros) | No | Free migration offered by Zoho | [vs Zoho Desk](/vs/zoho-desk) |
 | HappyFox | $120 (Basic, max 5) | Per agent | No | — | [vs HappyFox](/vs/happyfox) |
 | Gorgias | $77–1,227 by tickets, with AI Agent | By ticket volume | No | — | [vs Gorgias](/vs/gorgias) |
 | HubSpot Service Hub | $500 (Professional) | Per seat | No | — | [vs HubSpot](/vs/hubspot-service-hub) |
