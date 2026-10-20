@@ -14,18 +14,18 @@ function Founding() {
             <p className="eyebrow">Founding offer</p>
             {state.open ? (
               <>
-                <h2 id="founding-title">$100 a year. Locked for life.</h2>
+                <h2 id="founding-title">$99 a quarter. Locked for life.</h2>
                 <p className="section-lede">For small teams planning to leave Freshdesk. Only {FOUNDING_SLOTS} workspaces get it. Cloud Team lists at {PRICE.yearly} a year. Your price never goes up, and we migrate your Freshdesk data for free.</p>
               </>
             ) : (
               <>
                 <h2 id="founding-title">Founding is closed. All {FOUNDING_SLOTS} places are taken.</h2>
-                <p className="section-lede">Thank you to the first {FOUNDING_SLOTS} teams. Their price stays $100 a year for life. Everyone else can start on Cloud Team, or self-host for free.</p>
+                <p className="section-lede">Thank you to the first {FOUNDING_SLOTS} teams. Their price stays $99 a quarter for life. Everyone else can start on Cloud Team, or self-host for free.</p>
               </>
             )}
           </div>
           <ul className="check-list">
-            <li>$100 per workspace per year, locked for life</li>
+            <li>$99 a quarter per workspace, locked for life</li>
             <li>{MONEY_BACK}: full refund within 30 days, no questions asked</li>
             <li>Free Freshdesk migration with a reconcile report</li>
             <li>Up to 10 agents, no per-agent fees</li>
@@ -36,8 +36,8 @@ function Founding() {
           {state.open ? (
             <div className="founding-cta">
               <FoundingMeter state={state} />
-              <a className="btn btn-primary btn-lg" href={FOUNDING_CHECKOUT} rel="noopener">Become a founding customer, $100/year</a>
-              <p>Secure checkout by Polar. Not right for you? Email us within 30 days and we refund the full $100, <a href="/terms#refunds">no questions asked</a>. After payment we email you within one business day to set up your workspace and plan your Freshdesk migration.</p>
+              <a className="btn btn-primary btn-lg" href={FOUNDING_CHECKOUT} rel="noopener">Become a founding customer, $99/quarter</a>
+              <p>Secure checkout by Polar. Not right for you? Email us within 30 days and we refund the full $99, <a href="/terms#refunds">no questions asked</a>. After payment we email you within one business day to set up your workspace and plan your Freshdesk migration.</p>
             </div>
           ) : (
             <div className="founding-cta">

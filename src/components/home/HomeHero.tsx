@@ -35,7 +35,7 @@ export function HeroCopy() {
         <a className="btn btn-lg" href="/migrate/freshdesk">Read the migration guide</a>
       </div>
       {foundingState().open ? (
-        <p className="hero-note">14-day free trial, no card · One plan: <a href="/pricing">Founding, <b>$100</b> a year</a>, locked for life · <a href="#bill">See the five-agent bill</a></p>
+        <p className="hero-note">14-day free trial, no card · One plan: <a href="/pricing">Founding, <b>$99</b> a quarter</a>, locked for life · <a href="#bill">See the five-agent bill</a></p>
       ) : (
         <p className="hero-note">14-day free trial, no card · Plans from <b>{dollars(SOLO.monthly)}</b> a month · Founding price locked for life · <a href="#bill">See the five-agent bill</a></p>
       )}

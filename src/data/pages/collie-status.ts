@@ -3,7 +3,7 @@ import { foundingState } from '../../lib/founding';
 import { LADDER_LINE } from '../../lib/site';
 
 // While Founding is open it is the only plan on sale.
-const cloudPlans = foundingState().open ? 'then Founding, $100 a year, 10 places' : 'then a plan from Solo to Team 25, or Founding';
+const cloudPlans = foundingState().open ? 'then Founding, $99 a quarter, 10 places' : 'then a plan from Solo to Team 25, or Founding';
 export const statusTable = `| Capability | Colliedesk |
 |---|---|
 | Shared inbox: replies, Cc, private notes, status, priority, assignee, tags, search, bulk actions | **Available now** (alpha) |
@@ -22,7 +22,7 @@ export const statusTable = `| Capability | Colliedesk |
 | Zendesk and Help Scout importers, live chat widget | **Coming later** |`;
 
 export const collieFacts: Readonly<Record<'price' | 'ai' | 'free' | 'source' | 'export', string>> = {
-  price: `One flat price per workspace, no per-agent fees: ${LADDER_LINE}. A year costs ten months. Founding customers (10 workspaces only): $100 per year, locked for life.`,
+  price: `One flat price per workspace, no per-agent fees: ${LADDER_LINE}. A year costs ten months. Founding customers (10 workspaces only): $99 per quarter, locked for life.`,
   ai: 'Included (coming after beta). LLM cost +30% on our key, or bring your own key.',
   free: 'Self-host free, every feature. Cloud: 14-day free trial, no card.',
   source: 'Open source, AGPL-3.0. Self-host or use Cloud.',

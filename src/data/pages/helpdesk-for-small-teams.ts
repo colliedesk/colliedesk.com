@@ -51,7 +51,7 @@ ${statusTable}
 ## How small teams start
 
 1. **Try it:** [start the 14-day Cloud trial](${TRIAL_HREF}), or self-host free.
-2. **Plan the move before your renewal:** the [founding offer](${FOUNDING_HREF}) is $100 per workspace per year, locked for life, and we [migrate your Freshdesk data for you](/migrate/freshdesk/done-for-you).
+2. **Plan the move before your renewal:** the [founding offer](${FOUNDING_HREF}) is $99 a quarter per workspace, locked for life, and we [migrate your Freshdesk data for you](/migrate/freshdesk/done-for-you).
 3. **Switch only when the reconcile report matches.**`;
 
 const page: Page = {

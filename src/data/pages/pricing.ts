@@ -43,7 +43,7 @@ const ladderFaq: Faq[] = [
   },
   {
     q: 'What is the founding offer?',
-    a: `A founding customer pays $100 per workspace per year, and that price is locked for life. It is limited to 10 workspaces in total; when they are taken, the offer closes for good. We also migrate your Freshdesk data for you, free. It includes up to 10 agents and 20 GB of attachments, imported files included. Above 20 GB nothing is deleted and customer email keeps arriving with its attachments; only your own uploads and new imports wait until you upgrade to Cloud Team, which includes ${TEAM.storage}. It is for teams who want to leave Freshdesk and help shape Colliedesk while it is young.`,
+    a: `A founding customer pays $99 a quarter per workspace, and that price is locked for life. It is limited to 10 workspaces in total; when they are taken, the offer closes for good. We also migrate your Freshdesk data for you, free. It includes up to 10 agents and 20 GB of attachments, imported files included. Above 20 GB nothing is deleted and customer email keeps arriving with its attachments; only your own uploads and new imports wait until you upgrade to Cloud Team, which includes ${TEAM.storage}. It is for teams who want to leave Freshdesk and help shape Colliedesk while it is young.`,
   },
   {
     q: 'Can I get my money back if Founding is not right for us?',
@@ -66,7 +66,7 @@ const cloudRow = (p: (typeof CLOUD_PLANS)[number]): string => {
 const plansMd = `| Plan | Price | What you get |
 |---|---|---|
 ${CLOUD_PLANS.map(cloudRow).join('\n')}
-| Founding | $100 per workspace per year, locked for life; 30-day money-back guarantee | Limited to 10 workspaces. Freshdesk migration done for you, with a reconcile report. Up to 10 agents, no per-agent fees. 20 GB of attachments, imported files included. |
+| Founding | $99 a quarter per workspace, locked for life; 30-day money-back guarantee | Limited to 10 workspaces. Freshdesk migration done for you, with a reconcile report. Up to 10 agents, no per-agent fees. 20 GB of attachments, imported files included. |
 | Self-host | $0, forever | Every feature, no agent limit. AGPL-3.0. AI with your own model key. |
 
 Every plan has every feature, unlimited conversations, no per-agent fees, and AI at LLM cost +30% or your own key. 14-day free trial, no card. No automatic charge: when the trial ends, you pick a plan or export your data. Cancel anytime.
@@ -106,13 +106,13 @@ if (!FOUNDING_FAQ || !REFUND_FAQ || !SELF_HOST_FAQ || !AI_FAQ) throw new Error('
 const foundingFaq: Faq[] = [
   {
     q: 'Why is there only one plan?',
-    a: `Because Colliedesk is young and we want ${FOUNDING_SLOTS} teams who use it every day and tell us what to fix. One plan, one price: $100 per workspace per year, about $2 a week, for up to 10 agents. No per-agent fees, no tiers to compare.`,
+    a: `Because Colliedesk is young and we want ${FOUNDING_SLOTS} teams who use it every day and tell us what to fix. One plan, one price: $99 a quarter per workspace, $396 a year, about $7.60 a week, for up to 10 agents. No per-agent fees, no tiers to compare.`,
   },
   FOUNDING_FAQ,
   REFUND_FAQ,
   {
     q: 'What happens when the 10 places are taken?',
-    a: 'Founding closes for good. New workspaces then pick a Cloud plan by team size. Founding customers keep $100 a year for life, for as long as they stay.',
+    a: 'Founding closes for good. New workspaces then pick a Cloud plan by team size. Founding customers keep $99 a quarter for life, for as long as they stay.',
   },
   {
     q: 'Can I try it before I pay?',
@@ -124,14 +124,14 @@ const foundingFaq: Faq[] = [
 
 const foundingPlansMd = `| Plan | Price | What you get |
 |---|---|---|
-| Founding | $100 per workspace per year (about $2 a week), locked for life; 30-day money-back guarantee | Limited to ${FOUNDING_SLOTS} workspaces. Freshdesk migration done for you, with a reconcile report. Up to 10 agents, no per-agent fees. 20 GB of attachments, imported files included. A direct line to the founder, and a say in the roadmap. [Join for $100/year](${FOUNDING_CHECKOUT}). |
+| Founding | $99 a quarter per workspace ($396 a year, about $7.60 a week), locked for life; 30-day money-back guarantee | Limited to ${FOUNDING_SLOTS} workspaces. Freshdesk migration done for you, with a reconcile report. Up to 10 agents, no per-agent fees. 20 GB of attachments, imported files included. A direct line to the founder, and a say in the roadmap. [Join for $99/quarter](${FOUNDING_CHECKOUT}). |
 | Self-host | $0, forever | Every feature, no agent limit. AGPL-3.0. AI with your own model key. |
 
 Want to look first? Every Cloud workspace starts with a 14-day free trial, no card, no automatic charge.`;
 
 const foundingBody = `## One plan while we are young
 
-We sell one thing right now: **Founding**, for ${FOUNDING_SLOTS} support teams who want to leave Freshdesk. You get every feature, we move your Freshdesk history for you and prove nothing was lost, and you talk to the person who builds Colliedesk. When the ${FOUNDING_SLOTS} places are taken, Founding closes for good and your price stays at $100 a year.
+We sell one thing right now: **Founding**, for ${FOUNDING_SLOTS} support teams who want to leave Freshdesk. You get every feature, we move your Freshdesk history for you and prove nothing was lost, and you talk to the person who builds Colliedesk. When the ${FOUNDING_SLOTS} places are taken, Founding closes for good and your price stays at $99 a quarter.
 
 ## Who Founding is for
 
@@ -154,19 +154,19 @@ A support team that matches all five:
 
 ## How this compares
 
-For five agents, Freshdesk Pro with Freddy AI Copilot lists at $5,040 a year billed annually. Founding is $100 a year for the workspace, plus AI usage. Prices and sources: [vs Freshdesk](/vs/freshdesk), [vs Zendesk](/vs/zendesk), [vs Help Scout](/vs/help-scout).
+For five agents, Freshdesk Pro with Freddy AI Copilot lists at $5,040 a year billed annually. Founding is $396 a year ($99 a quarter) for the workspace, plus AI usage. Prices and sources: [vs Freshdesk](/vs/freshdesk), [vs Zendesk](/vs/zendesk), [vs Help Scout](/vs/help-scout).
 
 ## Honest status
 
 Colliedesk is in **alpha** (0.0.x). It is released and runs on Colliedesk Cloud, with the email channel, the Freshdesk importer with its reconcile report, saved replies, Cc on replies, attachments and live updates. Alpha means the interface or database schema may change between releases. Not there yet: starting a new conversation from the inbox and contact history (beta), and AI (after beta). If you must have those this week, Colliedesk is not ready for you yet. If you are planning your exit before your next Freshdesk renewal, [join as a founding customer](${FOUNDING_CHECKOUT}) and we refund you in full within 30 days if it is not right.`;
 
 const foundingPage = {
-  title: 'Colliedesk pricing: one plan, $100 a year per workspace, locked for life',
+  title: 'Colliedesk pricing: one plan, $99 a quarter per workspace, locked for life',
   description:
-    `Colliedesk sells one plan while it is young: Founding, $100 per workspace per year for up to 10 agents, locked for life, with Freshdesk migration done for you. Only ${FOUNDING_SLOTS} places. 30-day money-back guarantee. Self-hosting is free.`,
-  summary: `one plan while founding is open: $100 per workspace per year, locked for life, up to 10 agents, Freshdesk migration done for you, ${FOUNDING_SLOTS} places, 30-day money-back guarantee; 14-day free trial; self-host free`,
-  h1: 'One plan. $100 a year, locked for life.',
-  lede: `For ${FOUNDING_SLOTS} support teams of 3 to 10 agents who pay for Freshdesk and just got a price rise. About $2 a week for the whole team. If it is not right within 30 days, we refund you in full.`,
+    `Colliedesk sells one plan while it is young: Founding, $99 a quarter per workspace for up to 10 agents, locked for life, with Freshdesk migration done for you. Only ${FOUNDING_SLOTS} places. 30-day money-back guarantee. Self-hosting is free.`,
+  summary: `one plan while founding is open: $99 a quarter per workspace, locked for life, up to 10 agents, Freshdesk migration done for you, ${FOUNDING_SLOTS} places, 30-day money-back guarantee; 14-day free trial; self-host free`,
+  h1: 'One plan. $99 a quarter, locked for life.',
+  lede: `For ${FOUNDING_SLOTS} support teams of 3 to 10 agents who pay for Freshdesk and just got a price rise. $396 a year, about $7.60 a week for the whole team. If it is not right within 30 days, we refund you in full.`,
   preMd: foundingPlansMd,
   body: foundingBody,
   faq: foundingFaq,

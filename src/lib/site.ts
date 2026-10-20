@@ -81,7 +81,7 @@ export const PRICE = {
   team25Yearly: dollars(TEAM_25.yearly),
   // "$19 to $149": the plans that can be bought today, cheapest to dearest.
   range: `${dollars(SOLO.monthly)} to ${dollars(TEAM_25.monthly)}`,
-  founding: '$100 per year, locked for life, with free Freshdesk migration',
+  founding: '$99 per quarter ($396 a year), locked for life, with free Freshdesk migration',
   ai: 'LLM cost +30%, or bring your own key',
 } as const;
 // One line naming every plan, for page copy and the Markdown twins.
