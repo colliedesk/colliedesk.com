@@ -2,7 +2,7 @@ import { techArticle } from '../../lib/schema';
 import type { Page } from '../../lib/page';
 import { CONTACT_EMAIL } from '../../lib/site';
 
-export const LEGAL_UPDATED = '2026-10-18';
+export const LEGAL_UPDATED = '2026-10-21';
 export { CONTACT_EMAIL };
 
 const body = `## The short version
@@ -38,6 +38,7 @@ It does **not** cover a Colliedesk server that you run yourself. A self-hosted s
 |---|---|---|
 | Your email address and name | To sign you in and to tell you about your account | You, or Google if you sign in with Google |
 | Workspace content: customer emails, replies, notes, contacts, tags, attachments | To run your helpdesk | You, your teammates and your customers |
+| Permission to send email from a Gmail account an admin connects, and that account's address | To send your team's replies from your own address | Google, when an admin connects Gmail |
 | Billing details: name, email, country, plan, invoices | To charge for Colliedesk Cloud | Polar, our payment provider. We never see your card number |
 | A keyed fingerprint of your verified email address and of your IP address at sign-up | To allow one free trial per person and stop mass sign-ups | Your sign-up |
 | Technical data: IP address, browser, request times, errors | To keep the service secure and to fix problems | Your browser |
@@ -53,6 +54,12 @@ It does **not** cover a Colliedesk server that you run yourself. A self-hosted s
 - We do not use your workspace content to train AI models.
 - We do not read your conversations. We look at workspace content only when you ask us for help, or when we must to keep the service secure or to follow the law.
 
+## Google user data
+
+Colliedesk's use and transfer of information received from Google APIs adheres to the [Google API Services User Data Policy](https://developers.google.com/terms/api-services-user-data-policy), including the Limited Use requirements.
+
+When an admin connects Gmail, Colliedesk asks Google only for permission to send email and to see the account's address. It cannot read the mailbox. We use this access only to send the replies your team writes. The access Google gives us is encrypted and stored on our servers in Germany. We do not sell or transfer data received from Google, use it for advertising, or use it to train AI models, and people at Colliedesk do not read it except to keep the service secure, to follow the law, or when you ask us to.
+
 ## Where your data is stored
 
 Colliedesk Cloud runs on Hetzner servers in Falkenstein, Germany. Database and attachment backups are encrypted before they leave the server and are kept on other Hetzner servers in Germany.
@@ -66,6 +73,7 @@ Some of the providers below are outside the European Union (for example in the U
 | Hetzner | Servers and encrypted backups | Germany |
 | Clerk | Sign-in with an email code or Google | United States |
 | Google | Sign-in, only if you choose "Continue with Google" | United States |
+| Google | Sends your replies through the Gmail API, only for workspaces that connect Gmail | United States |
 | Polar | Payments, invoices and tax, as merchant of record | United States |
 | Resend | Sends the replies your team writes, and our service emails | United States |
 | Cloudflare | DNS and network protection | Global |
@@ -96,6 +104,7 @@ When you use **Report a problem** in Colliedesk Cloud, we receive what you write
 - **Active workspace:** as long as your subscription or trial runs.
 - **Ended trial or subscription:** the workspace is locked. You can still sign in and export everything.
 - **Locked for 12 months:** we delete the workspace with all its content and attachments. We email the admins 30 days before.
+- **Gmail access:** until an admin disconnects Gmail or the workspace is deleted. Disconnecting deletes it from our servers and asks Google to revoke it. You can also remove it at any time in your Google Account, under [Third-party connections](https://myaccount.google.com/connections).
 - **Backups:** an encrypted copy can stay in backups for up to 30 days after a deletion, then it expires.
 - **Sign-up fingerprints:** as long as Colliedesk Cloud runs (see above).
 - **Billing records:** as long as tax and accounting law requires.
