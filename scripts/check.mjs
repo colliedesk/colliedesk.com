@@ -1,6 +1,7 @@
 // Verifies the built site in _site/: every page has a Markdown twin, an llms.txt entry,
 // a sitemap entry, canonical + alternate links and valid JSON-LD; every internal link and
 // fragment resolves; the JavaScript budget holds. Exits 1 on any failure.
+import { createHash } from 'node:crypto';
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, relative, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -566,6 +567,18 @@ for (const file of files.filter((f) => f.endsWith('.html') && !/[\\/](changelog|
 
 const accentUses = (readFileSync(join(outDir, 'styles.css'), 'utf8').match(/var\(--accent/g) ?? []).length;
 if (accentUses > ACCENT_BUDGET) fail(`styles.css uses var(--accent…) ${accentUses} times > ${ACCENT_BUDGET}: the accent is for the primary action, focus and selection (README, Design)`);
+
+// Browsers keep a favicon per URL for days and ignore Cache-Control, so a new icon file is only
+// seen when its URL changes. Every icon link must carry ?v=<hash of the file it points to>.
+for (const file of [...pages, join(outDir, '404.html')].filter(existsSync)) {
+  for (const [, href] of readFileSync(file, 'utf8').matchAll(/<link rel="(?:icon|apple-touch-icon)"[^>]*href="([^"]+)"/g)) {
+    const [path, version] = href.split('?v=');
+    const asset = join(outDir, path);
+    if (!existsSync(asset)) { fail(`${urlPathOf(file)}: icon ${path} not built`); continue; }
+    const hash = createHash('sha256').update(readFileSync(asset)).digest('hex').slice(0, 10);
+    if (version !== hash) fail(`${urlPathOf(file)}: icon link ${href} must be ${path}?v=${hash} so browsers drop the old icon`);
+  }
+}
 
 if (jsBytes > JS_BUDGET_BYTES) fail(`JavaScript budget exceeded: ${jsBytes} bytes > ${JS_BUDGET_BYTES}`);
 
