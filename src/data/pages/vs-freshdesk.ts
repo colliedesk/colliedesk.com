@@ -79,12 +79,12 @@ Freshdesk has had more than a decade to grow. If you need a row marked "Freshdes
 
 | Feature | Freshdesk | Colliedesk |
 |---|---|---|
-| Knowledge base and help center | **Freshdesk**: yes | Coming after beta |
 | Automations, SLA and business hours | **Freshdesk**: yes | Coming later |
 | Reports and dashboards | **Freshdesk**: yes | Coming later |
 | Channels beyond email (chat, phone, social) | **Freshdesk**: yes | Live chat later; email today |
 | App marketplace | **Freshdesk**: yes | No |
 | Shared inbox, Cc, private notes, saved replies | Yes | Yes, available now |
+| Knowledge base and help center | Yes | Yes, available now |
 | Price as the team grows | Per agent, AI per agent on top | **Colliedesk**: one price per workspace |
 | Full export with conversations | Account export or API; the ticket export has fields only | **Colliedesk**: whole workspace as a ZIP, any time |
 | Source code and self-hosting | Proprietary, cloud only | **Colliedesk**: AGPL-3.0, self-host free |

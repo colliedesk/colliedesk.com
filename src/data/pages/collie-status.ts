@@ -8,18 +8,19 @@ export const statusTable = `| Capability | Colliedesk |
 |---|---|
 | Shared inbox: replies, Cc, private notes, status, priority, assignee, tags, search, bulk actions | **Available now** (alpha) |
 | Email channel (inbound and outbound, threading) | **Available now** (alpha) |
-| Freshdesk importer with reconcile report | **Available now** (alpha) |
+| Freshdesk and Help Scout importers with reconcile report | **Available now** (alpha) |
+| Knowledge base and public help center | **Available now** (alpha) |
+| New conversation from the inbox, contact history | **Available now** (alpha) |
 | Saved replies, attachments, live updates and browser notifications | **Available now** (alpha) |
 | Passwordless sign-in, revocable sessions, isolated workspaces, full export | **Available now** (alpha) |
 | MCP server for your AI agent: read, draft, send and admin tokens, risky actions approved by a person | **Available now** (alpha) |
 | One-command install and published container image | **Available now** |
+| Upgrade guide, upgrades tested on real data | **Available now** |
 | Colliedesk Cloud with a 14-day free trial, ${cloudPlans} | **Available now** (alpha) |
-| New conversation from the inbox, contact history | **Beta** (0.1.0) |
-| Upgrade guide, upgrades tested on real data | **Beta** (0.1.0) |
+| Gmail and Microsoft 365 mailboxes in one click, Freshdesk import inside the app, see who is replying | **Beta** (0.1.0) |
 | AI draft replies, triage, auto-answer with a human in the loop | **Coming after beta** |
-| Knowledge base and public help center | **Coming after beta** |
 | Automations, macros, SLA, business hours, CSAT and reports | **Coming later** |
-| Zendesk and Help Scout importers, live chat widget | **Coming later** |`;
+| Zendesk importer, live chat widget | **Coming later** |`;
 
 export const collieFacts: Readonly<Record<'price' | 'ai' | 'free' | 'source' | 'export', string>> = {
   price: `One flat price per workspace, no per-agent fees: ${LADDER_LINE}. A year costs ten months. Founding customers (10 workspaces only): $99 per quarter, locked for life.`,

@@ -27,7 +27,7 @@ export const HOME_FAQ: Faq[] = [
   },
   {
     q: 'Is Colliedesk ready to use?',
-    a: 'It is alpha (0.0.x): released and running on Colliedesk Cloud, with a 14-day free trial. The email channel (inbound and outbound, threading), the Freshdesk importer with its reconcile report, saved replies, Cc on replies, attachments and live updates work today. Alpha means the interface or database schema may change between releases. Starting a new conversation from the inbox and contact history are not there yet (beta), and neither is AI. See the [roadmap](/roadmap).',
+    a: 'It is alpha (0.0.x): released and running on Colliedesk Cloud, with a 14-day free trial. The email channel (inbound and outbound, threading), the Freshdesk and Help Scout importers with their reconcile reports, the knowledge base and public help center, starting a new conversation from the inbox, contact history, saved replies, Cc on replies, attachments and live updates work today. Alpha means the interface or database schema may change between releases. AI is not there yet; it comes after beta. See the [roadmap](/roadmap).',
   },
   PER_WORKSPACE_FAQ,
   {
