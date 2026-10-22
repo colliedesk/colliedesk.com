@@ -454,13 +454,29 @@ const TRIAL_URL = 'https://app.colliedesk.com/sign-in';
 // sentence or table row that names Cc must not call it beta or "not there yet". The changelog is
 // history: the 0.0.x notes correctly say Cc was not in that release.
 {
-  const notYet = /not there yet|\(beta\)|\*\*Beta\*\*|>Beta</i;
+  const notYet = /not there yet|\(beta\)|\*\*Beta\b|>Beta\b/i;
   for (const file of files.filter((f) => /\.(html|md)$/.test(f) && !/[\\/]changelog\.(html|md)$/.test(f))) {
     const text = readFileSync(file, 'utf8').replace(/<\/(tr|p|li)>/g, '\n');
     for (const part of text.split(/[.!?]\s|\n/)) {
       if (/\bCc\b/.test(part) && notYet.test(part)) fail(`${file.slice(outDir.length - 1)}: lists Cc as not shipped: "${part.trim().slice(0, 90)}"`);
     }
   }
+}
+
+// A status cell holds its badge and nothing else: text beside a badge ("(alpha)") renders larger and
+// lighter than the badge and wraps under it on a phone. A qualifier goes inside the badge.
+for (const file of files.filter((f) => f.endsWith('.html'))) {
+  for (const m of readFileSync(file, 'utf8').matchAll(/<td>((?:(?!<\/td>)[\s\S])*?class="badge[\s\S]*?)<\/td>/g)) {
+    if (!/^<span class="badge [^"]+">[^<]+<\/span>$/.test(m[1].trim())) fail(`${file.slice(outDir.length - 1)}: status cell has text beside its badge: "${m[1].replace(/<[^>]+>/g, '').trim()}"`);
+  }
+}
+
+// Marketing pages say "alpha" or "beta", never a version number ("0.0.x", "0.1.0"). Versions belong
+// to the changelog, the roadmap and the docs, which come from the product repo; JSON-LD is not shown.
+for (const file of files.filter((f) => f.endsWith('.html') && !/[\\/](changelog|roadmap)\.html$|[\\/]docs[\\/]|[\\/]docs\.html$/.test(f))) {
+  const shown = readFileSync(file, 'utf8').replace(/<script[\s\S]*?<\/script>/g, '').replace(/<[^>]+>/g, ' ');
+  const m = shown.match(/\b0\.\d+\.(?:x|\d+)\b/);
+  if (m) fail(`${file.slice(outDir.length - 1)}: shows version "${m[0]}"; say alpha or beta instead`);
 }
 
 // /compare is the hub of every comparison page: each /vs page is linked from it, the header

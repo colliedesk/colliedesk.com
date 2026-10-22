@@ -92,7 +92,7 @@ Most helpdesks charge per agent, then charge again for AI. For five agents, Fres
 
 ## Honest status
 
-Colliedesk is in **alpha** (0.0.x). It is released and runs on Colliedesk Cloud, with the email channel, the Freshdesk importer with its reconcile report, saved replies, Cc on replies, attachments and live updates. Alpha means the interface or database schema may change between releases. Not there yet: starting a new conversation from the inbox and contact history (beta), and AI (after beta). If you must have those this week, Colliedesk is not ready for you yet. If you are planning your exit before your next Freshdesk renewal, [start the free trial](${TRIAL_HREF}) or take [the founding offer](${FOUNDING_HREF}).`;
+Colliedesk is in **alpha**. It is released and runs on Colliedesk Cloud, with the email channel, the Freshdesk and Help Scout importers with their reconcile reports, the knowledge base and public help center, starting a new conversation from the inbox, contact history, saved replies, Cc on replies, attachments and live updates. Alpha means the interface or database schema may change between releases. Not there yet: AI (after beta). If you must have it this week, Colliedesk is not ready for you yet. If you are planning your exit before your next Freshdesk renewal, [start the free trial](${TRIAL_HREF}) or take [the founding offer](${FOUNDING_HREF}).`;
 
 // While Founding is open it is the only plan we sell: one price, one decision. The ladder above is
 // what new workspaces choose once the places are taken; the site rebuilds when that happens.
@@ -158,7 +158,7 @@ For five agents, Freshdesk Pro with Freddy AI Copilot lists at $5,040 a year bil
 
 ## Honest status
 
-Colliedesk is in **alpha** (0.0.x). It is released and runs on Colliedesk Cloud, with the email channel, the Freshdesk importer with its reconcile report, saved replies, Cc on replies, attachments and live updates. Alpha means the interface or database schema may change between releases. Not there yet: starting a new conversation from the inbox and contact history (beta), and AI (after beta). If you must have those this week, Colliedesk is not ready for you yet. If you are planning your exit before your next Freshdesk renewal, [join as a founding customer](${FOUNDING_CHECKOUT}) and we refund you in full within 30 days if it is not right.`;
+Colliedesk is in **alpha**. It is released and runs on Colliedesk Cloud, with the email channel, the Freshdesk and Help Scout importers with their reconcile reports, the knowledge base and public help center, starting a new conversation from the inbox, contact history, saved replies, Cc on replies, attachments and live updates. Alpha means the interface or database schema may change between releases. Not there yet: AI (after beta). If you must have it this week, Colliedesk is not ready for you yet. If you are planning your exit before your next Freshdesk renewal, [join as a founding customer](${FOUNDING_CHECKOUT}) and we refund you in full within 30 days if it is not right.`;
 
 const foundingPage = {
   title: 'Colliedesk pricing: one plan, $99 a quarter per workspace, locked for life',

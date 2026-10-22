@@ -18,7 +18,7 @@ const faq: Faq[] = [
   },
   {
     q: 'Does Colliedesk import from Help Scout?',
-    a: 'Not yet. The first importer is Freshdesk (available now); a Help Scout importer is on the roadmap for later.',
+    a: 'Yes. The Help Scout importer copies one inbox at a time through the Help Scout API: conversations, replies, notes, attachments, inline images, tags and customers, with a reconcile report that lists anything missing. See [Import from Help Scout](/docs/import-helpscout).',
   },
 ];
 
@@ -54,7 +54,7 @@ In 2025 Help Scout moved to contact-based pricing and then reversed it after cus
 - The account owner can request a **CSV of customer names and emails**, without history.
 - The **Mailbox API** returns conversations with threads (pass \`status=all\`; the default is active only). The Free plan has **no API**.
 
-${c.export} A Help Scout importer is on the [roadmap](/roadmap) for later.
+${c.export} The [Help Scout importer](/docs/import-helpscout) copies one inbox at a time through that API, with a reconcile report.
 
 ## What Colliedesk does today
 

@@ -18,7 +18,7 @@ const faq: Faq[] = [
   },
   {
     q: 'Does Colliedesk import from Zendesk?',
-    a: 'Not yet. The first importer is Freshdesk (available now). Zendesk and Help Scout importers are on the roadmap for later.',
+    a: 'Not yet. Colliedesk imports from Freshdesk and Help Scout today. A Zendesk importer is on the roadmap for later.',
   },
 ];
 

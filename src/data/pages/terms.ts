@@ -65,7 +65,7 @@ Do not use Colliedesk Cloud to:
 
 ## Availability
 
-Colliedesk is alpha (version 0.0.x). We back up every workspace daily and monitor the service around the clock, but we do not offer an uptime guarantee yet. Features change; we write each change in the [changelog](/changelog).
+Colliedesk is alpha. We back up every workspace daily and monitor the service around the clock, but we do not offer an uptime guarantee yet. Features change; we write each change in the [changelog](/changelog).
 
 ## Warranty and liability
 
