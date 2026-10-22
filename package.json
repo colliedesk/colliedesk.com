@@ -12,7 +12,8 @@
     "check:content": "node scripts/content-qa.mjs",
     "test": "node --test scripts/*.test.mjs",
     "compare": "node scripts/compare-site.mjs",
-    "serve": "node scripts/serve.mjs"
+    "serve": "node scripts/serve.mjs",
+    "shot:product": "node scripts/product-shot/run.mjs"
   },
   "dependencies": {
     "astro": "7.4.0",
