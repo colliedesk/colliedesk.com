@@ -3,6 +3,7 @@
 // styles, the small vanilla scripts), header, main and footer.
 import Footer from '../components/Footer.astro';
 import { Header } from '../components/Header';
+import { versionedAsset } from '../lib/asset-version';
 import { mdUrlOf, type PageHead } from '../lib/page';
 import { html } from '../lib/render-react';
 import { NAME, ORIGIN, UPDATED } from '../lib/site';
@@ -27,9 +28,9 @@ const canonical = `${ORIGIN}${page.path}`;
 {!notFound && <link rel="canonical" href={canonical}>}
 {!notFound && <link rel="alternate" type="text/markdown" href={mdUrlOf(page.path)}>}
 {!notFound && <link rel="alternate" type="application/rss+xml" title="Colliedesk changelog" href="/changelog.xml">}
-<link rel="icon" href="/favicon.ico?v=2" sizes="32x32">
-<link rel="icon" href="/favicon.svg?v=2" type="image/svg+xml">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2">
+<link rel="icon" href={versionedAsset('/favicon.ico')} sizes="32x32">
+<link rel="icon" href={versionedAsset('/favicon.svg')} type="image/svg+xml">
+<link rel="apple-touch-icon" href={versionedAsset('/apple-touch-icon.png')}>
 <link rel="preload" href="/fonts/ibm-plex-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/ibm-plex-sans-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/ibm-plex-serif-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
