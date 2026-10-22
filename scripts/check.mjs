@@ -471,6 +471,14 @@ for (const file of files.filter((f) => f.endsWith('.html'))) {
   }
 }
 
+// Marketing pages say "alpha" or "beta", never a version number ("0.0.x", "0.1.0"). Versions belong
+// to the changelog, the roadmap and the docs, which come from the product repo; JSON-LD is not shown.
+for (const file of files.filter((f) => f.endsWith('.html') && !/[\\/](changelog|roadmap)\.html$|[\\/]docs[\\/]|[\\/]docs\.html$/.test(f))) {
+  const shown = readFileSync(file, 'utf8').replace(/<script[\s\S]*?<\/script>/g, '').replace(/<[^>]+>/g, ' ');
+  const m = shown.match(/\b0\.\d+\.(?:x|\d+)\b/);
+  if (m) fail(`${file.slice(outDir.length - 1)}: shows version "${m[0]}"; say alpha or beta instead`);
+}
+
 // /compare is the hub of every comparison page: each /vs page is linked from it, the header
 // "Compare" link opens it, and every comparison page says the names are their owners' trademarks.
 {

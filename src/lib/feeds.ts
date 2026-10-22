@@ -14,7 +14,7 @@ export function llmsTxt(pages: readonly Page[]): string {
   });
   return `# ${NAME}
 
-> ${NAME} is an open-source (AGPL-3.0) helpdesk for small support teams by HC Labs: the open-source alternative to Freshdesk, Zendesk and Help Scout. ${POSITIONING} Cloud: one flat price per workspace, ${LADDER_LINE}. Self-host free. Status: alpha (0.0.x), live on Colliedesk Cloud.
+> ${NAME} is an open-source (AGPL-3.0) helpdesk for small support teams by HC Labs: the open-source alternative to Freshdesk, Zendesk and Help Scout. ${POSITIONING} Cloud: one flat price per workspace, ${LADDER_LINE}. Self-host free. Status: alpha, live on Colliedesk Cloud.
 
 Every page has a Markdown twin: add \`.md\` to the URL (the home page is ${ORIGIN}/index.md).
 All pages in one file: ${ORIGIN}/llms-full.txt

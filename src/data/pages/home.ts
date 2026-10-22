@@ -27,7 +27,7 @@ export const HOME_FAQ: Faq[] = [
   },
   {
     q: 'Is Colliedesk ready to use?',
-    a: 'It is alpha (0.0.x): released and running on Colliedesk Cloud, with a 14-day free trial. The email channel (inbound and outbound, threading), the Freshdesk and Help Scout importers with their reconcile reports, the knowledge base and public help center, starting a new conversation from the inbox, contact history, saved replies, Cc on replies, attachments and live updates work today. Alpha means the interface or database schema may change between releases. AI is not there yet; it comes after beta. See the [roadmap](/roadmap).',
+    a: 'It is alpha: released and running on Colliedesk Cloud, with a 14-day free trial. The email channel (inbound and outbound, threading), the Freshdesk and Help Scout importers with their reconcile reports, the knowledge base and public help center, starting a new conversation from the inbox, contact history, saved replies, Cc on replies, attachments and live updates work today. Alpha means the interface or database schema may change between releases. AI is not there yet; it comes after beta. See the [roadmap](/roadmap).',
   },
   PER_WORKSPACE_FAQ,
   {
@@ -54,7 +54,7 @@ const md = `${TAGLINE} ${POSITIONING}
 
 ${HOME_H1} ${HOME_LEDE} The Freshdesk importer is available now; reconcile report numbers shown on the site are an example.
 
-Status: alpha (0.0.x), live on Colliedesk Cloud with a 14-day free trial. Self-host free: ${REPO}. Cloud: ${FOUNDING_OPEN ? 'Founding, $99 a quarter per workspace, locked for life, 10 places' : LADDER_LINE}.
+Status: alpha, live on Colliedesk Cloud with a 14-day free trial. Self-host free: ${REPO}. Cloud: ${FOUNDING_OPEN ? 'Founding, $99 a quarter per workspace, locked for life, 10 places' : LADDER_LINE}.
 
 ${homeSectionsMd}
 

@@ -4,7 +4,7 @@ import { LADDER_LINE } from '../../lib/site';
 
 // While Founding is open it is the only plan on sale.
 const cloudPlans = foundingState().open ? 'then Founding, $99 a quarter, 10 places' : 'then a plan from Solo to Team 25, or Founding';
-export const statusTable = `Colliedesk is alpha (0.0.x): what is available now runs on Colliedesk Cloud today, and the interface or database schema may still change between releases.
+export const statusTable = `Colliedesk is alpha: what is available now runs on Colliedesk Cloud today, and the interface or database schema may still change between releases.
 
 | Capability | Status |
 |---|---|
@@ -19,7 +19,7 @@ export const statusTable = `Colliedesk is alpha (0.0.x): what is available now r
 | One-command install and published container image | **Available now** |
 | Upgrade guide, upgrades tested on real data | **Available now** |
 | Colliedesk Cloud with a 14-day free trial, ${cloudPlans} | **Available now** |
-| Gmail and Microsoft 365 mailboxes in one click, Freshdesk import inside the app, see who is replying | **Beta 0.1.0** |
+| Gmail and Microsoft 365 mailboxes in one click, Freshdesk import inside the app, see who is replying | **Beta** |
 | AI draft replies, triage, auto-answer with a human in the loop | **Coming after beta** |
 | Automations, macros, SLA, business hours, CSAT and reports | **Coming later** |
 | Zendesk importer, live chat widget | **Coming later** |`;
