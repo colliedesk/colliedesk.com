@@ -28,7 +28,7 @@ export function InboxFeature() {
           <p><Badge kind="shipped">Available now</Badge> <a href="/docs/inbox">How the inbox works</a></p>
         </div>
         <div className="panel">
-          <ProductCrop region={INBOX_LIST} maxWidth={430} label="The Colliedesk inbox list: conversations with their status, priority, tags and time, grouped by Today and Earlier." />
+          <ProductCrop region={INBOX_LIST} maxWidth={430} label="The Colliedesk inbox list: open conversations with their status, priority, tags and time, under Today." />
         </div>
       </div>
     </section>

@@ -72,8 +72,48 @@ repo checks contrast for every pair and fails when a grey, a text token or the p
 - Type: self-hosted IBM Plex Sans and Mono; IBM Plex Serif 500 for h1 and h2. Sentence case everywhere,
   mono only for code.
 - Product pictures: `public/product-inbox.jpg` (and `@2x`) is a screenshot of the app with demo data
-  (Northwind Help). Retake it when the app's look changes; `src/components/home/ProductCrop.tsx` holds
-  the crop regions.
+  (Northwind Help). Retake it when the app's look changes (see below); `src/components/home/ProductCrop.tsx`
+  holds the crop regions.
 - Light is the default; the footer **Dark theme** button sets `data-theme="dark"` and saves it in
   `localStorage` for this site only (`public/theme.js`). Spacing is a 4 px grid (`--space-*`); buttons
   are at least 44 px tall on touch (`--touch`).
+
+## Retaking the product screenshot
+
+One command, with Docker and Google Chrome on the machine:
+
+```sh
+corepack pnpm shot:product            # fresh stack, seed, capture public/product-inbox.jpg and @2x
+corepack pnpm shot:product --link     # a new sign-in link for the running stack
+corepack pnpm shot:product --down     # remove the stack and its volumes
+```
+
+`scripts/product-shot/run.mjs` starts `scripts/product-shot/compose.yaml` (project `colliedesk-shot`:
+the app image, Postgres and a Mailpit sink; only the app is published, on `127.0.0.1:55480`). It deletes
+the previous stack and its volumes first, so every run starts from an empty database. The database
+password is generated for each run. Nothing talks to production, staging or real mail.
+
+What it seeds, through the product's own paths:
+
+- `collie create-workspace`: workspace "Northwind Help", admin `tom.okoye@northwind.support`. Through the
+  API as Tom: the display name "Tom Okoye", the email channel, and the tags billing, booking, export,
+  sso and timezone.
+- Five customer emails through the email inbound endpoint, each with a trusted SPF/DKIM pass. Ana
+  Ribeiro's email has the attachment `booking-widget.png`.
+- An admin agent token labelled "Claude Code" (`collie token create`). Over MCP, the agent sets the
+  workspace timezone and each conversation's priority, tags and assignee. It adds the private note and
+  drafts the reply. Tom approves the draft through the API, and the reply is sent to Mailpit.
+- The database is written directly once, to move the timestamps to this morning. The product has no
+  API to backdate messages. The script picks the workspace timezone in which it is just after 09:45, so
+  the times (07:02 to 09:12) are today and in the past (`scripts/product-shot/scene.mjs`).
+
+Then headless Chrome captures `/conversations/<booking>` at 1440 × 900, at 1x and 2x, as JPEG quality 80.
+The stack keeps running; the command prints the URL and a one-time sign-in link (15 minutes) to keep
+working in the same data. Re-running resets the data and captures again.
+
+- `COLLIEDESK_IMAGE` picks the app image (default `ghcr.io/colliedesk/colliedesk:edge`; pin a
+  `sha-…@sha256:…` image to match production).
+- `SHOT_PORT` changes the port; `CHROME_BIN` changes the browser.
+
+After a retake, look at the image and check the crop regions in `ProductCrop.tsx` and the hero `alt`
+text in `src/components/home/Home.astro`.
