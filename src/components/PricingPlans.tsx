@@ -73,7 +73,7 @@ export function PricingPlans() {
             {CLOUD_PLANS.map((plan) => <CloudCard key={plan.name} plan={plan} />)}
           </div>
           <div className="plans-reassure">
-            <p><strong>Every plan, every feature.</strong> Unlimited conversations, no per-agent fees, AI at LLM cost +30% or your own key. We run, update and back it up.</p>
+            <p><strong>Every plan, every feature.</strong> Unlimited conversations, no per-agent fees, AI at LLM cost +30% or your own key once it is built. We run, update and back it up.</p>
             <ul>
               <li>14-day free trial, no card</li>
               <li>No automatic charge: when the trial ends, you pick a plan or export your data</li>
@@ -91,7 +91,7 @@ export function PricingPlans() {
             <li>Every feature, no paywalled edition</li>
             <li>AGPL-3.0, your server, your PostgreSQL</li>
             <li>No agent limit</li>
-            <li>AI with your own model key</li>
+            <li>AI with your own model key, once it is built</li>
           </ul>
           <a className="btn btn-ghost" href={REPO} rel="noopener">Self-host free <span aria-hidden="true">↗</span></a>
         </article>

@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { checkPage, readingGrade } from './content-qa.mjs';
+import { betaFindings, checkPage, readingGrade } from './content-qa.mjs';
 
 // Plain sentences a 7th grader reads easily; links to pricing (CTA) and to a source.
 const CLEAN = `# Move off Freshdesk before your renewal
@@ -117,4 +117,25 @@ test('a link to the page itself or to the app is not an internal link', () => {
   const findings = page(md);
   assert.equal(findings.length, 1);
   assert.match(findings[0], /links 1 other page/);
+});
+
+// Colliedesk as a whole is alpha; nothing on the site may be called beta until HC Labs announces it.
+test('fails the word beta in any case, quoting where it appears', () => {
+  for (const text of ['AI is coming after beta.', '| Gmail mailboxes | **Beta** |', 'Our BETA programme', 'Not there yet (beta).']) {
+    const findings = betaFindings('/pricing', text);
+    assert.equal(findings.length, 1, text);
+    assert.match(findings[0], /^\/pricing: says "beta"/i);
+  }
+});
+
+test('reports every line that says beta, not only the first', () => {
+  assert.equal(betaFindings('/', 'Beta next.\nAlpha now.\nAI after beta.').length, 2);
+});
+
+test('allows alpha copy and words that only contain the letters beta', () => {
+  assert.deepEqual(betaFindings('/', 'Colliedesk is alpha. Sorted alphabetically. A Betamax tape. The alphabet.'), []);
+});
+
+test('allows beta inside a URL or a Markdown link target', () => {
+  assert.deepEqual(betaFindings('/vs/x', 'Source: [their pricing](https://example.com/beta/pricing) and https://beta.example.com/plans'), []);
 });

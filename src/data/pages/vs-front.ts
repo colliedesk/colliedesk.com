@@ -36,7 +36,7 @@ Front prices below are from the Front pricing page, per seat per month billed an
 |---|---|---|
 | Plans | Starter $25 (up to 10 seats), Professional $65 (up to 50 seats), Enterprise $105 | ${c.price} |
 | AI drafting | Copilot $20 per seat per month on Starter and Professional; included on Enterprise | ${c.ai} |
-| AI agent | Autopilot from $0.05 per conversation | Auto-answer with a human in the loop, same AI pricing (coming after beta) |
+| AI agent | Autopilot from $0.05 per conversation | Auto-answer with a human in the loop, same AI pricing (not built yet) |
 | Free option | No free plan; 14-day trial | ${c.free} |
 | Source code | Proprietary | ${c.source} |
 

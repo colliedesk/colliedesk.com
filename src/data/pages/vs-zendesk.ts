@@ -35,7 +35,7 @@ Zendesk prices below are from the Zendesk pricing page in euros (our request for
 |---|---|---|
 | Plans (annual / monthly billing) | Support Team €19 / €25, Suite Team €55 / €69, Suite Professional €115 / €149; Enterprise on quote | ${c.price} |
 | AI drafting | Copilot €50 per agent per month, billed annually | ${c.ai} |
-| AI agent | Per automated resolution: €1.50 committed, €2.00 pay-as-you-go; some included per agent | Auto-answer with a human in the loop, same AI pricing, no per-resolution fee (coming after beta) |
+| AI agent | Per automated resolution: €1.50 committed, €2.00 pay-as-you-go; some included per agent | Auto-answer with a human in the loop, same AI pricing, no per-resolution fee (not built yet) |
 | Free option | No free plan; 14-day trial | ${c.free} |
 | Source code | Proprietary | ${c.source} |
 

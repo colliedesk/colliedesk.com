@@ -30,7 +30,7 @@ function Founding() {
             <li>Free Freshdesk migration with a reconcile report</li>
             <li>Up to 10 agents, no per-agent fees</li>
             <li>20 GB of attachments, imported files included</li>
-            <li>AI at model cost +30%, or bring your own key</li>
+            <li>AI, once it is built, at model cost +30% or your own key</li>
             <li>Founding workspaces run on Colliedesk Cloud today</li>
           </ul>
           {state.open ? (

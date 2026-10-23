@@ -25,7 +25,7 @@ export function InboxFeature() {
           <p className="eyebrow">Shared inbox</p>
           <h2 id="inbox">Every customer email, one calm inbox</h2>
           <p className="section-lede">Status, priority, owner and tags on every conversation. Search, filters and bulk actions for a team of three to ten.</p>
-          <p><Badge kind="shipped">Available now</Badge> <a href="/docs/inbox">How the inbox works</a></p>
+          <p><Badge kind="shipped">Shipped</Badge> <a href="/docs/inbox">How the inbox works</a></p>
         </div>
         <div className="panel">
           <ProductCrop region={INBOX_LIST} maxWidth={430} label="The Colliedesk inbox list: open conversations with their status, priority, tags and time, under Today." />
@@ -43,7 +43,8 @@ export function MigrationFeature() {
           <p className="eyebrow">Leave Freshdesk</p>
           <h2 id="migrate">Bring every ticket. Prove nothing was lost.</h2>
           <p className="section-lede">Freshdesk's export leaves the conversations out. Our importer brings tickets, replies, notes, attachments, tags and contacts, then counts both sides.</p>
-          <p><Badge kind="shipped">Available now</Badge> <a href="/migrate/freshdesk">Read the migration guide</a></p>
+          <p>No need to switch in a day: keep Freshdesk running, forward a copy of your support mail, and run the import again to catch up until your team is sure.</p>
+          <p><Badge kind="shipped">Shipped</Badge> <a href="/migrate/freshdesk#switch-gradually">How to switch gradually</a></p>
         </div>
         <div className="panel">
           <ProductCrop region={INCOMING} maxWidth={620} label="An imported conversation in Colliedesk: the customer's original email with its attachment, and the conversation's status and priority." />

@@ -36,7 +36,7 @@ const body = `## The short answer
 
 ## Moving from Freshdesk
 
-| | FreeScout | Colliedesk (**Available now**) |
+| | FreeScout | Colliedesk (**Shipped**) |
 |---|---|---|
 | Importer | No official one. Third-party paid service, or a community module "not guaranteed" by the FreeScout team | Official importer, free on every install |
 | Attachments | Depends on the tool | Downloaded and checksummed (SHA-256) |

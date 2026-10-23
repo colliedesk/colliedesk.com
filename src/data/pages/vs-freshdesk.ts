@@ -23,7 +23,7 @@ const pricing: VsPricing = {
   ],
   notForYou: [
     'You need live chat, phone, WhatsApp or a marketplace of apps today.',
-    'You need a new conversation started from the inbox, contact history or AI today: they are not there yet (beta and later), and Colliedesk is alpha, so the interface may change.',
+    'You need AI today: it is not built yet, and Colliedesk as a whole is alpha, so the interface may change.',
     'You want the founding price and have more than 20 GB of Freshdesk attachments: founding includes 20 GB, imported files included.',
   ],
 };
@@ -58,7 +58,7 @@ Freshdesk prices are per agent per month, as published on ${PRICES_READ}. The fi
 |---|---|---|
 | Plans | Growth $23 / $19, Pro $66 / $55, Enterprise $107 / $89 per agent per month | ${c.price} |
 | AI drafting | Freddy AI Copilot $35 / $29 per agent per month, add-on for Pro and Enterprise only | ${c.ai} |
-| AI agent | 500 sessions free once per account, then $49 per 100 sessions | Auto-answer with a human in the loop, same AI pricing (coming after beta) |
+| AI agent | 500 sessions free once per account, then $49 per 100 sessions | Auto-answer with a human in the loop, same AI pricing (not built yet) |
 | Free option | No free plan on the pricing page; 14-day trial | ${c.free} |
 | Source code | Proprietary | ${c.source} |
 
@@ -79,12 +79,12 @@ Freshdesk has had more than a decade to grow. If you need a row marked "Freshdes
 
 | Feature | Freshdesk | Colliedesk |
 |---|---|---|
-| Automations, SLA and business hours | **Freshdesk**: yes | Coming later |
-| Reports and dashboards | **Freshdesk**: yes | Coming later |
+| Automations, SLA and business hours | **Freshdesk**: yes | Not built yet |
+| Reports and dashboards | **Freshdesk**: yes | Not built yet |
 | Channels beyond email (chat, phone, social) | **Freshdesk**: yes | Live chat later; email today |
 | App marketplace | **Freshdesk**: yes | No |
-| Shared inbox, Cc, private notes, saved replies | Yes | Yes, available now |
-| Knowledge base and help center | Yes | Yes, available now |
+| Shared inbox, Cc, private notes, saved replies | Yes | Yes, shipped |
+| Knowledge base and help center | Yes | Yes, shipped |
 | Price as the team grows | Per agent, AI per agent on top | **Colliedesk**: one price per workspace |
 | Full export with conversations | Account export or API; the ticket export has fields only | **Colliedesk**: whole workspace as a ZIP, any time |
 | Source code and self-hosting | Proprietary, cloud only | **Colliedesk**: AGPL-3.0, self-host free |

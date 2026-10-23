@@ -11,6 +11,11 @@ export const PER_WORKSPACE_FAQ: Faq = {
   a: 'Because a helpdesk should not cost more each time you hire. Per-agent pricing pushes teams to share logins or keep part-time helpers out of the inbox. With one price for the workspace, everyone who answers customers gets their own login. Our costs follow storage and AI usage, not the number of people who sign in, so that is what the plans limit: agents per plan, attachment storage, and AI at model cost +30%.',
 };
 
+const SWITCH_FAQ: Faq = {
+  q: 'Do we have to leave Freshdesk in one day?',
+  a: 'No. Keep Freshdesk running and forward a copy of your support mail to Colliedesk. Import your Freshdesk history: the import only reads Freshdesk, and in the app the tickets of the last 90 days come first, so your team can start while older ones follow. Run the import again to catch up; it never copies an imported ticket twice. Switch fully when your team is sure, for example before your Freshdesk renewal. Founding customers get the migration done for them. [How to switch gradually](/migrate/freshdesk#switch-gradually).',
+};
+
 const ladderFaq: Faq[] = [
   PER_WORKSPACE_FAQ,
   {
@@ -31,12 +36,13 @@ const ladderFaq: Faq[] = [
   },
   {
     q: 'What does "AI at LLM cost +30%" mean?',
-    a: 'On Colliedesk Cloud you can use our AI key. You pay what the model provider charges for the tokens your tickets used, plus 30%. Example: if the provider charges $1.00, you pay $1.30. Or bring your own key and pay your provider directly.',
+    a: 'AI is not built yet; this is how it will be billed when it ships. On Colliedesk Cloud you can use our AI key. You pay what the model provider charges for the tokens your tickets used, plus 30%. Example: if the provider charges $1.00, you pay $1.30. Or bring your own key and pay your provider directly.',
   },
   {
     q: 'Is there a free trial?',
     a: 'Yes. Every Cloud workspace starts with a 14-day free trial of the Team plan, every feature, no card. If you import from Freshdesk during the trial, it extends to 30 days so you can run both side by side. There is no automatic charge: when the trial ends without a plan, the workspace is locked, you can still sign in to export all your data, and choosing a plan unlocks it at once with nothing lost. Cancel anytime. Self-hosting stays free forever.',
   },
+  SWITCH_FAQ,
   {
     q: 'Is self-hosting really free?',
     a: `Yes. Self-hosting is free, forever, with every feature. The code is AGPL-3.0 on [GitHub](${REPO}). Read the [install guide](/docs/self-host).`,
@@ -67,9 +73,9 @@ const plansMd = `| Plan | Price | What you get |
 |---|---|---|
 ${CLOUD_PLANS.map(cloudRow).join('\n')}
 | Founding | $99 a quarter per workspace, locked for life; 30-day money-back guarantee | Limited to 10 workspaces. Freshdesk migration done for you, with a reconcile report. Up to 10 agents, no per-agent fees. 20 GB of attachments, imported files included. |
-| Self-host | $0, forever | Every feature, no agent limit. AGPL-3.0. AI with your own model key. |
+| Self-host | $0, forever | Every feature, no agent limit. AGPL-3.0. AI with your own model key, once it is built. |
 
-Every plan has every feature, unlimited conversations, no per-agent fees, and AI at LLM cost +30% or your own key. 14-day free trial, no card. No automatic charge: when the trial ends, you pick a plan or export your data. Cancel anytime.
+Every plan has every feature, unlimited conversations, no per-agent fees, and AI at LLM cost +30% or your own key once it is built. 14-day free trial, no card. No automatic charge: when the trial ends, you pick a plan or export your data. Cancel anytime.
 
 Need more storage? Email us at ${CONTACT_EMAIL}. Customer email is always accepted, even over the cap; only agent uploads and new imports pause. We warn you at 80%.`;
 
@@ -79,20 +85,20 @@ Self-hosting is free. We sell two things: **Colliedesk Cloud** (we run it for yo
 
 **Every feature on every plan.** Solo, Small, Team, Team 25, Unlimited and Founding differ only in the number of agents and the attachment storage. Self-hosting has every feature too.
 
-## AI is included, not an add-on
+## Honest status
 
-**Coming after beta**. AI features: draft replies and triage from your own past replies and knowledge base, and auto-answer for repetitive tickets with a human in the loop. There is no AI seat licence and no per-resolution fee.
+Colliedesk as a whole is **alpha**: it is released and runs on Colliedesk Cloud, and any release may change the interface or the database schema. Shipped today: the email channel, the Freshdesk and Help Scout importers with their reconcile reports, the knowledge base and public help center, starting a new conversation from the inbox, contact history, saved replies, Cc on replies, attachments and live updates. Not built yet: AI. If you must have AI this week, Colliedesk is not ready for you yet. If you are planning your exit before your next Freshdesk renewal, [start the free trial](${TRIAL_HREF}) or take [the founding offer](${FOUNDING_HREF}).
+
+## AI: included when it ships
+
+**Not built yet**. When AI ships, it is part of every plan, not an add-on: draft replies and triage from your own past replies and knowledge base, and auto-answer for repetitive tickets with a human in the loop. There will be no AI seat licence and no per-resolution fee.
 
 - **Use our key on Cloud:** you pay the model provider's cost for your usage, plus 30%.
 - **Bring your own key:** on Cloud or self-hosted, you pay your provider directly.
 
 ## How this compares
 
-Most helpdesks charge per agent, then charge again for AI. For five agents, Freshdesk Pro with Freddy AI Copilot lists at $5,040 a year billed annually, or $505 a month billed monthly. Colliedesk Cloud Team is ${PRICE.yearly} a year or ${PRICE.monthly} a month for the workspace, plus AI usage. Prices and sources: [vs Freshdesk](/vs/freshdesk), [vs Zendesk](/vs/zendesk), [vs Help Scout](/vs/help-scout).
-
-## Honest status
-
-Colliedesk is in **alpha**. It is released and runs on Colliedesk Cloud, with the email channel, the Freshdesk and Help Scout importers with their reconcile reports, the knowledge base and public help center, starting a new conversation from the inbox, contact history, saved replies, Cc on replies, attachments and live updates. Alpha means the interface or database schema may change between releases. Not there yet: AI (after beta). If you must have it this week, Colliedesk is not ready for you yet. If you are planning your exit before your next Freshdesk renewal, [start the free trial](${TRIAL_HREF}) or take [the founding offer](${FOUNDING_HREF}).`;
+Most helpdesks charge per agent, then charge again for AI. For five agents, Freshdesk Pro with Freddy AI Copilot lists at $5,040 a year billed annually, or $505 a month billed monthly. Colliedesk Cloud Team is ${PRICE.yearly} a year or ${PRICE.monthly} a month for the workspace, plus AI usage. Prices and sources: [vs Freshdesk](/vs/freshdesk), [vs Zendesk](/vs/zendesk), [vs Help Scout](/vs/help-scout).`;
 
 // While Founding is open it is the only plan we sell: one price, one decision. The ladder above is
 // what new workspaces choose once the places are taken; the site rebuilds when that happens.
@@ -118,6 +124,7 @@ const foundingFaq: Faq[] = [
     q: 'Can I try it before I pay?',
     a: `Yes. Every Cloud workspace starts with a 14-day free trial, no card, and there is no automatic charge. Or pay for Founding now: if it is not right within 30 days, we refund the full amount. [Start the free trial](${TRIAL_HREF}).`,
   },
+  SWITCH_FAQ,
   AI_FAQ,
   SELF_HOST_FAQ,
 ];
@@ -125,13 +132,17 @@ const foundingFaq: Faq[] = [
 const foundingPlansMd = `| Plan | Price | What you get |
 |---|---|---|
 | Founding | $99 a quarter per workspace ($396 a year, about $7.60 a week), locked for life; 30-day money-back guarantee | Limited to ${FOUNDING_SLOTS} workspaces. Freshdesk migration done for you, with a reconcile report. Up to 10 agents, no per-agent fees. 20 GB of attachments, imported files included. A direct line to the founder, and a say in the roadmap. [Join for $99/quarter](${FOUNDING_CHECKOUT}). |
-| Self-host | $0, forever | Every feature, no agent limit. AGPL-3.0. AI with your own model key. |
+| Self-host | $0, forever | Every feature, no agent limit. AGPL-3.0. AI with your own model key, once it is built. |
 
 Want to look first? Every Cloud workspace starts with a 14-day free trial, no card, no automatic charge.`;
 
 const foundingBody = `## One plan while we are young
 
 We sell one thing right now: **Founding**, for ${FOUNDING_SLOTS} support teams who want to leave Freshdesk. You get every feature, we move your Freshdesk history for you and prove nothing was lost, and you talk to the person who builds Colliedesk. When the ${FOUNDING_SLOTS} places are taken, Founding closes for good and your price stays at $99 a quarter.
+
+## Honest status
+
+Colliedesk as a whole is **alpha**: it is released and runs on Colliedesk Cloud, and any release may change the interface or the database schema. Shipped today: the email channel, the Freshdesk and Help Scout importers with their reconcile reports, the knowledge base and public help center, starting a new conversation from the inbox, contact history, saved replies, Cc on replies, attachments and live updates. Not built yet: AI. If you must have AI this week, Colliedesk is not ready for you yet. If you are planning your exit before your next Freshdesk renewal, [join as a founding customer](${FOUNDING_CHECKOUT}) and we refund you in full within 30 days if it is not right.
 
 ## Who Founding is for
 
@@ -145,20 +156,16 @@ A support team that matches all five:
 
 **Not for you if** your team has 11 or more agents or a deeply customised setup, you need a PSA or RMM for an MSP, you use a helpdesk other than Freshdesk (our importer reads Freshdesk only for now), or you are looking for a free tool. For free, [self-host Colliedesk](/docs/self-host).
 
-## AI is included, not an add-on
+## AI: included when it ships
 
-**Coming after beta**. AI features: draft replies and triage from your own past replies and knowledge base, and auto-answer for repetitive tickets with a human in the loop. There is no AI seat licence and no per-resolution fee.
+**Not built yet**. When AI ships, it is part of every plan, not an add-on: draft replies and triage from your own past replies and knowledge base, and auto-answer for repetitive tickets with a human in the loop. There will be no AI seat licence and no per-resolution fee.
 
 - **Use our key on Cloud:** you pay the model provider's cost for your usage, plus 30%.
 - **Bring your own key:** on Cloud or self-hosted, you pay your provider directly.
 
 ## How this compares
 
-For five agents, Freshdesk Pro with Freddy AI Copilot lists at $5,040 a year billed annually. Founding is $396 a year ($99 a quarter) for the workspace, plus AI usage. Prices and sources: [vs Freshdesk](/vs/freshdesk), [vs Zendesk](/vs/zendesk), [vs Help Scout](/vs/help-scout).
-
-## Honest status
-
-Colliedesk is in **alpha**. It is released and runs on Colliedesk Cloud, with the email channel, the Freshdesk and Help Scout importers with their reconcile reports, the knowledge base and public help center, starting a new conversation from the inbox, contact history, saved replies, Cc on replies, attachments and live updates. Alpha means the interface or database schema may change between releases. Not there yet: AI (after beta). If you must have it this week, Colliedesk is not ready for you yet. If you are planning your exit before your next Freshdesk renewal, [join as a founding customer](${FOUNDING_CHECKOUT}) and we refund you in full within 30 days if it is not right.`;
+For five agents, Freshdesk Pro with Freddy AI Copilot lists at $5,040 a year billed annually. Founding is $396 a year ($99 a quarter) for the workspace, plus AI usage. Prices and sources: [vs Freshdesk](/vs/freshdesk), [vs Zendesk](/vs/zendesk), [vs Help Scout](/vs/help-scout).`;
 
 const foundingPage = {
   title: 'Colliedesk pricing: one plan, $99 a quarter per workspace, locked for life',
