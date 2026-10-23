@@ -20,13 +20,14 @@ export const statusTable = `Colliedesk as a whole is alpha. Everything marked sh
 | Upgrade guide, upgrades tested on real data | **Shipped** |
 | Colliedesk Cloud with a 14-day free trial, ${cloudPlans} | **Shipped** |
 | Microsoft 365 mailbox in one click | **Not built yet** |
-| AI draft replies, triage, auto-answer with a human in the loop | **Not built yet** |
+| AI reply drafts and triage suggestions, off until an admin turns them on | **Shipped** |
+| AI auto-answer with a human in the loop | **Not built yet** |
 | Automations, macros, SLA, business hours, CSAT and reports | **Not built yet** |
 | Zendesk importer, live chat widget | **Not built yet** |`;
 
 export const collieFacts: Readonly<Record<'price' | 'ai' | 'free' | 'source' | 'export', string>> = {
   price: `One flat price per workspace, no per-agent fees: ${LADDER_LINE}. A year costs ten months. Founding customers (10 workspaces only): $99 per quarter, locked for life.`,
-  ai: 'Not built yet. When it ships it is included: LLM cost +30% on our key, or bring your own key.',
+  ai: 'Reply drafts and triage, off until an admin turns them on: LLM cost +30% on our key, or your own key at no extra fee. Auto-answer not built yet.',
   free: 'Self-host free, every feature. Cloud: 14-day free trial, no card.',
   source: 'Open source, AGPL-3.0. Self-host or use Cloud.',
   export: 'Your data lives in PostgreSQL. Self-hosted, you can take a database dump at any time.',

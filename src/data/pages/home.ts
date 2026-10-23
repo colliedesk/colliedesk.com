@@ -27,7 +27,7 @@ export const HOME_FAQ: Faq[] = [
   },
   {
     q: 'Is Colliedesk ready to use?',
-    a: 'Colliedesk as a whole is alpha. It is released and runs on Colliedesk Cloud, with a 14-day free trial. Shipped today: the email channel (inbound and outbound, threading), the Freshdesk and Help Scout importers with their reconcile reports, the knowledge base and public help center, starting a new conversation from the inbox, contact history, saved replies, Cc on replies, attachments and live updates. Alpha means any release may change the interface or the database schema. AI is not built yet. See the [roadmap](/roadmap).',
+    a: 'Colliedesk as a whole is alpha. It is released and runs on Colliedesk Cloud, with a 14-day free trial. Shipped today: the email channel (inbound and outbound, threading), the Freshdesk and Help Scout importers with their reconcile reports, the knowledge base and public help center, starting a new conversation from the inbox, contact history, saved replies, Cc on replies, attachments and live updates. Alpha means any release may change the interface or the database schema. AI reply drafts and triage suggestions are shipped and off until an admin turns them on; AI auto-answer is not built yet. See the [roadmap](/roadmap).',
   },
   PER_WORKSPACE_FAQ,
   {
@@ -42,7 +42,7 @@ export const HOME_FAQ: Faq[] = [
   },
   {
     q: 'How does AI pricing work?',
-    a: 'AI is not built yet. When it ships, it is part of every plan, not an add-on: on Colliedesk Cloud you pay the model cost plus 30%, or bring your own key. Self-hosted installs use your own key.',
+    a: 'AI reply drafts and triage suggestions are shipped in alpha and stay off until an admin turns them on. They are part of every plan, not an add-on: with Colliedesk AI on Cloud you pay the model cost plus 30%; with your own key you pay your provider and Colliedesk adds no fee. Auto-answer is not built yet.',
   },
   {
     q: 'Can I move my Freshdesk tickets to Colliedesk?',

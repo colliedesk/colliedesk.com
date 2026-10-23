@@ -36,7 +36,7 @@ const ladderFaq: Faq[] = [
   },
   {
     q: 'What does "AI at LLM cost +30%" mean?',
-    a: 'AI is not built yet; this is how it will be billed when it ships. On Colliedesk Cloud you can use our AI key. You pay what the model provider charges for the tokens your tickets used, plus 30%. Example: if the provider charges $1.00, you pay $1.30. Or bring your own key and pay your provider directly.',
+    a: 'On Colliedesk Cloud you can use Colliedesk AI, our key. You pay what the model provider charges for the tokens your tickets used, plus 30%. Example: if the provider charges $1.00, you pay $1.30. Or bring your own key: you pay your provider directly and Colliedesk adds no fee.',
   },
   {
     q: 'Is there a free trial?',
@@ -87,14 +87,14 @@ Self-hosting is free. We sell two things: **Colliedesk Cloud** (we run it for yo
 
 ## Honest status
 
-Colliedesk as a whole is **alpha**: it is released and runs on Colliedesk Cloud, and any release may change the interface or the database schema. Shipped today: the email channel, the Freshdesk and Help Scout importers with their reconcile reports, the knowledge base and public help center, starting a new conversation from the inbox, contact history, saved replies, Cc on replies, attachments and live updates. Not built yet: AI. If you must have AI this week, Colliedesk is not ready for you yet. If you are planning your exit before your next Freshdesk renewal, [start the free trial](${TRIAL_HREF}) or take [the founding offer](${FOUNDING_HREF}).
+Colliedesk as a whole is **alpha**: it is released and runs on Colliedesk Cloud, and any release may change the interface or the database schema. Shipped today: the email channel, the Freshdesk and Help Scout importers with their reconcile reports, the knowledge base and public help center, starting a new conversation from the inbox, contact history, saved replies, Cc on replies, attachments, live updates, and AI reply drafts and triage suggestions (off until an admin turns them on). Not built yet: AI auto-answer. If you are planning your exit before your next Freshdesk renewal, [start the free trial](${TRIAL_HREF}) or take [the founding offer](${FOUNDING_HREF}).
 
-## AI: included when it ships
+## AI in every plan, at model cost
 
-**Not built yet**. When AI ships, it is part of every plan, not an add-on: draft replies and triage from your own past replies and knowledge base, and auto-answer for repetitive tickets with a human in the loop. There will be no AI seat licence and no per-resolution fee.
+**Shipped**, off until an admin turns it on: reply drafts and triage suggestions; a person edits and sends every reply. **Not built yet**: auto-answer for repetitive tickets with a human in the loop. There is no AI seat licence and no per-resolution fee.
 
-- **Use our key on Cloud:** you pay the model provider's cost for your usage, plus 30%.
-- **Bring your own key:** on Cloud or self-hosted, you pay your provider directly.
+- **Colliedesk AI on Cloud:** you pay the model provider's cost for your usage, plus 30%.
+- **Bring your own key:** on Cloud or self-hosted, you pay your provider directly; Colliedesk adds no fee.
 
 ## How this compares
 
@@ -142,7 +142,7 @@ We sell one thing right now: **Founding**, for ${FOUNDING_SLOTS} support teams w
 
 ## Honest status
 
-Colliedesk as a whole is **alpha**: it is released and runs on Colliedesk Cloud, and any release may change the interface or the database schema. Shipped today: the email channel, the Freshdesk and Help Scout importers with their reconcile reports, the knowledge base and public help center, starting a new conversation from the inbox, contact history, saved replies, Cc on replies, attachments and live updates. Not built yet: AI. If you must have AI this week, Colliedesk is not ready for you yet. If you are planning your exit before your next Freshdesk renewal, [join as a founding customer](${FOUNDING_CHECKOUT}) and we refund you in full within 30 days if it is not right.
+Colliedesk as a whole is **alpha**: it is released and runs on Colliedesk Cloud, and any release may change the interface or the database schema. Shipped today: the email channel, the Freshdesk and Help Scout importers with their reconcile reports, the knowledge base and public help center, starting a new conversation from the inbox, contact history, saved replies, Cc on replies, attachments, live updates, and AI reply drafts and triage suggestions (off until an admin turns them on). Not built yet: AI auto-answer. If you are planning your exit before your next Freshdesk renewal, [join as a founding customer](${FOUNDING_CHECKOUT}) and we refund you in full within 30 days if it is not right.
 
 ## Who Founding is for
 
@@ -156,12 +156,12 @@ A support team that matches all five:
 
 **Not for you if** your team has 11 or more agents or a deeply customised setup, you need a PSA or RMM for an MSP, you use a helpdesk other than Freshdesk (our importer reads Freshdesk only for now), or you are looking for a free tool. For free, [self-host Colliedesk](/docs/self-host).
 
-## AI: included when it ships
+## AI in every plan, at model cost
 
-**Not built yet**. When AI ships, it is part of every plan, not an add-on: draft replies and triage from your own past replies and knowledge base, and auto-answer for repetitive tickets with a human in the loop. There will be no AI seat licence and no per-resolution fee.
+**Shipped**, off until an admin turns it on: reply drafts and triage suggestions; a person edits and sends every reply. **Not built yet**: auto-answer for repetitive tickets with a human in the loop. There is no AI seat licence and no per-resolution fee.
 
-- **Use our key on Cloud:** you pay the model provider's cost for your usage, plus 30%.
-- **Bring your own key:** on Cloud or self-hosted, you pay your provider directly.
+- **Colliedesk AI on Cloud:** you pay the model provider's cost for your usage, plus 30%.
+- **Bring your own key:** on Cloud or self-hosted, you pay your provider directly; Colliedesk adds no fee.
 
 ## How this compares
 
