@@ -145,6 +145,18 @@ for (const file of pages) {
   for (const m of md.matchAll(/\]\(([^)\s]+)\)/g)) checkLink(m[1], urlPath, `${mdUrl}`);
 }
 
+// Tables sit in a scrollable region (src/lib/markdown.ts). Each region needs its own name, or screen
+// readers list several landmarks called the same; each header cell needs text (axe landmark-unique,
+// empty-table-header).
+for (const file of files.filter((f) => f.endsWith('.html'))) {
+  const html = readFileSync(file, 'utf8');
+  const where = file.slice(outDir.length - 1);
+  const names = [...html.matchAll(/class="table-wrap" role="region" aria-label="([^"]*)"/g)].map((m) => m[1]);
+  const twice = names.filter((n, i) => names.indexOf(n) !== i);
+  if (twice.length) fail(`${where}: table regions share the name "${twice[0]}"; name each after its section`);
+  if (/<th[^>]*>\s*<\/th>/.test(html)) fail(`${where}: a table header cell is empty; give it a label`);
+}
+
 // The founding price is locked for life, so its storage cap must be stated wherever the offer is.
 for (const path of ['/', '/pricing']) {
   const file = fileFor(path);
@@ -187,8 +199,19 @@ if (existsSync(foundingFile)) {
       if (readFileSync(file, 'utf8').includes(checkout)) fail(`${file.slice(outDir.length - 1)}: founding is closed but the page links to its checkout`);
     }
   } else if (Number.isInteger(founding.taken)) {
-    const home = fileFor('/');
-    if (home && !readFileSync(home, 'utf8').includes('places left')) fail('/: founding is open with a known count but the home page does not show the places left');
+    // "10 of 10 places left" with ten empty boxes reads as "nobody bought". Until the first place is
+    // taken the offer shows as "10 Founding places" with no counter; after that the meter counts.
+    for (const path of ['/', '/pricing']) {
+      const file = fileFor(path);
+      if (!file) continue;
+      const text = readFileSync(file, 'utf8');
+      if (founding.taken === 0) {
+        if (/places left/.test(text)) fail(`${path}: no founding place is taken yet but the page counts the places left`);
+        if (!text.includes('10 Founding places')) fail(`${path}: no founding place is taken yet but the page does not say "10 Founding places"`);
+      } else if (!text.includes('places left')) {
+        fail(`${path}: founding is open with places taken but the page does not show the places left`);
+      }
+    }
   }
 }
 

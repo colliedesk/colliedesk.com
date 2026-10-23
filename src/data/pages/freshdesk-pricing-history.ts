@@ -1,5 +1,6 @@
 import { faqPage, techArticle } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
+import { FOUNDING_OPEN } from '../../lib/cloud-price';
 
 const READ = '16 October 2026';
 
@@ -48,7 +49,7 @@ The Copilot price did not render in the 16 January 2026 archive; it is $29 befor
 | 2025 | 5 × $49 = $245 per month | 5 × ($49 + $29) = $390 per month |
 | Today | 5 × $55 = $275 per month | 5 × ($55 + $29) = **$420 per month** |
 
-For comparison, [Colliedesk Cloud](/pricing) Team is $69 per workspace per month for up to 10 agents, with AI reply drafts and triage included (monthly allowance) or on your own key. Planning to leave? Start with [Freshdesk alternatives](/freshdesk-alternative) and [migrate from Freshdesk](/migrate/freshdesk).
+For comparison, ${FOUNDING_OPEN ? '[Colliedesk Founding](/pricing) is $99 a quarter ($396 a year) per workspace for up to 10 agents, locked for life, for the first 10 workspaces; after that, Colliedesk Cloud Team is $69 per workspace per month. Both come' : '[Colliedesk Cloud](/pricing) Team is $69 per workspace per month for up to 10 agents,'} with AI reply drafts and triage included (monthly allowance) or on your own key. Planning to leave? Start with [Freshdesk alternatives](/freshdesk-alternative) and [migrate from Freshdesk](/migrate/freshdesk).
 
 ## Method
 

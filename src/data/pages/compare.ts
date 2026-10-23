@@ -18,6 +18,7 @@ import vsHubspotServiceHub from './vs-hubspot-service-hub';
 import vsZammad from './vs-zammad';
 import vsZendesk from './vs-zendesk';
 import vsZohoDesk from './vs-zoho-desk';
+import { AFTER_FOUNDING, FOUNDING_ACTION, FOUNDING_OPEN, withFoundingLead } from '../../lib/cloud-price';
 
 // Order: the tools most of our buyers leave first, then the open-source helpdesks, then the rest.
 export const COMPARISONS: readonly Page[] = [
@@ -28,11 +29,11 @@ export const COMPARISONS: readonly Page[] = [
 const competitorOf = (p: Page): string => p.h1.replace(/^Colliedesk vs /, '');
 const oursAt = (agents: number): string => `${dollars(oursFor(agents).monthly)} a month (${oursFor(agents).name})`;
 
-const body = `## Colliedesk Cloud by team size
+const body = `## Colliedesk Cloud by team size${FOUNDING_OPEN ? ', after Founding' : ''}
 
-One price per workspace, billed monthly. Every feature on every plan; the plans differ only in agents and storage.
+${AFTER_FOUNDING}Colliedesk Cloud is one price per workspace, billed monthly. Every feature on every plan; the plans differ only in agents and storage.
 
-| Team | Colliedesk Cloud |
+| Team | Colliedesk Cloud${FOUNDING_OPEN ? ' after Founding' : ''} |
 |---|---|
 ${TEAM_SIZES.map((n) => `| ${teamLabel(n)} | ${oursAt(n)} |`).join('\n')}
 
@@ -63,8 +64,9 @@ const page: Page = {
   summary: 'Hub of every comparison page, with the Colliedesk Cloud price at 1 to 25 agents',
   eyebrow: 'Compare',
   h1: 'Compare Colliedesk with the helpdesk you use today',
-  lede: 'Most helpdesks charge per agent. Colliedesk charges one price for the workspace. Each comparison shows the published prices, with sources, and says where the other tool is the better choice.',
+  lede: withFoundingLead('Most helpdesks charge per agent. Colliedesk charges one price for the workspace. Each comparison shows the published prices, with sources, and says where the other tool is the better choice.'),
   cta: true,
+  ctaFounding: FOUNDING_ACTION,
   body,
 };
 page.jsonLd = [techArticle(page)];

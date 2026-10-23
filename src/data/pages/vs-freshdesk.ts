@@ -1,5 +1,6 @@
 import { faqPage, techArticle } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
+import { FOUNDING_ACTION, FOUNDING_LEAD, OUR_PLAN, OUR_PRICE } from '../../lib/cloud-price';
 import { AI_RESOLUTION, dollars, PRICE, SMALL } from '../../lib/site';
 import { readOnLabel, rowsAt, usd, vsMarkdown, type VsPricing } from '../../lib/vs-pricing';
 import { collieFacts as c, statusTable } from './collie-status';
@@ -34,11 +35,11 @@ const PRICES_READ = readOnLabel(pricing.readOn);
 const faq: Faq[] = [
   {
     q: 'What is the best open-source alternative to Freshdesk?',
-    a: `Colliedesk is an open-source (AGPL-3.0) helpdesk built for small teams leaving Freshdesk: one flat price per workspace (Team is ${PRICE.monthly} a month for up to 10 agents), AI reply drafts included, and a Freshdesk importer (available now). It is alpha today, so check the status table before you switch.`,
+    a: `Colliedesk is an open-source (AGPL-3.0) helpdesk built for small teams leaving Freshdesk: one flat price per workspace (${OUR_PLAN} is ${OUR_PRICE} for up to 10 agents), AI reply drafts included, and a Freshdesk importer (available now). It is alpha today, so check the status table before you switch.`,
   },
   {
     q: 'How much does Freshdesk cost for 5 agents with AI?',
-    a: `At list prices read on ${PRICES_READ}, billed monthly: Freshdesk Pro is $66 per agent per month and Freddy AI Copilot is $35, so five agents pay 5 × ($66 + $35) = $505 a month. Billed annually it is 5 × ($55 + $29) × 12 = $5,040 a year. Colliedesk Cloud Team is ${PRICE.monthly} a month or ${PRICE.yearly} a year.`,
+    a: `At list prices read on ${PRICES_READ}, billed monthly: Freshdesk Pro is $66 per agent per month and Freddy AI Copilot is $35, so five agents pay 5 × ($66 + $35) = $505 a month. Billed annually it is 5 × ($55 + $29) × 12 = $5,040 a year. ${FOUNDING_LEAD ? 'Colliedesk Founding is $99 a quarter, $396 a year, locked for life. After the 10 Founding places are taken, ' : ''}Colliedesk Cloud Team is ${PRICE.monthly} a month or ${PRICE.yearly} a year.`,
   },
   {
     q: 'Is Colliedesk ready to replace Freshdesk today?',
@@ -54,7 +55,7 @@ const body = `## Price, side by side
 
 Freshdesk prices are per agent per month, as published on ${PRICES_READ}. The first figure is billed monthly, the second billed annually.
 
-| | Freshdesk | Colliedesk |
+| Topic | Freshdesk | Colliedesk |
 |---|---|---|
 | Plans | Growth $23 / $19, Pro $66 / $55, Enterprise $107 / $89 per agent per month | ${c.price} |
 | AI drafting | Freddy AI Copilot $35 / $29 per agent per month, add-on for Pro and Enterprise only | ${c.ai} |
@@ -106,14 +107,15 @@ const page: Page = {
   jsonLd: [],
   path: '/vs/freshdesk',
   section: 'Compare',
-  title: `Colliedesk vs Freshdesk: ${PRICE.monthly} a month for up to 10 agents, not $19–107 per agent`,
+  title: `Colliedesk vs Freshdesk: ${OUR_PRICE} for up to 10 agents, not $19–107 per agent`,
   description:
     `An honest comparison of Colliedesk and Freshdesk: published prices, AI add-on costs, export limits and what Colliedesk can and cannot do yet. Prices read ${PRICES_READ}.`,
-  summary: `Freshdesk $19–107 per agent plus $29–35 Copilot vs Colliedesk flat plans from ${PRICE.range} per workspace (Team ${PRICE.monthly} for up to 10 agents); export limits; honest status`,
+  summary: `Freshdesk $19–107 per agent plus $29–35 Copilot vs Colliedesk ${OUR_PLAN} at a flat ${OUR_PRICE} per workspace for up to 10 agents; export limits; honest status`,
   eyebrow: 'Compare · Freshdesk alternative',
   h1: 'Colliedesk vs Freshdesk',
-  lede: `Five agents on ${fiveAgents?.name ?? 'Freshdesk'} pay ${usd(fiveAgents?.usd ?? 0)} a month. Colliedesk Cloud Team is ${PRICE.monthly} for the whole workspace, up to 10 agents (Small ${dollars(SMALL.monthly)} for up to 3, Team 25 ${PRICE.team25Monthly} for up to 25). Pick your team size to see where Colliedesk fits, and where it does not.`,
+  lede: `Five agents on ${fiveAgents?.name ?? 'Freshdesk'} pay ${usd(fiveAgents?.usd ?? 0)} a month. ${FOUNDING_LEAD ? `${FOUNDING_LEAD} The chart shows the Cloud plans after that.` : `Colliedesk Cloud Team is ${PRICE.monthly} for the whole workspace, up to 10 agents (Small ${dollars(SMALL.monthly)} for up to 3, Team 25 ${PRICE.team25Monthly} for up to 25).`} Pick your team size to see where Colliedesk fits, and where it does not.`,
   cta: true,
+  ctaFounding: FOUNDING_ACTION,
   vs: pricing,
   preMd: vsMarkdown(pricing),
   body,

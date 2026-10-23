@@ -3,7 +3,8 @@
 // action in the body, quotes a competitor price without a source link, has a title or meta
 // description outside the length the top results use, or links fewer than 2 other pages here. Any
 // page this site writes, legal pages and release notes included, fails when it says "beta" or states the
-// retired AI price. Pages listed in
+// retired AI price. While Founding is open (founding-state.json), a page, its Markdown twin or an llms
+// file that names a monthly Cloud plan price before it names Founding fails. Pages listed in
 // KNOWN_DEBT may miss a rule until they are fixed; the list can only shrink. Exits 1 on any failure.
 // The judgement calls (is a claim true, is the article useful) are the content QA skill's job, in
 // docs/seo/; this script only checks what a machine can check.
@@ -176,6 +177,33 @@ export function oldAiPriceFindings(path, text) {
   });
 }
 
+// While Founding is open it is the only Colliedesk Cloud plan on sale (src/lib/founding.ts); the monthly
+// plans are the prices after its ten places are taken. A page that names a monthly plan with a dollar
+// price must name Founding before it, so a visitor from search meets the offer they can buy first.
+const PLAN_PRICE_RE = /\b(?:Solo|Small|Team 25|Team|Unlimited)\b[^.;|\n$€£]{0,40}\$\d|\$\d[\d,.]*\**\s*\((?:Solo|Small|Team|Unlimited)\b/;
+const FOUNDING_RE = /\bfounding\b/i;
+
+/** One finding when, with Founding open, the text names a Cloud plan price before it names Founding. */
+export function foundingLeadFindings(path, text, open) {
+  if (!open) return [];
+  const price = text.search(PLAN_PRICE_RE);
+  if (price < 0) return [];
+  const founding = text.search(FOUNDING_RE);
+  if (founding >= 0 && founding < price) return [];
+  const quote = text.slice(Math.max(0, price - 40), price + 50).replace(/\s+/g, ' ').trim();
+  return [`${path}: names a Cloud plan price before Founding while Founding is open; lead with Founding ($99 a quarter) and give the monthly plans as the prices after the 10 places: "${quote}"`];
+}
+
+/** Whether the site was built with Founding open; no state file reads as open, as in the build. */
+export function foundingOpenFrom(file) {
+  if (!existsSync(file)) return true;
+  try {
+    return JSON.parse(readFileSync(file, 'utf8')).open !== false;
+  } catch {
+    return true;
+  }
+}
+
 /** The words a visitor sees in an HTML page: no scripts, styles or tags. */
 const visibleText = (html) => decode(html.replace(/<(script|style)[\s\S]*?<\/\1>/g, '').replace(/<[^>]+>/g, ' '));
 
@@ -219,6 +247,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     return `/${rel}`;
   };
   const sitewide = new Set();
+  const foundingOpen = foundingOpenFrom(process.env.FOUNDING_STATE_FILE ?? 'founding-state.json');
   for (const file of walk(outDir)) {
     const path = urlPathOf(file);
     const fromProduct = PRODUCT_DOCS.some((re) => re.test(path));
@@ -229,14 +258,23 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
       if (!fromProduct) for (const f of betaFindings(path, visibleText(html))) sitewide.add(f);
       // JSON-LD included: search engines quote it.
       for (const f of oldAiPriceFindings(path, fromProduct ? `${title}\n${description}` : decode(html.replace(/<style[\s\S]*?<\/style>/g, '').replace(/<[^>]+>/g, ' ')))) sitewide.add(f);
+      if (!fromProduct) {
+        for (const text of [title, description, visibleText(html.replace(/<head>[\s\S]*?<\/head>/, ''))]) {
+          for (const f of foundingLeadFindings(path, text, foundingOpen)) sitewide.add(f);
+        }
+      }
     } else if (file.endsWith('.md') && !fromProduct) {
       for (const f of betaFindings(path, readFileSync(file, 'utf8'))) sitewide.add(f);
       for (const f of oldAiPriceFindings(path, readFileSync(file, 'utf8'))) sitewide.add(f);
+      for (const f of foundingLeadFindings(`${path}.md`, readFileSync(file, 'utf8'), foundingOpen)) sitewide.add(f);
     } else if (/llms(-full)?\.txt$/.test(file)) {
       const text = readFileSync(file, 'utf8');
       const name = `/${relative(outDir, file)}`;
       if (file.endsWith('/llms.txt')) for (const f of betaFindings(name, text)) sitewide.add(f);
       for (const f of oldAiPriceFindings(name, text)) sitewide.add(f);
+      // llms.txt: one line per page; llms-full.txt: one section per page, split by "---".
+      const units = file.endsWith('/llms.txt') ? text.split('\n') : text.split(/\n---\n/);
+      for (const unit of units) for (const f of foundingLeadFindings(name, unit, foundingOpen)) sitewide.add(f);
     }
   }
   errors.push(...sitewide);
