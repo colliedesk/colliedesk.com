@@ -4,15 +4,14 @@ import { faqPage, organization, softwareApplication } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
 import { faqMarkdown } from '../../lib/twin';
 import { statusTable } from './collie-status';
-import { FOUNDING_OPEN, FRESHDESK_MONTH, FRESHDESK_RANGE, FRESHDESK_YEAR, HERO_RANGES, homeSectionsMd, OURS_NAME, OURS_YEAR, rangeLabel } from './home-sections';
+import { FOUNDING_OPEN, FRESHDESK_MONTH, FRESHDESK_RANGE, FRESHDESK_YEAR, homeSectionsMd, OURS_NAME, OURS_YEAR, rangeLabel } from './home-sections';
 
-// Headline: our yearly price, then what five agents pay each incumbent in a year (cheapest to dearest
-// plan, from home-sections.ts). The hero shows one competitor at a time; this sentence is what
-// screen readers, the twin and the title get.
-export const HOME_H1_LEAD = `$${OURS_YEAR} a year for your whole team. Five agents pay`;
-export const HOME_H1 = `${HOME_H1_LEAD} ${HERO_RANGES.map((r, i) => `${i > 0 && i === HERO_RANGES.length - 1 ? 'and ' : ''}${rangeLabel(r)} on ${r.name}`).join(', ')}.`;
+// Headline: why our buyer stays on Freshdesk despite the price rise (leaving is hard), and what we
+// changed. The lede names the buyer, the proof (the reconcile report) and the price as evidence:
+// our yearly price against what five agents pay Freshdesk (cheapest to dearest plan, home-sections.ts).
+export const HOME_H1 = 'Freshdesk raises your price because leaving is hard. We made leaving easy.';
 export const HOME_LEDE =
-  'For support teams of 3 to 10 agents who pay for Freshdesk and just got a price rise. Pay for the workspace, not for every agent, and bring every ticket with a report that proves nothing was lost.';
+  `For support teams of 3 to 10 agents who pay for Freshdesk. Every ticket, reply, attachment and time entry comes over with a report that proves nothing was lost, and you can run both until you are sure. Then pay $${OURS_YEAR} a year for your whole team, where five agents pay ${rangeLabel(FRESHDESK_RANGE)} on Freshdesk. It is open source, so nobody can lock you in again.`;
 
 export const HOME_FAQ: Faq[] = [
   {

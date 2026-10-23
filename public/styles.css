@@ -227,29 +227,6 @@ td:has(> .badge) { width: 1%; white-space: nowrap; }
 .hero-copy .lede { margin-inline: auto; }
 .hero-eyebrow { display: inline-block; border: 1px solid var(--line); border-radius: var(--radius-full); background: var(--surface-1); padding: .35rem .9rem; color: var(--text-2); font-weight: 500; font-size: 13px; }
 .home-hero h1 { font-size: clamp(2.25rem, 1.4rem + 3vw, 3.5rem); letter-spacing: -0.025em; margin-bottom: .35em; }
-/* Rotating h1: the three items share one grid cell; the first shows by default, so reduced motion
-   and browsers without animation keep a static headline. One pass under 5 s (WCAG 2.2.2), then it rests on the first. */
-.h1-swap { display: grid; justify-items: center; }
-.h1-item { grid-area: 1 / 1; }
-.h1-item em { font-style: normal; color: var(--price); }
-.h1-item + .h1-item { visibility: hidden; opacity: 0; }
-.h1-item:nth-child(1) { animation: h1-first 4.8s ease-in-out 1 forwards; }
-.h1-item:nth-child(2) { animation: h1-pass 1.6s ease-in-out 1.4s 1 both; }
-.h1-item:nth-child(3) { animation: h1-pass 1.6s ease-in-out 3s 1 both; }
-.h1-rotate:hover .h1-item { animation-play-state: paused; }
-@keyframes h1-first {
-  0%, 28% { opacity: 1; visibility: visible; transform: none; }
-  31%, 95% { opacity: 0; visibility: hidden; transform: translateY(-.2em); }
-  100% { opacity: 1; visibility: visible; transform: none; }
-}
-@keyframes h1-pass {
-  0% { opacity: 0; visibility: visible; transform: translateY(.2em); }
-  10%, 90% { opacity: 1; visibility: visible; transform: none; }
-  100% { opacity: 0; visibility: hidden; transform: translateY(-.2em); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .h1-rotate .h1-item { animation: none; }
-}
 .hero-note { margin: var(--space-4) 0 0; color: var(--text-3); font-size: .9rem; }
 .hero-note b { color: var(--text-2); font-weight: 500; }
 .hero-stage { position: relative; max-width: 72rem; margin: var(--space-16) auto 0; padding-bottom: var(--space-16); }
