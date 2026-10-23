@@ -46,7 +46,7 @@ export const HOME_FAQ: Faq[] = [
   },
   {
     q: 'Can I move my Freshdesk tickets to Colliedesk?',
-    a: 'Yes, with the Freshdesk importer, shipped in alpha: tickets, replies, notes, attachments, tags and contacts, with a reconcile report. You can switch gradually: keep Freshdesk running, forward a copy of your support mail to Colliedesk, and run the import again to catch up until your team is sure. Founding customers get the migration done for free. Read [how to switch gradually](/migrate/freshdesk#switch-gradually).',
+    a: 'Yes, with the Freshdesk importer, shipped in alpha: tickets, replies, notes, attachments, tags and contacts, with a reconcile report. You can switch gradually: keep answering in Freshdesk, import your history, run the import again to catch up, and forward your support mail to Colliedesk only when your team is sure. Founding customers get the migration done for free. Read [how to switch gradually](/migrate/freshdesk#switch-gradually).',
   },
 ];
 
