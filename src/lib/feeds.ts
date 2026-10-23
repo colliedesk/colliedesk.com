@@ -6,7 +6,7 @@ import { mdUrlOf, type ChangelogEntry, type Page, type Section } from './page';
 import { LADDER_LINE, NAME, ORIGIN, POSITIONING, REPO, UPDATED } from './site';
 import { markdownTwin } from './twin';
 
-const SECTIONS: readonly Section[] = ['Product', 'Migrate', 'Compare', 'Docs'];
+const SECTIONS: readonly Section[] = ['Product', 'Migrate', 'Compare', 'Docs', 'Blog'];
 
 export function llmsTxt(pages: readonly Page[]): string {
   const groups = SECTIONS.map((s) => {
