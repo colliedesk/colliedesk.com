@@ -44,6 +44,11 @@ to use another checkout. `typecheck` works without it.
 - `/docs` and `/roadmap` render `docs/user/*.md` and `ROADMAP.md` from [colliedesk/colliedesk](https://github.com/colliedesk/colliedesk). Edit those files there, not here. Every 15 minutes CI compares those docs on `main` with `/product-docs-version.txt` on the live site (`scripts/product-docs-version.sh`) and rebuilds when they differ. To preview unmerged docs, run the Site workflow with `product_ref` set to a branch of colliedesk/colliedesk: it builds, checks and uploads the site as an artifact without deploying. Pull requests there that touch the docs build this site too, so a broken link fails before merge.
 - SEO: an agent researches, writes and audits pages as described in [docs/seo](docs/seo/README.md); `pnpm check:content` checks the copy and a person approves every SEO page (required check `content-approval`).
 - Shared facts (prices, positioning, repo URL) are in `src/lib/site.ts`. Competitor prices carry their source and read date on each `/vs` page.
+- While Founding is open it is the only Cloud plan on sale. A page that states a Cloud price leads with it and gives
+  the monthly plans as the prices after the 10 places, through `src/lib/cloud-price.ts` (`FOUNDING_LEAD`,
+  `foundingFirst`, `OUR_PLAN`/`OUR_PRICE`, the hero action `FOUNDING_ACTION`). `pnpm check:content` fails a page,
+  Markdown twin or llms file that names a monthly plan price before Founding. Build and check with
+  `FOUNDING_STATE_FILE=<file>` to see the closed state.
 - AI prices are in `src/lib/site.ts` too (`AI_RESOLUTION`, `AI_EXTRA`, `PRICE.ai`). `pnpm check:content` fails on the retired "model cost +30%" wording anywhere on the site, llms.txt and JSON-LD included.
 - Colliedesk as a whole is alpha. Mark a feature `**Shipped**` or `**Not built yet**` in Markdown; the build turns
   it into a badge. Never call anything beta: `pnpm check:content` fails on the word until HC Labs announces beta.

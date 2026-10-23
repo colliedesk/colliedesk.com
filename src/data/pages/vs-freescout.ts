@@ -2,6 +2,7 @@ const PRICES_READ = '16 October 2026';
 import { faqPage, techArticle } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
 import { collieFacts as c, statusTable } from './collie-status';
+import { FOUNDING_ACTION, OUR_PLAN, OUR_PRICE, withFoundingLead } from '../../lib/cloud-price';
 
 const faq: Faq[] = [
   {
@@ -25,7 +26,7 @@ const body = `## The short answer
 
 ## Side by side
 
-| | FreeScout | Colliedesk |
+| Topic | FreeScout | Colliedesk |
 |---|---|---|
 | Licence | AGPL-3.0 | ${c.source} |
 | Self-host | Free core, unlimited agents; paid modules with lifetime licences per instance | ${c.free} |
@@ -36,7 +37,7 @@ const body = `## The short answer
 
 ## Moving from Freshdesk
 
-| | FreeScout | Colliedesk (**Shipped**) |
+| Import | FreeScout | Colliedesk (**Shipped**) |
 |---|---|---|
 | Importer | No official one. Third-party paid service, or a community module "not guaranteed" by the FreeScout team | Official importer, free on every install |
 | Attachments | Depends on the tool | Downloaded and checksummed (SHA-256) |
@@ -65,12 +66,13 @@ const page: Page = {
   section: 'Compare',
   title: 'Colliedesk vs FreeScout: two AGPL helpdesks, paid modules vs every feature free',
   description:
-    'Colliedesk vs FreeScout, both AGPL-3.0: FreeScout sells modules and has no official cloud; Colliedesk ships every feature free and offers flat-priced hosting (Team $69 a month for up to 10 agents). Freshdesk import compared.',
-  summary: 'FreeScout free core plus paid modules, no official cloud or Freshdesk importer vs Colliedesk every feature free, flat-priced Cloud (Team $69), importer available now (alpha)',
+    `Colliedesk vs FreeScout, both AGPL-3.0: FreeScout sells modules and has no official cloud; Colliedesk ships every feature free and offers flat-priced hosting (${OUR_PLAN} ${OUR_PRICE} for up to 10 agents). Freshdesk import compared.`,
+  summary: `FreeScout free core plus paid modules, no official cloud or Freshdesk importer vs Colliedesk every feature free, flat-priced Cloud (${OUR_PLAN} ${OUR_PRICE}), importer available now (alpha)`,
   eyebrow: 'Compare · Open source',
   h1: 'Colliedesk vs FreeScout',
-  lede: 'Both are open source under AGPL-3.0. FreeScout is a lightweight PHP helpdesk with paid modules. Colliedesk keeps every feature in the free code. Here is the difference, with sources.',
+  lede: withFoundingLead('Both are open source under AGPL-3.0. FreeScout is a lightweight PHP helpdesk with paid modules. Colliedesk keeps every feature in the free code. Here is the difference, with sources.'),
   cta: true,
+  ctaFounding: FOUNDING_ACTION,
   body,
   faq,
 };

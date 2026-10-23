@@ -2,11 +2,12 @@ const PRICES_READ = '16 October 2026';
 import { faqPage, techArticle } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
 import { AI_EXTRA } from '../../lib/site';
+import { AFTER_FOUNDING, FOUNDING_ACTION, FOUNDING_LEAD, FOUNDING_OPEN, OUR_PLAN, OUR_PRICE, withFoundingLead } from '../../lib/cloud-price';
 
 const faq: Faq[] = [
   {
     q: 'What is the best open-source Freshdesk alternative?',
-    a: 'It depends on your channels and timing. Zammad is the most mature open-source helpdesk and its Freshdesk migrator is released today. Chatwoot fits teams whose support is mostly chat and messaging. FreeScout is a light PHP helpdesk with paid modules. Colliedesk is built for small email-support teams leaving Freshdesk, at one flat price per workspace (Team $69 a month for up to 10 agents), with an importer and reconcile report available now, in alpha.',
+    a: `It depends on your channels and timing. Zammad is the most mature open-source helpdesk and its Freshdesk migrator is released today. Chatwoot fits teams whose support is mostly chat and messaging. FreeScout is a light PHP helpdesk with paid modules. Colliedesk is built for small email-support teams leaving Freshdesk, at one flat price per workspace (${OUR_PLAN} ${OUR_PRICE} for up to 10 agents), with an importer and reconcile report available now, in alpha.`,
   },
   {
     q: 'Why are teams leaving Freshdesk?',
@@ -14,7 +15,7 @@ const faq: Faq[] = [
   },
   {
     q: 'Which Freshdesk alternative is cheapest for 5 agents?',
-    a: `Among the paid plans we compared on ${PRICES_READ}, the lowest prices for 5 agents are plans capped at five: Zammad Starter and Zoho Desk Express, each €7 per agent, so €35 a month. Colliedesk Cloud Team is $690 a year per workspace ($57.50 a month, or $69 billed monthly), which keeps the same price up to 10 agents. Helply (formerly Groove) starts at $49 a month, but that buys AI credits. The free plans of Zoho Desk and HubSpot cost nothing if you can live with their limits.`,
+    a: `${FOUNDING_LEAD ? `${FOUNDING_LEAD} Among the other paid plans` : 'Among the paid plans'} we compared on ${PRICES_READ}, the lowest prices for 5 agents are plans capped at five: Zammad Starter and Zoho Desk Express, each €7 per agent, so €35 a month. ${AFTER_FOUNDING}Colliedesk Cloud Team is $690 a year per workspace ($57.50 a month, or $69 billed monthly), which keeps the same price up to 10 agents. Helply (formerly Groove) starts at $49 a month, but that buys AI credits. The free plans of Zoho Desk and HubSpot cost nothing if you can live with their limits.`,
   },
 ];
 
@@ -24,7 +25,7 @@ Prices for 5 agents per month, billed annually, from each vendor's page on ${PRI
 
 | Helpdesk | 5 agents | Pricing model | Open source | Freshdesk import | Comparison |
 |---|---|---|---|---|---|
-| **Colliedesk** | **$57.50** (Team, $690 a year) + ${AI_EXTRA} | Flat per workspace, up to 10 agents | AGPL-3.0 | Shipped (alpha), with reconcile report | — |
+| **Colliedesk** | ${FOUNDING_OPEN ? '**$99 a quarter** (Founding, $396 a year); after the 10 Founding places, $57.50 (Team, $690 a year)' : '**$57.50** (Team, $690 a year)'} + ${AI_EXTRA} | Flat per workspace, up to 10 agents | AGPL-3.0 | Shipped (alpha), with reconcile report | — |
 | Zammad | €35 (Starter, max 5 agents); €80–90 (Professional) | Per agent (hosted, in euros) | AGPL-3.0 | Released, self-serve | [vs Zammad](/vs/zammad) |
 | Chatwoot | $195 (Business) | Per agent | MIT (core) | Paid plans; no attachments | [vs Chatwoot](/vs/chatwoot) |
 | FreeScout | Hosting + modules | Free core, paid modules, no official cloud | AGPL-3.0 | Third-party or community module | [vs FreeScout](/vs/freescout) |
@@ -62,8 +63,9 @@ const page: Page = {
   summary: 'Freshdesk alternatives compared: 4 open-source and 8 SaaS helpdesks, 5-agent price, pricing model and Freshdesk import; how to choose',
   eyebrow: 'Compare · Freshdesk alternatives',
   h1: 'Freshdesk alternatives, compared honestly',
-  lede: 'Twelve helpdesks, open source and SaaS, with what five agents pay and how each one gets your Freshdesk history in. Colliedesk is one of them; we say where the others win.',
+  lede: withFoundingLead('Twelve helpdesks, open source and SaaS, with what five agents pay and how each one gets your Freshdesk history in. Colliedesk is one of them; we say where the others win.'),
   cta: true,
+  ctaFounding: FOUNDING_ACTION,
   body,
   faq,
 };

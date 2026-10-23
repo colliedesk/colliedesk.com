@@ -1,5 +1,6 @@
 // Price-by-team-size comparison for /vs pages: one competitor's per-agent plans against the flat
 // Colliedesk Cloud plan that covers the team. The HTML chart and the Markdown twin both render from this.
+import { AFTER_FOUNDING, FOUNDING_OPEN } from './cloud-price';
 import { AI_RESOLUTION, CONTACT_EMAIL, dollars, LADDER_LINE, SMALL, SOLO, TEAM, TEAM_25, type CloudPlan, UNLIMITED } from './site';
 
 export interface VsPlan {
@@ -63,7 +64,7 @@ export function rowsAt(p: VsPricing, agents: number): VsRow[] {
   });
   const plan = oursFor(agents);
   const ours: VsRow = {
-    name: `Colliedesk Cloud ${plan.name}`,
+    name: `Colliedesk Cloud ${plan.name}${FOUNDING_OPEN ? ' after Founding' : ''}`,
     usd: plan.monthly,
     seatUsd: plan.monthly,
     aiUsd: 0,
@@ -112,8 +113,9 @@ export function savingAt(p: VsPricing, agents: number): { name: string; perMonth
 export const readOnLabel = (iso: string): string =>
   new Date(`${iso}T00:00:00Z`).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
 
+// While Founding is open the chart shows the Cloud plans that apply once its places are taken.
 export const chartCaption = (p: VsPricing): string =>
-  `${p.competitor} list prices per month, ${p.billing}, read on ${readOnLabel(p.readOn)}. Colliedesk Cloud is one price per workspace, billed monthly: ${LADDER_LINE}. A year costs ten months. AI reply drafts and triage are included with a monthly allowance; auto-answer, once it ships, is ${AI_RESOLUTION} per resolution while alpha.`;
+  `${p.competitor} list prices per month, ${p.billing}, read on ${readOnLabel(p.readOn)}. ${AFTER_FOUNDING}Colliedesk Cloud is one price per workspace, billed monthly: ${LADDER_LINE}. A year costs ten months. AI reply drafts and triage are included with a monthly allowance; auto-answer, once it ships, is ${AI_RESOLUTION} per resolution while alpha.`;
 
 export function notForYouLines(p: VsPricing): string[] {
   const from = cheaperFrom(p);
@@ -123,7 +125,7 @@ export function notForYouLines(p: VsPricing): string[] {
 }
 
 export function vsMarkdown(p: VsPricing): string {
-  const head = `| Team | ${p.plans.map((plan) => plan.name).join(' | ')} | Colliedesk Cloud |`;
+  const head = `| Team | ${p.plans.map((plan) => plan.name).join(' | ')} | Colliedesk Cloud${FOUNDING_OPEN ? ' after Founding' : ''} |`;
   const sep = `|---|${p.plans.map(() => '---|').join('')}---|`;
   const rows = TEAM_SIZES.map((n) => {
     const cells = p.plans.map((plan) => usd(perAgentTotal(plan) * n));

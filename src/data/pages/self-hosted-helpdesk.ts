@@ -2,6 +2,7 @@ import { REPO } from '../../lib/site';
 import { faqPage, techArticle } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
 import { statusTable } from './collie-status';
+import { FOUNDING_ACTION, FOUNDING_OPEN } from '../../lib/cloud-price';
 
 const faq: Faq[] = [
   {
@@ -28,7 +29,7 @@ const body = `## When self-hosting is the right call
 - You already run Docker services and have someone who keeps them patched and backed up.
 - You want to read the code that handles your customer data, or change it.
 
-If none of these apply, [Colliedesk Cloud](/pricing) runs the same code from $19 per workspace per month (Team: $69 for up to 10 agents), and you can still export everything.
+If none of these apply, [Colliedesk Cloud](/pricing) runs the same code${FOUNDING_OPEN ? '. Today it sells one plan, Founding: $99 a quarter per workspace for up to 10 agents, locked for life, for the first 10 workspaces. You' : ' from $19 per workspace per month (Team: $69 for up to 10 agents), and you'} can still export everything.
 
 ## What you run
 
@@ -78,6 +79,7 @@ const page: Page = {
   h1: 'A self-hosted helpdesk with nothing held back',
   lede: 'Colliedesk is open source. Run it on your own server with Docker and PostgreSQL, free, with every feature. Here is what that takes.',
   cta: true,
+  ctaFounding: FOUNDING_ACTION,
   body,
   faq,
 };

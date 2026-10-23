@@ -2,11 +2,12 @@ import { AI_EXTRA, AI_RESOLUTION, PRICES_READ } from '../../lib/site';
 import { faqPage, techArticle } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
 import { collieFacts as c, statusTable } from './collie-status';
+import { FOUNDING_ACTION, OUR_CELL, OUR_PLAN, OUR_PRICE, foundingFirst, withFoundingLead } from '../../lib/cloud-price';
 
 const faq: Faq[] = [
   {
     q: 'Is there a Zendesk alternative that is not priced per agent?',
-    a: 'Yes. Colliedesk Cloud is one flat price per workspace: Team is $69 a month for up to 10 agents, Team 25 $149 for up to 25. Self-hosting is free. Colliedesk is open source (AGPL-3.0) and in alpha today.',
+    a: `Yes. ${foundingFirst('Colliedesk Cloud is one flat price per workspace: Team is $69 a month for up to 10 agents, Team 25 $149 for up to 25.')} Self-hosting is free. Colliedesk is open source (AGPL-3.0) and in alpha today.`,
   },
   {
     q: 'How does Zendesk charge for AI?',
@@ -31,7 +32,7 @@ const body = `## The short answer
 
 Zendesk prices below are from the Zendesk pricing page in euros (our request for zendesk.com/pricing was served the euro page), per agent per month, read on ${PRICES_READ}.
 
-| | Zendesk | Colliedesk |
+| Topic | Zendesk | Colliedesk |
 |---|---|---|
 | Plans (annual / monthly billing) | Support Team €19 / €25, Suite Team €55 / €69, Suite Professional €115 / €149; Enterprise on quote | ${c.price} |
 | AI drafting | Copilot €50 per agent per month, billed annually | ${c.ai} |
@@ -45,7 +46,7 @@ Third-party sites list US prices of $19, $55 and $115 for the same three plans; 
 
 | Team | Zendesk Suite Professional + Copilot (annual) | Colliedesk Cloud |
 |---|---|---|
-| 5 agents | 5 × (€115 + €50) = **€825 per month**, plus AI agent resolutions beyond the included amount | $69 per month (Team) + ${AI_EXTRA} |
+| 5 agents | 5 × (€115 + €50) = **€825 per month**, plus AI agent resolutions beyond the included amount | ${OUR_CELL} + ${AI_EXTRA} |
 
 ## Leaving: what Zendesk gives you
 
@@ -75,11 +76,12 @@ const page: Page = {
   title: 'Colliedesk vs Zendesk: a flat-priced, open-source Zendesk alternative',
   description:
     'Colliedesk vs Zendesk for small support teams: per-agent seats and per-resolution AI fees vs one flat workspace price. Sourced prices, export limits and honest status.',
-  summary: 'Zendesk per-agent seats, €50 Copilot and per-resolution AI vs Colliedesk Team at a flat $69 per workspace; export off by default',
+  summary: `Zendesk per-agent seats, €50 Copilot and per-resolution AI vs Colliedesk ${OUR_PLAN} at a flat ${OUR_PRICE} per workspace; export off by default`,
   eyebrow: 'Compare · Zendesk alternative',
   h1: 'Colliedesk vs Zendesk',
-  lede: 'Zendesk is the enterprise default, and it earns that. For a team of five, the seat count and the AI meter decide the bill. Here are the numbers, with sources.',
+  lede: withFoundingLead('Zendesk is the enterprise default, and it earns that. For a team of five, the seat count and the AI meter decide the bill. Here are the numbers, with sources.'),
   cta: true,
+  ctaFounding: FOUNDING_ACTION,
   body,
   faq,
 };

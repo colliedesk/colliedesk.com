@@ -3,6 +3,7 @@ import { faqPage, techArticle } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
 import { collieFacts as c, statusTable } from './collie-status';
 import { AI_EXTRA } from '../../lib/site';
+import { FOUNDING_ACTION, FOUNDING_OPEN, OUR_CELL, OUR_PLAN, OUR_PRICE, withFoundingLead } from '../../lib/cloud-price';
 
 const faq: Faq[] = [
   {
@@ -24,10 +25,10 @@ const body = `## The short answer
 
 HappyFox prices are per agent per month, read on ${PRICES_READ}.
 
-| | HappyFox | Colliedesk |
+| Topic | HappyFox | Colliedesk |
 |---|---|---|
 | Plans (billed annually) | Basic $24 (max 5 agents), Team $49, Pro $99 per agent per month; Enterprise Pro on request | ${c.price} |
-| Billed monthly | Basic $29, Team $69, Pro $119 | Colliedesk Team $69 per month for up to 10 agents, or $690 per year |
+| Billed monthly | Basic $29, Team $69, Pro $119 | ${FOUNDING_OPEN ? 'Colliedesk Founding $99 a quarter for up to 10 agents; after the 10 Founding places, ' : ''}Colliedesk Team $69 per month for up to 10 agents, or $690 per year |
 | AI | Separate products with their own pricing; Autopilot from 2¢ per successful action | ${c.ai} |
 | Free option | 14-day trial, no card | ${c.free} |
 | Source code | Proprietary | ${c.source} |
@@ -36,9 +37,9 @@ HappyFox prices are per agent per month, read on ${PRICES_READ}.
 
 | Team | HappyFox (annual) | Colliedesk Cloud |
 |---|---|---|
-| 5 agents | Basic: 5 × $24 = **$120 per month** | $69 per month (Team) + ${AI_EXTRA} |
-| 6 agents | Team (Basic caps at 5): 6 × $49 = **$294 per month** | $69 per month (Team) + ${AI_EXTRA} |
-| 10 agents | Team: 10 × $49 = **$490 per month** | $69 per month (Team) + ${AI_EXTRA} |
+| 5 agents | Basic: 5 × $24 = **$120 per month** | ${OUR_CELL} + ${AI_EXTRA} |
+| 6 agents | Team (Basic caps at 5): 6 × $49 = **$294 per month** | ${OUR_CELL} + ${AI_EXTRA} |
+| 10 agents | Team: 10 × $49 = **$490 per month** | ${OUR_CELL} + ${AI_EXTRA} |
 
 AI is extra on HappyFox.
 
@@ -58,14 +59,15 @@ const page: Page = {
   path: '/vs/happyfox',
   updated: '2026-10-16',
   section: 'Compare',
-  title: 'Colliedesk vs HappyFox: flat $69 for up to 10 agents vs $24–99 per agent',
+  title: `Colliedesk vs HappyFox: flat ${OUR_PRICE} for up to 10 agents vs $24–99 per agent`,
   description:
-    'Colliedesk vs HappyFox: HappyFox $24–99 per agent with AI sold separately vs Colliedesk at one flat price per workspace (Team $69 for up to 10 agents) with AI drafts included. Sourced prices and honest status.',
-  summary: 'HappyFox $24–99 per agent (Basic capped at 5), AI sold separately vs Colliedesk Team at a flat $69 per workspace',
+    `Colliedesk vs HappyFox: HappyFox $24–99 per agent with AI sold separately vs Colliedesk at one flat price per workspace (${OUR_PLAN} ${OUR_PRICE} for up to 10 agents) with AI drafts included. Sourced prices and honest status.`,
+  summary: `HappyFox $24–99 per agent (Basic capped at 5), AI sold separately vs Colliedesk ${OUR_PLAN} at a flat ${OUR_PRICE} per workspace`,
   eyebrow: 'Compare · HappyFox alternative',
   h1: 'Colliedesk vs HappyFox',
-  lede: 'HappyFox is a mature helpdesk priced per agent, with AI sold on top. Past five agents its cheapest plan stops. Here are the numbers, with sources.',
+  lede: withFoundingLead('HappyFox is a mature helpdesk priced per agent, with AI sold on top. Past five agents its cheapest plan stops. Here are the numbers, with sources.'),
   cta: true,
+  ctaFounding: FOUNDING_ACTION,
   body,
   faq,
 };

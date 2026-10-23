@@ -2,6 +2,7 @@ const PRICES_READ = '16 October 2026';
 import { faqPage, techArticle } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
 import { collieFacts as c, statusTable } from './collie-status';
+import { FOUNDING_ACTION, FOUNDING_OPEN, OUR_PLAN, OUR_PRICE, withFoundingLead } from '../../lib/cloud-price';
 
 const faq: Faq[] = [
   {
@@ -27,14 +28,14 @@ const body = `## The short answer
 
 Read on ${PRICES_READ}.
 
-| | Helply (formerly Groove) | Colliedesk |
+| Topic | Helply (formerly Groove) | Colliedesk |
 |---|---|---|
 | Plans | From $49 per month for a block of credits (500 to 32,000); no per-user fees; 15% off annual | ${c.price} |
 | AI | Charged in credits: 1 for a draft or summary, 4 or 12 for harder actions; unused credits roll over | ${c.ai} |
 | Free option | 14-day trial with 1,000 credits, no card | ${c.free} |
 | Source code | Proprietary | ${c.source} |
 
-Helply's $49 is a credit budget for AI work. Colliedesk Team at $69 is the helpdesk for up to 10 agents (Solo is $19 for one), with AI reply drafts and triage included (monthly allowance) or on your own key.
+Helply's $49 is a credit budget for AI work. Colliedesk ${OUR_PLAN} at ${OUR_PRICE} is the helpdesk for up to 10 agents${FOUNDING_OPEN ? '' : ' (Solo is $19 for one)'}, with AI reply drafts and triage included (monthly allowance) or on your own key.
 
 ## Leaving: what Groove gives you
 
@@ -63,12 +64,13 @@ const page: Page = {
   section: 'Compare',
   title: 'Colliedesk vs Groove (now Helply): a flat-price helpdesk vs AI credits',
   description:
-    'Groove is now Helply, priced by AI credits from $49 per month. Colliedesk is an open-source helpdesk at one flat price per workspace (Team $69 for up to 10 agents) with AI drafts included. Export limits and honest status.',
-  summary: 'Groove is now Helply: AI credits from $49 per month, JSON-only export vs Colliedesk Team, a flat $69 per workspace helpdesk',
+    `Groove is now Helply, priced by AI credits from $49 per month. Colliedesk is an open-source helpdesk at one flat price per workspace (${OUR_PLAN} ${OUR_PRICE} for up to 10 agents) with AI drafts included. Export limits and honest status.`,
+  summary: `Groove is now Helply: AI credits from $49 per month, JSON-only export vs Colliedesk ${OUR_PLAN}, a flat ${OUR_PRICE} per workspace helpdesk`,
   eyebrow: 'Compare · Groove alternative',
   h1: 'Colliedesk vs Groove (now Helply)',
-  lede: 'Groove became Helply and rebuilt itself around AI agents priced by credits. If you chose Groove for a simple shared inbox, here is the difference, with sources.',
+  lede: withFoundingLead('Groove became Helply and rebuilt itself around AI agents priced by credits. If you chose Groove for a simple shared inbox, here is the difference, with sources.'),
   cta: true,
+  ctaFounding: FOUNDING_ACTION,
   body,
   faq,
 };
