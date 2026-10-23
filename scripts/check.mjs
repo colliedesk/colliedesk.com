@@ -426,8 +426,10 @@ if (!foundingOpen) {
 // release that has already happened ("v0.2"), call the product pre-alpha or say checkout is
 // coming. The Solo, Small, Team and Team 25 cards must start the free trial at the real signup
 // entry, every "Start free trial" button must go to the same place, and the Unlimited card (coming
-// soon) must offer no link at all.
-const TRIAL_URL = 'https://app.colliedesk.com/sign-in';
+// soon) must offer no link at all. The trial link carries ?intent=trial so the app titles the page for a
+// new workspace; the bare sign-in page is only for "Log in".
+const SIGN_IN_URL = 'https://app.colliedesk.com/sign-in';
+const TRIAL_URL = `${SIGN_IN_URL}?intent=trial`;
 {
   const stale = /v0\.[2-9]|pre-alpha|checkout link is coming soon|\bin testing\b/i;
   for (const file of files.filter((f) => /\.(html|md|txt)$/.test(f))) {
@@ -448,6 +450,12 @@ const TRIAL_URL = 'https://app.colliedesk.com/sign-in';
     for (const m of readFileSync(file, 'utf8').matchAll(/<a[^>]*href="([^"]*)"[^>]*>\s*Start free trial/g)) {
       if (m[1] !== TRIAL_URL) fail(`${urlPathOf(file)}: "Start free trial" links to ${m[1]}, not ${TRIAL_URL}`);
     }
+    for (const m of readFileSync(file, 'utf8').matchAll(new RegExp(`<a[^>]*href="${SIGN_IN_URL}"[^>]*>([\\s\\S]*?)</a>`, 'g'))) {
+      if (m[1].trim() !== 'Log in') fail(`${urlPathOf(file)}: "${m[1].trim().slice(0, 40)}" links to ${SIGN_IN_URL}; only "Log in" may, a trial link goes to ${TRIAL_URL}`);
+    }
+  }
+  for (const file of files.filter((f) => f.endsWith('.md'))) {
+    if (readFileSync(file, 'utf8').includes(`(${SIGN_IN_URL})`)) fail(`${file.slice(outDir.length - 1)}: links to ${SIGN_IN_URL}; a trial link goes to ${TRIAL_URL}`);
   }
 }
 

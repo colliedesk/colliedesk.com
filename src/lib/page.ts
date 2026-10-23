@@ -1,3 +1,4 @@
+import type { NavLink } from './site';
 import type { VsPricing } from './vs-pricing';
 
 // The typed model every page module exports. One Page = one HTML file + one Markdown twin.
@@ -43,6 +44,8 @@ export interface Page {
   lede?: string;
   /** Show the two call-to-action buttons in the hero. */
   cta?: boolean;
+  /** A Founding action between the hero buttons, shown only while Founding is open. */
+  ctaFounding?: NavLink;
   /** Markdown body. */
   body?: string;
   /** Markdown placed before the body in the twin (mirrors the HTML block before the body). */

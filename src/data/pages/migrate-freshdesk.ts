@@ -91,6 +91,7 @@ const page: Page = {
   h1: 'Leave Freshdesk with all your data',
   lede: 'An honest, step-by-step guide: what the Freshdesk export keeps, what it loses, and how to prove nothing was left behind.',
   cta: true,
+  ctaFounding: { href: '/migrate/freshdesk/done-for-you', label: 'Free migration with Founding' },
   body,
   faq,
 };

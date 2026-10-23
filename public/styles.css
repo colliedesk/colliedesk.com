@@ -353,6 +353,17 @@ td:has(> .badge) { width: 1%; white-space: nowrap; }
 /* Inner page hero and prose */
 .page-hero { padding: var(--space-16) 0 var(--space-10); }
 .page-hero h1 { font-size: clamp(1.75rem, 1.25rem + 2vw, 2.65rem); max-width: 24ch; }
+/* /pricing: the Founding card beside the hero copy on wide screens, under it with its list in a second
+   column on tablets, so the buy button is in the first view. */
+.page-hero-split { padding-top: var(--space-12); }
+.page-hero-grid { display: grid; gap: var(--space-8); align-items: start; }
+@media (min-width: 1200px) { .page-hero-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-12); } .page-hero-copy { padding-top: var(--space-6); } }
+@media (min-width: 641px) and (max-width: 1199px) {
+  .page-hero-split .plan-featured { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-rows: repeat(4, auto) 1fr; column-gap: var(--space-8); }
+  .page-hero-split .plan-featured > * { grid-column: 1; }
+  .page-hero-split .plan-featured > .plan-detail { grid-column: 2; grid-row: 1 / -1; }
+  .page-hero-split .plan-detail ul { margin: 0; }
+}
 .page-body { padding-top: var(--space-10); padding-bottom: var(--space-section); }
 .prose { max-width: 52rem; }
 .prose-wide { max-width: none; }
@@ -390,6 +401,9 @@ td:first-child { font-weight: 500; color: var(--text-1); }
 .plan-alt { color: var(--text-3); margin: 0 0 1rem; }
 .plans-note { grid-column: 1 / -1; margin: var(--space-6) 0 0; color: var(--text-2); }
 .plans-ladder { grid-template-columns: repeat(auto-fit, minmax(10.5rem, 1fr)); gap: var(--space-4); }
+/* While Founding is open its card is in the hero; Self-host keeps the width of one hero column. */
+.plans-after-hero { padding-top: 0; }
+@media (min-width: 961px) { .plans-after-hero { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .plans-ladder .plan { padding: var(--space-5); }
 .plans-ladder .plan-price { white-space: nowrap; }
 .plans-ladder .plan-price strong { font-size: 2.2rem; }
