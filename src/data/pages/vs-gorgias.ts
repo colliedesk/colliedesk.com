@@ -2,6 +2,7 @@ const PRICES_READ = '16 October 2026';
 import { faqPage, techArticle } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
 import { collieFacts as c, statusTable } from './collie-status';
+import { AI_EXTRA } from '../../lib/site';
 
 const faq: Faq[] = [
   {
@@ -14,7 +15,7 @@ const faq: Faq[] = [
   },
   {
     q: 'What does Colliedesk cost at 2,000 tickets a month?',
-    a: 'The same flat price at any ticket volume: Team is $69 per workspace per month for up to 10 agents (Small $39 for up to 3). Every Colliedesk Cloud plan has unlimited conversations; AI is billed at model cost +30% or on your own key.',
+    a: 'The same flat price at any ticket volume: Team is $69 per workspace per month for up to 10 agents (Small $39 for up to 3). Every Colliedesk Cloud plan has unlimited conversations; AI reply drafts and triage are included with a monthly allowance, or use your own key.',
   },
 ];
 
@@ -39,9 +40,9 @@ Gorgias prices are per month for the whole account, by tickets included, read on
 
 | Tickets per month | Gorgias with AI Agent (annual) | Colliedesk Cloud |
 |---|---|---|
-| 300 | Basic: **$77 per month** | $69 per month (Team) + AI usage |
-| 2,000 | Pro: **$471 per month** | $69 per month (Team) + AI usage |
-| 5,000 | Advanced: **$1,227 per month** | $69 per month (Team) + AI usage |
+| 300 | Basic: **$77 per month** | $69 per month (Team) + ${AI_EXTRA} |
+| 2,000 | Pro: **$471 per month** | $69 per month (Team) + ${AI_EXTRA} |
+| 5,000 | Advanced: **$1,227 per month** | $69 per month (Team) + ${AI_EXTRA} |
 
 ## What Colliedesk does today
 

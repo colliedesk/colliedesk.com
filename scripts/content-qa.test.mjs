@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { betaFindings, checkPage, readingGrade } from './content-qa.mjs';
+import { betaFindings, checkPage, oldAiPriceFindings, readingGrade } from './content-qa.mjs';
 
 // Plain sentences a 7th grader reads easily; links to pricing (CTA) and to a source.
 const CLEAN = `# Move off Freshdesk before your renewal
@@ -138,4 +138,31 @@ test('allows alpha copy and words that only contain the letters beta', () => {
 
 test('allows beta inside a URL or a Markdown link target', () => {
   assert.deepEqual(betaFindings('/vs/x', 'Source: [their pricing](https://example.com/beta/pricing) and https://beta.example.com/plans'), []);
+});
+
+// AI is priced per resolution and by allowance now; the old "model cost plus 30%" price must not come back.
+test('fails the retired AI price in any of its wordings, quoting where it appears', () => {
+  for (const text of [
+    'AI at LLM cost +30% or your own key.',
+    '| AI | Model cost +30% on our key |',
+    'Use ours at cost plus 30%.',
+    'AI usage at cost + 30 %',
+    'A flat price with AI at model cost.',
+    'One flat price with AI included at cost.',
+    '## AI in every plan, at model cost',
+  ]) {
+    const findings = oldAiPriceFindings('/pricing', text);
+    assert.equal(findings.length, 1, text);
+    assert.match(findings[0], /^\/pricing: states the retired AI price/);
+  }
+});
+
+test('allows the current AI price and unrelated percentages', () => {
+  const ok = [
+    'Auto-answer costs $0.50 per resolution while Colliedesk is alpha.',
+    'Reply drafts and triage are included in every plan, with a monthly allowance.',
+    'Bring your own key: Colliedesk adds no fee.',
+    'We warn you at 80%. Freshdesk raised prices by 30% in 2024.',
+  ].join('\n');
+  assert.deepEqual(oldAiPriceFindings('/pricing', ok), []);
 });

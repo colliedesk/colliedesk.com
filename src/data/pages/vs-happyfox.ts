@@ -2,6 +2,7 @@ const PRICES_READ = '16 October 2026';
 import { faqPage, techArticle } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
 import { collieFacts as c, statusTable } from './collie-status';
+import { AI_EXTRA } from '../../lib/site';
 
 const faq: Faq[] = [
   {
@@ -17,7 +18,7 @@ const faq: Faq[] = [
 const body = `## The short answer
 
 - **Choose HappyFox** if you need a mature, established helpdesk today and the per-agent price fits your budget.
-- **Choose Colliedesk** if you have 3 to 10 agents and want one flat price with AI included at cost. Colliedesk is alpha; read the status table first.
+- **Choose Colliedesk** if you have 3 to 10 agents and want one flat price with AI drafts included. Colliedesk is alpha; read the status table first.
 
 ## Price, side by side
 
@@ -35,9 +36,9 @@ HappyFox prices are per agent per month, read on ${PRICES_READ}.
 
 | Team | HappyFox (annual) | Colliedesk Cloud |
 |---|---|---|
-| 5 agents | Basic: 5 × $24 = **$120 per month** | $69 per month (Team) + AI usage |
-| 6 agents | Team (Basic caps at 5): 6 × $49 = **$294 per month** | $69 per month (Team) + AI usage |
-| 10 agents | Team: 10 × $49 = **$490 per month** | $69 per month (Team) + AI usage |
+| 5 agents | Basic: 5 × $24 = **$120 per month** | $69 per month (Team) + ${AI_EXTRA} |
+| 6 agents | Team (Basic caps at 5): 6 × $49 = **$294 per month** | $69 per month (Team) + ${AI_EXTRA} |
+| 10 agents | Team: 10 × $49 = **$490 per month** | $69 per month (Team) + ${AI_EXTRA} |
 
 AI is extra on HappyFox.
 
@@ -59,7 +60,7 @@ const page: Page = {
   section: 'Compare',
   title: 'Colliedesk vs HappyFox: flat $69 for up to 10 agents vs $24–99 per agent',
   description:
-    'Colliedesk vs HappyFox: HappyFox $24–99 per agent with AI sold separately vs Colliedesk at one flat price per workspace (Team $69 for up to 10 agents) with AI at cost. Sourced prices and honest status.',
+    'Colliedesk vs HappyFox: HappyFox $24–99 per agent with AI sold separately vs Colliedesk at one flat price per workspace (Team $69 for up to 10 agents) with AI drafts included. Sourced prices and honest status.',
   summary: 'HappyFox $24–99 per agent (Basic capped at 5), AI sold separately vs Colliedesk Team at a flat $69 per workspace',
   eyebrow: 'Compare · HappyFox alternative',
   h1: 'Colliedesk vs HappyFox',

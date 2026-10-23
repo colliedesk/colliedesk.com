@@ -1,4 +1,4 @@
-import { FOUNDING_HREF, TRIAL_HREF } from '../../lib/site';
+import { AI_RESOLUTION, FOUNDING_HREF, TRIAL_HREF } from '../../lib/site';
 import { faqPage, techArticle } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
 import { statusTable } from './collie-status';
@@ -40,7 +40,7 @@ Prices per month, billed monthly on both sides, read on ${FRESHDESK_READ}.
 | 5 | $115 | $505 | $69 (Team) |
 | 10 | $230 | $1,010 | $69 (Team) |
 
-Colliedesk AI is billed at model cost +30% on our key; on your own key your provider bills you and Colliedesk adds no fee. Full sources: [Colliedesk vs Freshdesk](/vs/freshdesk).
+AI reply drafts and triage are included in every plan with a monthly allowance; on your own key your provider bills you and Colliedesk adds no fee. Auto-answer is not built yet; while Colliedesk is alpha it will cost ${AI_RESOLUTION} per resolution. Full sources: [Colliedesk vs Freshdesk](/vs/freshdesk).
 
 ## What Colliedesk does today
 
@@ -61,7 +61,7 @@ const page: Page = {
   section: 'Product',
   title: 'Helpdesk for small teams: one flat price for 2 to 10 agents',
   description:
-    'A helpdesk for small support teams of 2 to 10 agents: one flat price per workspace ($39 for up to 3 agents, $69 for up to 10) instead of per-agent fees, AI included at cost, open source. Price by team size and honest status.',
+    'A helpdesk for small support teams of 2 to 10 agents: one flat price per workspace ($39 for up to 3 agents, $69 for up to 10) instead of per-agent fees, AI drafts included, open source. Price by team size and honest status.',
   summary: 'Small-team helpdesk: price by team size (2, 3, 5, 10 agents) vs Freshdesk, what small teams need, honest status',
   eyebrow: 'For small teams',
   h1: 'A helpdesk priced for a small team',

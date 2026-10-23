@@ -1,5 +1,5 @@
 import {
-  agentsLabel, CLOUD_PLANS, CONTACT_EMAIL, dollars, FOUNDING_CHECKOUT, FOUNDING_HREF, LADDER_LINE, PRICE, REPO, SMALL, SOLO, TEAM, TRIAL_HREF, UNLIMITED,
+  AI_EXTRA, AI_RESOLUTION, agentsLabel, CLOUD_PLANS, CONTACT_EMAIL, dollars, FOUNDING_CHECKOUT, FOUNDING_HREF, LADDER_LINE, PRICE, REPO, SMALL, SOLO, TEAM, TRIAL_HREF, UNLIMITED,
 } from '../../lib/site';
 import { FOUNDING_SLOTS, foundingState } from '../../lib/founding';
 import { faqPage, softwareApplication } from '../../lib/schema';
@@ -8,7 +8,7 @@ import type { Faq, Page } from '../../lib/page';
 // Shared with the home FAQ.
 export const PER_WORKSPACE_FAQ: Faq = {
   q: 'Why per workspace, not per agent?',
-  a: 'Because a helpdesk should not cost more each time you hire. Per-agent pricing pushes teams to share logins or keep part-time helpers out of the inbox. With one price for the workspace, everyone who answers customers gets their own login. Our costs follow storage and AI usage, not the number of people who sign in, so that is what the plans limit: agents per plan, attachment storage, and AI at model cost +30%.',
+  a: 'Because a helpdesk should not cost more each time you hire. Per-agent pricing pushes teams to share logins or keep part-time helpers out of the inbox. With one price for the workspace, everyone who answers customers gets their own login. Our costs follow storage and AI usage, not the number of people who sign in, so that is what the plans limit: agents per plan, attachment storage, and a monthly AI allowance.',
 };
 
 const SWITCH_FAQ: Faq = {
@@ -35,8 +35,8 @@ const ladderFaq: Faq[] = [
     a: `Team 25 covers up to 25 agents. Unlimited, for any number of agents and ${UNLIMITED.storage} of attachments, is coming soon at ${dollars(UNLIMITED.monthly)} a month billed annually (${dollars(UNLIMITED.yearly)} a year). Until it opens, email us at ${CONTACT_EMAIL} if you have more than 25 agents. Self-hosting has no agent limit.`,
   },
   {
-    q: 'What does "AI at LLM cost +30%" mean?',
-    a: 'On Colliedesk Cloud you can use Colliedesk AI, our key. You pay what the model provider charges for the tokens your tickets used, plus 30%. Example: if the provider charges $1.00, you pay $1.30. Or bring your own key: you pay your provider directly and Colliedesk adds no fee.',
+    q: 'How is AI priced?',
+    a: `Reply drafts and triage suggestions are included in every plan, with a monthly allowance. Auto-answer is not built yet. While Colliedesk is alpha it will cost ${AI_RESOLUTION} per resolution, charged only when the customer does not need a person afterwards. For comparison, Help Scout AI Answers costs $0.75 per resolution ([vs Help Scout](/vs/help-scout)). If you bring your own key, you pay your provider directly and Colliedesk adds no fee.`,
   },
   {
     q: 'Is there a free trial?',
@@ -73,11 +73,20 @@ const plansMd = `| Plan | Price | What you get |
 |---|---|---|
 ${CLOUD_PLANS.map(cloudRow).join('\n')}
 | Founding | $99 a quarter per workspace, locked for life; 30-day money-back guarantee | Limited to 10 workspaces. Freshdesk migration done for you, with a reconcile report. Up to 10 agents, no per-agent fees. 20 GB of attachments, imported files included. |
-| Self-host | $0, forever | Every feature, no agent limit. AGPL-3.0. AI with your own model key, once it is built. |
+| Self-host | $0, forever | Every feature, no agent limit. AGPL-3.0. AI with your own model key. |
 
-Every plan has every feature, unlimited conversations, no per-agent fees, and AI at LLM cost +30% or your own key once it is built. 14-day free trial, no card. No automatic charge: when the trial ends, you pick a plan or export your data. Cancel anytime.
+Every plan has every feature, unlimited conversations and no per-agent fees. AI reply drafts and triage are included with a monthly allowance, or use your own key at no extra fee. 14-day free trial, no card. No automatic charge: when the trial ends, you pick a plan or export your data. Cancel anytime.
 
 Need more storage? Email us at ${CONTACT_EMAIL}. Customer email is always accepted, even over the cap; only agent uploads and new imports pause. We warn you at 80%.`;
+
+// Shared by the founding and ladder pages.
+const aiSection = `## AI in every plan
+
+**Shipped**, off until an admin turns it on: reply drafts and triage suggestions; a person edits and sends every reply. **Not built yet**: auto-answer for repetitive tickets with a human in the loop. There is no AI seat licence.
+
+- **Reply drafts and triage:** included in every plan, with a monthly allowance.
+- **Auto-answer:** ${AI_RESOLUTION} per resolution while Colliedesk is alpha, charged only when the customer does not need a person afterwards.
+- **Bring your own key:** you pay your provider directly; Colliedesk adds no fee. Self-hosted installs use your own key.`;
 
 const body = `## What you pay for
 
@@ -89,16 +98,11 @@ Self-hosting is free. We sell two things: **Colliedesk Cloud** (we run it for yo
 
 Colliedesk as a whole is **alpha**: it is released and runs on Colliedesk Cloud, and any release may change the interface or the database schema. Shipped today: the email channel, the Freshdesk and Help Scout importers with their reconcile reports, the knowledge base and public help center, starting a new conversation from the inbox, contact history, saved replies, Cc on replies, attachments, live updates, and AI reply drafts and triage suggestions (off until an admin turns them on). Not built yet: AI auto-answer. If you are planning your exit before your next Freshdesk renewal, [start the free trial](${TRIAL_HREF}) or take [the founding offer](${FOUNDING_HREF}).
 
-## AI in every plan, at model cost
-
-**Shipped**, off until an admin turns it on: reply drafts and triage suggestions; a person edits and sends every reply. **Not built yet**: auto-answer for repetitive tickets with a human in the loop. There is no AI seat licence and no per-resolution fee.
-
-- **Colliedesk AI on Cloud:** you pay the model provider's cost for your usage, plus 30%.
-- **Bring your own key:** on Cloud or self-hosted, you pay your provider directly; Colliedesk adds no fee.
+${aiSection}
 
 ## How this compares
 
-Most helpdesks charge per agent, then charge again for AI. For five agents, Freshdesk Pro with Freddy AI Copilot lists at $5,040 a year billed annually, or $505 a month billed monthly. Colliedesk Cloud Team is ${PRICE.yearly} a year or ${PRICE.monthly} a month for the workspace, plus AI usage. Prices and sources: [vs Freshdesk](/vs/freshdesk), [vs Zendesk](/vs/zendesk), [vs Help Scout](/vs/help-scout).`;
+Most helpdesks charge per agent, then charge again for AI. For five agents, Freshdesk Pro with Freddy AI Copilot lists at $5,040 a year billed annually, or $505 a month billed monthly. Colliedesk Cloud Team is ${PRICE.yearly} a year or ${PRICE.monthly} a month for the workspace, plus ${AI_EXTRA}. Prices and sources: [vs Freshdesk](/vs/freshdesk), [vs Zendesk](/vs/zendesk), [vs Help Scout](/vs/help-scout).`;
 
 // While Founding is open it is the only plan we sell: one price, one decision. The ladder above is
 // what new workspaces choose once the places are taken; the site rebuilds when that happens.
@@ -106,7 +110,7 @@ const open = foundingState().open;
 const FOUNDING_FAQ = ladderFaq.find((f) => f.q === 'What is the founding offer?');
 const REFUND_FAQ = ladderFaq.find((f) => f.q.startsWith('Can I get my money back'));
 const SELF_HOST_FAQ = ladderFaq.find((f) => f.q === 'Is self-hosting really free?');
-const AI_FAQ = ladderFaq.find((f) => f.q.startsWith('What does "AI at LLM cost'));
+const AI_FAQ = ladderFaq.find((f) => f.q === 'How is AI priced?');
 if (!FOUNDING_FAQ || !REFUND_FAQ || !SELF_HOST_FAQ || !AI_FAQ) throw new Error('pricing FAQ entry missing');
 
 const foundingFaq: Faq[] = [
@@ -132,7 +136,7 @@ const foundingFaq: Faq[] = [
 const foundingPlansMd = `| Plan | Price | What you get |
 |---|---|---|
 | Founding | $99 a quarter per workspace ($396 a year, about $7.60 a week), locked for life; 30-day money-back guarantee | Limited to ${FOUNDING_SLOTS} workspaces. Freshdesk migration done for you, with a reconcile report. Up to 10 agents, no per-agent fees. 20 GB of attachments, imported files included. A direct line to the founder, and a say in the roadmap. [Join for $99/quarter](${FOUNDING_CHECKOUT}). |
-| Self-host | $0, forever | Every feature, no agent limit. AGPL-3.0. AI with your own model key, once it is built. |
+| Self-host | $0, forever | Every feature, no agent limit. AGPL-3.0. AI with your own model key. |
 
 Want to look first? Every Cloud workspace starts with a 14-day free trial, no card, no automatic charge.`;
 
@@ -156,16 +160,11 @@ A support team that matches all five:
 
 **Not for you if** your team has 11 or more agents or a deeply customised setup, you need a PSA or RMM for an MSP, you use a helpdesk other than Freshdesk (our importer reads Freshdesk only for now), or you are looking for a free tool. For free, [self-host Colliedesk](/docs/self-host).
 
-## AI in every plan, at model cost
-
-**Shipped**, off until an admin turns it on: reply drafts and triage suggestions; a person edits and sends every reply. **Not built yet**: auto-answer for repetitive tickets with a human in the loop. There is no AI seat licence and no per-resolution fee.
-
-- **Colliedesk AI on Cloud:** you pay the model provider's cost for your usage, plus 30%.
-- **Bring your own key:** on Cloud or self-hosted, you pay your provider directly; Colliedesk adds no fee.
+${aiSection}
 
 ## How this compares
 
-For five agents, Freshdesk Pro with Freddy AI Copilot lists at $5,040 a year billed annually. Founding is $396 a year ($99 a quarter) for the workspace, plus AI usage. Prices and sources: [vs Freshdesk](/vs/freshdesk), [vs Zendesk](/vs/zendesk), [vs Help Scout](/vs/help-scout).`;
+For five agents, Freshdesk Pro with Freddy AI Copilot lists at $5,040 a year billed annually. Founding is $396 a year ($99 a quarter) for the workspace, plus ${AI_EXTRA}. Prices and sources: [vs Freshdesk](/vs/freshdesk), [vs Zendesk](/vs/zendesk), [vs Help Scout](/vs/help-scout).`;
 
 const foundingPage = {
   title: 'Colliedesk pricing: one plan, $99 a quarter per workspace, locked for life',
@@ -183,7 +182,7 @@ const ladderPage = {
   title: `Colliedesk pricing: ${PRICE.range} a month per workspace, no per-agent fees, 14-day free trial`,
   description:
     `Colliedesk Cloud costs one flat price per workspace: Solo ${dollars(SOLO.monthly)} a month for 1 agent, Small ${dollars(SMALL.monthly)} for 3, Team ${PRICE.monthly} for 10, Team 25 ${PRICE.team25Monthly} for 25. No per-agent fees, 14-day free trial, no card. Self-hosting is free.`,
-  summary: `14-day free trial, no card; ${LADDER_LINE}; a year costs ten months; no per-agent fees; founding offer limited to 10 workspaces; AI at LLM cost +30% or your own key; self-host free`,
+  summary: `14-day free trial, no card; ${LADDER_LINE}; a year costs ten months; no per-agent fees; founding offer limited to 10 workspaces; AI: ${PRICE.ai}; self-host free`,
   h1: 'Clear, fixed prices. No per-agent fees.',
   lede: `Everyone on your team is included. Pick the plan by team size, from Solo at ${dollars(SOLO.monthly)} a month to Team 25 at ${PRICE.team25Monthly}. Try it free for 14 days, no card. Self-host for $0.`,
   preMd: plansMd,

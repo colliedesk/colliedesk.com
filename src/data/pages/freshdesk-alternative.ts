@@ -1,6 +1,7 @@
 const PRICES_READ = '16 October 2026';
 import { faqPage, techArticle } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
+import { AI_EXTRA } from '../../lib/site';
 
 const faq: Faq[] = [
   {
@@ -23,7 +24,7 @@ Prices for 5 agents per month, billed annually, from each vendor's page on ${PRI
 
 | Helpdesk | 5 agents | Pricing model | Open source | Freshdesk import | Comparison |
 |---|---|---|---|---|---|
-| **Colliedesk** | **$57.50** (Team, $690 a year) + AI usage | Flat per workspace, up to 10 agents | AGPL-3.0 | Shipped (alpha), with reconcile report | — |
+| **Colliedesk** | **$57.50** (Team, $690 a year) + ${AI_EXTRA} | Flat per workspace, up to 10 agents | AGPL-3.0 | Shipped (alpha), with reconcile report | — |
 | Zammad | €35 (Starter, max 5 agents); €80–90 (Professional) | Per agent (hosted, in euros) | AGPL-3.0 | Released, self-serve | [vs Zammad](/vs/zammad) |
 | Chatwoot | $195 (Business) | Per agent | MIT (core) | Paid plans; no attachments | [vs Chatwoot](/vs/chatwoot) |
 | FreeScout | Hosting + modules | Free core, paid modules, no official cloud | AGPL-3.0 | Third-party or community module | [vs FreeScout](/vs/freescout) |
@@ -47,7 +48,7 @@ Prices for 5 agents per month, billed annually, from each vendor's page on ${PRI
 
 ## Where Colliedesk fits
 
-Colliedesk is for **small support teams (3 to 10 agents) leaving Freshdesk**, mostly on email, who want a flat price, AI at model cost and their data in an open database. It is alpha: released and running on Colliedesk Cloud, with the email channel, Cc on replies and the Freshdesk importer. Starting a new conversation from the inbox, contact history and AI are not there yet, and the interface may change. If you need those this week, pick a mature option above. If your renewal is months away, [we migrate you for free](/migrate/freshdesk/done-for-you) on the founding plan.`;
+Colliedesk is for **small support teams (3 to 10 agents) leaving Freshdesk**, mostly on email, who want a flat price, AI reply drafts included in the plan and their data in an open database. It is alpha: released and running on Colliedesk Cloud, with the email channel, Cc on replies, AI reply drafts and the Freshdesk importer. AI auto-answer, automations and live chat are not there yet, and the interface may change. If you need those this week, pick a mature option above. If your renewal is months away, [we migrate you for free](/migrate/freshdesk/done-for-you) on the founding plan.`;
 
 const page: Page = {
   jsonLd: [],

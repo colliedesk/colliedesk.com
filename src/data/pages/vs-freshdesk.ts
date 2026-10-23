@@ -1,6 +1,6 @@
 import { faqPage, techArticle } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
-import { dollars, PRICE, SMALL } from '../../lib/site';
+import { AI_RESOLUTION, dollars, PRICE, SMALL } from '../../lib/site';
 import { readOnLabel, rowsAt, usd, vsMarkdown, type VsPricing } from '../../lib/vs-pricing';
 import { collieFacts as c, statusTable } from './collie-status';
 
@@ -34,7 +34,7 @@ const PRICES_READ = readOnLabel(pricing.readOn);
 const faq: Faq[] = [
   {
     q: 'What is the best open-source alternative to Freshdesk?',
-    a: `Colliedesk is an open-source (AGPL-3.0) helpdesk built for small teams leaving Freshdesk: one flat price per workspace (Team is ${PRICE.monthly} a month for up to 10 agents), AI included at cost, and a Freshdesk importer (available now). It is alpha today, so check the status table before you switch.`,
+    a: `Colliedesk is an open-source (AGPL-3.0) helpdesk built for small teams leaving Freshdesk: one flat price per workspace (Team is ${PRICE.monthly} a month for up to 10 agents), AI reply drafts included, and a Freshdesk importer (available now). It is alpha today, so check the status table before you switch.`,
   },
   {
     q: 'How much does Freshdesk cost for 5 agents with AI?',
@@ -62,7 +62,7 @@ Freshdesk prices are per agent per month, as published on ${PRICES_READ}. The fi
 | Free option | No free plan on the pricing page; 14-day trial | ${c.free} |
 | Source code | Proprietary | ${c.source} |
 
-List prices before tax. AI usage on Colliedesk depends on ticket volume and the model you pick; with your own key it is billed by your provider.
+List prices before tax. On Colliedesk, AI reply drafts and triage are included with a monthly allowance; with your own key your provider bills you. Auto-answer, once it ships, is ${AI_RESOLUTION} per resolution while alpha.
 
 ## Leaving: what Freshdesk gives you
 
