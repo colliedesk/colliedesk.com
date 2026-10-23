@@ -1,7 +1,7 @@
 import { Badge } from '../Badge';
 import { CheckIcon, ShieldIcon } from '../Icons';
 
-// Illustrative numbers only; the figure is labelled EXAMPLE because the importer has not shipped.
+// Illustrative numbers only, so the figure is labelled Example.
 const RECONCILE: readonly { item: string; count: string; note?: string }[] = [
   { item: 'Tickets', count: '48,211' },
   { item: 'Replies and notes', count: '312,904' },
@@ -38,7 +38,7 @@ export function ReconcileProof() {
         </tbody>
       </table>
       <div className="proof-foot"><CheckIcon /><b>0 lost.</b><span>Every count matches.</span><a href="/migrate/freshdesk#5-check-the-reconcile-report">How the check works</a></div>
-      <p className="proof-note">Sample numbers. The Freshdesk importer is <Badge kind="shipped">Available now</Badge></p>
+      <p className="proof-note">Sample numbers. The Freshdesk importer is <Badge kind="shipped">Shipped</Badge></p>
     </figure>
   );
 }

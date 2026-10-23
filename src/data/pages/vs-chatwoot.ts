@@ -45,7 +45,7 @@ Business is the Chatwoot plan with automation rules and teams.
 
 ## Moving from Freshdesk
 
-| | Chatwoot importer | Colliedesk importer (**Available now**) |
+| | Chatwoot importer | Colliedesk importer (**Shipped**) |
 |---|---|---|
 | Availability | Paid plans only | Every install, free; done for you for founding customers |
 | Conversations, replies, private notes | Yes, as resolved history | Yes |

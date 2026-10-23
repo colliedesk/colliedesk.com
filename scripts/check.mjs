@@ -460,10 +460,10 @@ const TRIAL_URL = `${SIGN_IN_URL}?intent=trial`;
 }
 
 // Shipped features must not be labelled as missing. Cc on replies shipped in colliedesk#75; a
-// sentence or table row that names Cc must not call it beta or "not there yet". The changelog is
-// history: the 0.0.x notes correctly say Cc was not in that release.
+// sentence or table row that names Cc must not call it "not built yet" or "not there yet". The
+// changelog is history: the 0.0.x notes correctly say Cc was not in that release.
 {
-  const notYet = /not there yet|\(beta\)|\*\*Beta\b|>Beta\b/i;
+  const notYet = /not there yet|not built yet/i;
   for (const file of files.filter((f) => /\.(html|md)$/.test(f) && !/[\\/]changelog\.(html|md)$/.test(f))) {
     const text = readFileSync(file, 'utf8').replace(/<\/(tr|p|li)>/g, '\n');
     for (const part of text.split(/[.!?]\s|\n/)) {
@@ -480,12 +480,12 @@ for (const file of files.filter((f) => f.endsWith('.html'))) {
   }
 }
 
-// Marketing pages say "alpha" or "beta", never a version number ("0.0.x", "0.1.0"). Versions belong
+// Marketing pages say "alpha", never a version number ("0.0.x", "0.1.0"). Versions belong
 // to the changelog, the roadmap and the docs, which come from the product repo; JSON-LD is not shown.
 for (const file of files.filter((f) => f.endsWith('.html') && !/[\\/](changelog|roadmap)\.html$|[\\/]docs[\\/]|[\\/]docs\.html$/.test(f))) {
   const shown = readFileSync(file, 'utf8').replace(/<script[\s\S]*?<\/script>/g, '').replace(/<[^>]+>/g, ' ');
   const m = shown.match(/\b0\.\d+\.(?:x|\d+)\b/);
-  if (m) fail(`${file.slice(outDir.length - 1)}: shows version "${m[0]}"; say alpha or beta instead`);
+  if (m) fail(`${file.slice(outDir.length - 1)}: shows version "${m[0]}"; say alpha instead`);
 }
 
 // /compare is the hub of every comparison page: each /vs page is linked from it, the header
@@ -569,7 +569,7 @@ for (const file of files.filter((f) => f.endsWith('.html') && !/[\\/](changelog|
   if (!homeMd.includes(`## ${heading}`)) fail('/index.md: twin lacks the AI agent section');
   for (const t of ['read', 'draft', 'send', 'admin']) if (!homeMd.includes(`\`${t}\``)) fail(`/index.md: twin does not name the ${t} tier`);
   if (!homeMd.includes('/docs/mcp)') || !homeMd.includes('seven days')) fail('/index.md: twin lacks the MCP guide link or the seven-day expiry');
-  if (!/\| MCP server[^\n]*\| \*\*Available now\*\*/.test(homeMd)) fail('/index.md: status table does not list the MCP server as available now');
+  if (!/\| MCP server[^\n]*\| \*\*Shipped\*\*/.test(homeMd)) fail('/index.md: status table does not list the MCP server as shipped');
   if (!/\(https:\/\/colliedesk\.com\/index\.md\)[^\n]*AI agents/.test(llms)) fail('llms.txt: home entry does not mention AI agents');
 }
 
