@@ -1,6 +1,6 @@
 import { CONTACT_EMAIL, LADDER_LINE, POSITIONING, PRICE, PRICES_READ, REPO, TAGLINE, TRIAL_HREF } from '../../lib/site';
 import { PER_WORKSPACE_FAQ } from './pricing';
-import { faqPage, organization, softwareApplication } from '../../lib/schema';
+import { faqPage, organization, softwareApplication, website } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
 import { faqMarkdown } from '../../lib/twin';
 import { statusTable } from './collie-status';
@@ -81,6 +81,6 @@ const page: Page = {
   md,
   faq: [],
   bodyClass: 'home',
-  jsonLd: [organization(), softwareApplication({ ladder: !FOUNDING_OPEN }), faqPage(HOME_FAQ)],
+  jsonLd: [organization(), website(), softwareApplication({ ladder: !FOUNDING_OPEN }), faqPage(HOME_FAQ)],
 };
 export default page;
