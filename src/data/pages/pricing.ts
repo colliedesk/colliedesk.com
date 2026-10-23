@@ -13,7 +13,7 @@ export const PER_WORKSPACE_FAQ: Faq = {
 
 const SWITCH_FAQ: Faq = {
   q: 'Do we have to leave Freshdesk in one day?',
-  a: 'No. Keep Freshdesk running and forward a copy of your support mail to Colliedesk. Import your Freshdesk history: the import only reads Freshdesk, and in the app the tickets of the last 90 days come first, so your team can start while older ones follow. Run the import again to catch up; it never copies an imported ticket twice. Switch fully when your team is sure, for example before your Freshdesk renewal. Founding customers get the migration done for them. [How to switch gradually](/migrate/freshdesk#switch-gradually).',
+  a: 'No. Keep answering customers in Freshdesk and import your Freshdesk history: the import only reads Freshdesk, and in the app the tickets of the last 90 days come first, so your team can start while older ones follow. Run the import again to catch up; it never copies an imported ticket twice. When your team is sure, for example before your Freshdesk renewal, forward your support mail to Colliedesk and run one last catch-up. Founding customers get the migration done for them. [How to switch gradually](/migrate/freshdesk#switch-gradually).',
 };
 
 const ladderFaq: Faq[] = [

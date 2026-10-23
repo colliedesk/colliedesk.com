@@ -17,7 +17,7 @@ const faq: Faq[] = [
   },
   {
     q: 'Can we keep Freshdesk running while we try Colliedesk?',
-    a: 'Yes, and we recommend it. The import only reads your Freshdesk account. Forward a copy of your support mail to Colliedesk, import your history, and run the import again to catch up until your team is sure. See [switch gradually](#switch-gradually).',
+    a: 'Yes, and we recommend it. The import only reads your Freshdesk account, so your team keeps answering in Freshdesk while you import the history, try Colliedesk on real tickets and run the import again to catch up. Forward your support mail to Colliedesk last, when your team is sure. See [switch gradually](#switch-gradually).',
   },
   {
     q: 'When should I close my Freshdesk account?',
@@ -29,15 +29,15 @@ const body = `> **Status:** Colliedesk as a whole is alpha: the Freshdesk import
 
 ## Switch gradually
 
-We recommend you do not switch in one day. Run Colliedesk beside Freshdesk until your team is sure:
+We recommend you do not switch in one day. Keep Freshdesk as your live inbox and bring Colliedesk up beside it until your team is sure:
 
-1. **Keep Freshdesk running.** The import reads your Freshdesk account through its API and does not change it.
-2. **Forward a copy of your support mail to Colliedesk.** In Gmail, choose **Forward a copy of incoming mail**. The steps for Gmail and Outlook are in [Connect email](/docs/email-channel).
-3. **Import your history.** In the app, the tickets updated in the last 90 days come first, so your team can work on them while older and archived tickets follow. On Colliedesk Cloud, the first import during the trial extends the trial to 30 days.
-4. **Run the import again to catch up.** It brings over tickets that changed in Freshdesk since the last run, and it never copies an imported ticket twice. From the command line, \`--since\` makes the final catch-up shorter.
-5. **Switch fully when your team is sure**, for example before your Freshdesk renewal. Close Freshdesk only after the last reconcile report matches.
+1. **Keep answering customers in Freshdesk.** The import reads your Freshdesk account through its API and does not change it.
+2. **Import your history.** In the app, the tickets updated in the last 90 days come first, so your team can look around while older and archived tickets follow. On Colliedesk Cloud, the first import during the trial extends the trial to 30 days.
+3. **Try Colliedesk on your real tickets:** search, tags, saved replies, teammates and the knowledge base.
+4. **Run the import again to catch up** as often as you like. It brings over tickets that changed in Freshdesk since the last run, and it never copies an imported ticket twice.
+5. **Switch when your team is sure**, for example before your Freshdesk renewal: forward your support address to Colliedesk ([Connect email](/docs/email-channel)), run one last catch-up import (from the command line, \`--since\` makes it shorter), and close Freshdesk only after the last reconcile report matches.
 
-One thing to know while both run: Colliedesk does not match a forwarded email with the same ticket imported from Freshdesk, so an email that reached both can show twice after a catch-up import. Keeping Colliedesk in step with Freshdesk until you switch is on the [roadmap](/roadmap).
+Move the mail forwarding last. If Freshdesk and Colliedesk both receive the same email, it can show twice after a catch-up import, because the importer matches tickets by their Freshdesk id. Keeping Colliedesk in step with Freshdesk automatically until you switch is on the [roadmap](/roadmap).
 
 Founding customers get all of this done for them: [free migration with Founding](/migrate/freshdesk/done-for-you).
 

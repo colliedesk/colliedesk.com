@@ -107,7 +107,7 @@ Self-hosting is free, forever, with every feature. We sell two things:
 
 ## Why teams switch
 
-- **Leave Freshdesk with all your data** (importer shipped): tickets, replies, notes, checksummed attachments, tags and contacts, with a reconcile report. Switch gradually: keep Freshdesk running while a copy of your support mail comes to Colliedesk, and run the import again to catch up. [Migration guide](/migrate/freshdesk).
+- **Leave Freshdesk with all your data** (importer shipped): tickets, replies, notes, checksummed attachments, tags and contacts, with a reconcile report. Switch gradually: keep answering in Freshdesk, import, run the import again to catch up, and move your mail forwarding last. [Migration guide](/migrate/freshdesk).
 - **AI that answers tickets, included** (not built yet): drafts, triage and auto-answer with a human in the loop. Model cost +30%, or bring your own key.
 - **Flat price**: ${flatLine}
 

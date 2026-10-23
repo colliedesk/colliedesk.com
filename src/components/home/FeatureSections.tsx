@@ -43,7 +43,7 @@ export function MigrationFeature() {
           <p className="eyebrow">Leave Freshdesk</p>
           <h2 id="migrate">Bring every ticket. Prove nothing was lost.</h2>
           <p className="section-lede">Freshdesk's export leaves the conversations out. Our importer brings tickets, replies, notes, attachments, tags and contacts, then counts both sides.</p>
-          <p>No need to switch in a day: keep Freshdesk running, forward a copy of your support mail, and run the import again to catch up until your team is sure.</p>
+          <p>No need to switch in a day: keep answering in Freshdesk, import, run the import again to catch up, and move your mail forwarding last, when your team is sure.</p>
           <p><Badge kind="shipped">Shipped</Badge> <a href="/migrate/freshdesk#switch-gradually">How to switch gradually</a></p>
         </div>
         <div className="panel">
