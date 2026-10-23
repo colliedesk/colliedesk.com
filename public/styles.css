@@ -254,6 +254,7 @@ td:has(> .badge) { width: 1%; white-space: nowrap; }
 .hero-note b { color: var(--text-2); font-weight: 500; }
 .hero-stage { position: relative; max-width: 72rem; margin: var(--space-16) auto 0; padding-bottom: var(--space-16); }
 .hero-shot { margin: 0; border-radius: 12px; background: var(--surface-0); box-shadow: var(--ring), var(--shadow-3); overflow: hidden; }
+.hero-shot picture { display: block; }
 .hero-shot img { width: 100%; height: auto; }
 .hero-stage .proof { position: absolute; right: calc(-1 * var(--space-8)); bottom: 0; width: min(34rem, 50%); }
 .hero-stage .proof-head { flex-wrap: wrap; row-gap: var(--space-1); }
@@ -396,7 +397,7 @@ td:first-child { font-weight: 500; color: var(--text-1); }
 .plan .btn { margin-top: auto; align-self: flex-start; }
 .plan-name { font-size: 1.15rem; display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; }
 .plan-price { margin: 0 0 .3rem; }
-.plan-price strong { font-size: 2.6rem; letter-spacing: -0.03em; }
+.plan-price strong { font-size: 2.6rem; letter-spacing: -0.03em; color: var(--price); }
 .plan-price span { color: var(--text-3); }
 .plan-alt { color: var(--text-3); margin: 0 0 1rem; }
 .plans-note { grid-column: 1 / -1; margin: var(--space-6) 0 0; color: var(--text-2); }
@@ -418,7 +419,7 @@ td:first-child { font-weight: 500; color: var(--text-1); }
 .plans-reassure ul { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-6); margin: 0; padding: 0; list-style: none; color: var(--text-2); }
 .plans-reassure li::before { content: "✓ "; color: var(--text-1); }
 .plan-flag { font: 600 13px var(--font-sans); color: var(--accent-text); margin: 0 0 .6rem; }
-.plan-featured { border: 1px solid var(--accent); box-shadow: var(--shadow-2), inset 0 3px var(--accent); }
+.plan-featured { box-shadow: var(--ring), var(--shadow-3); }
 .plan-price s { color: var(--text-3); font-size: 1.3rem; margin-right: .2rem; text-decoration-thickness: 2px; }
 .plan-cta { margin-top: auto; display: grid; gap: var(--space-4); justify-items: start; }
 .plan-cta .btn { margin-top: 0; }
@@ -545,7 +546,7 @@ td:first-child { font-weight: 500; color: var(--text-1); }
 .feature-rev .feature-copy { order: 2; }
 .feature-copy .code-card { margin-top: var(--space-6); white-space: pre; }
 .panel { position: relative; display: grid; place-items: center; padding: clamp(1.5rem, 4vw, 3rem); background: var(--panel); border-radius: 24px; overflow: hidden; }
-.crop { background-image: url(/product-inbox.jpg); background-repeat: no-repeat; border-radius: 12px; box-shadow: var(--ring), var(--shadow-3); }
+.crop { background-image: url(/product-inbox.jpg); background-image: image-set(url(/product-inbox-1440.avif) type("image/avif"), url(/product-inbox-1440.webp) type("image/webp"), url(/product-inbox.jpg) type("image/jpeg")); background-repeat: no-repeat; border-radius: 12px; box-shadow: var(--ring), var(--shadow-3); }
 .agent-panel { place-items: start center; padding-bottom: 9rem; }
 .agent-panel .agent-loop { position: absolute; right: clamp(1rem, 3vw, 1.75rem); bottom: clamp(1rem, 3vw, 1.75rem); width: min(24rem, calc(100% - 2rem)); }
 .agent-panel .flow-pause { color: var(--text-2); }

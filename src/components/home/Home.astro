@@ -1,5 +1,6 @@
 ---
 import { HOME_FAQ } from '../../data/pages/home';
+import { HERO_JPEG_SRCSET, HERO_SIZES, heroSrcset } from '../../lib/hero-image';
 import { html } from '../../lib/render-react';
 import Faq from '../Faq.astro';
 import { AgentSection } from './AgentSection';
@@ -17,7 +18,7 @@ import { StatusSection } from './StatusSection';
 <section class="home-hero"><div class="wrap">
   <Fragment set:html={html(HeroCopy, {})} />
   <div class="hero-stage">
-    <figure class="hero-shot"><div class="window-bar" aria-hidden="true"><i></i><i></i><i></i><span>app.colliedesk.com</span></div><img src="/product-inbox.jpg" srcset="/product-inbox.jpg 1x, /product-inbox@2x.jpg 2x" width="1440" height="900" alt="The Colliedesk inbox: customer conversations with status, priority and tags; an open conversation with the customer's email, a private note by Tom Okoye via Claude Code, and the reply Claude Code drafted and Tom approved, marked Sent; the conversation properties and tags." fetchpriority="high"></figure>
+    <figure class="hero-shot"><div class="window-bar" aria-hidden="true"><i></i><i></i><i></i><span>app.colliedesk.com</span></div><picture><source type="image/avif" srcset={heroSrcset('avif')} sizes={HERO_SIZES}><source type="image/webp" srcset={heroSrcset('webp')} sizes={HERO_SIZES}><img src="/product-inbox.jpg" srcset={HERO_JPEG_SRCSET} sizes={HERO_SIZES} width="1440" height="900" alt="The Colliedesk inbox: customer conversations with status, priority and tags; an open conversation with the customer's email, a private note by Tom Okoye via Claude Code, and the reply Claude Code drafted and Tom approved, marked Sent; the conversation properties and tags." fetchpriority="high"></picture></figure>
     <Fragment set:html={html(ReconcileProof, {})} />
   </div>
 </div></section>
