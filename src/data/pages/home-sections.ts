@@ -35,8 +35,6 @@ if (OURS === undefined) throw new Error('BARS needs one entry with ours: true');
 export interface HeroRange { name: string; currency: '$' | '€'; low: number; high: number }
 // Freshdesk Growth 5 × $19 × 12 to Pro + Copilot.
 export const FRESHDESK_RANGE: HeroRange = { name: 'Freshdesk', currency: '$', low: 5 * 19 * 12, high: BAR_MAX };
-// Our buyer pays for Freshdesk, so the hero names Freshdesk only.
-export const HERO_RANGES: readonly HeroRange[] = [FRESHDESK_RANGE];
 export const rangeLabel = (r: HeroRange): string =>
   `${r.currency}${r.low.toLocaleString('en-US')}–${r.high.toLocaleString('en-US')}`;
 // A year of Freshdesk Pro + Copilot for five agents, billed annually, against Cloud Team billed yearly.

@@ -506,37 +506,26 @@ for (const file of files.filter((f) => f.endsWith('.html') && !/[\\/](changelog|
   }
 }
 
-// Home hero: one competitor at a time, each with its own saving, without client JavaScript.
-// The h1 keeps one stable sentence for screen readers; the rotating words are aria-hidden, and
-// reduced motion shows Freshdesk only. The hero states our yearly price and each competitor's
-// five-agent yearly range from cheapest to dearest plan, worked by hand: Freshdesk Growth
-// 5 x $19 x 12 = $1,140 to Pro + Copilot 5 x ($55 + $29) x 12 = $5,040; Zendesk Support Team
-// 5 x €19 x 12 = €1,140 to Suite Professional + Copilot 5 x (€115 + €50) x 12 = €9,900; Help Scout
-// Standard 5 x $25 x 12 = $1,500 to Plus 5 x $45 x 12 = $2,700. No "% cheaper" headline: the top of
-// each range includes AI that Colliedesk does not ship yet.
+// Home hero: the h1 names why our buyer stays on Freshdesk (leaving is hard) and that we made
+// leaving easy; the lede carries the buyer, the proof (a reconcile report) and the price as evidence:
+// our yearly price against what five agents pay Freshdesk in a year, cheapest to dearest plan, worked
+// by hand: Growth 5 x $19 x 12 = $1,140 to Pro + Copilot 5 x ($55 + $29) x 12 = $5,040. No "% cheaper"
+// claim: the top of that range includes AI that Colliedesk prices separately.
 {
   const home = read('index.html');
   const h1 = home.match(/<h1[\s\S]*?<\/h1>/)?.[0] ?? '';
-  const spoken = h1.match(/<span class="visually-hidden">([^<]*)<\/span>/)?.[1] ?? '';
-  // The home page speaks to one buyer: a team of 3 to 10 agents paying for Freshdesk. The hero
-  // names Freshdesk only and the lede names that team.
-  if (/Zendesk|Help Scout/.test(h1)) fail('/: h1 must compare with Freshdesk only, the one tool our buyer pays for');
+  // The home page speaks to one buyer: a team of 3 to 10 agents paying for Freshdesk.
+  if (/Zendesk|Help Scout/.test(h1)) fail('/: h1 must speak about Freshdesk only, the one tool our buyer pays for');
+  if (!/leaving is hard/.test(h1) || !/made leaving easy/.test(h1)) fail('/: h1 must say leaving Freshdesk is hard and that we made it easy');
+  if (/h1-rotate/.test(h1)) fail('/: h1 is one static sentence, no rotating words');
   const lede = home.match(/<p class="lede">([\s\S]*?)<\/p>/)?.[1] ?? '';
   if (!lede.includes('3 to 10 agents') || !lede.includes('pay for Freshdesk')) fail('/: hero lede must name the buyer: 3 to 10 agents who pay for Freshdesk');
-  for (const claim of [`${foundingOpen ? '$396' : '$690'} a year for your whole team`, '$1,140–5,040 on Freshdesk']) {
-    if (!spoken.includes(claim)) fail(`/: h1 screen-reader text lacks "${claim}"`);
+  if (!lede.includes('proves nothing was lost')) fail('/: hero lede must promise the reconcile report');
+  for (const claim of [`${foundingOpen ? '$396' : '$690'} a year for your whole team`, '$1,140–5,040']) {
+    if (!lede.includes(claim)) fail(`/: hero lede lacks "${claim}"`);
   }
-  if (/% cheaper/.test(h1) || /% cheaper/.test(read('index.md'))) fail('/: hero must state prices, not a "% cheaper" claim');
+  if (/% cheaper/.test(h1) || /% cheaper/.test(lede) || /% cheaper/.test(read('index.md'))) fail('/: hero must state prices, not a "% cheaper" claim');
   if (!/locked for life/.test(home.match(/<p class="hero-note">[\s\S]*?<\/p>/)?.[0] ?? '')) fail('/: hero note must say the founding price is locked for life');
-  if (!/<span[^>]*aria-hidden="true"[^>]*class="h1-rotate"|<span[^>]*class="h1-rotate"[^>]*aria-hidden="true"/.test(h1)) fail('/: rotating h1 words must be aria-hidden');
-  const css = read('styles.css');
-  if (!/@media \(prefers-reduced-motion: reduce\)\s*\{[^}]*\.h1-rotate/.test(css)) fail('styles.css: rotating h1 has no reduced-motion rule');
-  // WCAG 2.2.2: motion that starts by itself must stop within 5 seconds (duration + delay per item).
-  for (const [, rule] of css.matchAll(/\.h1-item[^{]*\{[^}]*animation:\s*([^;}]+)/g)) {
-    const secs = [...rule.matchAll(/([\d.]+)s\b/g)].map((m) => Number(m[1]));
-    const end = (secs[0] ?? 0) + (secs[1] ?? 0);
-    if (end > 5) fail(`styles.css: rotating h1 animation "${rule.trim()}" runs to ${end}s; WCAG 2.2.2 allows 5s`);
-  }
   // Closing block: a year of Freshdesk bills for five agents against Colliedesk Team billed yearly.
   // 12 x $420 = $5,040; $5,040 - $690 = $4,350.
   if (!home.includes('Keep the difference')) fail('/: closing block "Keep the difference" missing');
