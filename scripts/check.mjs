@@ -576,6 +576,35 @@ for (const file of files.filter((f) => f.endsWith('.html') && !/[\\/](changelog|
 const accentUses = (readFileSync(join(outDir, 'styles.css'), 'utf8').match(/var\(--accent/g) ?? []).length;
 if (accentUses > ACCENT_BUDGET) fail(`styles.css uses var(--accent…) ${accentUses} times > ${ACCENT_BUDGET}: the accent is for the primary action, focus and selection (README, Design)`);
 
+// Brand guideline (app docs/internals/design.md): the price is the one coloured thing on the site
+// (rule 2), and cards sit on a shadow ring, never a border (rule 4), the featured plan included.
+{
+  const css = readFileSync(join(outDir, 'styles.css'), 'utf8');
+  if (!/\.plan-price strong\s*\{[^}]*color:\s*var\(--price\)/.test(css)) fail('styles.css: .plan-price strong is not coloured var(--price); the price has its own colour');
+  for (const rule of css.match(/\.plan-featured\s*\{[^}]*\}/g) ?? []) {
+    if (/\bborder(-[a-z]+)?\s*:/.test(rule) || /inset/.test(rule)) fail(`styles.css: "${rule.slice(0, 80)}" outlines the featured plan; use a shadow ring (--shadow-*), not a border`);
+  }
+}
+
+// The hero screenshot is the largest paint on a phone. It offers AVIF and WebP by width with a sizes
+// hint, so a 390px screen does not download the 2880px JPEG; every file it names must be built.
+{
+  const shot = read('index.html')?.match(/<figure class="hero-shot">[\s\S]*?<\/figure>/)?.[0] ?? '';
+  const tags = shot.match(/<(?:source|img)\b[^>]*>/g) ?? [];
+  for (const type of ['image/avif', 'image/webp']) {
+    if (!tags.some((t) => t.startsWith('<source') && t.includes(`type="${type}"`) && /srcset="[^"]*\s\d+w/.test(t) && t.includes('sizes="'))) {
+      fail(`/: hero screenshot has no ${type} <source> with width descriptors and sizes`);
+    }
+  }
+  const img = tags.find((t) => t.startsWith('<img')) ?? '';
+  if (!/srcset="[^"]*\s\d+w/.test(img) || !img.includes('sizes="')) fail('/: hero <img> has no width-described srcset with sizes');
+  for (const t of tags) {
+    for (const [, url] of (t.match(/srcset="([^"]*)"/)?.[1] ?? '').matchAll(/(\S+)\s+\d+w/g)) {
+      if (!existsSync(join(outDir, url))) fail(`/: hero image ${url} is not built`);
+    }
+  }
+}
+
 // Browsers keep a favicon per URL for days and ignore Cache-Control, so a new icon file is only
 // seen when its URL changes. Every icon link must carry ?v=<hash of the file it points to>.
 for (const file of [...pages, join(outDir, '404.html')].filter(existsSync)) {

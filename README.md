@@ -72,7 +72,9 @@ repo checks contrast for every pair and fails when a grey, a text token or the p
 - Type: self-hosted IBM Plex Sans and Mono; IBM Plex Serif 500 for h1 and h2. Sentence case everywhere,
   mono only for code.
 - Product pictures: `public/product-inbox.jpg` (and `@2x`) is a screenshot of the app with demo data
-  (Northwind Help). Retake it when the app's look changes (see below); `src/components/home/ProductCrop.tsx`
+  (Northwind Help). The hero serves it as AVIF and WebP by width (`product-inbox-<width>.avif|webp`,
+  `src/lib/hero-image.ts`), scaled from `@2x` by `node scripts/product-shot/variants.mjs` (ffmpeg); `pnpm check` fails
+  if a size the hero names is missing. Retake it when the app's look changes (see below); `src/components/home/ProductCrop.tsx`
   holds the crop regions.
 - Light is the default; the footer **Dark theme** button sets `data-theme="dark"` and saves it in
   `localStorage` for this site only (`public/theme.js`). Spacing is a 4 px grid (`--space-*`); buttons
@@ -108,6 +110,7 @@ What it seeds, through the product's own paths:
   the times (07:02 to 09:12) are today and in the past (`scripts/product-shot/scene.mjs`).
 
 Then headless Chrome captures `/conversations/<booking>` at 1440 × 900, at 1x and 2x, as JPEG quality 80.
+It then writes the AVIF and WebP sizes of the hero from the 2x capture (`scripts/product-shot/variants.mjs`).
 The stack keeps running; the command prints the URL and a one-time sign-in link (15 minutes) to keep
 working in the same data. Re-running resets the data and captures again.
 
