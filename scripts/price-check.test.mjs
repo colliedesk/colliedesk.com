@@ -50,3 +50,29 @@ test('a team that needs SSO, phone or client billing is told what is missing', (
   assert.deepEqual(r.missing, ['sso', 'phone']);
   assert.equal(r.verdict, 'not-yet');
 });
+
+const { withAttribution } = sandbox.module.exports;
+// The sandbox has its own Object prototype; copy results into this realm before deepEqual.
+const attribution = (search) => ({ ...sandbox.module.exports.attribution(search) });
+
+test('attribution keeps utm_* and ttclid from the landing URL and drops everything else', () => {
+  assert.deepEqual(
+    attribution('?utm_source=tiktok&utm_medium=comment&utm_campaign=seat-tax&utm_content=post-07&ttclid=E_C_P_abc123&email=a@b.c'),
+    { utm_source: 'tiktok', utm_medium: 'comment', utm_campaign: 'seat-tax', utm_content: 'post-07', ttclid: 'E_C_P_abc123' },
+  );
+});
+
+test('attribution refuses values with characters outside [A-Za-z0-9._-] or longer than 300', () => {
+  assert.deepEqual(attribution('?utm_source=<script>&utm_content=' + 'x'.repeat(301)), {});
+});
+
+test('withAttribution appends the kept values to a sign-up link', () => {
+  assert.equal(
+    withAttribution('https://app.colliedesk.com/sign-in', { utm_source: 'tiktok', utm_content: 'post-07' }),
+    'https://app.colliedesk.com/sign-in?utm_source=tiktok&utm_content=post-07',
+  );
+  assert.equal(
+    withAttribution('https://app.colliedesk.com/settings/billing?buy=founding', { utm_source: 'tiktok' }),
+    'https://app.colliedesk.com/settings/billing?buy=founding&utm_source=tiktok',
+  );
+});

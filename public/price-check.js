@@ -21,10 +21,40 @@
     };
   }
 
-  if (typeof module !== 'undefined' && module.exports) { module.exports = { compute: compute }; return; }
+  // attribution keeps the ad source of the landing URL: utm_* and TikTok's ttclid (added to paid
+  // ad clicks). Values outside [A-Za-z0-9._-] or over 300 characters are dropped, so nothing
+  // a visitor types into the URL reaches the message or the sign-up link.
+  var KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'ttclid'];
+  function attribution(search) {
+    var out = {};
+    String(search || '').replace(/^\?/, '').split('&').forEach(function (pair) {
+      var i = pair.indexOf('=');
+      if (i < 1) return;
+      var key = decodeURIComponent(pair.slice(0, i));
+      var value;
+      try { value = decodeURIComponent(pair.slice(i + 1).replace(/\+/g, ' ')); } catch (e) { return; }
+      if (KEYS.indexOf(key) !== -1 && /^[A-Za-z0-9._-]{1,300}$/.test(value)) out[key] = value;
+    });
+    return out;
+  }
+  // withAttribution appends the kept values to a link (sign-up, Founding checkout).
+  function withAttribution(href, attr) {
+    var parts = KEYS.filter(function (k) { return attr[k]; }).map(function (k) { return k + '=' + encodeURIComponent(attr[k]); });
+    if (!parts.length) return href;
+    return href + (href.indexOf('?') === -1 ? '?' : '&') + parts.join('&');
+  }
+
+  if (typeof module !== 'undefined' && module.exports) { module.exports = { compute: compute, attribution: attribution, withAttribution: withAttribution }; return; }
 
   var money = function (n) { return '$' + Math.round(n).toLocaleString('en-US'); };
-  var track = function (event, props) { if (root.posthog && root.posthog.capture) root.posthog.capture(event, props); };
+  var attr = attribution(root.location.search);
+  var track = function (event, props) {
+    if (!root.posthog || !root.posthog.capture) return;
+    var all = {};
+    Object.keys(attr).forEach(function (k) { all[k] = attr[k]; });
+    Object.keys(props || {}).forEach(function (k) { all[k] = props[k]; });
+    root.posthog.capture(event, all);
+  };
 
   root.document.addEventListener('DOMContentLoaded', function () {
     var box = root.document.querySelector('[data-price-check]');
@@ -144,6 +174,7 @@
         'Bothers most: ' + ((answers.painLabels || []).join('; ') || 'not given'),
         'Needs: ' + ((answers.needsLabels || []).join('; ') || 'not given'),
         'Decides: ' + (answers.whoLabel || 'not given'),
+        'Source: ' + (Object.keys(attr).map(function (k) { return k + '=' + attr[k]; }).join(' ') || 'direct'),
         'Today ' + money(r.todayYear) + '/yr, ' + r.plan + ' ' + money(r.oursYear) + '/yr, keeps ' + money(Math.max(0, r.keepYear)) + ', verdict ' + r.verdict,
       ].join('\n');
       send.disabled = true;
@@ -161,6 +192,9 @@
         say('Could not reach the server. Check your connection and try again.', 'error');
       }).then(function () { send.disabled = false; });
     });
+
+    // Sign-up and checkout links carry the ad source so the trial can be traced to the post.
+    [].forEach.call(box.querySelectorAll('.pc-result .cta-row a'), function (a) { a.href = withAttribution(a.getAttribute('href'), attr); });
 
     show(0, false);
   });
