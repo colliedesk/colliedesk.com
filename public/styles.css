@@ -543,3 +543,44 @@ td:first-child { font-weight: 500; color: var(--text-1); }
 /* On the ink band the primary button turns paper and the secondary one is an outline. */
 .closing-band .btn-primary, .closing-band .btn-primary:hover { background: #fafafa; border-color: #fafafa; color: #0a0a0a; }
 .closing-band .btn:not(.btn-primary) { background: transparent; color: #fafafa; border-color: #525252; }
+
+/* /price-check quiz (public/price-check.js): one step at a time; without JavaScript only the noscript note shows. */
+.pc { margin-bottom: var(--space-16); }
+.pc > * { max-width: 40rem; }
+.pc-step, .pc-top, .pc [hidden] { display: none; }
+.pc.pc-on .pc-top { display: flex; align-items: center; gap: var(--space-3); min-height: 36px; margin-bottom: var(--space-6); }
+.pc.pc-on .pc-step.is-current { display: block; }
+.pc-progress { flex: 1; height: 6px; border-radius: var(--radius-full); background: var(--surface-2); overflow: hidden; }
+.pc-progress span { display: block; height: 100%; width: 0; background: var(--text-1); transition: width var(--dur-fast) var(--ease); }
+.pc-step h2 { font-size: clamp(1.4rem, 1.1rem + 1.2vw, 1.9rem); margin: 0 0 var(--space-4); outline: none; }
+.pc-hint { color: var(--text-2); margin: 0 0 var(--space-4); }
+.pc-choices { display: grid; gap: var(--space-3); margin: 0 0 var(--space-6); }
+.pc-grid { grid-template-columns: repeat(auto-fill, minmax(5.5rem, 1fr)); }
+.pc-choice { min-height: 52px; padding: var(--space-3) var(--space-4); border: 1px solid var(--line-control); border-radius: var(--radius-lg); background: var(--surface-1); color: var(--text-1); font: 500 16px/1.3 var(--font-sans); text-align: left; cursor: pointer; transition: border-color var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease); }
+.pc-grid .pc-choice { text-align: center; }
+.pc-choice:hover { border-color: var(--line-strong); background: var(--surface-2); }
+.pc-choice[aria-pressed="true"] { border-color: var(--text-1); background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--text-1); }
+.pc-other { display: flex; flex-wrap: wrap; align-items: end; gap: var(--space-3); margin: 0 0 var(--space-6); }
+.pc-other[hidden] { display: none; }
+.pc-other label { display: grid; gap: var(--space-2); font-weight: 500; }
+.pc-other input, .pc-email input[type="email"] { height: 44px; padding: 0 var(--space-3); border: 1px solid var(--line-strong); border-radius: var(--radius); font: 16px var(--font-sans); background: var(--surface-1); color: var(--text-1); }
+.pc-aside p { font-size: 1.15rem; color: var(--text-2); line-height: 1.55; margin: 0 0 var(--space-6); }
+.pc-mirror { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: var(--space-3) var(--space-6); margin: 0 0 var(--space-6); }
+.pc-mirror dt { color: var(--text-3); font-size: .85rem; }
+.pc-mirror dd { margin: 0; font-weight: 500; }
+.pc-numbers { display: grid; grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr)); gap: var(--space-3); margin: 0 0 var(--space-4); }
+.pc-num { display: grid; gap: var(--space-1); padding: var(--space-4); border-radius: var(--radius-lg); background: var(--surface-1); box-shadow: var(--ring); }
+.pc-num span, .pc-num small { color: var(--text-3); font-size: .85rem; }
+.pc-num b { font: 500 1.9rem/1.1 var(--font-display); letter-spacing: -0.02em; }
+.pc-keep b { color: var(--price); }
+.pc-note, .pc-verdict { margin: 0 0 var(--space-3); color: var(--text-2); }
+.pc-verdict { color: var(--text-1); font-weight: 500; }
+.pc-email { margin: var(--space-6) 0 0; padding: var(--space-5) var(--space-4); border-radius: var(--radius-lg); background: var(--surface-2); }
+.pc-email label { display: block; font-weight: 600; margin: 0 0 var(--space-3); }
+.pc-email-row { display: flex; flex-wrap: wrap; gap: var(--space-3); }
+.pc-email-row input[type="email"] { flex: 1 1 14rem; }
+.pc-trap { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+.pc-status { min-height: 1.4em; margin: var(--space-2) 0 0; font-size: .9rem; color: var(--text-2); }
+.pc-status[data-state="error"] { color: var(--danger); }
+.pc-fine { color: var(--text-3); font-size: .85rem; margin: var(--space-3) 0 0; }
+.pc-noscript { color: var(--text-2); }
