@@ -7,7 +7,7 @@ export const ENTRIES: readonly ChangelogEntry[] = [
     version: 'v0.0.1',
     date: '2026-10-14',
     title: 'v0.0.1: first alpha release',
-    md: `First public alpha, released and running on Colliedesk Cloud. The interface and database schema may change before beta.
+    md: `First public alpha, released and running on Colliedesk Cloud. The interface and database schema may change between releases.
 
 - **Email channel.** Inbound and outbound mail with threading, and protection against spoofing and mail loops. See [Connect email](/docs/email-channel).
 - **Freshdesk importer.** Tickets, replies, notes, checksummed attachments, tags, contacts and companies, with a reconcile report. See [Import from Freshdesk](/docs/import-freshdesk).
@@ -16,7 +16,7 @@ export const ENTRIES: readonly ChangelogEntry[] = [
 - **Colliedesk Cloud.** A 14-day free trial, then Team or Founding. A workspace whose trial ended is locked and can still export everything.
 - **Workspaces.** Every workspace is isolated from every other. Per-workspace timezone with a per-agent override.
 
-Not in this release: Cc, starting a new conversation from the inbox and contact history (beta), and AI. See the [roadmap](/roadmap).`,
+Not in this release: Cc, starting a new conversation from the inbox and contact history, and AI. See the [roadmap](/roadmap).`,
   },
 ];
 

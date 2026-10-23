@@ -39,7 +39,8 @@ export const FOUNDING_CHECKOUT = 'https://app.colliedesk.com/settings/billing?bu
 // Colliedesk Cloud sign-in (email code through Clerk) for agents who already have a workspace.
 export const APP_SIGN_IN = 'https://app.colliedesk.com/sign-in';
 // The same page starts the 14-day free trial: a new email gets "Create your workspace" there.
-export const TRIAL_HREF = APP_SIGN_IN;
+// intent=trial lets the app title the page for a new workspace instead of "Sign in".
+export const TRIAL_HREF = `${APP_SIGN_IN}?intent=trial`;
 // The updates box posts to the web form channel of HC Labs' own Colliedesk workspace: every
 // signup lands there as a conversation tagged web-form.
 export const UPDATES_FORM_URL = 'https://app.colliedesk.com/api/v1/public/forms/hclabs';

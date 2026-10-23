@@ -13,7 +13,11 @@ const faq: Faq[] = [
   },
   {
     q: 'Is the Colliedesk Freshdesk importer available now?',
-    a: `It is available now, in alpha. The [import guide](/docs/import-freshdesk) has the command. Founding customers get their migration done for them, free. See [the founding offer](${FOUNDING_HREF}).`,
+    a: `Yes, it is shipped, and Colliedesk as a whole is alpha. Run it in the app or from the command line; the [import guide](/docs/import-freshdesk) has both. Founding customers get their migration done for them, free. See [the founding offer](${FOUNDING_HREF}).`,
+  },
+  {
+    q: 'Can we keep Freshdesk running while we try Colliedesk?',
+    a: 'Yes, and we recommend it. The import only reads your Freshdesk account, so your team keeps answering in Freshdesk while you import the history, try Colliedesk on real tickets and run the import again to catch up. Forward your support mail to Colliedesk last, when your team is sure. See [switch gradually](#switch-gradually).',
   },
   {
     q: 'When should I close my Freshdesk account?',
@@ -21,7 +25,21 @@ const faq: Faq[] = [
   },
 ];
 
-const body = `> **Status:** the Colliedesk Freshdesk importer is available now, in alpha: the interface or schema may change between releases. This page explains the full process so you can plan, or do it yourself with the Freshdesk API. Founding customers get the migration done for them, free.
+const body = `> **Status:** Colliedesk as a whole is alpha: the Freshdesk importer is shipped, and any release may change the interface or the database schema. This page explains the full process so you can plan, or do it yourself with the Freshdesk API. Founding customers get the migration done for them, free.
+
+## Switch gradually
+
+We recommend you do not switch in one day. Keep Freshdesk as your live inbox and bring Colliedesk up beside it until your team is sure:
+
+1. **Keep answering customers in Freshdesk.** The import reads your Freshdesk account through its API and does not change it.
+2. **Import your history.** In the app, the tickets updated in the last 90 days come first, so your team can look around while older and archived tickets follow. On Colliedesk Cloud, the first import during the trial extends the trial to 30 days.
+3. **Try Colliedesk on your real tickets:** search, tags, saved replies, teammates and the knowledge base.
+4. **Run the import again to catch up** as often as you like. It brings over tickets that changed in Freshdesk since the last run, and it never copies an imported ticket twice.
+5. **Switch when your team is sure**, for example before your Freshdesk renewal: forward your support address to Colliedesk ([Connect email](/docs/email-channel)), run one last catch-up import (from the command line, \`--since\` makes it shorter), and close Freshdesk only after the last reconcile report matches.
+
+Move the mail forwarding last. If Freshdesk and Colliedesk both receive the same email, it can show twice after a catch-up import, because the importer matches tickets by their Freshdesk id. Keeping Colliedesk in step with Freshdesk automatically until you switch is on the [roadmap](/roadmap).
+
+Founding customers get all of this done for them: [free migration with Founding](/migrate/freshdesk/done-for-you).
 
 ## 1. Know what you are moving
 
@@ -36,7 +54,7 @@ Write down, from your Freshdesk admin:
 
 Freshdesk's ticket export in the UI gives you **ticket fields only**, as CSV or Excel. It is useful for a spreadsheet. It is not a migration. Before you cancel, also take a full account export as a backup: [how to export tickets from Freshdesk](/migrate/freshdesk/export).
 
-| Data | Freshdesk UI export (CSV/Excel) | Freshdesk API | Colliedesk importer (**Available now**) |
+| Data | Freshdesk UI export (CSV/Excel) | Freshdesk API | Colliedesk importer (**Shipped**) |
 |---|---|---|---|
 | Ticket fields (subject, status, priority, dates) | Yes | Yes | Yes |
 | Full conversation: replies and private notes | No | Yes, extra calls per ticket | Yes |
@@ -91,6 +109,7 @@ const page: Page = {
   h1: 'Leave Freshdesk with all your data',
   lede: 'An honest, step-by-step guide: what the Freshdesk export keeps, what it loses, and how to prove nothing was left behind.',
   cta: true,
+  ctaFounding: { href: '/migrate/freshdesk/done-for-you', label: 'Free migration with Founding' },
   body,
   faq,
 };

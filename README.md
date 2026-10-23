@@ -44,7 +44,8 @@ to use another checkout. `typecheck` works without it.
 - `/docs` and `/roadmap` render `docs/user/*.md` and `ROADMAP.md` from [colliedesk/colliedesk](https://github.com/colliedesk/colliedesk). Edit those files there, not here. Every 15 minutes CI compares those docs on `main` with `/product-docs-version.txt` on the live site (`scripts/product-docs-version.sh`) and rebuilds when they differ. To preview unmerged docs, run the Site workflow with `product_ref` set to a branch of colliedesk/colliedesk: it builds, checks and uploads the site as an artifact without deploying. Pull requests there that touch the docs build this site too, so a broken link fails before merge.
 - SEO: an agent researches, writes and audits pages as described in [docs/seo](docs/seo/README.md); `pnpm check:content` checks the copy and a person approves every SEO page (required check `content-approval`).
 - Shared facts (prices, positioning, repo URL) are in `src/lib/site.ts`. Competitor prices carry their source and read date on each `/vs` page.
-- Mark unshipped features with `**Coming v0.N**` in Markdown; the build turns it into a badge.
+- Colliedesk as a whole is alpha. Mark a feature `**Shipped**` or `**Not built yet**` in Markdown; the build turns
+  it into a badge. Never call anything beta: `pnpm check:content` fails on the word until HC Labs announces beta.
 - Deploy: GitHub Pages from `.github/workflows/site.yml`, custom domain `colliedesk.com`, output directory `_site` (`_headers` keeps the Cloudflare Pages rules for `pnpm serve`).
 - Refactors that should not change the output: build `main` and the branch into two directories and
   run `node scripts/compare-site.mjs <main-build> <branch-build>`. Non-HTML files must be
@@ -72,7 +73,9 @@ repo checks contrast for every pair and fails when a grey, a text token or the p
 - Type: self-hosted IBM Plex Sans and Mono; IBM Plex Serif 500 for h1 and h2. Sentence case everywhere,
   mono only for code.
 - Product pictures: `public/product-inbox.jpg` (and `@2x`) is a screenshot of the app with demo data
-  (Northwind Help). Retake it when the app's look changes (see below); `src/components/home/ProductCrop.tsx`
+  (Northwind Help). The hero serves it as AVIF and WebP by width (`product-inbox-<width>.avif|webp`,
+  `src/lib/hero-image.ts`), scaled from `@2x` by `node scripts/product-shot/variants.mjs` (ffmpeg); `pnpm check` fails
+  if a size the hero names is missing. Retake it when the app's look changes (see below); `src/components/home/ProductCrop.tsx`
   holds the crop regions.
 - Light is the default; the footer **Dark theme** button sets `data-theme="dark"` and saves it in
   `localStorage` for this site only (`public/theme.js`). Spacing is a 4 px grid (`--space-*`); buttons
@@ -108,6 +111,7 @@ What it seeds, through the product's own paths:
   the times (07:02 to 09:12) are today and in the past (`scripts/product-shot/scene.mjs`).
 
 Then headless Chrome captures `/conversations/<booking>` at 1440 × 900, at 1x and 2x, as JPEG quality 80.
+It then writes the AVIF and WebP sizes of the hero from the 2x capture (`scripts/product-shot/variants.mjs`).
 The stack keeps running; the command prints the URL and a one-time sign-in link (15 minutes) to keep
 working in the same data. Re-running resets the data and captures again.
 

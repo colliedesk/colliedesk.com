@@ -46,9 +46,9 @@ Zammad hosted prices are in euros, per agent per month, excluding VAT, as publis
 
 Zammad is ahead here, and we say so.
 
-| | Zammad migrator | Colliedesk importer (**Available now**) |
+| | Zammad migrator | Colliedesk importer (**Shipped**) |
 |---|---|---|
-| Status | Released, self-serve wizard or console | Available now, alpha |
+| Status | Released, self-serve wizard or console | Shipped, alpha |
 | Imports | Groups, organizations, users, tickets | Tickets (archived ones included), replies, notes, attachments, tags, contacts, companies, time entries |
 | Into an existing instance | No: "Migrations are only possible on new instances" | Into one workspace |
 | Catch-up after the first run | No: "Differential migrations are not supported" | Yes, \`--since\` |

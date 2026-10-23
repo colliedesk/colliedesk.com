@@ -40,7 +40,7 @@ Prices per month, billed monthly on both sides, read on ${FRESHDESK_READ}.
 | 5 | $115 | $505 | $69 (Team) |
 | 10 | $230 | $1,010 | $69 (Team) |
 
-Colliedesk AI (coming after beta) is billed at model cost +30% on our key, or by your provider on your own key. Full sources: [Colliedesk vs Freshdesk](/vs/freshdesk).
+Colliedesk AI (not built yet) will be billed at model cost +30% on our key, or by your provider on your own key. Full sources: [Colliedesk vs Freshdesk](/vs/freshdesk).
 
 ## What Colliedesk does today
 

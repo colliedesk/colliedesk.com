@@ -1,7 +1,8 @@
 // Content QA for the marketing pages, read from their Markdown twins in _site/. A page fails when
 // its prose reads above READING_GRADE_MAX, uses an em dash or an AI-slop phrase, has no call to
 // action in the body, quotes a competitor price without a source link, has a title or meta
-// description outside the length the top results use, or links fewer than 2 other pages here. Pages listed in
+// description outside the length the top results use, or links fewer than 2 other pages here. Any
+// page this site writes, legal pages and release notes included, fails when it says "beta". Pages listed in
 // KNOWN_DEBT may miss a rule until they are fixed; the list can only shrink. Exits 1 on any failure.
 // The judgement calls (is a claim true, is the article useful) are the content QA skill's job, in
 // docs/seo/; this script only checks what a machine can check.
@@ -139,6 +140,28 @@ export function checkPage({ path, md, title, description }, debt = {}) {
   return findings;
 }
 
+// Colliedesk as a whole is alpha. Until HC Labs announces beta, nothing this site writes calls the
+// product, a release or a feature beta: a feature is shipped or not built yet. Link targets and bare
+// URLs are not copy. /docs and /roadmap bodies come from the product repository, which has the same
+// rule for its own text; their titles and descriptions are written here and are checked.
+const BETA_RE = /\bbeta\b/i;
+const URL_RE = /\]\([^)\s]*\)|https?:\/\/[^\s)"'<>]+/g;
+const PRODUCT_DOCS = [/^\/docs(\/|$)/, /^\/roadmap$/];
+
+/** One finding per line of text that says "beta" outside a URL. */
+export function betaFindings(path, text) {
+  return text.split('\n').flatMap((raw) => {
+    const line = raw.replace(URL_RE, '');
+    const at = line.search(BETA_RE);
+    if (at < 0) return [];
+    const quote = line.slice(Math.max(0, at - 50), at + 40).replace(/\s+/g, ' ').trim();
+    return [`${path}: says "beta"; Colliedesk is alpha as a whole, so say shipped or not built yet: "${quote}"`];
+  });
+}
+
+/** The words a visitor sees in an HTML page: no scripts, styles or tags. */
+const visibleText = (html) => decode(html.replace(/<(script|style)[\s\S]*?<\/\1>/g, '').replace(/<[^>]+>/g, ' '));
+
 const decode = (s) => s.replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
 
 /** Title and meta description of the HTML page next to a Markdown twin. */
@@ -173,6 +196,27 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     .filter(({ path }) => !EXEMPT.some((re) => re.test(path)));
 
   const errors = pages.flatMap((p) => checkPage(p, KNOWN_DEBT));
+
+  const urlPathOf = (file) => {
+    const rel = relative(outDir, file).split(sep).join('/').replace(/\.(html|md)$/, '').replace(/(^|\/)index$/, '');
+    return `/${rel}`;
+  };
+  const beta = new Set();
+  for (const file of walk(outDir)) {
+    const path = urlPathOf(file);
+    const fromProduct = PRODUCT_DOCS.some((re) => re.test(path));
+    if (file.endsWith('.html')) {
+      const html = readFileSync(file, 'utf8');
+      const { title, description } = headOf(html);
+      for (const f of betaFindings(path, `${title}\n${description}`)) beta.add(f);
+      if (!fromProduct) for (const f of betaFindings(path, visibleText(html))) beta.add(f);
+    } else if (file.endsWith('.md') && !fromProduct) {
+      for (const f of betaFindings(path, readFileSync(file, 'utf8'))) beta.add(f);
+    } else if (file.endsWith('llms.txt')) {
+      for (const f of betaFindings('/llms.txt', readFileSync(file, 'utf8'))) beta.add(f);
+    }
+  }
+  errors.push(...beta);
   // A debt entry for a page that now passes, or that no longer exists, must be deleted.
   for (const [rule, paths] of Object.entries(KNOWN_DEBT)) {
     for (const path of paths) {

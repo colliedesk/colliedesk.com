@@ -17,7 +17,7 @@ export const HOME_LEDE =
 export const HOME_FAQ: Faq[] = [
   {
     q: 'What is Colliedesk?',
-    a: 'Colliedesk is an open-source (AGPL-3.0) helpdesk for support teams of 3 to 10 agents leaving Freshdesk, made by HC Labs. It is the open-source alternative to Freshdesk, Zendesk and Help Scout: a shared inbox for your team, AI included at cost, one flat price per workspace.',
+    a: 'Colliedesk is an open-source (AGPL-3.0) helpdesk for support teams of 3 to 10 agents leaving Freshdesk, made by HC Labs. It is the open-source alternative to Freshdesk, Zendesk and Help Scout: a shared inbox for your team at one flat price per workspace, with AI included at cost once it is built.',
   },
   {
     q: 'Is Colliedesk free?',
@@ -27,7 +27,7 @@ export const HOME_FAQ: Faq[] = [
   },
   {
     q: 'Is Colliedesk ready to use?',
-    a: 'It is alpha: released and running on Colliedesk Cloud, with a 14-day free trial. The email channel (inbound and outbound, threading), the Freshdesk and Help Scout importers with their reconcile reports, the knowledge base and public help center, starting a new conversation from the inbox, contact history, saved replies, Cc on replies, attachments and live updates work today. Alpha means the interface or database schema may change between releases. AI is not there yet; it comes after beta. See the [roadmap](/roadmap).',
+    a: 'Colliedesk as a whole is alpha. It is released and runs on Colliedesk Cloud, with a 14-day free trial. Shipped today: the email channel (inbound and outbound, threading), the Freshdesk and Help Scout importers with their reconcile reports, the knowledge base and public help center, starting a new conversation from the inbox, contact history, saved replies, Cc on replies, attachments and live updates. Alpha means any release may change the interface or the database schema. AI is not built yet. See the [roadmap](/roadmap).',
   },
   PER_WORKSPACE_FAQ,
   {
@@ -42,19 +42,19 @@ export const HOME_FAQ: Faq[] = [
   },
   {
     q: 'How does AI pricing work?',
-    a: 'AI is included, not an add-on. On Colliedesk Cloud you pay the model cost plus 30%, or bring your own key. Self-hosted installs use your own key.',
+    a: 'AI is not built yet. When it ships, it is part of every plan, not an add-on: on Colliedesk Cloud you pay the model cost plus 30%, or bring your own key. Self-hosted installs use your own key.',
   },
   {
     q: 'Can I move my Freshdesk tickets to Colliedesk?',
-    a: 'Yes, with the Freshdesk importer, available now: tickets, replies, notes, attachments, tags and contacts, with a reconcile report. Founding customers get the migration done for free. Read [the migration guide](/migrate/freshdesk).',
+    a: 'Yes, with the Freshdesk importer, shipped in alpha: tickets, replies, notes, attachments, tags and contacts, with a reconcile report. You can switch gradually: keep answering in Freshdesk, import your history, run the import again to catch up, and forward your support mail to Colliedesk only when your team is sure. Founding customers get the migration done for free. Read [how to switch gradually](/migrate/freshdesk#switch-gradually).',
   },
 ];
 
 const md = `${TAGLINE} ${POSITIONING}
 
-${HOME_H1} ${HOME_LEDE} The Freshdesk importer is available now; reconcile report numbers shown on the site are an example.
+${HOME_H1} ${HOME_LEDE} The Freshdesk importer is shipped; reconcile report numbers shown on the site are an example.
 
-Status: alpha, live on Colliedesk Cloud with a 14-day free trial. Self-host free: ${REPO}. Cloud: ${FOUNDING_OPEN ? 'Founding, $99 a quarter per workspace, locked for life, 10 places' : LADDER_LINE}.
+Status: Colliedesk as a whole is alpha, live on Colliedesk Cloud with a 14-day free trial. Self-host free: ${REPO}. Cloud: ${FOUNDING_OPEN ? 'Founding, $99 a quarter per workspace, locked for life, 10 places' : LADDER_LINE}.
 
 ${homeSectionsMd}
 

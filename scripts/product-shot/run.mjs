@@ -14,6 +14,7 @@ import { capture } from './capture.mjs';
 import { SCENE } from './scene.mjs';
 import { seed } from './seed.mjs';
 import { IMAGE, ORIGIN, collie, down, isRunning, up } from './stack.mjs';
+import { writeVariants } from './variants.mjs';
 
 const PUBLIC = join(dirname(fileURLToPath(import.meta.url)), '..', '..', 'public');
 const SLUG = 'northwind-help';
@@ -55,9 +56,10 @@ async function main(argument) {
       { scale: 2, file: join(PUBLIC, 'product-inbox@2x.jpg') },
     ],
   });
+  writeVariants();
 
   console.log(`
-Wrote public/product-inbox.jpg and public/product-inbox@2x.jpg (workspace timezone ${scene.timeZone}).
+Wrote public/product-inbox.jpg, public/product-inbox@2x.jpg and their AVIF and WebP sizes (workspace timezone ${scene.timeZone}).
 The stack keeps running at ${ORIGIN} (docker compose project colliedesk-shot).
 Sign in as ${SCENE.admin.name} (one use, 15 minutes):
   ${signInLink()}

@@ -107,8 +107,8 @@ Self-hosting is free, forever, with every feature. We sell two things:
 
 ## Why teams switch
 
-- **Leave Freshdesk with all your data** (importer available now): tickets, replies, notes, checksummed attachments, tags and contacts, with a reconcile report. [Migration guide](/migrate/freshdesk).
-- **AI that answers tickets, included** (coming after beta): drafts, triage and auto-answer with a human in the loop. Model cost +30%, or bring your own key.
+- **Leave Freshdesk with all your data** (importer shipped): tickets, replies, notes, checksummed attachments, tags and contacts, with a reconcile report. Switch gradually: keep answering in Freshdesk, import, run the import again to catch up, and move your mail forwarding last. [Migration guide](/migrate/freshdesk).
+- **AI that answers tickets, included** (not built yet): drafts, triage and auto-answer with a human in the loop. Model cost +30%, or bring your own key.
 - **Flat price**: ${flatLine}
 
 ## The bill for five agents
@@ -127,7 +127,7 @@ ${agentSectionMd}
 
 ## Why a collie?
 
-A collie does not own the flock. It brings every sheep back to the pen and the shepherd decides what happens next. Colliedesk's AI sorts, drafts and chases every ticket so none is lost, while a person on your team approves what goes out.
+A collie does not own the flock. It brings every sheep back to the pen and the shepherd decides what happens next. That is the job of Colliedesk's AI once it is built: sort, draft and chase every ticket so none is lost, while a person on your team approves what goes out.
 
 ## If you don't like something, fork it
 
@@ -135,4 +135,4 @@ Colliedesk is AGPL-3.0. The code, your data and the export format are yours. [Ho
 
 ## Founding offer
 
-$99 a quarter per workspace, locked for life, with free Freshdesk migration and a reconcile report. Only 10 workspaces get it. Up to 10 agents, no per-agent fees, 20 GB of attachments including imported files.${foundingTail} AI at model cost +30% or your own key. Colliedesk Cloud is live; every workspace starts with a 14-day free trial.`;
+$99 a quarter per workspace, locked for life, with free Freshdesk migration and a reconcile report. Only 10 workspaces get it. Up to 10 agents, no per-agent fees, 20 GB of attachments including imported files.${foundingTail} AI, once it is built, at model cost +30% or your own key. Colliedesk Cloud is live; every workspace starts with a 14-day free trial.`;

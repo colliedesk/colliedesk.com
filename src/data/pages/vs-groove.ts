@@ -21,7 +21,7 @@ const faq: Faq[] = [
 const body = `## The short answer
 
 - **Choose Helply** (formerly Groove) if you want AI agents to answer most tickets and you are happy to pay by AI usage.
-- **Choose Colliedesk** if you want a classic shared inbox and helpdesk with a flat price, where AI drafts (coming after beta) and a human decides, and your data in an open database. Colliedesk is alpha; read the status table first.
+- **Choose Colliedesk** if you want a classic shared inbox and helpdesk with a flat price, where AI drafts (not built yet) and a human decides, and your data in an open database. Colliedesk is alpha; read the status table first.
 
 ## Price, side by side
 

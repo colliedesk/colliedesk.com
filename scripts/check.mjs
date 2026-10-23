@@ -426,8 +426,10 @@ if (!foundingOpen) {
 // release that has already happened ("v0.2"), call the product pre-alpha or say checkout is
 // coming. The Solo, Small, Team and Team 25 cards must start the free trial at the real signup
 // entry, every "Start free trial" button must go to the same place, and the Unlimited card (coming
-// soon) must offer no link at all.
-const TRIAL_URL = 'https://app.colliedesk.com/sign-in';
+// soon) must offer no link at all. The trial link carries ?intent=trial so the app titles the page for a
+// new workspace; the bare sign-in page is only for "Log in".
+const SIGN_IN_URL = 'https://app.colliedesk.com/sign-in';
+const TRIAL_URL = `${SIGN_IN_URL}?intent=trial`;
 {
   const stale = /v0\.[2-9]|pre-alpha|checkout link is coming soon|\bin testing\b/i;
   for (const file of files.filter((f) => /\.(html|md|txt)$/.test(f))) {
@@ -448,14 +450,20 @@ const TRIAL_URL = 'https://app.colliedesk.com/sign-in';
     for (const m of readFileSync(file, 'utf8').matchAll(/<a[^>]*href="([^"]*)"[^>]*>\s*Start free trial/g)) {
       if (m[1] !== TRIAL_URL) fail(`${urlPathOf(file)}: "Start free trial" links to ${m[1]}, not ${TRIAL_URL}`);
     }
+    for (const m of readFileSync(file, 'utf8').matchAll(new RegExp(`<a[^>]*href="${SIGN_IN_URL}"[^>]*>([\\s\\S]*?)</a>`, 'g'))) {
+      if (m[1].trim() !== 'Log in') fail(`${urlPathOf(file)}: "${m[1].trim().slice(0, 40)}" links to ${SIGN_IN_URL}; only "Log in" may, a trial link goes to ${TRIAL_URL}`);
+    }
+  }
+  for (const file of files.filter((f) => f.endsWith('.md'))) {
+    if (readFileSync(file, 'utf8').includes(`(${SIGN_IN_URL})`)) fail(`${file.slice(outDir.length - 1)}: links to ${SIGN_IN_URL}; a trial link goes to ${TRIAL_URL}`);
   }
 }
 
 // Shipped features must not be labelled as missing. Cc on replies shipped in colliedesk#75; a
-// sentence or table row that names Cc must not call it beta or "not there yet". The changelog is
-// history: the 0.0.x notes correctly say Cc was not in that release.
+// sentence or table row that names Cc must not call it "not built yet" or "not there yet". The
+// changelog is history: the 0.0.x notes correctly say Cc was not in that release.
 {
-  const notYet = /not there yet|\(beta\)|\*\*Beta\b|>Beta\b/i;
+  const notYet = /not there yet|not built yet/i;
   for (const file of files.filter((f) => /\.(html|md)$/.test(f) && !/[\\/]changelog\.(html|md)$/.test(f))) {
     const text = readFileSync(file, 'utf8').replace(/<\/(tr|p|li)>/g, '\n');
     for (const part of text.split(/[.!?]\s|\n/)) {
@@ -472,12 +480,12 @@ for (const file of files.filter((f) => f.endsWith('.html'))) {
   }
 }
 
-// Marketing pages say "alpha" or "beta", never a version number ("0.0.x", "0.1.0"). Versions belong
+// Marketing pages say "alpha", never a version number ("0.0.x", "0.1.0"). Versions belong
 // to the changelog, the roadmap and the docs, which come from the product repo; JSON-LD is not shown.
 for (const file of files.filter((f) => f.endsWith('.html') && !/[\\/](changelog|roadmap)\.html$|[\\/]docs[\\/]|[\\/]docs\.html$/.test(f))) {
   const shown = readFileSync(file, 'utf8').replace(/<script[\s\S]*?<\/script>/g, '').replace(/<[^>]+>/g, ' ');
   const m = shown.match(/\b0\.\d+\.(?:x|\d+)\b/);
-  if (m) fail(`${file.slice(outDir.length - 1)}: shows version "${m[0]}"; say alpha or beta instead`);
+  if (m) fail(`${file.slice(outDir.length - 1)}: shows version "${m[0]}"; say alpha instead`);
 }
 
 // /compare is the hub of every comparison page: each /vs page is linked from it, the header
@@ -561,12 +569,41 @@ for (const file of files.filter((f) => f.endsWith('.html') && !/[\\/](changelog|
   if (!homeMd.includes(`## ${heading}`)) fail('/index.md: twin lacks the AI agent section');
   for (const t of ['read', 'draft', 'send', 'admin']) if (!homeMd.includes(`\`${t}\``)) fail(`/index.md: twin does not name the ${t} tier`);
   if (!homeMd.includes('/docs/mcp)') || !homeMd.includes('seven days')) fail('/index.md: twin lacks the MCP guide link or the seven-day expiry');
-  if (!/\| MCP server[^\n]*\| \*\*Available now\*\*/.test(homeMd)) fail('/index.md: status table does not list the MCP server as available now');
+  if (!/\| MCP server[^\n]*\| \*\*Shipped\*\*/.test(homeMd)) fail('/index.md: status table does not list the MCP server as shipped');
   if (!/\(https:\/\/colliedesk\.com\/index\.md\)[^\n]*AI agents/.test(llms)) fail('llms.txt: home entry does not mention AI agents');
 }
 
 const accentUses = (readFileSync(join(outDir, 'styles.css'), 'utf8').match(/var\(--accent/g) ?? []).length;
 if (accentUses > ACCENT_BUDGET) fail(`styles.css uses var(--accent…) ${accentUses} times > ${ACCENT_BUDGET}: the accent is for the primary action, focus and selection (README, Design)`);
+
+// Brand guideline (app docs/internals/design.md): the price is the one coloured thing on the site
+// (rule 2), and cards sit on a shadow ring, never a border (rule 4), the featured plan included.
+{
+  const css = readFileSync(join(outDir, 'styles.css'), 'utf8');
+  if (!/\.plan-price strong\s*\{[^}]*color:\s*var\(--price\)/.test(css)) fail('styles.css: .plan-price strong is not coloured var(--price); the price has its own colour');
+  for (const rule of css.match(/\.plan-featured\s*\{[^}]*\}/g) ?? []) {
+    if (/\bborder(-[a-z]+)?\s*:/.test(rule) || /inset/.test(rule)) fail(`styles.css: "${rule.slice(0, 80)}" outlines the featured plan; use a shadow ring (--shadow-*), not a border`);
+  }
+}
+
+// The hero screenshot is the largest paint on a phone. It offers AVIF and WebP by width with a sizes
+// hint, so a 390px screen does not download the 2880px JPEG; every file it names must be built.
+{
+  const shot = read('index.html')?.match(/<figure class="hero-shot">[\s\S]*?<\/figure>/)?.[0] ?? '';
+  const tags = shot.match(/<(?:source|img)\b[^>]*>/g) ?? [];
+  for (const type of ['image/avif', 'image/webp']) {
+    if (!tags.some((t) => t.startsWith('<source') && t.includes(`type="${type}"`) && /srcset="[^"]*\s\d+w/.test(t) && t.includes('sizes="'))) {
+      fail(`/: hero screenshot has no ${type} <source> with width descriptors and sizes`);
+    }
+  }
+  const img = tags.find((t) => t.startsWith('<img')) ?? '';
+  if (!/srcset="[^"]*\s\d+w/.test(img) || !img.includes('sizes="')) fail('/: hero <img> has no width-described srcset with sizes');
+  for (const t of tags) {
+    for (const [, url] of (t.match(/srcset="([^"]*)"/)?.[1] ?? '').matchAll(/(\S+)\s+\d+w/g)) {
+      if (!existsSync(join(outDir, url))) fail(`/: hero image ${url} is not built`);
+    }
+  }
+}
 
 // Browsers keep a favicon per URL for days and ignore Cache-Control, so a new icon file is only
 // seen when its URL changes. Every icon link must carry ?v=<hash of the file it points to>.

@@ -76,3 +76,24 @@ test('demoPng is a PNG of the requested size', () => {
   assert.equal(png.readUInt32BE(16), 640);
   assert.equal(png.readUInt32BE(20), 400);
 });
+
+// The hero <picture> and the variants script share one plan; heights keep the 1440 × 900 (16:10) frame.
+test('hero variants: AVIF and WebP at five widths, 16:10, named by width', async () => {
+  const { heroVariants, heroSrcset } = await import('../src/lib/hero-image.ts');
+  assert.deepEqual(heroVariants().map((v) => `${v.file} ${v.width}x${v.height}`), [
+    'product-inbox-720.avif 720x450', 'product-inbox-1152.avif 1152x720', 'product-inbox-1440.avif 1440x900',
+    'product-inbox-2304.avif 2304x1440', 'product-inbox-2880.avif 2880x1800',
+    'product-inbox-720.webp 720x450', 'product-inbox-1152.webp 1152x720', 'product-inbox-1440.webp 1440x900',
+    'product-inbox-2304.webp 2304x1440', 'product-inbox-2880.webp 2880x1800',
+  ]);
+  assert.equal(heroSrcset('webp'), '/product-inbox-720.webp 720w, /product-inbox-1152.webp 1152w, /product-inbox-1440.webp 1440w, /product-inbox-2304.webp 2304w, /product-inbox-2880.webp 2880w');
+});
+
+test('variants script encodes each file from the 2x screenshot at its exact size', async () => {
+  const { ffmpegArgs } = await import('./product-shot/variants.mjs');
+  const args = ffmpegArgs({ file: 'product-inbox-720.avif', width: 720, height: 450, format: 'avif' }, '/p/product-inbox@2x.jpg', '/p/product-inbox-720.avif');
+  assert.equal(args[args.indexOf('-i') + 1], '/p/product-inbox@2x.jpg');
+  assert.equal(args[args.indexOf('-vf') + 1], 'scale=720:450:flags=lanczos');
+  assert.equal(args[args.indexOf('-c:v') + 1], 'libaom-av1');
+  assert.equal(args.at(-1), '/p/product-inbox-720.avif');
+});
