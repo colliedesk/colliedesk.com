@@ -70,7 +70,7 @@ repo checks contrast for every pair and fails when a grey, a text token or the p
 
 - Colour: neutral grey surfaces (`--surface-0` `#fafafa`, cards `#ffffff`), ink text and ink buttons and
   links (`#171717`; dark theme `#0a0a0a` page, `#fafafa` ink). The price has its own colour (`--price`,
-  `#c2410c`, dark `#fb8a4a`); status colours appear only inside product pictures. `pnpm check` fails
+  `#c2410c`, dark `#fb8a4a`), and the logo tile (`--logo-tile`) is the same orange in both themes; status colours appear only inside product pictures. `pnpm check` fails
   when `styles.css` uses the accent token more than its budget.
 - Layout (from a full-page teardown of nine helpdesk sites): one page background, no tinted bands; one
   idea per section with a crop of the real product on a soft panel (`--panel`); three checkable facts
