@@ -55,7 +55,7 @@ export interface Page {
   /** Custom main content instead of hero + prose. */
   view?: 'home';
   /** Block rendered between the hero and the prose. */
-  pre?: 'pricing-plans';
+  pre?: 'pricing-plans' | 'price-check';
   /** Price-by-team-size chart and fit columns between the hero and the prose (/vs pages). */
   vs?: VsPricing;
   /** Side navigation for docs pages, one group per docs directory. */
