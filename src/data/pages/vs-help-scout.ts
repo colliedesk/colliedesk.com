@@ -1,4 +1,4 @@
-import { PRICES_READ } from '../../lib/site';
+import { AI_EXTRA, PRICES_READ } from '../../lib/site';
 import { faqPage, techArticle } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
 import { collieFacts as c, statusTable } from './collie-status';
@@ -42,7 +42,7 @@ Help Scout prices are per user per month as shown on the pricing page on ${PRICE
 
 | Team | Help Scout Standard | Help Scout Plus | Colliedesk Cloud |
 |---|---|---|---|
-| 5 agents | 5 × $25 = **$125 per month** + $0.75 per AI resolution | 5 × $45 = **$225 per month** + $0.75 per AI resolution | $69 per month (Team) + AI usage |
+| 5 agents | 5 × $25 = **$125 per month** + $0.75 per AI resolution | 5 × $45 = **$225 per month** + $0.75 per AI resolution | $69 per month (Team) + ${AI_EXTRA} |
 
 ## Trust and pricing changes
 

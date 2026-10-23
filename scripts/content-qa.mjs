@@ -2,7 +2,8 @@
 // its prose reads above READING_GRADE_MAX, uses an em dash or an AI-slop phrase, has no call to
 // action in the body, quotes a competitor price without a source link, has a title or meta
 // description outside the length the top results use, or links fewer than 2 other pages here. Any
-// page this site writes, legal pages and release notes included, fails when it says "beta". Pages listed in
+// page this site writes, legal pages and release notes included, fails when it says "beta" or states the
+// retired AI price. Pages listed in
 // KNOWN_DEBT may miss a rule until they are fixed; the list can only shrink. Exits 1 on any failure.
 // The judgement calls (is a claim true, is the article useful) are the content QA skill's job, in
 // docs/seo/; this script only checks what a machine can check.
@@ -159,6 +160,22 @@ export function betaFindings(path, text) {
   });
 }
 
+// AI on Colliedesk Cloud is no longer sold at the model provider's cost plus a margin: reply drafts and
+// triage are included with a monthly allowance, auto-answer is priced per resolution, and your own key
+// adds no fee (src/lib/site.ts). Any wording of the retired price fails, so it cannot come back.
+const OLD_AI_PRICE_RE = /\+\s?30\s?%|\bplus 30\s?%|\b(?:LLM|model) cost\b|\bAI (?:included )?at cost\b/i;
+
+/** One finding per line of text that states the retired "model cost +30%" AI price. */
+export function oldAiPriceFindings(path, text) {
+  return text.split('\n').flatMap((raw) => {
+    const line = raw.replace(URL_RE, '');
+    const at = line.search(OLD_AI_PRICE_RE);
+    if (at < 0) return [];
+    const quote = line.slice(Math.max(0, at - 50), at + 40).replace(/\s+/g, ' ').trim();
+    return [`${path}: states the retired AI price (model cost +30%); use the AI price in src/lib/site.ts: "${quote}"`];
+  });
+}
+
 /** The words a visitor sees in an HTML page: no scripts, styles or tags. */
 const visibleText = (html) => decode(html.replace(/<(script|style)[\s\S]*?<\/\1>/g, '').replace(/<[^>]+>/g, ' '));
 
@@ -201,22 +218,28 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     const rel = relative(outDir, file).split(sep).join('/').replace(/\.(html|md)$/, '').replace(/(^|\/)index$/, '');
     return `/${rel}`;
   };
-  const beta = new Set();
+  const sitewide = new Set();
   for (const file of walk(outDir)) {
     const path = urlPathOf(file);
     const fromProduct = PRODUCT_DOCS.some((re) => re.test(path));
     if (file.endsWith('.html')) {
       const html = readFileSync(file, 'utf8');
       const { title, description } = headOf(html);
-      for (const f of betaFindings(path, `${title}\n${description}`)) beta.add(f);
-      if (!fromProduct) for (const f of betaFindings(path, visibleText(html))) beta.add(f);
+      for (const f of betaFindings(path, `${title}\n${description}`)) sitewide.add(f);
+      if (!fromProduct) for (const f of betaFindings(path, visibleText(html))) sitewide.add(f);
+      // JSON-LD included: search engines quote it.
+      for (const f of oldAiPriceFindings(path, fromProduct ? `${title}\n${description}` : decode(html.replace(/<style[\s\S]*?<\/style>/g, '').replace(/<[^>]+>/g, ' ')))) sitewide.add(f);
     } else if (file.endsWith('.md') && !fromProduct) {
-      for (const f of betaFindings(path, readFileSync(file, 'utf8'))) beta.add(f);
-    } else if (file.endsWith('llms.txt')) {
-      for (const f of betaFindings('/llms.txt', readFileSync(file, 'utf8'))) beta.add(f);
+      for (const f of betaFindings(path, readFileSync(file, 'utf8'))) sitewide.add(f);
+      for (const f of oldAiPriceFindings(path, readFileSync(file, 'utf8'))) sitewide.add(f);
+    } else if (/llms(-full)?\.txt$/.test(file)) {
+      const text = readFileSync(file, 'utf8');
+      const name = `/${relative(outDir, file)}`;
+      if (file.endsWith('/llms.txt')) for (const f of betaFindings(name, text)) sitewide.add(f);
+      for (const f of oldAiPriceFindings(name, text)) sitewide.add(f);
     }
   }
-  errors.push(...beta);
+  errors.push(...sitewide);
   // A debt entry for a page that now passes, or that no longer exists, must be deleted.
   for (const [rule, paths] of Object.entries(KNOWN_DEBT)) {
     for (const path of paths) {

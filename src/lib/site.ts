@@ -75,6 +75,11 @@ export const dollars = (n: number): string => `$${n.toLocaleString('en-US')}`;
 export const agentsLabel = (plan: CloudPlan): string =>
   plan.agents === null ? 'Unlimited agents' : plan.agents === 1 ? '1 agent' : `Up to ${plan.agents} agents`;
 
+// AI on Colliedesk Cloud: reply drafts and triage are included in every plan with a monthly allowance;
+// auto-answer (not built yet) is charged per resolution, only when the customer needs no person
+// afterwards, at this price while Colliedesk is alpha; your own key adds no Colliedesk fee.
+export const AI_RESOLUTION = '$0.50';
+
 export const PRICE = {
   monthly: dollars(TEAM.monthly),
   yearly: dollars(TEAM.yearly),
@@ -83,8 +88,11 @@ export const PRICE = {
   // "$19 to $149": the plans that can be bought today, cheapest to dearest.
   range: `${dollars(SOLO.monthly)} to ${dollars(TEAM_25.monthly)}`,
   founding: '$99 per quarter ($396 a year), locked for life, with free Freshdesk migration',
-  ai: 'LLM cost +30%, or bring your own key',
+  ai: `reply drafts and triage included with a monthly allowance; auto-answer ${AI_RESOLUTION} per resolution while alpha, once it ships; your own key adds no fee`,
 } as const;
+// "+ AI ..." after a Colliedesk price in comparisons. Drafts and triage are included, so the only AI
+// that can add to the bill is auto-answer, which is not built yet.
+export const AI_EXTRA = `${AI_RESOLUTION} per AI resolution once auto-answer ships`;
 // One line naming every plan, for page copy and the Markdown twins.
 export const LADDER_LINE = `Solo ${dollars(SOLO.monthly)} a month for 1 agent, Small ${dollars(SMALL.monthly)} for up to 3, Team ${dollars(TEAM.monthly)} for up to 10, Team 25 ${dollars(TEAM_25.monthly)} for up to 25; Unlimited ${dollars(UNLIMITED.monthly)} a month billed annually is coming soon`;
 

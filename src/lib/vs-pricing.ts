@@ -1,6 +1,6 @@
 // Price-by-team-size comparison for /vs pages: one competitor's per-agent plans against the flat
 // Colliedesk Cloud plan that covers the team. The HTML chart and the Markdown twin both render from this.
-import { CONTACT_EMAIL, dollars, LADDER_LINE, SMALL, SOLO, TEAM, TEAM_25, UNLIMITED, type CloudPlan } from './site';
+import { AI_RESOLUTION, CONTACT_EMAIL, dollars, LADDER_LINE, SMALL, SOLO, TEAM, TEAM_25, type CloudPlan, UNLIMITED } from './site';
 
 export interface VsPlan {
   name: string;
@@ -113,7 +113,7 @@ export const readOnLabel = (iso: string): string =>
   new Date(`${iso}T00:00:00Z`).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
 
 export const chartCaption = (p: VsPricing): string =>
-  `${p.competitor} list prices per month, ${p.billing}, read on ${readOnLabel(p.readOn)}. Colliedesk Cloud is one price per workspace, billed monthly: ${LADDER_LINE}. A year costs ten months. AI usage on Colliedesk is extra, at cost +30% or with your own key.`;
+  `${p.competitor} list prices per month, ${p.billing}, read on ${readOnLabel(p.readOn)}. Colliedesk Cloud is one price per workspace, billed monthly: ${LADDER_LINE}. A year costs ten months. AI reply drafts and triage are included with a monthly allowance; auto-answer, once it ships, is ${AI_RESOLUTION} per resolution while alpha.`;
 
 export function notForYouLines(p: VsPricing): string[] {
   const from = cheaperFrom(p);

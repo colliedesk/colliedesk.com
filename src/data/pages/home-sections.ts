@@ -1,6 +1,6 @@
 // Home page facts shared by the HTML sections (src/components/home/*) and the Markdown twin.
 import { FOUNDING_SLOTS, foundingState } from '../../lib/founding';
-import { LADDER_LINE, PRICE, PRICES_READ, TEAM } from '../../lib/site';
+import { AI_EXTRA, LADDER_LINE, PRICE, PRICES_READ, TEAM } from '../../lib/site';
 
 // While Founding is open it is the only plan we sell, so the home page prices Founding; once the
 // places are taken (the site rebuilds on that change) it prices Cloud Team.
@@ -22,8 +22,8 @@ export const BARS: readonly PriceBar[] = [
   { name: 'Freshdesk Pro + Freddy AI Copilot', usd: 5040, math: '5 × ($55 + $29) × 12', href: '/vs/freshdesk' },
   { name: 'Freshdesk Growth, no AI', usd: 1140, math: '5 × $19 × 12', href: '/vs/freshdesk' },
   FOUNDING_OPEN
-    ? { name: OURS_NAME, usd: 4 * 99, math: `4 × $99, one workspace, up to 10 agents, locked for life, only ${FOUNDING_SLOTS} places, + AI usage at cost +30%`, href: '/pricing', ours: true }
-    : { name: OURS_NAME, usd: TEAM.yearly, math: 'one workspace, up to 10 agents, + AI usage at cost +30%', href: '/pricing', ours: true },
+    ? { name: OURS_NAME, usd: 4 * 99, math: `4 × $99, one workspace, up to 10 agents, locked for life, only ${FOUNDING_SLOTS} places, + ${AI_EXTRA}`, href: '/pricing', ours: true }
+    : { name: OURS_NAME, usd: TEAM.yearly, math: `one workspace, up to 10 agents, + ${AI_EXTRA}`, href: '/pricing', ours: true },
 ];
 export const BAR_MAX = Math.max(...BARS.map((b) => b.usd));
 const OURS = BARS.find((b) => b.ours)?.usd;
@@ -108,7 +108,7 @@ Self-hosting is free, forever, with every feature. We sell two things:
 ## Why teams switch
 
 - **Leave Freshdesk with all your data** (importer shipped): tickets, replies, notes, checksummed attachments, tags and contacts, with a reconcile report. Switch gradually: keep answering in Freshdesk, import, run the import again to catch up, and move your mail forwarding last. [Migration guide](/migrate/freshdesk).
-- **AI drafts and triage, included** (shipped, off until an admin turns them on; auto-answer not built yet). Model cost +30% on our key, or your own key at no extra fee.
+- **AI drafts and triage, included** (shipped, off until an admin turns them on; auto-answer not built yet). Included in every plan with a monthly allowance, or your own key at no extra fee.
 - **Flat price**: ${flatLine}
 
 ## The bill for five agents
@@ -135,4 +135,4 @@ Colliedesk is AGPL-3.0. The code, your data and the export format are yours. [Ho
 
 ## Founding offer
 
-$99 a quarter per workspace, locked for life, with free Freshdesk migration and a reconcile report. Only 10 workspaces get it. Up to 10 agents, no per-agent fees, 20 GB of attachments including imported files.${foundingTail} AI, once it is built, at model cost +30% or your own key. Colliedesk Cloud is live; every workspace starts with a 14-day free trial.`;
+$99 a quarter per workspace, locked for life, with free Freshdesk migration and a reconcile report. Only 10 workspaces get it. Up to 10 agents, no per-agent fees, 20 GB of attachments including imported files.${foundingTail} AI reply drafts and triage included with a monthly allowance, or your own key. Colliedesk Cloud is live; every workspace starts with a 14-day free trial.`;

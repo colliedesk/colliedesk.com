@@ -3,6 +3,7 @@ const PRICES_READ = '15 October 2026';
 import { faqPage, techArticle } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
 import { collieFacts as c, statusTable } from './collie-status';
+import { AI_EXTRA } from '../../lib/site';
 
 const faq: Faq[] = [
   {
@@ -44,7 +45,7 @@ Front prices below are from the Front pricing page, per seat per month billed an
 
 | Team | Front Professional + Copilot (annual) | Colliedesk Cloud |
 |---|---|---|
-| 5 agents | 5 × ($65 + $20) = **$425 per month** | $69 per month (Team) + AI usage |
+| 5 agents | 5 × ($65 + $20) = **$425 per month** | $69 per month (Team) + ${AI_EXTRA} |
 
 ## Leaving: what Front gives you
 

@@ -1,6 +1,6 @@
 // Colliedesk's own capability status, from ROADMAP.md. Shared by comparison pages.
 import { foundingState } from '../../lib/founding';
-import { LADDER_LINE } from '../../lib/site';
+import { AI_RESOLUTION, LADDER_LINE } from '../../lib/site';
 
 // While Founding is open it is the only plan on sale.
 const cloudPlans = foundingState().open ? 'then Founding, $99 a quarter, 10 places' : 'then a plan from Solo to Team 25, or Founding';
@@ -27,7 +27,7 @@ export const statusTable = `Colliedesk as a whole is alpha. Everything marked sh
 
 export const collieFacts: Readonly<Record<'price' | 'ai' | 'free' | 'source' | 'export', string>> = {
   price: `One flat price per workspace, no per-agent fees: ${LADDER_LINE}. A year costs ten months. Founding customers (10 workspaces only): $99 per quarter, locked for life.`,
-  ai: 'Reply drafts and triage, off until an admin turns them on: LLM cost +30% on our key, or your own key at no extra fee. Auto-answer not built yet.',
+  ai: `Reply drafts and triage, off until an admin turns them on: included in every plan with a monthly allowance; your own key adds no fee. Auto-answer not built yet: ${AI_RESOLUTION} per resolution while alpha, charged only when the customer needs no person afterwards.`,
   free: 'Self-host free, every feature. Cloud: 14-day free trial, no card.',
   source: 'Open source, AGPL-3.0. Self-host or use Cloud.',
   export: 'Your data lives in PostgreSQL. Self-hosted, you can take a database dump at any time.',

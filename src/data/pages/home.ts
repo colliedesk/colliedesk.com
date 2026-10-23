@@ -1,4 +1,4 @@
-import { CONTACT_EMAIL, LADDER_LINE, POSITIONING, PRICE, PRICES_READ, REPO, TAGLINE, TRIAL_HREF } from '../../lib/site';
+import { AI_RESOLUTION, CONTACT_EMAIL, LADDER_LINE, POSITIONING, PRICE, PRICES_READ, REPO, TAGLINE, TRIAL_HREF } from '../../lib/site';
 import { PER_WORKSPACE_FAQ } from './pricing';
 import { faqPage, organization, softwareApplication } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
@@ -17,7 +17,7 @@ export const HOME_LEDE =
 export const HOME_FAQ: Faq[] = [
   {
     q: 'What is Colliedesk?',
-    a: 'Colliedesk is an open-source (AGPL-3.0) helpdesk for support teams of 3 to 10 agents leaving Freshdesk, made by HC Labs. It is the open-source alternative to Freshdesk, Zendesk and Help Scout: a shared inbox for your team at one flat price per workspace, with AI included at cost once it is built.',
+    a: 'Colliedesk is an open-source (AGPL-3.0) helpdesk for support teams of 3 to 10 agents leaving Freshdesk, made by HC Labs. It is the open-source alternative to Freshdesk, Zendesk and Help Scout: a shared inbox for your team at one flat price per workspace, with AI reply drafts included.',
   },
   {
     q: 'Is Colliedesk free?',
@@ -42,7 +42,7 @@ export const HOME_FAQ: Faq[] = [
   },
   {
     q: 'How does AI pricing work?',
-    a: 'AI reply drafts and triage suggestions are shipped in alpha and stay off until an admin turns them on. They are part of every plan, not an add-on: with Colliedesk AI on Cloud you pay the model cost plus 30%; with your own key you pay your provider and Colliedesk adds no fee. Auto-answer is not built yet.',
+    a: `AI reply drafts and triage suggestions are shipped in alpha and stay off until an admin turns them on. They are part of every plan, not an add-on, with a monthly allowance; with your own key you pay your provider and Colliedesk adds no fee. Auto-answer is not built yet; while Colliedesk is alpha it will cost ${AI_RESOLUTION} per resolution, charged only when the customer needs no person afterwards.`,
   },
   {
     q: 'Can I move my Freshdesk tickets to Colliedesk?',

@@ -3,11 +3,12 @@ const PRICES_READ = '16 October 2026';
 import { faqPage, techArticle } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
 import { collieFacts as c, statusTable } from './collie-status';
+import { AI_EXTRA } from '../../lib/site';
 
 const faq: Faq[] = [
   {
     q: 'Is Colliedesk or Zammad better for leaving Freshdesk today?',
-    a: 'Zammad, today. Its Freshdesk migrator is released and self-serve. The Colliedesk Freshdesk importer is available now, in alpha, so its interface may still change. Choose Colliedesk if you can accept alpha software and want a flat price, AI at model cost and a reconcile report that proves every record arrived.',
+    a: 'Zammad, today. Its Freshdesk migrator is released and self-serve. The Colliedesk Freshdesk importer is available now, in alpha, so its interface may still change. Choose Colliedesk if you can accept alpha software and want a flat price, AI drafts included and a reconcile report that proves every record arrived.',
   },
   {
     q: 'How much does hosted Zammad cost?',
@@ -39,8 +40,8 @@ Zammad hosted prices are in euros, per agent per month, excluding VAT, as publis
 
 | Team | Zammad Professional (hosted) | Colliedesk Cloud |
 |---|---|---|
-| 5 agents | 5 × €16–18 = **€80–90 per month** + €0.03 per AI call | $69 per month (Team) + AI usage |
-| 10 agents | 10 × €16–18 = **€160–180 per month** + €0.03 per AI call | $69 per month (Team) + AI usage |
+| 5 agents | 5 × €16–18 = **€80–90 per month** + €0.03 per AI call | $69 per month (Team) + ${AI_EXTRA} |
+| 10 agents | 10 × €16–18 = **€160–180 per month** + €0.03 per AI call | $69 per month (Team) + ${AI_EXTRA} |
 
 ## Moving from Freshdesk
 

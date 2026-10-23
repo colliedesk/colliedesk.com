@@ -2,6 +2,7 @@ const PRICES_READ = '16 October 2026';
 import { faqPage, techArticle } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
 import { collieFacts as c, statusTable } from './collie-status';
+import { AI_EXTRA } from '../../lib/site';
 
 const faq: Faq[] = [
   {
@@ -38,8 +39,8 @@ Chatwoot Cloud prices are per agent per month, as shown on the Chatwoot pricing 
 
 | Team | Chatwoot Business | Colliedesk Cloud |
 |---|---|---|
-| 5 agents | 5 × $39 = **$195 per month** | $69 per month (Team) + AI usage |
-| 10 agents | 10 × $39 = **$390 per month** | $69 per month (Team) + AI usage |
+| 5 agents | 5 × $39 = **$195 per month** | $69 per month (Team) + ${AI_EXTRA} |
+| 10 agents | 10 × $39 = **$390 per month** | $69 per month (Team) + ${AI_EXTRA} |
 
 Business is the Chatwoot plan with automation rules and teams.
 

@@ -3,6 +3,7 @@ const PRICES_READ = '16 October 2026';
 import { faqPage, techArticle } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
 import { collieFacts as c, statusTable } from './collie-status';
+import { AI_EXTRA } from '../../lib/site';
 
 const faq: Faq[] = [
   {
@@ -39,8 +40,8 @@ Zoho showed us prices in euros, per user per month, billed annually, on ${PRICES
 
 | Team | Zoho Desk Professional (with Zia) | Colliedesk Cloud |
 |---|---|---|
-| 5 agents | 5 × €23 = **€115 per month** | $69 per month (Team) + AI usage |
-| 10 agents | 10 × €23 = **€230 per month** | $69 per month (Team) + AI usage |
+| 5 agents | 5 × €23 = **€115 per month** | $69 per month (Team) + ${AI_EXTRA} |
+| 10 agents | 10 × €23 = **€230 per month** | $69 per month (Team) + ${AI_EXTRA} |
 
 ## Leaving: what Zoho Desk gives you
 
