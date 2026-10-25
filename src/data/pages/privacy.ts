@@ -2,13 +2,15 @@ import { techArticle } from '../../lib/schema';
 import type { Page } from '../../lib/page';
 import { CONTACT_EMAIL } from '../../lib/site';
 
+// /terms reads LEGAL_UPDATED; privacy has its own date.
 export const LEGAL_UPDATED = '2026-10-21';
+export const PRIVACY_UPDATED = '2026-10-25';
 export { CONTACT_EMAIL };
 
 const body = `## The short version
 
 - Your tickets, replies, notes, contacts and attachments belong to you. We store them to run your helpdesk and for nothing else.
-- We do not sell personal data, show ads, or train AI models on your content.
+- We do not sell personal data, show ads, or train AI models on your content or on data from Google.
 - Colliedesk Cloud runs on servers in Germany. Backups are encrypted and also stay in Germany.
 - You can export your whole workspace as a ZIP file at any time, even after your trial ends.
 - A locked workspace is deleted 12 months after it locks. We email the admins 30 days before.
@@ -51,14 +53,18 @@ It does **not** cover a Colliedesk server that you run yourself. A self-hosted s
 
 - We do not sell or rent personal data.
 - We do not use your data for advertising or share it with ad networks.
-- We do not use your workspace content to train AI models.
+- We do not use your workspace content, or data we get from Google, to train AI models.
 - We do not read your conversations. We look at workspace content only when you ask us for help, or when we must to keep the service secure or to follow the law.
 
 ## Google user data
 
 Colliedesk's use and transfer of information received from Google APIs adheres to the [Google API Services User Data Policy](https://developers.google.com/terms/api-services-user-data-policy), including the Limited Use requirements.
 
-When an admin connects Gmail, Colliedesk asks Google only for permission to send email and to see the account's address. It cannot read the mailbox. We use this access only to send the replies your team writes. The access Google gives us is encrypted and stored on our servers in Germany. We do not sell or transfer data received from Google, use it for advertising, or use it to train AI models, and people at Colliedesk do not read it except to keep the service secure, to follow the law, or when you ask us to.
+When an admin connects Gmail, Colliedesk asks Google only for permission to send email (\`gmail.send\`) and to see the account's address. It cannot read the mailbox. We use this access only to send the replies your team writes. The only Google data we store is the token Google gives us to send mail, encrypted on our servers in Germany, and the connected address.
+
+Colliedesk does not use, retain or transfer data obtained through Google Workspace APIs to develop, improve, or train generalized AI and/or ML models. We do not build databases for model training. Colliedesk's AI features, such as reply drafts and triage, never receive data obtained from Google APIs. This follows the [Google Workspace API user data and developer policy](https://developers.google.com/workspace/workspace-api-user-data-developer-policy).
+
+We do not sell or transfer data received from Google, or use it for advertising. People at Colliedesk do not read it except to keep the service secure, to follow the law, or when you ask us to.
 
 ## Where your data is stored
 
@@ -159,8 +165,8 @@ const page: Page = {
   summary: 'What Colliedesk collects, why, who helps run it, where it is stored, how long it is kept, your rights',
   eyebrow: 'Legal',
   h1: 'Privacy policy',
-  lede: `Plain English, no surprises. Last updated ${LEGAL_UPDATED}.`,
-  updated: LEGAL_UPDATED,
+  lede: `Plain English, no surprises. Last updated ${PRIVACY_UPDATED}.`,
+  updated: PRIVACY_UPDATED,
   body,
 };
 page.jsonLd = [techArticle(page)];
