@@ -4,13 +4,13 @@ import { CONTACT_EMAIL } from '../../lib/site';
 
 // /terms reads LEGAL_UPDATED; privacy has its own date.
 export const LEGAL_UPDATED = '2026-10-21';
-export const PRIVACY_UPDATED = '2026-10-25';
+export const PRIVACY_UPDATED = '2026-10-26';
 export { CONTACT_EMAIL };
 
 const body = `## The short version
 
 - Your tickets, replies, notes, contacts and attachments belong to you. We store them to run your helpdesk and for nothing else.
-- We do not sell personal data, show ads, or train AI models on your content or on data from Google.
+- We do not sell personal data, show ads, or train AI models on your content or on data from Google or Microsoft.
 - Colliedesk Cloud runs on servers in Germany. Backups are encrypted and also stay in Germany.
 - You can export your whole workspace as a ZIP file at any time, even after your trial ends.
 - A locked workspace is deleted 12 months after it locks. We email the admins 30 days before.
@@ -41,6 +41,7 @@ It does **not** cover a Colliedesk server that you run yourself. A self-hosted s
 | Your email address and name | To sign you in and to tell you about your account | You, or Google if you sign in with Google |
 | Workspace content: customer emails, replies, notes, contacts, tags, attachments | To run your helpdesk | You, your teammates and your customers |
 | Permission to send email from a Gmail account an admin connects, and that account's address | To send your team's replies from your own address | Google, when an admin connects Gmail |
+| Permission to send email from a Microsoft 365 or Outlook.com mailbox an admin connects, and that account's address | To send your team's replies from your own address | Microsoft, when an admin connects Microsoft 365 |
 | Billing details: name, email, country, plan, invoices | To charge for Colliedesk Cloud | Polar, our payment provider. We never see your card number |
 | A keyed fingerprint of your verified email address and of your IP address at sign-up | To allow one free trial per person and stop mass sign-ups | Your sign-up |
 | Technical data: IP address, browser, request times, errors | To keep the service secure and to fix problems | Your browser |
@@ -53,7 +54,7 @@ It does **not** cover a Colliedesk server that you run yourself. A self-hosted s
 
 - We do not sell or rent personal data.
 - We do not use your data for advertising or share it with ad networks.
-- We do not use your workspace content, or data we get from Google, to train AI models.
+- We do not use your workspace content, or data we get from Google or Microsoft, to train AI models.
 - We do not read your conversations. We look at workspace content only when you ask us for help, or when we must to keep the service secure or to follow the law.
 
 ## Google user data
@@ -65,6 +66,14 @@ When an admin connects Gmail, Colliedesk asks Google only for permission to send
 Colliedesk does not use, retain or transfer data obtained through Google Workspace APIs to develop, improve, or train generalized AI and/or ML models. We do not build databases for model training. Colliedesk's AI features, such as reply drafts and triage, never receive data obtained from Google APIs. This follows the [Google Workspace API user data and developer policy](https://developers.google.com/workspace/workspace-api-user-data-developer-policy).
 
 We do not sell or transfer data received from Google, or use it for advertising. People at Colliedesk do not read it except to keep the service secure, to follow the law, or when you ask us to.
+
+## Microsoft user data
+
+When an admin connects Microsoft 365 or an Outlook.com mailbox, Colliedesk asks Microsoft only for permission to send email (\`Mail.Send\`) and to read the account's address (\`User.Read\`, with \`openid\` and \`offline_access\` to keep the connection working). It cannot read the mailbox. We use this access only to send the replies your team writes. The only Microsoft data we store is the token Microsoft gives us to send mail, encrypted on our servers in Germany, the connected address and the account's Microsoft id.
+
+We do not sell or transfer data received from Microsoft, use it for advertising, or use it to train AI models. Colliedesk's AI features, such as reply drafts and triage, never receive data obtained from Microsoft. People at Colliedesk do not read it except to keep the service secure, to follow the law, or when you ask us to.
+
+You can remove Colliedesk's access at any time: for a work or school account at [My Apps](https://myapps.microsoft.com), for a personal account at [Microsoft account permissions](https://account.live.com/consent/Manage). Disconnecting Microsoft 365 in Colliedesk deletes the access from our servers; Microsoft does not let us revoke it for you, so remove it there too.
 
 ## Where your data is stored
 
@@ -80,6 +89,7 @@ Some of the providers below are outside the European Union (for example in the U
 | Clerk | Sign-in with an email code or Google | United States |
 | Google | Sign-in, only if you choose "Continue with Google" | United States |
 | Google | Sends your replies through the Gmail API, only for workspaces that connect Gmail | United States |
+| Microsoft | Sends your replies through Microsoft Graph from your own mailbox, only for workspaces that connect Microsoft 365 | United States |
 | Polar | Payments, invoices and tax, as merchant of record | United States |
 | Resend | Sends the replies your team writes, and our service emails | United States |
 | Cloudflare | DNS and network protection | Global |
@@ -111,6 +121,7 @@ When you use **Report a problem** in Colliedesk Cloud, we receive what you write
 - **Ended trial or subscription:** the workspace is locked. You can still sign in and export everything.
 - **Locked for 12 months:** we delete the workspace with all its content and attachments. We email the admins 30 days before.
 - **Gmail access:** until an admin disconnects Gmail or the workspace is deleted. Disconnecting deletes it from our servers and asks Google to revoke it. You can also remove it at any time in your Google Account, under [Third-party connections](https://myaccount.google.com/connections).
+- **Microsoft 365 access:** until an admin disconnects it or the workspace is deleted. Disconnecting deletes it from our servers. Remove Colliedesk in your Microsoft account too, as described under [Microsoft user data](#microsoft-user-data).
 - **Backups:** an encrypted copy can stay in backups for up to 30 days after a deletion, then it expires.
 - **Sign-up fingerprints:** as long as Colliedesk Cloud runs (see above).
 - **Billing records:** as long as tax and accounting law requires.
