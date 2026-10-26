@@ -4,7 +4,7 @@ import { CONTACT_EMAIL } from '../../lib/site';
 
 // /terms reads LEGAL_UPDATED; privacy has its own date.
 export const LEGAL_UPDATED = '2026-10-21';
-export const PRIVACY_UPDATED = '2026-10-25';
+export const PRIVACY_UPDATED = '2026-10-26';
 export { CONTACT_EMAIL };
 
 const body = `## The short version
