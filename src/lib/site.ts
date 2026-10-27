@@ -2,6 +2,8 @@
 export interface NavLink {
   href: string;
   label: string;
+  /** Short status shown after the label, e.g. "Soon" for an importer not built yet. */
+  badge?: string;
 }
 
 export interface FooterColumn {
@@ -117,10 +119,19 @@ export const FOOTER: readonly FooterColumn[] = [
       { href: '/helpdesk-for-small-teams', label: 'For small teams' },
     ],
   },
+  // Names the helpdesks people leave, like Attio's footer does for CRMs. Only Freshdesk has an
+  // importer today; the others are on the roadmap.
+  {
+    title: 'Import from',
+    links: [
+      { href: '/migrate/freshdesk', label: 'Freshdesk' },
+      { href: '/migrate/zendesk/export', label: 'Zendesk', badge: 'Soon' },
+      { href: '/roadmap', label: 'Help Scout', badge: 'Soon' },
+    ],
+  },
   {
     title: 'Switch',
     links: [
-      { href: '/migrate/freshdesk', label: 'Migrate from Freshdesk' },
       { href: '/migrate/freshdesk/done-for-you', label: 'Freshdesk migration, done for you' },
       { href: '/migrate/freshdesk/export', label: 'Export Freshdesk tickets' },
       { href: '/migrate/zendesk/export', label: 'Export Zendesk tickets' },
