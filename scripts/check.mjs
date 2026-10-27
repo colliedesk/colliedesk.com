@@ -522,6 +522,14 @@ for (const file of files.filter((f) => f.endsWith('.html') && !/[\\/](changelog|
   const home = read('index.html');
   const nav = home.match(/<nav[\s\S]*?<\/nav>/)?.[0] ?? '';
   if (!/href="\/compare"[^>]*>Compare</.test(nav)) fail('header: "Compare" does not link /compare');
+  // Footer "Import from" names the helpdesks people leave (Attio's footer does this for CRMs): the
+  // live importer links its migration guide; importers not built yet carry a "Soon" badge.
+  const importFrom = home.match(/<h2 class="footer-title">Import from<\/h2>\s*<ul>([\s\S]*?)<\/ul>/)?.[1] ?? '';
+  if (!importFrom) fail('footer: no "Import from" column');
+  if (!/href="\/migrate\/freshdesk"[^>]*>Freshdesk</.test(importFrom)) fail('footer: "Import from" does not link Freshdesk to /migrate/freshdesk');
+  for (const name of ['Zendesk', 'Help Scout']) {
+    if (!new RegExp(`>${name}<span class="badge badge-coming">Soon</span>`).test(importFrom)) fail(`footer: "Import from" lists ${name} without a "Soon" badge`);
+  }
   for (const urlPath of urlPaths.filter((p) => p.startsWith('/vs/') || p === '/compare')) {
     const name = urlPath.slice(1);
     if (!read(`${name}.html`).includes('trademarks of their owners')) fail(`${urlPath}: no trademark note`);

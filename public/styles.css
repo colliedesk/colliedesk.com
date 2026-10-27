@@ -422,11 +422,12 @@ td:first-child { font-weight: 500; color: var(--text-1); }
 
 /* Footer */
 .site-footer { border-top: 1px solid var(--line); padding: 3.5rem 0 2rem; background: var(--surface-0); font-size: .95rem; }
-.footer-grid { display: grid; grid-template-columns: 1.6fr repeat(3, 1fr); gap: var(--space-8); }
+.footer-grid { display: grid; grid-template-columns: 1.6fr repeat(4, 1fr); gap: var(--space-8); }
 .footer-about p { max-width: 24rem; margin-top: .9rem; color: var(--text-2); }
 .footer-title { font: 600 14px var(--font-sans); color: var(--text-1); margin-bottom: .8rem; }
 .site-footer ul { list-style: none; margin: 0; padding: 0; }
 .site-footer li a { display: inline-block; padding: .3rem 0; color: var(--text-2); text-decoration: none; }
+.site-footer li a .badge { margin-left: .45em; }
 .site-footer li a:hover { color: var(--text-1); text-decoration: underline; }
 .updates-form { grid-column: 1 / -1; max-width: 32rem; }
 .updates-form p { margin: 0 0 .8rem; color: var(--text-2); }
