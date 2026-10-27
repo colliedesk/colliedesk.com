@@ -1,0 +1,79 @@
+# Freshdesk import: UNVERIFIED
+
+- Source: hclabs.freshdesk.com
+- Workspace: hc-labs-freshdesk-import
+- Started: 2026-10-27T10:53:58Z
+- Finished: 2026-10-27T11:28:53Z
+- trial: extended to 2026-11-26T10:48:29Z
+
+## Counts
+
+| Entity | In Freshdesk | In Colliedesk | Failed |
+|---|---:|---:|---:|
+| Contacts | 37 | 37 | 0 |
+| Tickets | 388 | 388 | 0 |
+| Messages | 451 | 451 | 0 |
+| Attachments | 74 | 74 | 0 |
+| Inline images | 11 | 11 | 0 |
+| Time entries | 0 | 0 | 0 |
+| Saved replies | 0 | 0 | 0 |
+| Knowledge base collections | 0 | 0 | 0 |
+| Knowledge base articles | 0 | 0 | 0 |
+| Knowledge base translations | 0 | 0 | 0 |
+| Knowledge base images | 0 | 0 | 0 |
+
+Attachment bytes: 11385147 in Freshdesk, 11385147 stored. SHA-256 re-verified from storage: 74.
+Inline image bytes: 540118 stored. SHA-256 re-verified from storage: 11. Already gone in Freshdesk: 0 (counted in the first column, listed below).
+Companies: 6, 6 kept as contact organization. Agents: 2, 1 matched to Colliedesk agents by email.
+Archived tickets found by id probing: 0. Ticket ids confirmed absent (none can be confirmed while the archive endpoint is refused): 0. Ids probed this run: 213 (up to id 601).
+Ticket ids unresolved: 13 (listed below). Each may be deleted or archived in Freshdesk.
+Saved replies: 0 canned response folders; 0 canned responses had no text and were skipped; 0 files on canned responses were not imported.
+Knowledge base: 0 published, 0 imported as drafts (reasons below; publish them in Colliedesk when they should be public). Translation languages: none. Images already gone in Freshdesk: 0. The whole knowledge base is read on every run; --since applies to tickets only.
+Rate limiting: 0 pause(s) after X-Ratelimit-Remaining 0, 34 HTTP 429 response(s), 29m13s waited in total.
+
+## How the totals were verified
+
+- **Tickets: NOT verified.** Every ticket id from 1 to 401 was looked up one by one (list, archive and ticket endpoints); probing went on to id 601 and stopped after 200 ids in a row that do not exist. The archived-ticket endpoint was refused, so archived tickets could not be counted. Freshdesk search reports 388 tickets outside the archive; 388 were found.
+- **Contacts: verified.** Freshdesk contact filter totals (active:true plus active:false) compared with the contact list. Freshdesk reports 37 contacts; the contact list returned 37.
+- **Saved replies: verified.** The sum of responses_count over the canned response folders, compared with the canned responses listed in them. Freshdesk folders report 0 canned responses; 0 were listed.
+- **Knowledge base: verified.** Freshdesk's articles_count of every folder compared with the articles listed in it, and its sub_folders_count with the subfolders listed; categories and folders directly in a category are listed only (Freshdesk reports no count for them); translations are the languages of /settings/helpdesk, listed folder by folder. 0 categories and 0 folders listed; every folder count matched its list (0 articles, 0 translations in 0 language(s)).
+
+## Ticket ids that could not be resolved (archive unavailable)
+
+- 32
+- 34
+- 44
+- 45
+- 62
+- 73
+- 74
+- 75
+- 76
+- 77
+- 78
+- 87
+- 88
+
+## Warnings
+
+- **agent_not_matched**: Freshdesk agent has no Colliedesk agent with the same email; their replies keep the author name only. Invite them, then re-run to keep future items linked. (ids: 87006120974)
+- **contact_without_email**: Freshdesk contact has no email; Colliedesk gave it a reserved .invalid address. (ids: 87006122414)
+- **archive_unavailable**: Freshdesk refused the archived-ticket endpoint (HTTP 403), so archived tickets could not be checked or imported.
+- **inline_images_not_rehosted**: Message HTML has images that name Freshdesk but are on a host the importer does not fetch from (a custom support domain, another Freshdesk account). They stay links and break when the Freshdesk account closes; save them in Freshdesk before closing it. (ids: 271)
+
+## Not imported by design
+
+- Custom ticket fields and custom contact fields
+- Ticket group, product, company link, escalation flags, watchers, parent/child and merge links (the ticket's mailbox, from email_config_id, is kept to choose the email channel of its replies)
+- Contact phone numbers, other emails, addresses, job titles and social handles
+- Companies other than their name (domains, notes, custom fields)
+- Message structured_body, notified_to and edit history (last_edited_*)
+- Satisfaction ratings, SLA policies, automations
+- Files attached to canned responses (saved replies hold text only; the report lists the canned responses that had files)
+- Knowledge base: article translations are stored and exported but not shown in Colliedesk yet; translated category and folder names are not imported; tags, SEO data, views and votes are kept only in the article's source_meta
+- Files attached to knowledge base articles (the Freshdesk docs list none; if the API sends them, the report lists the articles)
+- Knowledge base markup Markdown cannot hold (iframes and video other than YouTube and Vimeo players, forms, scripts): left out of the article and listed; the original HTML is kept with the article and in the export
+- Images in message HTML that are not hosted by Freshdesk (other sites, tracking pixels) stay links; the original HTML is kept
+- Tickets in Freshdesk Trash or Spam (listed by id in this report)
+- Time entries of archived tickets (the Freshdesk API documents no endpoint for them)
+- A re-run takes subject, status, priority and assignee from Freshdesk again and only adds tags; tags removed in Freshdesk stay
