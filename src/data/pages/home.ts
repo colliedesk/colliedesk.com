@@ -11,7 +11,7 @@ import { FOUNDING_OPEN, FRESHDESK_MONTH, FRESHDESK_RANGE, FRESHDESK_YEAR, homeSe
 // our yearly price against what five agents pay Freshdesk (cheapest to dearest plan, home-sections.ts).
 export const HOME_H1 = 'Freshdesk raises your price because leaving is hard. We made leaving easy.';
 export const HOME_LEDE =
-  `For support teams of 3 to 10 agents who pay for Freshdesk. Every ticket, reply, attachment and time entry comes over with a report that proves nothing was lost, and you can run both until you are sure. Then pay $${OURS_YEAR} a year for your whole team, where five agents pay ${rangeLabel(FRESHDESK_RANGE)} on Freshdesk. It is open source, so nobody can lock you in again.`;
+  `For support teams of 3 to 10 agents who pay for Freshdesk. You import every ticket, reply, attachment and time entry from Freshdesk, with a report that proves nothing was lost. You can run both products side by side until you are sure. Then pay $${OURS_YEAR} a year for your whole team, where five agents pay ${rangeLabel(FRESHDESK_RANGE)} on Freshdesk. It is open source, and you can export all your data at any time and move to another product.`;
 
 export const HOME_FAQ: Faq[] = [
   {

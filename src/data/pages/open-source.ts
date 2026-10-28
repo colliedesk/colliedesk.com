@@ -48,7 +48,7 @@ These five rules are in the repository's \`AGENTS.md\`, for every person and cod
 1. **No data loss.** A migration or an edit never drops a ticket, reply, attachment, tag or timestamp silently. Every import ends with a reconcile report.
 2. **Workspace isolation.** No query, filter, search, id or file can cross from one workspace to another. Every new endpoint ships with a cross-workspace test.
 3. **Fast.** A person waits at most 200 ms from action to usable screen.
-4. **No lock-in.** The data model and the export format stay open and documented.
+4. **You can always leave.** The data model and the export format stay open and documented.
 5. **Open at the core.** Roadmap, decisions and code are public.
 
 ## Self-host in one command
