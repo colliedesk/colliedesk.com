@@ -298,17 +298,23 @@ else {
   if (!/function choose\(value\)[\s\S]*?setPostHogConsent\(value\)/.test(source)) fail('consent.js: a choice in the banner must reach PostHog');
   if (!/posthog\.opt_in_capturing\(/.test(source) || !/posthog\.opt_out_capturing\(/.test(source)) fail('consent.js: setPostHogConsent must opt PostHog in on Accept and out on Decline');
   if (!/indexOf\('ph_'\) === 0/.test(source)) fail('consent.js: declining must delete the PostHog cookies');
+  // Apollo website visitors names the companies behind visits; it stores an anonymous ID, so it
+  // loads with Google Analytics after Accept, and a Decline deletes that ID.
+  if (!/function loadAnalytics\(\)[\s\S]*assets\.apollo\.io\/micro\/website-tracker\/tracker\.iife\.js/.test(source)) fail('consent.js: the Apollo tracker must load only inside loadAnalytics()');
+  if (!/removeItem\('apolloAnonId'\)/.test(source)) fail('consent.js: declining must delete the Apollo anonymous ID');
 }
 for (const file of pages) {
   const page = readFileSync(file, 'utf8');
   if (!page.includes('<script src="/consent.js" defer></script>')) fail(`${urlPathOf(file)}: consent.js not loaded`);
   if (page.includes('googletagmanager.com')) fail(`${urlPathOf(file)}: loads Google Analytics without consent`);
+  if (page.includes('assets.apollo.io')) fail(`${urlPathOf(file)}: loads the Apollo tracker without consent`);
   if (!page.includes('data-consent-open')) fail(`${urlPathOf(file)}: no way to change the cookie choice`);
 }
 const privacyPage = fileFor('/privacy');
 if (privacyPage) {
   const text = readFileSync(privacyPage, 'utf8');
   if (!text.includes('Google Analytics')) fail('/privacy: must name Google Analytics');
+  if (!text.includes('Apollo') || !text.includes('apolloAnonId')) fail('/privacy: must name Apollo and the apolloAnonId it stores after Accept');
   if (!text.includes('ph_')) fail('/privacy: must name the PostHog cookie set after Accept');
   if (/PostHog without cookies and without a profile|Cookieless website statistics/.test(text)) fail('/privacy: still says PostHog never sets cookies');
   if (!/record/i.test(text) || !/masked/i.test(text)) fail('/privacy: must say PostHog records visits after Accept, with form fields masked');
