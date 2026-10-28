@@ -16,7 +16,7 @@ export function HeroCopy() {
       <div className="cta-row">
         <a className="btn btn-primary btn-lg" href={TRIAL_HREF}>Start free trial <span aria-hidden="true">→</span></a>{' '}
         {open
-          ? <a className="btn btn-lg" href={FOUNDING_CHECKOUT} rel="noopener">Join the Founding plan, $99 a quarter</a>
+          ? <a className="btn btn-lg" href={FOUNDING_CHECKOUT} rel="noopener">Join the Founding plan, $99 every 3 months</a>
           : <a className="btn btn-lg" href="/migrate/freshdesk">Read the migration guide</a>}
       </div>
       {open ? (

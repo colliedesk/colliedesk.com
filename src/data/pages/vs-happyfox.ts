@@ -28,7 +28,7 @@ HappyFox prices are per agent per month, read on ${PRICES_READ}.
 | Topic | HappyFox | Colliedesk |
 |---|---|---|
 | Plans (billed annually) | Basic $24 (max 5 agents), Team $49, Pro $99 per agent per month; Enterprise Pro on request | ${c.price} |
-| Billed monthly | Basic $29, Team $69, Pro $119 | ${FOUNDING_OPEN ? 'Colliedesk Founding $99 a quarter for up to 10 agents; after the 10 Founding places, ' : ''}Colliedesk Team $69 per month for up to 10 agents, or $690 per year |
+| Billed monthly | Basic $29, Team $69, Pro $119 | ${FOUNDING_OPEN ? 'Colliedesk Founding $99 every 3 months for up to 10 agents; after the 10 Founding places, ' : ''}Colliedesk Team $69 per month for up to 10 agents, or $690 per year |
 | AI | Separate products with their own pricing; Autopilot from 2¢ per successful action | ${c.ai} |
 | Free option | 14-day trial, no card | ${c.free} |
 | Source code | Proprietary | ${c.source} |

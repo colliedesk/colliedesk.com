@@ -37,8 +37,8 @@ export const softwareApplication = ({ ladder = true }: { ladder?: boolean } = {}
     })),
     {
       '@type': 'Offer', name: 'Founding customer', price: '99', priceCurrency: 'USD',
-      description: 'Per workspace per quarter, locked for life, with free Freshdesk migration. Up to 10 agents and 20 GiB of attachments.',
-      priceSpecification: { '@type': 'UnitPriceSpecification', price: '99', priceCurrency: 'USD', unitText: 'workspace per quarter' },
+      description: 'Per workspace every 3 months, locked for life, with free Freshdesk migration. Up to 10 agents and 20 GiB of attachments.',
+      priceSpecification: { '@type': 'UnitPriceSpecification', price: '99', priceCurrency: 'USD', unitText: 'workspace per 3 months' },
     },
   ],
 });

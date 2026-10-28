@@ -21,7 +21,7 @@ export const HOME_FAQ: Faq[] = [
   {
     q: 'Is Colliedesk free?',
     a: FOUNDING_OPEN
-      ? 'Self-hosting is free, forever, with every feature. Colliedesk Cloud is sold as one plan while it is young: Founding, $99 a quarter per workspace for up to 10 agents, locked for life, for 10 teams. There is no free Cloud plan; every workspace starts with a 14-day free trial, no card. See [pricing](/pricing).'
+      ? 'Self-hosting is free, forever, with every feature. Colliedesk Cloud is sold as one plan while it is young: Founding, $99 every 3 months per workspace for up to 10 agents, locked for life, for 10 teams. There is no free Cloud plan; every workspace starts with a 14-day free trial, no card. See [pricing](/pricing).'
       : `Self-hosting is free, forever, with every feature. Colliedesk Cloud is one flat price per workspace, with no per-agent fees: ${LADDER_LINE}. There is no free Cloud plan; every workspace starts with a 14-day free trial, no card. See [pricing](/pricing).`,
   },
   {
@@ -53,7 +53,7 @@ const md = `${TAGLINE} ${POSITIONING}
 
 ${HOME_H1} ${HOME_LEDE} The Freshdesk importer is shipped; reconcile report numbers shown on the site are an example.
 
-Status: Colliedesk as a whole is alpha, live on Colliedesk Cloud with a 14-day free trial. Self-host free: ${REPO}. Cloud: ${FOUNDING_OPEN ? 'Founding, $99 a quarter per workspace, locked for life, 10 places' : LADDER_LINE}.
+Status: Colliedesk as a whole is alpha, live on Colliedesk Cloud with a 14-day free trial. Self-host free: ${REPO}. Cloud: ${FOUNDING_OPEN ? 'Founding, $99 every 3 months per workspace, locked for life, 10 places' : LADDER_LINE}.
 
 ${homeSectionsMd}
 
