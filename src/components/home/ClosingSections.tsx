@@ -29,7 +29,7 @@ function Founding() {
             <li>{MONEY_BACK}: full refund within 30 days, no questions asked</li>
             <li>Free Freshdesk migration with a reconcile report</li>
             <li>Up to 10 agents, no per-agent fees</li>
-            <li>20 GB of attachments, imported files included</li>
+            <li>20 GiB of attachments, imported files included</li>
             <li>AI reply drafts and triage included with a monthly allowance, or your own key</li>
             <li>Founding workspaces run on Colliedesk Cloud today</li>
           </ul>

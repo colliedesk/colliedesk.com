@@ -10,13 +10,13 @@ export function HeroCopy() {
   const open = foundingState().open;
   return (
     <div className="hero-copy">
-      <p className="eyebrow hero-eyebrow">Open source · AGPL-3.0 · Alpha, live on Cloud</p>
+      <p className="eyebrow hero-eyebrow">Open source · AGPL-3.0 · Alpha (early version), live on Cloud</p>
       <h1>{HOME_H1}</h1>
       <p className="lede">{HOME_LEDE}</p>
       <div className="cta-row">
         <a className="btn btn-primary btn-lg" href={TRIAL_HREF}>Start free trial <span aria-hidden="true">→</span></a>{' '}
         {open
-          ? <a className="btn btn-lg" href={FOUNDING_CHECKOUT} rel="noopener">Join Founding, $99 a quarter</a>
+          ? <a className="btn btn-lg" href={FOUNDING_CHECKOUT} rel="noopener">Join the Founding plan, $99 a quarter</a>
           : <a className="btn btn-lg" href="/migrate/freshdesk">Read the migration guide</a>}
       </div>
       {open ? (

@@ -32,7 +32,7 @@ export const HOME_FAQ: Faq[] = [
   {
     q: 'What happens over the limit?',
     a: FOUNDING_OPEN
-      ? `Founding covers up to 10 agents and 20 GB of attachments, imported files included. With 11 or more agents, Founding is not the right fit: self-host with no agent limit, or write to ${CONTACT_EMAIL}. Storage: we warn you at 80%. Over the cap, customer email keeps arriving with its attachments; only your own uploads and new imports pause. Nothing is deleted. See [pricing](/pricing).`
+      ? `Founding covers up to 10 agents and 20 GiB of attachments, imported files included. With 11 or more agents, Founding is not the right fit: self-host with no agent limit, or write to ${CONTACT_EMAIL}. Storage: we warn you at 80%. Over the cap, customer email keeps arriving with its attachments; only your own uploads and new imports pause. Nothing is deleted. See [pricing](/pricing).`
       : `Agents: each plan has a limit: Solo 1 agent, Small 3, Team 10, Team 25 up to 25. Pass it and you move up one plan; at 11 agents that is Team 25, ${PRICE.team25Monthly} a month. Above 25, Unlimited is coming soon; until then email us at ${CONTACT_EMAIL}, or self-host with no agent limit. Storage: we warn you at 80%. Over the cap, customer email keeps arriving with its attachments; only your own uploads and new imports pause until you free space or move up. Nothing is deleted. See [pricing](/pricing).`,
   },
   {

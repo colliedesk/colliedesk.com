@@ -133,4 +133,4 @@ Colliedesk is AGPL-3.0. The code, your data and the export format are yours. [Ho
 
 ## Founding offer
 
-$99 a quarter per workspace, locked for life, with free Freshdesk migration and a reconcile report. Only 10 workspaces get it. Up to 10 agents, no per-agent fees, 20 GB of attachments including imported files.${foundingTail} AI reply drafts and triage included with a monthly allowance, or your own key. Colliedesk Cloud is live; every workspace starts with a 14-day free trial.`;
+$99 a quarter per workspace, locked for life, with free Freshdesk migration and a reconcile report. Only 10 workspaces get it. Up to 10 agents, no per-agent fees, 20 GiB of attachments including imported files.${foundingTail} AI reply drafts and triage included with a monthly allowance, or your own key. Colliedesk Cloud is live; every workspace starts with a 14-day free trial.`;

@@ -23,7 +23,7 @@ export const FOUNDING_LEAD = FOUNDING_OPEN
 export const AFTER_FOUNDING = FOUNDING_OPEN ? `After the ${FOUNDING_SLOTS} Founding places are taken, ` : '';
 
 /** The Founding action beside the trial in the hero; Hero shows it only while Founding is open. */
-export const FOUNDING_ACTION: NavLink = { href: '/pricing', label: 'Founding, $99 a quarter' };
+export const FOUNDING_ACTION: NavLink = { href: '/pricing', label: 'Founding plan, $99 a quarter' };
 
 /** A hero lede followed by the Founding lead while Founding is open. */
 export const withFoundingLead = (lede: string): string => (FOUNDING_LEAD ? `${lede} ${FOUNDING_LEAD}` : lede);

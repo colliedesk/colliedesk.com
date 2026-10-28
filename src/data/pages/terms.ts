@@ -25,13 +25,13 @@ These terms are an agreement between you and **HC Labs Co., Ltd.** (CÔNG TY TNH
 
 - A new workspace gets a 14-day trial of the Team plan with every feature. It extends to 30 days if you import from Freshdesk during the trial.
 - One trial per person and company. Creating extra accounts to get more trials is not allowed. See the [privacy policy](/privacy) for how we check this.
-- During the trial, Colliedesk sends replies only to customers who wrote to the workspace first, up to 200 replies in 24 hours, and stores up to 2 GB of attachments. These limits stop spammers; a paid plan removes them.
+- During the trial, Colliedesk sends replies only to customers who wrote to the workspace first, emails up to 200 people in 24 hours (everyone on a reply counts, including people copied on it), and stores up to 2 GiB of attachments. These limits stop spammers; a paid plan removes the trial limits, but each plan has its own attachment storage limit, shown on the [pricing page](/pricing).
 - When the trial ends without a plan, the workspace is locked. You can sign in, export all your data and choose a plan. Choosing a plan unlocks it at once with nothing lost.
 
 ## Plans and payment
 
 - Prices are on the [pricing page](/pricing). Payment is handled by Polar, our merchant of record, which also charges the applicable tax.
-- Plans are paid in advance, monthly or yearly, and renew automatically until you cancel.
+- Plans are paid in advance, monthly, quarterly (the Founding plan) or yearly, and renew automatically until you cancel.
 - You can cancel at any time. The plan stays active until the end of the period you paid for, then the workspace locks.
 - A price change applies from your next renewal, never to a period you already paid for, and we email workspace admins before it applies. The Founding price stays locked for as long as you keep the subscription.
 

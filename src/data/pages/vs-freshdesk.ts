@@ -25,7 +25,7 @@ const pricing: VsPricing = {
   notForYou: [
     'You need live chat, phone, WhatsApp or a marketplace of apps today.',
     'You need AI that answers tickets on its own today: auto-answer is not built yet (reply drafts and triage are), and Colliedesk as a whole is alpha, so the interface may change.',
-    'You want the founding price and have more than 20 GB of Freshdesk attachments: founding includes 20 GB, imported files included.',
+    'You want the founding price and have more than 20 GiB of Freshdesk attachments: founding includes 20 GiB, imported files included.',
   ],
 };
 const fiveAgents = rowsAt(pricing, 5).at(-1);

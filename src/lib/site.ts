@@ -57,10 +57,10 @@ export interface CloudPlan {
   comingSoon?: boolean;
 }
 export const CLOUD_PLANS: readonly CloudPlan[] = [
-  { name: 'Solo', monthly: 19, yearly: 190, agents: 1, storage: '10 GB', who: 'For one person answering customers.' },
-  { name: 'Small', monthly: 39, yearly: 390, agents: 3, storage: '30 GB', who: 'For a small team sharing one inbox.' },
-  { name: 'Team', monthly: 69, yearly: 690, agents: 10, storage: '100 GB', who: 'For support teams leaving Freshdesk.' },
-  { name: 'Team 25', monthly: 149, yearly: 1490, agents: 25, storage: '250 GB', who: 'For a mid-size support department.' },
+  { name: 'Solo', monthly: 19, yearly: 190, agents: 1, storage: '10 GiB', who: 'For one person answering customers.' },
+  { name: 'Small', monthly: 39, yearly: 390, agents: 3, storage: '30 GiB', who: 'For a small team sharing one inbox.' },
+  { name: 'Team', monthly: 69, yearly: 690, agents: 10, storage: '100 GiB', who: 'For support teams leaving Freshdesk.' },
+  { name: 'Team 25', monthly: 149, yearly: 1490, agents: 25, storage: '250 GiB', who: 'For a mid-size support department.' },
   { name: 'Unlimited', monthly: 349, yearly: 3490, agents: null, storage: '1 TB', who: 'For larger companies.', annualOnly: true, comingSoon: true },
 ];
 const planNamed = (name: CloudPlan['name']): CloudPlan => {
@@ -119,14 +119,14 @@ export const FOOTER: readonly FooterColumn[] = [
       { href: '/helpdesk-for-small-teams', label: 'For small teams' },
     ],
   },
-  // Names the helpdesks people leave, like Attio's footer does for CRMs. Only Freshdesk has an
-  // importer today; the others are on the roadmap.
+  // Names the helpdesks people leave, like Attio's footer does for CRMs. Freshdesk and Help Scout
+  // have importers today; the others are on the roadmap.
   {
     title: 'Import from',
     links: [
       { href: '/migrate/freshdesk', label: 'Freshdesk' },
       { href: '/migrate/zendesk/export', label: 'Zendesk', badge: 'Soon' },
-      { href: '/roadmap', label: 'Help Scout', badge: 'Soon' },
+      { href: '/docs/import-helpscout', label: 'Help Scout' },
     ],
   },
   {

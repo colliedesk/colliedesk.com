@@ -3,8 +3,8 @@ import type { Page } from '../../lib/page';
 import { CONTACT_EMAIL } from '../../lib/site';
 
 // /terms reads LEGAL_UPDATED; privacy has its own date.
-export const LEGAL_UPDATED = '2026-10-21';
-export const PRIVACY_UPDATED = '2026-10-26';
+export const LEGAL_UPDATED = '2026-10-28';
+export const PRIVACY_UPDATED = '2026-10-28';
 export { CONTACT_EMAIL };
 
 const body = `## The short version
@@ -16,7 +16,7 @@ const body = `## The short version
 - A locked workspace is deleted 12 months after it locks. We email the admins 30 days before.
 - To stop repeated free trials, we keep a one-way, keyed fingerprint of your email address. We cannot turn it back into your address.
 - This website sets analytics cookies (Google Analytics and PostHog) only if you accept them in the cookie banner. Without them it counts visits without cookies.
-- If you self-host Colliedesk, your data never reaches us.
+- If you self-host Colliedesk, your tickets and contacts never reach us. A self-hosted server sends an anonymous daily usage report and screen and button counts unless you turn them off with \`DISABLE_TELEMETRY=true\` or \`DO_NOT_TRACK=1\` (see "What this policy covers").
 
 The rest of this page says the same thing in more detail.
 
@@ -91,6 +91,7 @@ Some of the providers below are outside the European Union (for example in the U
 | Google | Sends your replies through the Gmail API, only for workspaces that connect Gmail | United States |
 | Microsoft | Sends your replies through Microsoft Graph from your own mailbox, only for workspaces that connect Microsoft 365 | United States |
 | Polar | Payments, invoices and tax, as merchant of record | United States |
+| Anthropic | Cloud AI provider (Claude models): receives the ticket messages and the customer's name that an AI feature needs, only when an admin turns on AI reply drafts or triage. We do not use it for Google or Microsoft data | United States |
 | Resend | Sends the replies your team writes, and our service emails | United States |
 | Cloudflare | DNS and network protection | Global |
 | PostHog | Website statistics (with a cookie only after you accept cookies) and anonymous usage counts. It does not store your IP address | United States |
@@ -103,7 +104,7 @@ We will list a new provider on this page before it receives personal data.
 
 Until you choose, or if you decline, this website counts visits with PostHog without cookies: nothing is stored in your browser and PostHog never builds a profile of you.
 
-If you click **Accept** in the cookie banner, PostHog sets a \`ph_\` cookie so a later visit is recognised as yours, and the website loads Google Analytics, which sets the \`_ga\` cookies to tell visits apart. Both cookies last up to 1 year (\`_ga\` up to 14 months). Google Analytics is not loaded and sets nothing until you accept. We do not use either for advertising. Your choice is kept in your browser's local storage as \`colliedesk-consent\`, and PostHog keeps a copy of it in local storage too. You can change it at any time with **Cookie settings** at the bottom of every page; declining deletes the Google Analytics and PostHog cookies.
+If you click **Accept** in the cookie banner, PostHog sets a \`ph_\` cookie so a later visit is recognised as yours, and the website loads Google Analytics, which sets the \`_ga\` cookies to tell visits apart. The \`ph_\` cookie lasts up to 1 year; the \`_ga\` cookies last up to 14 months. Google Analytics is not loaded and sets nothing until you accept. We do not use either for advertising. Your choice is kept in your browser's local storage as \`colliedesk-consent\`, and PostHog keeps a copy of it in local storage too. You can change it at any time with **Cookie settings** at the bottom of every page; declining deletes the Google Analytics and PostHog cookies.
 
 After you accept, PostHog also records how you move through this website (clicks, scrolling and page changes) so we can see where a page is unclear. Every form field is masked, so nothing you type is recorded, and recordings are deleted after 30 days. If a page shows a JavaScript error, PostHog receives the error message and the page address, with or without cookies.
 
