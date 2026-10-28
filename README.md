@@ -63,8 +63,8 @@ References: t3.codes (honest "what are you selling me", fork-it, terminal snippe
 ("X alternative" positioning, transparent pricing, vs pages), cal.com (pricing answered in the FAQ,
 footer comparison links).
 
-Brand: **ink and paper**, shared with the app; the brand guideline is in the app repo,
-`docs/internals/design.md` (owner decision 19/10/2026; research on https://design.hclabs.co, owner only).
+Brand: **ink, paper and one orange**, shared with the app (the orange `#c2410c` is only the logo tile and the price); the brand guideline is in the app repo,
+`docs/internals/design.md` (owner decisions 19/10/2026 and 24/10/2026; the share card `public/og.png` comes from the same brand asset script; research on https://design.hclabs.co, owner only).
 `public/tokens.css` is a copy of the app's `web/src/styles/tokens.css` (change it there first; the app
 repo checks contrast for every pair and fails when a grey, a text token or the primary action has a hue).
 

@@ -116,6 +116,10 @@ for (const file of pages) {
   if (!llmsFull.includes(`Source: ${canonical}\n`)) fail(`${where}: not in llms-full.txt`);
   if (!sitemap.includes(`<loc>${canonical}</loc>`)) fail(`${where}: not in sitemap.xml`);
   if (!html.includes(`<link rel="canonical" href="${canonical}">`)) fail(`${where}: canonical missing or wrong`);
+  // A link pasted into X, Reddit, Slack or Zalo shows the share card: the orange-tile logo and the promise.
+  const ogImage = html.match(/<meta property="og:image" content="([^"]+)">/)?.[1];
+  if (!ogImage?.startsWith(`${ORIGIN}/og.png?v=`) || !existsSync(join(outDir, 'og.png'))) fail(`${where}: og:image must be ${ORIGIN}/og.png?v=<hash> and the file must exist`);
+  if (!html.includes('<meta name="twitter:card" content="summary_large_image">')) fail(`${where}: twitter:card must be summary_large_image`);
   if (!html.includes(`<link rel="alternate" type="text/markdown" href="${mdUrl}">`)) fail(`${where}: markdown alternate link missing`);
   if (!/<title>[^<]{10,}<\/title>/.test(html)) fail(`${where}: <title> missing or too short`);
   if (!/<meta name="description" content="[^"]{50,}">/.test(html)) fail(`${where}: meta description missing or under 50 chars`);
@@ -601,6 +605,15 @@ for (const file of files.filter((f) => f.endsWith('.html') && !/[\\/](changelog|
 
 const accentUses = (readFileSync(join(outDir, 'styles.css'), 'utf8').match(/var\(--accent/g) ?? []).length;
 if (accentUses > ACCENT_BUDGET) fail(`styles.css uses var(--accent…) ${accentUses} times > ${ACCENT_BUDGET}: the accent is for the primary action, focus and selection (README, Design)`);
+
+// One orange (README, Design): the brand orange is the logo tile and the price, nothing else. Only the
+// --price and --logo-tile definitions may spell it; components reach it through those two tokens.
+for (const [file, allowed] of [['public/styles.css', /--price:\s*#c2410c/gi], ['public/tokens.css', /--logo-tile:\s*#c2410c/gi]]) {
+  const css = readFileSync(fileURLToPath(new URL(`../${file}`, import.meta.url)), 'utf8').replace(/\/\*[\s\S]*?\*\//g, '');
+  if ((css.match(/#c2410c/gi) || []).length !== (css.match(allowed) || []).length) fail(`${file}: the brand orange #c2410c is only for --price and --logo-tile`);
+}
+const logoTileUses = (readFileSync(join(outDir, 'styles.css'), 'utf8').match(/var\(--logo-tile\)/g) ?? []).length;
+if (logoTileUses !== 1) fail(`styles.css uses var(--logo-tile) ${logoTileUses} times: only the wordmark tile (.wm-tile) may`);
 
 // Brand guideline (app docs/internals/design.md): the price is the one coloured thing on the site
 // (rule 2), and cards sit on a shadow ring, never a border (rule 4), the featured plan included.
