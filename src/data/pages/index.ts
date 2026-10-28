@@ -1,5 +1,7 @@
 // Every page of the site, in llms.txt and sitemap order.
 import type { Page } from '../../lib/page';
+import blog from './blog';
+import blogFreshdeskToHubspot from './blog-freshdesk-to-hubspot';
 import changelog from './changelog';
 import compare from './compare';
 import freshdeskAlternative from './freshdesk-alternative';
@@ -38,7 +40,7 @@ export function allPages(): readonly Page[] {
     home, pricing, migrateFreshdesk, migrateFreshdeskDoneForYou, migrateFreshdeskExport, migrateZendeskExport,
     compare, vsFreshdesk, vsZendesk, vsHelpScout, vsFront, vsZammad, vsChatwoot, vsFreescout,
     vsZohoDesk, vsHappyfox, vsGorgias, vsHubspotServiceHub, vsGroove, freshdeskAlternative, freshdeskPricingHistory, selfHostedHelpdesk, helpdeskForSmallTeams, openSource, roadmapPage(), changelog,
-    privacy, terms, ...docsPages(),
+    privacy, terms, ...docsPages(), blog, blogFreshdeskToHubspot,
   ];
   return cache;
 }

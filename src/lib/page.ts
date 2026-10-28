@@ -2,7 +2,7 @@ import type { NavLink } from './site';
 import type { VsPricing } from './vs-pricing';
 
 // The typed model every page module exports. One Page = one HTML file + one Markdown twin.
-export type Section = 'Product' | 'Migrate' | 'Compare' | 'Docs';
+export type Section = 'Product' | 'Migrate' | 'Compare' | 'Docs' | 'Blog';
 
 export interface Faq {
   q: string;

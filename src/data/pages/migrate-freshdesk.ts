@@ -89,6 +89,8 @@ Every import ends with a reconcile report: counts for each kind of record in Fre
 3. Keep Freshdesk read-only for a short overlap.
 4. Close Freshdesk only after the final reconcile report matches.
 
+Moving into HubSpot instead? Use the [Freshdesk to HubSpot migration checklist](/blog/freshdesk-to-hubspot-migration-checklist) to verify history, files, workflows and email cutover.
+
 ## Sources
 
 - Ticket export: [support.freshdesk.com article 225158](https://support.freshdesk.com/support/solutions/articles/225158)
