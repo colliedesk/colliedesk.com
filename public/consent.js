@@ -1,9 +1,10 @@
 // Cookie consent on colliedesk.com. Accept loads Google Analytics, which sets the _ga cookies,
-// and lets PostHog (analytics.js) set its ph_ cookie; nothing from Google loads before that and
-// PostHog stays cookieless. The choice is kept in localStorage under "colliedesk-consent"
-// ("granted" or "denied"). Any element with data-consent-open (the footer "Cookie settings"
-// button) reopens the banner, and declining after an earlier accept deletes the Google Analytics
-// and PostHog cookies. scripts/check.mjs fails if Google Analytics can load another way.
+// and Apollo website visitors, and lets PostHog (analytics.js) set its ph_ cookie; nothing from
+// Google or Apollo loads before that and PostHog stays cookieless. The choice is kept in
+// localStorage under "colliedesk-consent" ("granted" or "denied"). Any element with
+// data-consent-open (the footer "Cookie settings" button) reopens the banner, and declining after
+// an earlier accept deletes the Google Analytics and PostHog cookies and the Apollo ID.
+// scripts/check.mjs fails if Google Analytics or Apollo can load another way.
 (function () {
   var KEY = 'colliedesk-consent';
   var GA_ID = 'G-7VBE3TER7E';
@@ -27,6 +28,18 @@
     s.async = true;
     s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
     document.head.appendChild(s);
+    loadApollo();
+  }
+
+  // Apollo website visitors: names the company behind a visit from its network, for sales
+  // follow-up. Company level only (person level is off in Apollo, so its LiveIntent pixel never
+  // loads); it keeps a random apolloAnonId in local storage.
+  function loadApollo() {
+    var s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://assets.apollo.io/micro/website-tracker/tracker.iife.js?nocache=' + Math.random().toString(36).substring(7);
+    s.onload = function () { window.trackingFunctions.onLoad({ appId: '6ad46618125a0a0010e0d0dd' }); };
+    document.head.appendChild(s);
   }
 
   // PostHog (analytics.js) uses its cookie only while the choice is "granted".
@@ -45,6 +58,12 @@
         document.cookie = name + '=; Max-Age=0; path=/';
       }
     });
+    try {
+      localStorage.removeItem('apolloAnonId');
+      Object.keys(localStorage).forEach(function (key) {
+        if (key.indexOf('6ad46618125a0a0010e0d0dd_') === 0) localStorage.removeItem(key);
+      });
+    } catch (e) { /* storage blocked: nothing was stored */ }
   }
 
   var banner;
@@ -64,7 +83,7 @@
       banner.setAttribute('role', 'region');
       banner.setAttribute('aria-label', 'Cookie choice');
       banner.innerHTML =
-        '<p>We would like to use analytics cookies (Google Analytics and PostHog) to see which pages help people. ' +
+        '<p>We would like to use analytics cookies (Google Analytics, PostHog and Apollo) to see which pages help people and which companies visit. ' +
         'Until you accept, we only count visits without cookies. <a href="/privacy#cookies">Privacy</a></p>' +
         '<div class="consent-actions">' +
         '<button type="button" class="btn btn-sm" data-consent="denied">Decline</button>' +
