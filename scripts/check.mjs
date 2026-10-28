@@ -185,7 +185,7 @@ for (const file of files.filter((f) => /\.(html|md)$/.test(f))) {
 
 // Founding is $99 every 3 months since 21/10/2026; a page still selling it at $100 a year is stale.
 for (const file of files.filter((f) => /\.(html|md|txt)$/.test(f))) {
-  if (/\$100 (a|per) (workspace per )?year|\$100\/year|refund the full \$100/.test(readFileSync(file, 'utf8'))) fail(`${file.slice(outDir.length - 1)}: still sells Founding at $100 a year; it is $99 a quarter`);
+  if (/\$100 (a|per) (workspace per )?year|\$100\/year|refund the full \$100/.test(readFileSync(file, 'utf8'))) fail(`${file.slice(outDir.length - 1)}: still sells Founding at $100 a year; it is $99 every 3 months`);
 }
 
 // Founding closes at ten places. A site built from a closed state must not link to the checkout,
@@ -226,7 +226,7 @@ const foundingOpen = existsSync(foundingFile) ? JSON.parse(readFileSync(founding
     if (!file) continue;
     const text = readFileSync(file, 'utf8');
     if (open && ladder.test(text)) fail(`${path}: founding is open but the page lists the Cloud ladder; sell Founding only`);
-    if (open && !text.includes('$99 a quarter')) fail(`${path}: founding is open but the page does not show the $99 a quarter price`);
+    if (open && !text.includes('$99 every 3 months')) fail(`${path}: founding is open but the page does not show the $99 every 3 months price`);
     if (!open && !ladder.test(text)) fail(`${path}: founding is closed but the page does not list the Cloud ladder`);
     // Founding is sold to one customer: 3 to 10 agents, paying for Freshdesk, facing a price rise.
     // The page names them and names who it is not for, so the wrong buyer leaves before paying.

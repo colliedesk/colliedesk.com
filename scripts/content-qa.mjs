@@ -191,7 +191,7 @@ export function foundingLeadFindings(path, text, open) {
   const founding = text.search(FOUNDING_RE);
   if (founding >= 0 && founding < price) return [];
   const quote = text.slice(Math.max(0, price - 40), price + 50).replace(/\s+/g, ' ').trim();
-  return [`${path}: names a Cloud plan price before Founding while Founding is open; lead with Founding ($99 a quarter) and give the monthly plans as the prices after the 10 places: "${quote}"`];
+  return [`${path}: names a Cloud plan price before Founding while Founding is open; lead with Founding ($99 every 3 months) and give the monthly plans as the prices after the 10 places: "${quote}"`];
 }
 
 /** Whether the site was built with Founding open; no state file reads as open, as in the build. */

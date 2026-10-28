@@ -89,10 +89,10 @@ ${AGENT_POINTS.map(([k, v]) => `- **${k}.** ${v}`).join('\n')}
 How approval works: [Agent requests and reply drafts](/docs/agent-requests).`;
 
 const cloudLine = FOUNDING_OPEN
-  ? `One plan while we are young: Founding, $99 a quarter per workspace for up to 10 agents, locked for life, for ${FOUNDING_SLOTS} teams. [Who it is for](/pricing#who-founding-is-for).`
+  ? `One plan while we are young: Founding, $99 every 3 months per workspace for up to 10 agents, locked for life, for ${FOUNDING_SLOTS} teams. [Who it is for](/pricing#who-founding-is-for).`
   : `One flat price per workspace, never per agent: ${LADDER_LINE}. Team is ${PRICE.monthly} a month or ${PRICE.yearly} a year.`;
 const flatLine = FOUNDING_OPEN
-  ? 'Founding is $99 a quarter per workspace for up to 10 agents, no per-agent fees. Self-host for $0.'
+  ? 'Founding is $99 every 3 months per workspace for up to 10 agents, no per-agent fees. Self-host for $0.'
   : `Team is ${PRICE.monthly} per workspace per month for up to 10 agents, no per-agent fees. Self-host for $0.`;
 const foundingTail = FOUNDING_OPEN ? '' : ` Cloud plans: ${LADDER_LINE}.`;
 
@@ -133,4 +133,4 @@ Colliedesk is AGPL-3.0. The code, your data and the export format are yours. [Ho
 
 ## Founding offer
 
-$99 a quarter per workspace, locked for life, with free Freshdesk migration and a reconcile report. Only 10 workspaces get it. Up to 10 agents, no per-agent fees, 20 GiB of attachments including imported files.${foundingTail} AI reply drafts and triage included with a monthly allowance, or your own key. Colliedesk Cloud is live; every workspace starts with a 14-day free trial.`;
+$99 every 3 months per workspace, locked for life, with free Freshdesk migration and a reconcile report. Only 10 workspaces get it. Up to 10 agents, no per-agent fees, 20 GiB of attachments including imported files.${foundingTail} AI reply drafts and triage included with a monthly allowance, or your own key. Colliedesk Cloud is live; every workspace starts with a 14-day free trial.`;

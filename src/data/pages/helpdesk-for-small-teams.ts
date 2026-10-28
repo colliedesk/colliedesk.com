@@ -54,7 +54,7 @@ ${statusTable}
 ## How small teams start
 
 1. **Try it:** [start the 14-day Cloud trial](${TRIAL_HREF}), or self-host free.
-2. **Plan the move before your renewal:** the [founding offer](${FOUNDING_HREF}) is $99 a quarter per workspace, locked for life, and we [migrate your Freshdesk data for you](/migrate/freshdesk/done-for-you).
+2. **Plan the move before your renewal:** the [founding offer](${FOUNDING_HREF}) is $99 every 3 months per workspace, locked for life, and we [migrate your Freshdesk data for you](/migrate/freshdesk/done-for-you).
 3. **Switch only when the reconcile report matches.**`;
 
 const page: Page = {
@@ -64,7 +64,7 @@ const page: Page = {
   section: 'Product',
   title: 'Helpdesk for small teams: one flat price for 2 to 10 agents',
   description:
-    `A helpdesk for small support teams of 2 to 10 agents: one flat price per workspace (${FOUNDING_OPEN ? 'Founding: $99 a quarter for up to 10 agents' : '$39 for up to 3 agents, $69 for up to 10'}) instead of per-agent fees, AI drafts included, open source. Price by team size and honest status.`,
+    `A helpdesk for small support teams of 2 to 10 agents: one flat price per workspace (${FOUNDING_OPEN ? 'Founding: $99 every 3 months for up to 10 agents' : '$39 for up to 3 agents, $69 for up to 10'}) instead of per-agent fees, AI drafts included, open source. Price by team size and honest status.`,
   summary: 'Small-team helpdesk: price by team size (2, 3, 5, 10 agents) vs Freshdesk, what small teams need, honest status',
   eyebrow: 'For small teams',
   h1: 'A helpdesk priced for a small team',

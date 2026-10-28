@@ -89,7 +89,7 @@ export const PRICE = {
   team25Yearly: dollars(TEAM_25.yearly),
   // "$19 to $149": the plans that can be bought today, cheapest to dearest.
   range: `${dollars(SOLO.monthly)} to ${dollars(TEAM_25.monthly)}`,
-  founding: '$99 per quarter ($396 a year), locked for life, with free Freshdesk migration',
+  founding: '$99 every 3 months ($396 a year), locked for life, with free Freshdesk migration',
   ai: `reply drafts and triage included with a monthly allowance; auto-answer ${AI_RESOLUTION} per resolution while alpha, once it ships; your own key adds no fee`,
 } as const;
 // "+ AI ..." after a Colliedesk price in comparisons. Drafts and triage are included, so the only AI

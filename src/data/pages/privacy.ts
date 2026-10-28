@@ -91,7 +91,7 @@ Some of the providers below are outside the European Union (for example in the U
 | Google | Sends your replies through the Gmail API, only for workspaces that connect Gmail | United States |
 | Microsoft | Sends your replies through Microsoft Graph from your own mailbox, only for workspaces that connect Microsoft 365 | United States |
 | Polar | Payments, invoices and tax, as merchant of record | United States |
-| Anthropic | Cloud AI provider (Claude models): receives the ticket messages and the customer's name that an AI feature needs, only when an admin turns on AI reply drafts or triage. We do not use it for Google or Microsoft data | United States |
+| Anthropic | Cloud AI provider (Claude models): receives, only when an admin turns on AI features (reply drafts, triage), what the feature needs: the ticket messages, the customer's name, matching published knowledge base articles and short excerpts of similar solved tickets (other customers' names and emails removed). Private notes are never sent. We do not use it for Google or Microsoft data | United States |
 | Resend | Sends the replies your team writes, and our service emails | United States |
 | Cloudflare | DNS and network protection | Global |
 | PostHog | Website statistics (with a cookie only after you accept cookies) and anonymous usage counts. It does not store your IP address | United States |

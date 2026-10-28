@@ -28,7 +28,7 @@ function FoundingCard({ state }: { state: FoundingState }) {
     <article className="plan plan-featured" aria-labelledby="plan-founding">
       <p className="plan-flag">{state.open ? `Only ${FOUNDING_SLOTS} workspaces` : 'Closed: all places taken'}</p>
       <h2 className="plan-name" id="plan-founding">Founding</h2>
-      <p className="plan-price"><strong>$99</strong> <span>per workspace / quarter</span></p>
+      <p className="plan-price"><strong>$99</strong> <span>per workspace, billed quarterly</span></p>
       {state.open && <p className="plan-alt">$396 a year, about $7.60 a week for the whole team</p>}
       <div className="plan-detail">
         {state.open && <p className="plan-who">For support teams of 3 to 10 agents who pay for Freshdesk and just got a price rise. <a href="#who-founding-is-for">Is that you?</a></p>}
@@ -45,7 +45,7 @@ function FoundingCard({ state }: { state: FoundingState }) {
       {state.open ? (
         <div className="plan-cta">
           <FoundingMeter state={state} />
-          <a className="btn btn-primary" href={FOUNDING_CHECKOUT} rel="noopener">Join for $99/quarter</a>
+          <a className="btn btn-primary" href={FOUNDING_CHECKOUT} rel="noopener">Join for $99 every 3 months</a>
           <p className="plan-guarantee"><a href="/terms#refunds">{MONEY_BACK}</a>. Full refund, no questions asked.</p>
           <p className="plan-guarantee">Want to look first? <a href={TRIAL_HREF}>Start a 14-day free trial</a>, no card.</p>
         </div>

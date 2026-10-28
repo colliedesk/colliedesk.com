@@ -177,7 +177,7 @@ test('fails a Cloud plan price with no Founding before it while Founding is open
     '| **Colliedesk** | **$57.50** (Team, $690 a year) | Flat per workspace |',
     'Cloud Team 25 covers up to 25 agents for a flat $149 per workspace per month.',
     'Colliedesk flat plans: Solo $19 a month for 1 agent, Small $39 for up to 3.',
-    'Colliedesk Team at a flat $69 per workspace. The founding offer is $99 a quarter.',
+    'Colliedesk Team at a flat $69 per workspace. The founding offer is $99 every 3 months.',
   ]) {
     const findings = foundingLeadFindings('/vs/x', text, true);
     assert.equal(findings.length, 1, text);
@@ -186,7 +186,7 @@ test('fails a Cloud plan price with no Founding before it while Founding is open
 });
 
 test('allows a Cloud plan price once Founding is named before it, and any price once Founding closes', () => {
-  const led = 'Founding is $99 a quarter for up to 10 agents. After the 10 Founding places are taken, Team is $69 a month.';
+  const led = 'Founding is $99 every 3 months for up to 10 agents. After the 10 Founding places are taken, Team is $69 a month.';
   assert.deepEqual(foundingLeadFindings('/vs/x', led, true), []);
   assert.deepEqual(foundingLeadFindings('/vs/x', 'the founding offer, then Solo $19 a month', true), []);
   assert.deepEqual(foundingLeadFindings('/vs/x', 'Colliedesk Cloud Team is $69 for the whole workspace.', false), []);

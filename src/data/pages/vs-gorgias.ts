@@ -32,7 +32,7 @@ Gorgias prices are per month for the whole account, by tickets included, read on
 | Topic | Gorgias | Colliedesk |
 |---|---|---|
 | Plans (billed annually) | Basic $50 (300 tickets), Pro $300 (2,000), Advanced $750 (5,000); Starter $10 (50 tickets, monthly only) | ${c.price} |
-| Billed monthly | Basic $60, Pro $360, Advanced $900 | ${FOUNDING_OPEN ? 'Founding $99 a quarter for up to 10 agents; after the 10 Founding places, ' : ''}Team $69 per month for up to 10 agents, or $690 per year |
+| Billed monthly | Basic $60, Pro $360, Advanced $900 | ${FOUNDING_OPEN ? 'Founding $99 every 3 months for up to 10 agents; after the 10 Founding places, ' : ''}Team $69 per month for up to 10 agents, or $690 per year |
 | AI | AI Agent adds $27, $171 or $477 per month on Basic, Pro and Advanced (billed annually), with 30, 190 or 530 automated interactions | ${c.ai} |
 | Free option | 7-day trial | ${c.free} |
 | Source code | Proprietary | ${c.source} |

@@ -39,11 +39,11 @@ const faq: Faq[] = [
   },
   {
     q: 'How much does Freshdesk cost for 5 agents with AI?',
-    a: `At list prices read on ${PRICES_READ}, billed monthly: Freshdesk Pro is $66 per agent per month and Freddy AI Copilot is $35, so five agents pay 5 × ($66 + $35) = $505 a month. Billed annually it is 5 × ($55 + $29) × 12 = $5,040 a year. ${FOUNDING_LEAD ? 'Colliedesk Founding is $99 a quarter, $396 a year, locked for life. After the 10 Founding places are taken, ' : ''}Colliedesk Cloud Team is ${PRICE.monthly} a month or ${PRICE.yearly} a year.`,
+    a: `At list prices read on ${PRICES_READ}, billed monthly: Freshdesk Pro is $66 per agent per month and Freddy AI Copilot is $35, so five agents pay 5 × ($66 + $35) = $505 a month. Billed annually it is 5 × ($55 + $29) × 12 = $5,040 a year. ${FOUNDING_LEAD ? 'Colliedesk Founding is $99 every 3 months, $396 a year, locked for life. After the 10 Founding places are taken, ' : ''}Colliedesk Cloud Team is ${PRICE.monthly} a month or ${PRICE.yearly} a year.`,
   },
   {
     q: 'Is Colliedesk ready to replace Freshdesk today?',
-    a: 'Not for most teams. Colliedesk is alpha: released and running on Colliedesk Cloud, with the email channel, Cc on replies, saved replies, attachments and the Freshdesk importer. A new conversation from the inbox, contact history and AI are not there yet, and the interface or schema may change. If your renewal is months away, the founding offer locks $99 a quarter for life and includes the migration.',
+    a: 'Not for most teams. Colliedesk is alpha: released and running on Colliedesk Cloud, with the email channel, Cc on replies, saved replies, attachments and the Freshdesk importer. A new conversation from the inbox, contact history and AI are not there yet, and the interface or schema may change. If your renewal is months away, the founding offer locks $99 every 3 months for life and includes the migration.',
   },
   {
     q: 'Can I get my tickets out of Freshdesk with the full conversation?',
