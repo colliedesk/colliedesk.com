@@ -9,6 +9,7 @@ import home from './home';
 import migrateFreshdesk from './migrate-freshdesk';
 import migrateFreshdeskDoneForYou from './migrate-freshdesk-done-for-you';
 import migrateFreshdeskExport from './migrate-freshdesk-export';
+import migrateFreshdeskReceipt from './migrate-freshdesk-receipt';
 import migrateZendeskExport from './migrate-zendesk-export';
 import openSource from './open-source';
 import pricing from './pricing';
@@ -35,7 +36,7 @@ let cache: readonly Page[] | undefined;
 // only a build needs; astro check and the config load must work without it.
 export function allPages(): readonly Page[] {
   cache ??= [
-    home, pricing, migrateFreshdesk, migrateFreshdeskDoneForYou, migrateFreshdeskExport, migrateZendeskExport,
+    home, pricing, migrateFreshdesk, migrateFreshdeskDoneForYou, migrateFreshdeskReceipt, migrateFreshdeskExport, migrateZendeskExport,
     compare, vsFreshdesk, vsZendesk, vsHelpScout, vsFront, vsZammad, vsChatwoot, vsFreescout,
     vsZohoDesk, vsHappyfox, vsGorgias, vsHubspotServiceHub, vsGroove, freshdeskAlternative, freshdeskPricingHistory, selfHostedHelpdesk, helpdeskForSmallTeams, openSource, roadmapPage(), changelog,
     privacy, terms, ...docsPages(),

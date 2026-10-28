@@ -1,0 +1,10 @@
+entity,in_freshdesk,in_colliedesk,failed,verified
+contacts,37,37,0,yes
+tickets,388,388,0,no (archive endpoint refused)
+messages,451,451,0,counted
+attachments,74,74,0,yes (SHA-256 re-read from storage)
+attachment_bytes,11385147,11385147,0,yes
+inline_images,11,11,0,yes (SHA-256 re-read from storage)
+time_entries,0,0,0,counted
+saved_replies,0,0,0,yes
+knowledge_base_articles,0,0,0,yes
