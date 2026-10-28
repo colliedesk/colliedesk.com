@@ -49,7 +49,7 @@ const ladderFaq: Faq[] = [
   },
   {
     q: 'What is the founding offer?',
-    a: `A founding customer pays $99 a quarter per workspace, and that price is locked for life. It is limited to 10 workspaces in total; when they are taken, the offer closes for good. We also migrate your Freshdesk data for you, free. It includes up to 10 agents and 20 GB of attachments, imported files included. Above 20 GB nothing is deleted and customer email keeps arriving with its attachments; only your own uploads and new imports wait until you upgrade to Cloud Team, which includes ${TEAM.storage}. It is for teams who want to leave Freshdesk and help shape Colliedesk while it is young.`,
+    a: `A founding customer pays $99 a quarter per workspace, and that price is locked for life. It is limited to 10 workspaces in total; when they are taken, the offer closes for good. We also migrate your Freshdesk data for you, free. It includes up to 10 agents and 20 GiB of attachments, imported files included. Above 20 GiB nothing is deleted and customer email keeps arriving with its attachments; only your own uploads and new imports wait until you upgrade to Cloud Team, which includes ${TEAM.storage}. It is for teams who want to leave Freshdesk and help shape Colliedesk while it is young.`,
   },
   {
     q: 'Can I get my money back if Founding is not right for us?',
@@ -72,7 +72,7 @@ const cloudRow = (p: (typeof CLOUD_PLANS)[number]): string => {
 const plansMd = `| Plan | Price | What you get |
 |---|---|---|
 ${CLOUD_PLANS.map(cloudRow).join('\n')}
-| Founding | $99 a quarter per workspace, locked for life; 30-day money-back guarantee | Limited to 10 workspaces. Freshdesk migration done for you, with a reconcile report. Up to 10 agents, no per-agent fees. 20 GB of attachments, imported files included. |
+| Founding | $99 a quarter per workspace, locked for life; 30-day money-back guarantee | Limited to 10 workspaces. Freshdesk migration done for you, with a reconcile report. Up to 10 agents, no per-agent fees. 20 GiB of attachments, imported files included. |
 | Self-host | $0, forever | Every feature, no agent limit. AGPL-3.0. AI with your own model key. |
 
 Every plan has every feature, unlimited conversations and no per-agent fees. AI reply drafts and triage are included with a monthly allowance, or use your own key at no extra fee. 14-day free trial, no card. No automatic charge: when the trial ends, you pick a plan or export your data. Cancel anytime.
@@ -84,7 +84,7 @@ const aiSection = `## AI in every plan
 
 **Shipped**, off until an admin turns it on: reply drafts and triage suggestions; a person edits and sends every reply. **Not built yet**: auto-answer for repetitive tickets with a human in the loop. There is no AI seat licence.
 
-- **Reply drafts and triage:** included in every plan, with a monthly allowance.
+- **Reply drafts and triage:** included in every plan, with a monthly allowance. We do not publish a number of drafts: the allowance is a monthly AI budget, and the app shows what is used and what is left under Settings → Built-in AI → Usage. It resets on the first day of each month (UTC). When it is used up, drafts and triage on our AI pause until then; your own key keeps working.
 - **Auto-answer:** ${AI_RESOLUTION} per resolution while Colliedesk is alpha, charged only when the customer does not need a person afterwards.
 - **Bring your own key:** you pay your provider directly; Colliedesk adds no fee. Self-hosted installs use your own key.`;
 
@@ -135,7 +135,7 @@ const foundingFaq: Faq[] = [
 
 const foundingPlansMd = `| Plan | Price | What you get |
 |---|---|---|
-| Founding | $99 a quarter per workspace ($396 a year, about $7.60 a week), locked for life; 30-day money-back guarantee | Limited to ${FOUNDING_SLOTS} workspaces. Freshdesk migration done for you, with a reconcile report. Up to 10 agents, no per-agent fees. 20 GB of attachments, imported files included. A direct line to the founder, and a say in the roadmap. [Join for $99/quarter](${FOUNDING_CHECKOUT}). |
+| Founding | $99 a quarter per workspace ($396 a year, about $7.60 a week), locked for life; 30-day money-back guarantee | Limited to ${FOUNDING_SLOTS} workspaces. Freshdesk migration done for you, with a reconcile report. Up to 10 agents, no per-agent fees. 20 GiB of attachments, imported files included. A direct line to the founder, and a say in the roadmap. [Join for $99/quarter](${FOUNDING_CHECKOUT}). |
 | Self-host | $0, forever | Every feature, no agent limit. AGPL-3.0. AI with your own model key. |
 
 Want to look first? Every Cloud workspace starts with a 14-day free trial, no card, no automatic charge.`;
@@ -158,7 +158,7 @@ A support team that matches all five:
 - You want it **hosted**: we run, update and back it up.
 - You need a shared inbox and tickets, not a PSA, RMM, client billing or SSO.
 
-**Not for you if** your team has 11 or more agents or a deeply customised setup, you need a PSA or RMM for an MSP, you use a helpdesk other than Freshdesk (our importer reads Freshdesk only for now), or you are looking for a free tool. For free, [self-host Colliedesk](/docs/self-host).
+**Not for you if** your team has 11 or more agents or a deeply customised setup, you need a PSA or RMM for an MSP, you use a helpdesk other than Freshdesk or Help Scout (we import both, but the free migration we do for you covers Freshdesk only), or you are looking for a free tool. For free, [self-host Colliedesk](/docs/self-host).
 
 ${aiSection}
 

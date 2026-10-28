@@ -160,7 +160,7 @@ for (const file of files.filter((f) => f.endsWith('.html'))) {
 // The founding price is locked for life, so its storage cap must be stated wherever the offer is.
 for (const path of ['/', '/pricing']) {
   const file = fileFor(path);
-  if (file && !readFileSync(file, 'utf8').includes('20 GB of attachments')) fail(`${path}: founding offer does not state the 20 GB attachment cap`);
+  if (file && !readFileSync(file, 'utf8').includes('20 GiB of attachments')) fail(`${path}: founding offer does not state the 20 GiB attachment cap`);
 }
 
 // A static Polar checkout link sells Founding to a buyer who has no workspace: the payment lands
@@ -530,12 +530,12 @@ for (const file of files.filter((f) => f.endsWith('.html') && !/[\\/](changelog|
   if (!/href="\/compare"[^>]*>Compare</.test(nav)) fail('header: "Compare" does not link /compare');
   // Footer "Import from" names the helpdesks people leave (Attio's footer does this for CRMs): the
   // live importer links its migration guide; importers not built yet carry a "Soon" badge.
+  // Help Scout is live too and links its import guide.
   const importFrom = home.match(/<h2 class="footer-title">Import from<\/h2>\s*<ul>([\s\S]*?)<\/ul>/)?.[1] ?? '';
   if (!importFrom) fail('footer: no "Import from" column');
   if (!/href="\/migrate\/freshdesk"[^>]*>Freshdesk</.test(importFrom)) fail('footer: "Import from" does not link Freshdesk to /migrate/freshdesk');
-  for (const name of ['Zendesk', 'Help Scout']) {
-    if (!new RegExp(`>${name}<span class="badge badge-coming">Soon</span>`).test(importFrom)) fail(`footer: "Import from" lists ${name} without a "Soon" badge`);
-  }
+  if (!/href="\/docs\/import-helpscout"[^>]*>Help Scout</.test(importFrom)) fail('footer: "Import from" does not link Help Scout to /docs/import-helpscout');
+  if (!/>Zendesk<span class="badge badge-coming">Soon<\/span>/.test(importFrom)) fail('footer: "Import from" lists Zendesk without a "Soon" badge');
   for (const urlPath of urlPaths.filter((p) => p.startsWith('/vs/') || p === '/compare')) {
     const name = urlPath.slice(1);
     if (!read(`${name}.html`).includes('trademarks of their owners')) fail(`${urlPath}: no trademark note`);

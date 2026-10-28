@@ -37,7 +37,7 @@ function FoundingCard({ state }: { state: FoundingState }) {
           <li>Price locked for life</li>
           <li>Freshdesk migration done for you, with a reconcile report</li>
           <li>Up to 10 agents, no per-agent fees</li>
-          <li>20 GB of attachments, imported files included</li>
+          <li>20 GiB of attachments, imported files included</li>
           {state.open && <li>A direct line to the founder</li>}
           {state.open && <li>A say in what we build next</li>}
         </ul>

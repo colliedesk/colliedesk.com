@@ -19,7 +19,7 @@ export const statusTable = `Colliedesk as a whole is alpha. Everything marked sh
 | One-command install and published container image | **Shipped** |
 | Upgrade guide, upgrades tested on real data | **Shipped** |
 | Colliedesk Cloud with a 14-day free trial, ${cloudPlans} | **Shipped** |
-| Microsoft 365 mailbox in one click | **Not built yet** |
+| Replies sent from your Microsoft 365 or Outlook.com mailbox (incoming mail still arrives by forwarding) | **Shipped** |
 | AI reply drafts and triage suggestions, off until an admin turns them on | **Shipped** |
 | AI auto-answer with a human in the loop | **Not built yet** |
 | Automations, macros, SLA, business hours, CSAT and reports | **Not built yet** |
