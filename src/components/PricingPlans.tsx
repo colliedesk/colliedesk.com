@@ -1,7 +1,8 @@
 import { FOUNDING_SLOTS, foundingState, type FoundingState } from '../lib/founding';
 import type { Page } from '../lib/page';
 import {
-  agentsLabel, CLOUD_PLANS, CONTACT_EMAIL, dollars, FOUNDING_CHECKOUT, MONEY_BACK, REPO, TRIAL_HREF, type CloudPlan,
+  agentsLabel, CLOUD_PLANS, CONTACT_EMAIL, dollars, FOUNDING_CHECKOUT, MONEY_BACK, REPO, TEAM_25, TEAM_25_IMPORT, TEAM_25_WHO, TRIAL_HREF,
+  type CloudPlan,
 } from '../lib/site';
 import { FoundingMeter } from './FoundingMeter';
 import { Hero } from './Hero';
@@ -17,6 +18,24 @@ function CloudCard({ plan }: { plan: CloudPlan }) {
       <p className="plan-size"><strong>{agentsLabel(plan)}</strong> <span>{plan.storage} of attachments</span></p>
       <p className="plan-who">{plan.who}</p>
       {plan.comingSoon ? <p className="plan-soon-note">Coming soon</p> : <a className="btn btn-primary" href={TRIAL_HREF}>Start free trial</a>}
+    </article>
+  );
+}
+
+// Team 25 beside Founding, while Founding is open: the plan for teams of 11 to 25 agents, whom Founding
+// does not fit. Once Founding closes the same plan shows in the ladder (CloudCard).
+function Team25Card() {
+  return (
+    <article className="plan">
+      <h2 className="plan-name">{TEAM_25.name}</h2>
+      <p className="plan-price"><strong>{dollars(TEAM_25.monthly)}</strong> <span>a month</span></p>
+      <p className="plan-alt">or {dollars(TEAM_25.yearly)} a year</p>
+      <p className="plan-size"><strong>{agentsLabel(TEAM_25)}</strong> <span>{TEAM_25.storage} of attachments</span></p>
+      <p className="plan-who">{TEAM_25_WHO}</p>
+      <ul>
+        <li>{TEAM_25_IMPORT}</li>
+      </ul>
+      <a className="btn btn-primary" href={TRIAL_HREF}>Start free trial</a>
     </article>
   );
 }
@@ -61,8 +80,8 @@ export function PricingHero({ page }: { page: Page }) {
 }
 
 // The plans above the pricing prose; the Markdown twin carries the same facts as a table.
-// While Founding is open it is the only plan on sale (its card is in the hero) and only Self-host shows
-// here; the Cloud ladder and the closed Founding card show once it closes.
+// While Founding is open its card is in the hero and Team 25 and Self-host show here; the rest of the
+// Cloud ladder and the closed Founding card show once it closes.
 export function PricingPlans() {
   const state = foundingState();
   return (
@@ -83,7 +102,7 @@ export function PricingPlans() {
         </>
       )}
       <div className={state.open ? 'plans plans-after-hero' : 'plans'}>
-        {!state.open && <FoundingCard state={state} />}
+        {state.open ? <Team25Card /> : <FoundingCard state={state} />}
         <article className="plan">
           <h2 className="plan-name">Self-host</h2>
           <p className="plan-price"><strong>$0</strong> <span>forever</span></p>

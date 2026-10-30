@@ -77,6 +77,14 @@ export const dollars = (n: number): string => `$${n.toLocaleString('en-US')}`;
 export const agentsLabel = (plan: CloudPlan): string =>
   plan.agents === null ? 'Unlimited agents' : plan.agents === 1 ? '1 agent' : `Up to ${plan.agents} agents`;
 
+// While Founding is open, Team 25 is also on sale, for the teams Founding does not fit: 11 to 25 agents.
+// The /pricing card, its Markdown twin and the home page share these lines.
+export const TEAM_25_AGENTS = '11 to 25';
+export const TEAM_25_WHO = `For support teams of ${TEAM_25_AGENTS} agents.`;
+export const TEAM_25_IMPORT = 'We run the Freshdesk import with you.';
+export const TEAM_25_BELOW = `Teams of ${TEAM_25_AGENTS} agents can buy Team 25 below.`;
+export const TEAM_25_HOME_LINE = `Teams of ${TEAM_25_AGENTS} agents can buy [${TEAM_25.name} for ${dollars(TEAM_25.monthly)} a month](/pricing).`;
+
 // AI on Colliedesk Cloud: reply drafts and triage are included in every plan with a monthly allowance;
 // auto-answer (not built yet) is charged per resolution, only when the customer needs no person
 // afterwards, at this price while Colliedesk is alpha; your own key adds no Colliedesk fee.

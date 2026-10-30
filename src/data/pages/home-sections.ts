@@ -89,7 +89,7 @@ ${AGENT_POINTS.map(([k, v]) => `- **${k}.** ${v}`).join('\n')}
 How approval works: [Agent requests and reply drafts](/docs/agent-requests).`;
 
 const cloudLine = FOUNDING_OPEN
-  ? `One plan while we are young: Founding, $99 every 3 months per workspace for up to 10 agents, locked for life, for ${FOUNDING_SLOTS} teams. [Who it is for](/pricing#who-founding-is-for).`
+  ? `Founding: $99 every 3 months per workspace for up to 10 agents, locked for life, for ${FOUNDING_SLOTS} teams. [Who it is for](/pricing#who-founding-is-for).`
   : `One flat price per workspace, never per agent: ${LADDER_LINE}. Team is ${PRICE.monthly} a month or ${PRICE.yearly} a year.`;
 const flatLine = FOUNDING_OPEN
   ? 'Founding is $99 every 3 months per workspace for up to 10 agents, no per-agent fees. Self-host for $0.'
