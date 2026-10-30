@@ -3,7 +3,7 @@
 // with Founding and gives the monthly plans as the prices after its places are taken. Once Founding closes the
 // same phrases name the monthly plans alone. `pnpm check:content` fails a page that names a plan price before Founding.
 import { FOUNDING_SLOTS, foundingState } from './founding';
-import { FOUNDING_AGENTS, type NavLink, PRICE, TEAM_25_SALE } from './site';
+import { FOUNDING_AGENTS, type NavLink, PRICE } from './site';
 
 export const FOUNDING_OPEN = foundingState().open;
 
@@ -16,7 +16,7 @@ export const OUR_CELL = FOUNDING_OPEN ? '$99 every 3 months (Founding)' : `${PRI
 
 /** Lead sentences for a page that states a Cloud price; empty once Founding closes. */
 export const FOUNDING_LEAD = FOUNDING_OPEN
-  ? `Today Colliedesk Cloud sells Founding for teams of ${FOUNDING_AGENTS} agents: $99 every 3 months ($396 a year) per workspace, locked for life. Only the first ${FOUNDING_SLOTS} workspaces get it, with Freshdesk migration done for you. ${TEAM_25_SALE}`
+  ? `Colliedesk Founding is $99 every 3 months ($396 a year) per workspace for teams of ${FOUNDING_AGENTS} agents, locked for life. Only the first ${FOUNDING_SLOTS} workspaces get it, with Freshdesk migration done for you.`
   : '';
 
 /** Put before a sentence that names the monthly plans; empty once Founding closes. */
