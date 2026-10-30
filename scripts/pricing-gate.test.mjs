@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { homeFindings, pricingFindings } from './pricing-gate.mjs';
+import { homeFindings, onePlanFindings, pricingFindings } from './pricing-gate.mjs';
 
 // Fixtures are written by hand from the owner's rule: while Founding is open, /pricing and the home
 // page sell Founding ($99 every 3 months) and Team 25 ($149 a month); Solo, Small, Team and
@@ -101,4 +101,40 @@ test('home, founding open: the rest of the ladder fails', () => {
 test('home, founding closed: nothing to enforce', () => {
   assert.deepEqual(home(LADDER, false), []);
   assert.deepEqual(home(FOUNDING, false), []);
+});
+
+// Team 25 is on sale exactly while Founding is open, so no page may say Cloud sells one plan then.
+const onePlan = (text, open = true) => onePlanFindings({ path: '/vs/zendesk.md', text, open });
+
+test('one plan, founding open: every wording of "Cloud sells one plan" fails', () => {
+  const stale = [
+    'Today Colliedesk Cloud sells one plan, Founding: $99 every 3 months ($396 a year) per workspace.',
+    'Today it sells one plan, Founding: $99 every 3 months per workspace.',
+    'Colliedesk Cloud is sold as one plan while it is young: Founding.',
+    '### Why is there only one plan?',
+    '# One plan. $99 every 3 months, locked for life.',
+    '## One plan while we are young',
+    'One plan while we are young: Founding, $99 every 3 months per workspace.',
+    'We sell one thing right now: **Founding**, for 10 support teams.',
+    'One plan, one price: $99 every 3 months per workspace.',
+  ];
+  for (const text of stale) {
+    const findings = onePlan(text);
+    assert.equal(findings.length, 1, text);
+    assert.match(findings[0], /says Cloud sells one plan/, text);
+  }
+});
+
+test('one plan, founding open: the two-plan wording passes', () => {
+  const lead = 'Today Colliedesk Cloud sells Founding for teams of 3 to 10 agents: $99 every 3 months per workspace, locked for life. Teams of 11 to 25 agents can buy Team 25 at $149 a month.';
+  assert.deepEqual(onePlan(lead), []);
+});
+
+test('one plan, founding open: "move up one plan" in ladder copy is not a sales claim', () => {
+  assert.deepEqual(onePlan("Adding an agent does not change the price; you move up one plan only when you pass your plan's agent limit."), []);
+  assert.deepEqual(onePlan('Pass it and you move up one plan; at 11 agents that is Team 25.'), []);
+});
+
+test('one plan, founding closed: nothing to enforce', () => {
+  assert.deepEqual(onePlan('Today Colliedesk Cloud sells one plan, Founding.', false), []);
 });

@@ -6,7 +6,7 @@ import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, relative, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { runInNewContext } from 'node:vm';
-import { homeFindings, pricingFindings } from './pricing-gate.mjs';
+import { homeFindings, onePlanFindings, pricingFindings } from './pricing-gate.mjs';
 
 const ORIGIN = 'https://colliedesk.com';
 const UPDATES_FORM_URL = 'https://app.colliedesk.com/api/v1/public/forms/hclabs';
@@ -233,6 +233,12 @@ const foundingOpen = existsSync(foundingFile) ? JSON.parse(readFileSync(founding
       fail(`${path}: founding is open but the page does not name who Founding is for and who it is not for`);
     }
   }
+}
+// No page, Markdown twin or llms file may say Cloud sells one plan while Team 25 is on sale. /docs and
+// llms-full.txt (which embeds them) come from the product repository; every site page in llms-full.txt
+// is already checked through its twin.
+for (const file of files.filter((f) => /\.(html|md|txt)$/.test(f) && !/[\\/]docs[\\/]/.test(f.slice(outDir.length - 1)) && !f.endsWith('llms-full.txt'))) {
+  for (const finding of onePlanFindings({ path: file.slice(outDir.length - 1), text: readFileSync(file, 'utf8'), open: foundingOpen })) fail(finding);
 }
 // The home page follows /pricing: while Founding is open it quotes Founding and Team 25, never the rest of the ladder.
 // Hand-worked: Founding is 4 x $99 = $396 a year; a year of Freshdesk Pro + Copilot for five agents is

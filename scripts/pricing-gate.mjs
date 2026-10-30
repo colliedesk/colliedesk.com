@@ -41,3 +41,18 @@ export function homeFindings({ path, text, open }) {
   if (!showsTeam25(text)) findings.push(`${path}: founding is open but the home page does not show Team 25 at ${TEAM_25_PRICE} a month`);
   return findings;
 }
+
+// Team 25 is on sale exactly while Founding is open, so no page may say Cloud sells one plan then.
+// "Move up one plan" in the ladder copy is about plan limits, not about what is for sale.
+const ONE_PLAN = new RegExp([
+  '\\b(?:sells|sold as|only) one (?:Cloud )?plan\\b',
+  '\\bone plan(?: while|, one price)\\b',
+  '(?:^|[>#]\\s*)one plan\\.\\s*\\$',
+  '\\bsell one thing\\b',
+].join('|'), 'im');
+
+/** Findings for any built page, Markdown twin or llms file that says Cloud sells one plan. */
+export function onePlanFindings({ path, text, open }) {
+  if (!open || !ONE_PLAN.test(text)) return [];
+  return [`${path}: says Cloud sells one plan while Team 25 is on sale; say Founding is for teams of 3 to 10 agents and Team 25 for teams of 11 to 25`];
+}
