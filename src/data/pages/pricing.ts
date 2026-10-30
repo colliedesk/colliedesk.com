@@ -1,5 +1,6 @@
 import {
-  AI_EXTRA, AI_RESOLUTION, agentsLabel, CLOUD_PLANS, CONTACT_EMAIL, dollars, FOUNDING_CHECKOUT, FOUNDING_HREF, LADDER_LINE, PRICE, REPO, SMALL, SOLO, TEAM, TRIAL_HREF, UNLIMITED,
+  AI_EXTRA, AI_RESOLUTION, agentsLabel, CLOUD_PLANS, CONTACT_EMAIL, dollars, FOUNDING_CHECKOUT, FOUNDING_HREF, LADDER_LINE, PRICE, REPO, SMALL, SOLO, TEAM, TEAM_25,
+  TEAM_25_AGENTS, TEAM_25_BELOW, TEAM_25_IMPORT, TEAM_25_WHO, TRIAL_HREF, UNLIMITED,
 } from '../../lib/site';
 import { FOUNDING_SLOTS, foundingState } from '../../lib/founding';
 import { faqPage, softwareApplication } from '../../lib/schema';
@@ -104,8 +105,8 @@ ${aiSection}
 
 Most helpdesks charge per agent, then charge again for AI. For five agents, Freshdesk Pro with Freddy AI Copilot lists at $5,040 a year billed annually, or $505 a month billed monthly. Colliedesk Cloud Team is ${PRICE.yearly} a year or ${PRICE.monthly} a month for the workspace, plus ${AI_EXTRA}. Prices and sources: [vs Freshdesk](/vs/freshdesk), [vs Zendesk](/vs/zendesk), [vs Help Scout](/vs/help-scout).`;
 
-// While Founding is open it is the only plan we sell: one price, one decision. The ladder above is
-// what new workspaces choose once the places are taken; the site rebuilds when that happens.
+// While Founding is open it leads, and Team 25 sits beside it for teams of 11 to 25 agents. The rest of
+// the ladder is what new workspaces choose once the places are taken; the site rebuilds when that happens.
 const open = foundingState().open;
 const FOUNDING_FAQ = ladderFaq.find((f) => f.q === 'What is the founding offer?');
 const REFUND_FAQ = ladderFaq.find((f) => f.q.startsWith('Can I get my money back'));
@@ -113,10 +114,12 @@ const SELF_HOST_FAQ = ladderFaq.find((f) => f.q === 'Is self-hosting really free
 const AI_FAQ = ladderFaq.find((f) => f.q === 'How is AI priced?');
 if (!FOUNDING_FAQ || !REFUND_FAQ || !SELF_HOST_FAQ || !AI_FAQ) throw new Error('pricing FAQ entry missing');
 
+const TEAM_25_INSTEAD = `Teams of ${TEAM_25_AGENTS} agents can buy ${TEAM_25.name} instead, at ${PRICE.team25Monthly} a month.`;
+
 const foundingFaq: Faq[] = [
   {
-    q: 'Why is there only one plan?',
-    a: `Because Colliedesk is young and we want ${FOUNDING_SLOTS} teams who use it every day and tell us what to fix. One plan, one price: $99 every 3 months per workspace, $396 a year, about $7.60 a week, for up to 10 agents. No per-agent fees, no tiers to compare.`,
+    q: 'Why only 10 Founding places?',
+    a: `Because Colliedesk is young and we want ${FOUNDING_SLOTS} teams who use it every day and tell us what to fix. Founding is $99 every 3 months per workspace, $396 a year, about $7.60 a week, for up to 10 agents. No per-agent fees. ${TEAM_25_INSTEAD}`,
   },
   FOUNDING_FAQ,
   REFUND_FAQ,
@@ -133,16 +136,20 @@ const foundingFaq: Faq[] = [
   SELF_HOST_FAQ,
 ];
 
+// Team 25 beside Founding: the plan for teams of 11 to 25 agents.
+const team25Row = `| ${TEAM_25.name} | ${dollars(TEAM_25.monthly)} a month, or ${dollars(TEAM_25.yearly)} a year per workspace | ${agentsLabel(TEAM_25)}, ${TEAM_25.storage} of attachments. ${TEAM_25_WHO} ${TEAM_25_IMPORT} [Start free trial](${TRIAL_HREF}). |`;
+
 const foundingPlansMd = `| Plan | Price | What you get |
 |---|---|---|
 | Founding | $99 every 3 months per workspace ($396 a year, about $7.60 a week), locked for life; 30-day money-back guarantee | Limited to ${FOUNDING_SLOTS} workspaces. Freshdesk migration done for you, with a reconcile report. Up to 10 agents, no per-agent fees. 20 GiB of attachments, imported files included. A direct line to the founder, and a say in the roadmap. [Join for $99 every 3 months](${FOUNDING_CHECKOUT}). |
+${team25Row}
 | Self-host | $0, forever | Every feature, no agent limit. AGPL-3.0. AI with your own model key. |
 
 Want to look first? Every Cloud workspace starts with a 14-day free trial, no card, no automatic charge.`;
 
-const foundingBody = `## One plan while we are young
+const foundingBody = `## Founding, while we are young
 
-We sell one thing right now: **Founding**, for ${FOUNDING_SLOTS} support teams who want to leave Freshdesk. You get every feature, we move your Freshdesk history for you and prove nothing was lost, and you talk to the person who builds Colliedesk. When the ${FOUNDING_SLOTS} places are taken, Founding closes for good and your price stays at $99 every 3 months.
+**Founding** is for ${FOUNDING_SLOTS} support teams who want to leave Freshdesk. You get every feature, we move your Freshdesk history for you and prove nothing was lost, and you talk to the person who builds Colliedesk. When the ${FOUNDING_SLOTS} places are taken, Founding closes for good and your price stays at $99 every 3 months. ${TEAM_25_INSTEAD}
 
 ## Honest status
 
@@ -158,7 +165,7 @@ A support team that matches all five:
 - You want it **hosted**: we run, update and back it up.
 - You need a shared inbox and tickets, not a PSA, RMM, client billing or SSO.
 
-**Not for you if** your team has 11 or more agents or a deeply customised setup, you need a PSA or RMM for an MSP, you use a helpdesk other than Freshdesk or Help Scout (we import both, but the free migration we do for you covers Freshdesk only), or you are looking for a free tool. For free, [self-host Colliedesk](/docs/self-host).
+**Not for you if** your team has 11 or more agents (Team 25 fits ${TEAM_25_AGENTS}) or a deeply customised setup, you need a PSA or RMM for an MSP, you use a helpdesk other than Freshdesk or Help Scout (we import both, but the free migration we do for you covers Freshdesk only), or you are looking for a free tool. For free, [self-host Colliedesk](/docs/self-host).
 
 ${aiSection}
 
@@ -167,12 +174,12 @@ ${aiSection}
 For five agents, Freshdesk Pro with Freddy AI Copilot lists at $5,040 a year billed annually. Founding is $396 a year ($99 every 3 months) for the workspace, plus ${AI_EXTRA}. Prices and sources: [vs Freshdesk](/vs/freshdesk), [vs Zendesk](/vs/zendesk), [vs Help Scout](/vs/help-scout).`;
 
 const foundingPage = {
-  title: 'Colliedesk pricing: one plan, $99 every 3 months per workspace, locked for life',
+  title: `Colliedesk pricing: Founding $99 every 3 months, ${TEAM_25.name} ${PRICE.team25Monthly} a month`,
   description:
-    `Colliedesk sells one plan while it is young: Founding, $99 every 3 months per workspace for up to 10 agents, locked for life, with Freshdesk migration done for you. Only ${FOUNDING_SLOTS} places. 30-day money-back guarantee. Self-hosting is free.`,
-  summary: `one plan while founding is open: $99 every 3 months per workspace, locked for life, up to 10 agents, Freshdesk migration done for you, ${FOUNDING_SLOTS} places, 30-day money-back guarantee; 14-day free trial; self-host free`,
-  h1: 'One plan. $99 every 3 months, locked for life.',
-  lede: `For ${FOUNDING_SLOTS} support teams of 3 to 10 agents who pay for Freshdesk and just got a price rise. $396 a year, about $7.60 a week for the whole team. If it is not right within 30 days, we refund you in full.`,
+    `Founding is $99 every 3 months per workspace for up to 10 agents, locked for life, with Freshdesk migration done for you. Only ${FOUNDING_SLOTS} places, 30-day money-back guarantee. ${TEAM_25.name} is ${PRICE.team25Monthly} a month for up to ${TEAM_25.agents} agents. Self-hosting is free.`,
+  summary: `Founding while it is open: $99 every 3 months per workspace, locked for life, up to 10 agents, Freshdesk migration done for you, ${FOUNDING_SLOTS} places, 30-day money-back guarantee; ${TEAM_25.name} ${PRICE.team25Monthly} a month for up to ${TEAM_25.agents} agents; 14-day free trial; self-host free`,
+  h1: 'Founding: $99 every 3 months, locked for life.',
+  lede: `For ${FOUNDING_SLOTS} support teams of 3 to 10 agents who pay for Freshdesk and just got a price rise. $396 a year, about $7.60 a week for the whole team. If it is not right within 30 days, we refund you in full. ${TEAM_25_BELOW}`,
   preMd: foundingPlansMd,
   body: foundingBody,
   faq: foundingFaq,
@@ -206,6 +213,6 @@ const page: Page = {
   preMd: shown.preMd,
   body: shown.body,
   faq: shown.faq,
-  jsonLd: [softwareApplication({ ladder: !open }), faqPage(shown.faq)],
+  jsonLd: [softwareApplication(open ? { plans: [TEAM_25] } : {}), faqPage(shown.faq)],
 };
 export default page;

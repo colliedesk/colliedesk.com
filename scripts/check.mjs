@@ -6,6 +6,7 @@ import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, relative, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { runInNewContext } from 'node:vm';
+import { homeFindings, onePlanFindings, pricingFindings } from './pricing-gate.mjs';
 
 const ORIGIN = 'https://colliedesk.com';
 const UPDATES_FORM_URL = 'https://app.colliedesk.com/api/v1/public/forms/hclabs';
@@ -215,19 +216,17 @@ if (existsSync(foundingFile)) {
   }
 }
 
-// While founding is open, /pricing sells one offer: Founding. The Cloud ladder appears only once the
-// ten places are taken (the site rebuilds when the state changes). No state file reads as open.
+// While founding is open, /pricing sells Founding and Team 25 (teams of 11 to 25 agents). The rest of
+// the Cloud ladder appears only once the ten places are taken (the site rebuilds when the state
+// changes). No state file reads as open. The plan rule itself is in scripts/pricing-gate.mjs, with its tests.
 const foundingOpen = existsSync(foundingFile) ? JSON.parse(readFileSync(foundingFile, 'utf8')).open !== false : true;
 {
   const open = foundingOpen;
-  const ladder = /\bTeam 25\b|\bSolo\b/;
   for (const path of ['/pricing', '/pricing.md']) {
     const file = fileFor(path);
     if (!file) continue;
     const text = readFileSync(file, 'utf8');
-    if (open && ladder.test(text)) fail(`${path}: founding is open but the page lists the Cloud ladder; sell Founding only`);
-    if (open && !text.includes('$99 every 3 months')) fail(`${path}: founding is open but the page does not show the $99 every 3 months price`);
-    if (!open && !ladder.test(text)) fail(`${path}: founding is closed but the page does not list the Cloud ladder`);
+    for (const finding of pricingFindings({ path, text, open })) fail(finding);
     // Founding is sold to one customer: 3 to 10 agents, paying for Freshdesk, facing a price rise.
     // The page names them and names who it is not for, so the wrong buyer leaves before paying.
     if (open && (!text.includes('3 to 10 agents') || !text.includes('Who Founding is for') || !text.includes('Not for you if'))) {
@@ -235,13 +234,19 @@ const foundingOpen = existsSync(foundingFile) ? JSON.parse(readFileSync(founding
     }
   }
 }
-// The home page follows /pricing: while Founding is open it quotes Founding only, never the ladder.
+// No page, Markdown twin or llms file may say Cloud sells one plan while Team 25 is on sale. /docs and
+// llms-full.txt (which embeds them) come from the product repository; every site page in llms-full.txt
+// is already checked through its twin.
+for (const file of files.filter((f) => /\.(html|md|txt)$/.test(f) && !/[\\/]docs[\\/]/.test(f.slice(outDir.length - 1)) && !f.endsWith('llms-full.txt'))) {
+  for (const finding of onePlanFindings({ path: file.slice(outDir.length - 1), text: readFileSync(file, 'utf8'), open: foundingOpen })) fail(finding);
+}
+// The home page follows /pricing: while Founding is open it quotes Founding and Team 25, never the rest of the ladder.
 // Hand-worked: Founding is 4 x $99 = $396 a year; a year of Freshdesk Pro + Copilot for five agents is
 // $5,040; $5,040 - $396 = $4,644.
 if (foundingOpen) {
   for (const name of ['index.html', 'index.md']) {
     const text = read(name);
-    if (/\bSolo\b|\bTeam 25\b|Plans from/.test(text)) fail(`/${name}: founding is open but the home page quotes the Cloud ladder`);
+    for (const finding of homeFindings({ path: `/${name}`, text, open: true })) fail(finding);
     if (!text.includes('$396 a year') || !text.includes('$4,644')) fail(`/${name}: founding is open but the home page does not price Founding at $396 a year against Freshdesk's $5,040 ($4,644 kept)`);
   }
 }
@@ -410,19 +415,19 @@ const PRICE_MAX_AGE_DAYS = 90;
 }
 
 // Cloud plan ladder (owner decision 20/10/2026), one flat price per workspace, a year = 10 months:
-// Solo $19 / $190, 1 agent, 10 GB; Small $39 / $390, 3 agents, 30 GB; Team $69 / $690, 10 agents,
-// 100 GB; Team 25 $149 / $1,490, 25 agents, 250 GB; Unlimited $349 a month billed annually only
+// Solo $19 / $190, 1 agent, 10 GiB; Small $39 / $390, 3 agents, 30 GiB; Team $69 / $690, 10 agents,
+// 100 GiB; Team 25 $149 / $1,490, 25 agents, 250 GiB; Unlimited $349 a month billed annually only
 // ($3,490 a year), unlimited agents, 1 TB, coming soon with no checkout. No free Cloud plan.
 // Extra storage is not sold self-serve, so no add-on price may appear. Teams above the caps are
 // never sent to "contact us" for 10 agents: Team 25 covers up to 25.
 const LADDER = [
-  { monthly: '$19', yearly: '$190', agents: '1 agent', storage: '10 GB' },
-  { monthly: '$39', yearly: '$390', agents: 'Up to 3 agents', storage: '30 GB' },
-  { monthly: '$69', yearly: '$690', agents: 'Up to 10 agents', storage: '100 GB' },
-  { monthly: '$149', yearly: '$1,490', agents: 'Up to 25 agents', storage: '250 GB' },
+  { monthly: '$19', yearly: '$190', agents: '1 agent', storage: '10 GiB' },
+  { monthly: '$39', yearly: '$390', agents: 'Up to 3 agents', storage: '30 GiB' },
+  { monthly: '$69', yearly: '$690', agents: 'Up to 10 agents', storage: '100 GiB' },
+  { monthly: '$149', yearly: '$1,490', agents: 'Up to 25 agents', storage: '250 GiB' },
   { monthly: '$349', yearly: '$3,490', agents: 'Unlimited agents', storage: '1 TB' },
 ];
-// The ladder facts below hold once Founding closes; while it is open /pricing sells Founding only.
+// The ladder facts below hold once Founding closes; while it is open /pricing sells Founding and Team 25 only.
 if (!foundingOpen) {
   const supportMail = 'support@colliedesk.com';
   for (const name of ['pricing.html', 'pricing.md']) {
@@ -441,6 +446,8 @@ if (!foundingOpen) {
     if (!ld.includes(`"name":"${name}","price":"${price}"`)) fail(`/pricing: JSON-LD has no ${name} offer at ${price}`);
   }
   if (ld.includes('"name":"Colliedesk Cloud Unlimited"')) fail('/pricing: JSON-LD offers Unlimited, which cannot be bought yet');
+} else if (!read('pricing.html').includes('"name":"Colliedesk Cloud Team 25","price":"149"')) {
+  fail('/pricing: founding is open but the JSON-LD has no Team 25 offer at 149');
 }
 {
   const stale = /(more than|above|over) 10 agents|Above that, email us/i;
@@ -453,7 +460,7 @@ if (!foundingOpen) {
 
 // Status honesty: the product is alpha and live on Colliedesk Cloud. No page may promise a
 // release that has already happened ("v0.2"), call the product pre-alpha or say checkout is
-// coming. The Solo, Small, Team and Team 25 cards must start the free trial at the real signup
+// coming. The Team 25 card (and, once Founding closes, Solo, Small and Team) must start the free trial at the real signup
 // entry, every "Start free trial" button must go to the same place, and the Unlimited card (coming
 // soon) must offer no link at all. The trial link carries ?intent=trial so the app titles the page for a
 // new workspace; the bare sign-in page is only for "Log in".
@@ -465,15 +472,22 @@ const TRIAL_URL = `${SIGN_IN_URL}?intent=trial`;
     const m = readFileSync(file, 'utf8').match(stale);
     if (m) fail(`${file.slice(outDir.length - 1)}: stale status claim "${m[0]}"`);
   }
-  const pricing = foundingOpen ? '' : read('pricing.html');
+  const pricing = read('pricing.html');
   const cardOf = (plan) => pricing.match(new RegExp(`<article class="plan[^"]*"[^>]*>\\s*<h2 class="plan-name"[^>]*>${plan}</h2>[\\s\\S]*?</article>`))?.[0] ?? '';
-  for (const plan of foundingOpen ? [] : ['Solo', 'Small', 'Team', 'Team 25']) {
+  for (const plan of foundingOpen ? ['Team 25'] : ['Solo', 'Small', 'Team', 'Team 25']) {
     const card = cardOf(plan);
     if (!card) fail(`/pricing: ${plan} card missing`);
     else if (!card.includes(`href="${TRIAL_URL}"`)) fail(`/pricing: ${plan} card has no free-trial CTA to ${TRIAL_URL}`);
   }
+  // Team 25 beside Founding: what a team of 11 to 25 agents reads before it starts the trial.
+  if (foundingOpen) {
+    const card = cardOf('Team 25');
+    for (const needle of ['$149', 'a month', '$1,490', 'a year', 'Up to 25 agents', '250 GiB of attachments', 'For support teams of 11 to 25 agents.', 'We run the Freshdesk import with you.']) {
+      if (card && !card.includes(needle)) fail(`/pricing: Team 25 card lacks "${needle}"`);
+    }
+  }
   const unlimited = cardOf('Unlimited');
-  if (foundingOpen) { /* no ladder cards while Founding is the only plan */ } else if (!unlimited) fail('/pricing: Unlimited card missing');
+  if (foundingOpen) { /* only Team 25 sits beside Founding; the rest of the ladder is hidden */ } else if (!unlimited) fail('/pricing: Unlimited card missing');
   else if (!unlimited.includes('Coming soon') || unlimited.includes('<a ')) fail('/pricing: Unlimited card must say Coming soon and offer no checkout or trial link');
   for (const file of pages) {
     for (const m of readFileSync(file, 'utf8').matchAll(/<a[^>]*href="([^"]*)"[^>]*>\s*Start free trial/g)) {
@@ -570,7 +584,7 @@ for (const file of files.filter((f) => f.endsWith('.html') && !/[\\/](changelog|
   if (!home.includes('$5,040') || !home.includes(foundingOpen ? '$4,644' : '$4,350')) fail(`/: closing block must show $5,040 a year and the ${foundingOpen ? '$4,644' : '$4,350'} difference`);
   for (const [name, needles] of [
     ['index.html', ['Why per workspace, not per agent?', 'Who is behind Colliedesk?', 'What happens over the limit?']],
-    ['pricing.html', foundingOpen ? ['Why is there only one plan?', 'Limited to 10 workspaces', 'no card'] : ['Why per workspace, not per agent?', 'Every feature on every plan']],
+    ['pricing.html', foundingOpen ? ['Why only 10 Founding places?', 'Limited to 10 workspaces', 'no card'] : ['Why per workspace, not per agent?', 'Every feature on every plan']],
     ['vs/freshdesk.html', ['Where Freshdesk does more']],
   ]) {
     for (const needle of needles) if (!read(name).includes(needle)) fail(`/${name}: missing "${needle}"`);

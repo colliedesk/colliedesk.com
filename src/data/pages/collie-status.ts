@@ -2,7 +2,7 @@
 import { FOUNDING_OPEN } from '../../lib/cloud-price';
 import { AI_RESOLUTION, LADDER_LINE } from '../../lib/site';
 
-// While Founding is open it is the only plan on sale.
+// While Founding is open it leads the plans on sale; Team 25 is on sale beside it.
 const cloudPlans = FOUNDING_OPEN ? 'then Founding, $99 every 3 months, 10 places' : 'then a plan from Solo to Team 25, or Founding';
 export const statusTable = `Colliedesk as a whole is alpha. Everything marked shipped runs on Colliedesk Cloud today, and any release may still change the interface or the database schema.
 

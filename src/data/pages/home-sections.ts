@@ -2,7 +2,7 @@
 import { FOUNDING_SLOTS, foundingState } from '../../lib/founding';
 import { AI_EXTRA, LADDER_LINE, PRICE, PRICES_READ, TEAM } from '../../lib/site';
 
-// While Founding is open it is the only plan we sell, so the home page prices Founding; once the
+// While Founding is open it leads the plans we sell, so the home page prices Founding; once the
 // places are taken (the site rebuilds on that change) it prices Cloud Team.
 export const FOUNDING_OPEN = foundingState().open;
 export const OURS_NAME = FOUNDING_OPEN ? 'Colliedesk Founding' : 'Colliedesk Cloud Team';
@@ -89,7 +89,7 @@ ${AGENT_POINTS.map(([k, v]) => `- **${k}.** ${v}`).join('\n')}
 How approval works: [Agent requests and reply drafts](/docs/agent-requests).`;
 
 const cloudLine = FOUNDING_OPEN
-  ? `One plan while we are young: Founding, $99 every 3 months per workspace for up to 10 agents, locked for life, for ${FOUNDING_SLOTS} teams. [Who it is for](/pricing#who-founding-is-for).`
+  ? `Founding: $99 every 3 months per workspace for up to 10 agents, locked for life, for ${FOUNDING_SLOTS} teams. [Who it is for](/pricing#who-founding-is-for).`
   : `One flat price per workspace, never per agent: ${LADDER_LINE}. Team is ${PRICE.monthly} a month or ${PRICE.yearly} a year.`;
 const flatLine = FOUNDING_OPEN
   ? 'Founding is $99 every 3 months per workspace for up to 10 agents, no per-agent fees. Self-host for $0.'

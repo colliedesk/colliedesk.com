@@ -16,7 +16,7 @@ export const OUR_CELL = FOUNDING_OPEN ? '$99 every 3 months (Founding)' : `${PRI
 
 /** Lead sentences for a page that states a Cloud price; empty once Founding closes. */
 export const FOUNDING_LEAD = FOUNDING_OPEN
-  ? `Today Colliedesk Cloud sells one plan, Founding: $99 every 3 months ($396 a year) per workspace for up to 10 agents, locked for life. Only the first ${FOUNDING_SLOTS} workspaces get it, with Freshdesk migration done for you.`
+  ? `Today Colliedesk Cloud sells Founding: $99 every 3 months ($396 a year) per workspace for up to 10 agents, locked for life. Only the first ${FOUNDING_SLOTS} workspaces get it, with Freshdesk migration done for you.`
   : '';
 
 /** Put before a sentence that names the monthly plans; empty once Founding closes. */
