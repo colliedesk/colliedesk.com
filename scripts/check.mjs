@@ -6,6 +6,7 @@ import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, relative, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { runInNewContext } from 'node:vm';
+import { homeFindings, pricingFindings } from './pricing-gate.mjs';
 
 const ORIGIN = 'https://colliedesk.com';
 const UPDATES_FORM_URL = 'https://app.colliedesk.com/api/v1/public/forms/hclabs';
@@ -217,17 +218,15 @@ if (existsSync(foundingFile)) {
 
 // While founding is open, /pricing sells one offer: Founding. The Cloud ladder appears only once the
 // ten places are taken (the site rebuilds when the state changes). No state file reads as open.
+// The plan rule itself is in scripts/pricing-gate.mjs, with its tests.
 const foundingOpen = existsSync(foundingFile) ? JSON.parse(readFileSync(foundingFile, 'utf8')).open !== false : true;
 {
   const open = foundingOpen;
-  const ladder = /\bTeam 25\b|\bSolo\b/;
   for (const path of ['/pricing', '/pricing.md']) {
     const file = fileFor(path);
     if (!file) continue;
     const text = readFileSync(file, 'utf8');
-    if (open && ladder.test(text)) fail(`${path}: founding is open but the page lists the Cloud ladder; sell Founding only`);
-    if (open && !text.includes('$99 every 3 months')) fail(`${path}: founding is open but the page does not show the $99 every 3 months price`);
-    if (!open && !ladder.test(text)) fail(`${path}: founding is closed but the page does not list the Cloud ladder`);
+    for (const finding of pricingFindings({ path, text, open })) fail(finding);
     // Founding is sold to one customer: 3 to 10 agents, paying for Freshdesk, facing a price rise.
     // The page names them and names who it is not for, so the wrong buyer leaves before paying.
     if (open && (!text.includes('3 to 10 agents') || !text.includes('Who Founding is for') || !text.includes('Not for you if'))) {
@@ -241,7 +240,7 @@ const foundingOpen = existsSync(foundingFile) ? JSON.parse(readFileSync(founding
 if (foundingOpen) {
   for (const name of ['index.html', 'index.md']) {
     const text = read(name);
-    if (/\bSolo\b|\bTeam 25\b|Plans from/.test(text)) fail(`/${name}: founding is open but the home page quotes the Cloud ladder`);
+    for (const finding of homeFindings({ path: `/${name}`, text, open: true })) fail(finding);
     if (!text.includes('$396 a year') || !text.includes('$4,644')) fail(`/${name}: founding is open but the home page does not price Founding at $396 a year against Freshdesk's $5,040 ($4,644 kept)`);
   }
 }
