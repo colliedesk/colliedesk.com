@@ -20,6 +20,8 @@ export async function seed(origin, now = new Date()) {
   await tom('PUT', '/channels/email', { support_address: SCENE.supportAddress });
   const channel = await tom('POST', '/channels/email/secret');
   for (const name of SCENE.tags) await tom('POST', '/tags', { name });
+  // A team in its daily work has put the setup guide away, as Hide does in the web app.
+  await tom('PUT', '/agents/me/setup-guide', { hidden: true });
 
   // Customer mail, oldest first, through the inbound endpoint with a trusted SPF/DKIM pass.
   const ids = new Map();
@@ -94,7 +96,7 @@ function retime(rows) {
         `UPDATE messages SET created_at=${literal(times.reply)} WHERE id=${literal(ids.reply)};`,
         `UPDATE agent_requests SET created_at=${literal(requested)}, decided_at=${literal(times.reply)},
            expires_at=${literal(new Date(requested.getTime() + 7 * 86_400_000))} WHERE id=${literal(ids.request)};`,
-        `UPDATE email_outbox SET created_at=${literal(times.reply)}, updated_at=${literal(sent)}, sent_at=${literal(sent)},
+        `UPDATE channel_outbox SET created_at=${literal(times.reply)}, updated_at=${literal(sent)}, sent_at=${literal(sent)},
            next_attempt_at=${literal(times.reply)} WHERE message_id=${literal(ids.reply)};`,
       );
     }
