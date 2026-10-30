@@ -1,9 +1,9 @@
-// How a page states what Colliedesk Cloud costs today. While Founding is open it leads, with Team 25 on sale
-// beside it for teams of 11 to 25 agents (src/data/pages/pricing.ts), so a page that names a Cloud price leads
-// with Founding and gives the monthly plans as the prices after its places are taken. Once Founding closes the
-// same phrases name the monthly plans alone. `pnpm check:content` fails a page that names a plan price before Founding.
+// How a page states what Colliedesk Cloud costs today. While Founding is open it is the only Cloud plan
+// on sale (src/data/pages/pricing.ts), so a page that names a Cloud price leads with Founding and gives
+// the monthly plans as the prices after its places are taken. Once Founding closes the same phrases name
+// the monthly plans alone. `pnpm check:content` fails a page that names a plan price before Founding.
 import { FOUNDING_SLOTS, foundingState } from './founding';
-import { FOUNDING_AGENTS, type NavLink, PRICE } from './site';
+import { type NavLink, PRICE } from './site';
 
 export const FOUNDING_OPEN = foundingState().open;
 
@@ -16,7 +16,7 @@ export const OUR_CELL = FOUNDING_OPEN ? '$99 every 3 months (Founding)' : `${PRI
 
 /** Lead sentences for a page that states a Cloud price; empty once Founding closes. */
 export const FOUNDING_LEAD = FOUNDING_OPEN
-  ? `Colliedesk Founding is $99 every 3 months ($396 a year) per workspace for teams of ${FOUNDING_AGENTS} agents, locked for life. Only the first ${FOUNDING_SLOTS} workspaces get it, with Freshdesk migration done for you.`
+  ? `Today Colliedesk Cloud sells Founding: $99 every 3 months ($396 a year) per workspace for up to 10 agents, locked for life. Only the first ${FOUNDING_SLOTS} workspaces get it, with Freshdesk migration done for you.`
   : '';
 
 /** Put before a sentence that names the monthly plans; empty once Founding closes. */
