@@ -16,23 +16,28 @@ async function launch() {
     // Headless Chrome reports no pointer, so the app would show touch layouts (full times in the list).
     '--blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4',
     `--window-size=${VIEWPORT.width},${VIEWPORT.height}`,
-  ], { stdio: 'ignore' });
+  ], { stdio: 'ignore', detached: true });
   const exited = new Promise((resolve) => chrome.once('exit', resolve));
   for (let attempt = 0; attempt < 100; attempt += 1) {
     try {
       const [port, path] = readFileSync(join(profile, 'DevToolsActivePort'), 'utf8').split('\n');
       const close = async () => {
-        chrome.kill();
+        // Chrome runs in its own process group: stop its helpers too, or they keep writing the profile.
+        try { process.kill(-chrome.pid, 'SIGTERM'); } catch { chrome.kill(); }
         await exited;
-        // Chrome's helper processes may still be flushing the profile for a moment.
-        rmSync(profile, { recursive: true, force: true, maxRetries: 10, retryDelay: 200 });
+        try {
+          rmSync(profile, { recursive: true, force: true, maxRetries: 10, retryDelay: 200 });
+        } catch (error) {
+          // The pictures are written by now; a temporary profile left behind is not worth failing the run.
+          console.warn(`Could not remove ${profile}: ${error.message}`);
+        }
       };
       return { endpoint: `ws://127.0.0.1:${port}${path}`, close };
     } catch {
       await sleep(100);
     }
   }
-  chrome.kill();
+  try { process.kill(-chrome.pid, 'SIGTERM'); } catch { chrome.kill(); }
   throw new Error(`${CHROME} did not start; set CHROME_BIN to a Chrome or Chromium binary`);
 }
 
