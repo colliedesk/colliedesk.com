@@ -1,0 +1,150 @@
+---
+// The /price-check quiz: one question per screen, a result built from the visitor's answers, then
+// an optional email to Colliedesk's own inbox. public/price-check.js runs it; the facts it needs
+// come from src/lib/site.ts as a data attribute, so prices are never typed twice. No competitor is
+// named on this page: the "not sure" price is described, its source stays in site.ts.
+import { foundingState } from '../lib/founding';
+import { FOUNDING_CHECKOUT, FOUNDING_QUARTERLY, MONEY_BACK, POPULAR_PER_SEAT, TEAM, TEAM_25, TRIAL_HREF, UPDATES_FORM_URL } from '../lib/site';
+
+const open = foundingState().open;
+const facts = {
+  foundingYear: open ? FOUNDING_QUARTERLY * 4 : TEAM.yearly,
+  foundingAgents: TEAM.agents,
+  foundingName: open ? 'Founding' : 'Team',
+  team25Year: TEAM_25.yearly,
+  team25Agents: TEAM_25.agents,
+  typicalPerSeat: POPULAR_PER_SEAT.perSeat,
+};
+const team5 = 5 * POPULAR_PER_SEAT.perSeat * 12;
+const hire = POPULAR_PER_SEAT.perSeat * 12;
+const usd = (n: number) => `$${n.toLocaleString('en-US')}`;
+const agentChoices = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+const seatChoices = [19, 29, 49, 69, 89, 115];
+---
+<section class="wrap pc" data-price-check data-facts={JSON.stringify(facts)} aria-label="Help desk price check">
+  <noscript><p class="pc-noscript">The price check needs JavaScript. You can read the plans on <a href="/pricing">the pricing page</a> instead.</p></noscript>
+  <div class="pc-top">
+    <button type="button" class="btn btn-sm btn-ghost" data-pc-back hidden>← Back</button>
+    <div class="pc-progress" aria-hidden="true"><span data-pc-bar></span></div>
+  </div>
+
+  <div class="pc-step" data-step="agents">
+    <h2 tabindex="-1">How many people answer customer email?</h2>
+    <div class="pc-choices pc-grid">
+      {agentChoices.map((n) => <button type="button" class="pc-choice" data-answer={String(n)}>{n}</button>)}
+      <button type="button" class="pc-choice" data-answer="other">More than 10</button>
+    </div>
+    <form class="pc-other" hidden><label>Number of agents <input type="number" min="11" max="500" inputmode="numeric" required></label><button class="btn btn-primary">Continue</button></form>
+  </div>
+
+  <div class="pc-step" data-step="perSeat">
+    <h2 tabindex="-1">What does one agent cost you a month, add-ons included?</h2>
+    <p class="pc-hint">Look at your last invoice: the plan price per agent plus any AI add-on per agent.</p>
+    <div class="pc-choices pc-grid">
+      {seatChoices.map((n) => <button type="button" class="pc-choice" data-answer={String(n)}>${n}</button>)}
+      <button type="button" class="pc-choice" data-answer="other">Type it</button>
+      <button type="button" class="pc-choice" data-answer="unsure">Not sure</button>
+    </div>
+    <form class="pc-other" hidden><label>Dollars per agent per month <input type="number" min="1" max="1000" inputmode="decimal" required></label><button class="btn btn-primary">Continue</button></form>
+  </div>
+
+  <div class="pc-step pc-aside" data-step="aside">
+    <h2 tabindex="-1">You are not the only one</h2>
+    <p>On a popular per-seat plan with its AI add-on, a team of 5 agents pays {usd(team5)} a year. Each new hire adds {usd(hire)}. The tickets do not change; the headcount does.</p>
+    <button type="button" class="btn btn-primary btn-lg" data-pc-next>Continue</button>
+  </div>
+
+  <div class="pc-step" data-step="renew">
+    <h2 tabindex="-1">When does your current plan renew?</h2>
+    <div class="pc-choices">
+      <button type="button" class="pc-choice" data-answer="month">This month</button>
+      <button type="button" class="pc-choice" data-answer="quarter">In 1 to 3 months</button>
+      <button type="button" class="pc-choice" data-answer="half">In 3 to 6 months</button>
+      <button type="button" class="pc-choice" data-answer="later">Later than that</button>
+      <button type="button" class="pc-choice" data-answer="unsure">Not sure</button>
+    </div>
+  </div>
+
+  <div class="pc-step" data-step="volume">
+    <h2 tabindex="-1">About how many tickets a month?</h2>
+    <div class="pc-choices">
+      <button type="button" class="pc-choice" data-answer="lt300">Fewer than 300</button>
+      <button type="button" class="pc-choice" data-answer="lt1000">300 to 1,000</button>
+      <button type="button" class="pc-choice" data-answer="lt5000">1,000 to 5,000</button>
+      <button type="button" class="pc-choice" data-answer="more">More than 5,000</button>
+    </div>
+  </div>
+
+  <div class="pc-step" data-step="pain" data-multi>
+    <h2 tabindex="-1">What bothers you most today?</h2>
+    <p class="pc-hint">Pick all that apply.</p>
+    <div class="pc-choices">
+      <button type="button" class="pc-choice" aria-pressed="false" data-answer="seats">Paying for every seat</button>
+      <button type="button" class="pc-choice" aria-pressed="false" data-answer="ai">AI costs extra per agent</button>
+      <button type="button" class="pc-choice" aria-pressed="false" data-answer="lost">Tickets slip through</button>
+      <button type="button" class="pc-choice" aria-pressed="false" data-answer="slow">Replies take too long</button>
+      <button type="button" class="pc-choice" aria-pressed="false" data-answer="history">Old conversations are hard to find</button>
+      <button type="button" class="pc-choice" aria-pressed="false" data-answer="move">Afraid to lose data in a move</button>
+    </div>
+    <button type="button" class="btn btn-primary btn-lg" data-pc-next disabled>Continue</button>
+  </div>
+
+  <div class="pc-step" data-step="needs" data-multi>
+    <h2 tabindex="-1">Do you need any of these?</h2>
+    <div class="pc-choices">
+      <button type="button" class="pc-choice" aria-pressed="false" data-answer="sso">Single sign-on (SSO)</button>
+      <button type="button" class="pc-choice" aria-pressed="false" data-answer="phone">Phone, SMS or WhatsApp</button>
+      <button type="button" class="pc-choice" aria-pressed="false" data-answer="psa">Billing per client (PSA)</button>
+      <button type="button" class="pc-choice" aria-pressed="false" data-answer="none">None of these</button>
+    </div>
+    <button type="button" class="btn btn-primary btn-lg" data-pc-next disabled>Continue</button>
+  </div>
+
+  <div class="pc-step" data-step="who">
+    <h2 tabindex="-1">Who decides on the help desk?</h2>
+    <div class="pc-choices">
+      <button type="button" class="pc-choice" data-answer="me">I do</button>
+      <button type="button" class="pc-choice" data-answer="manager">My manager</button>
+      <button type="button" class="pc-choice" data-answer="finance">Finance or procurement</button>
+      <button type="button" class="pc-choice" data-answer="unsure">Not sure</button>
+    </div>
+  </div>
+
+  <div class="pc-step pc-result" data-step="result">
+    <h2 tabindex="-1">Your seat-tax profile</h2>
+    <dl class="pc-mirror">
+      <div><dt>Team</dt><dd data-r="agents"></dd></div>
+      <div><dt>Per seat</dt><dd data-r="perSeat"></dd></div>
+      <div><dt>Renews</dt><dd data-r="renew"></dd></div>
+      <div><dt>Bothers you most</dt><dd data-r="pain"></dd></div>
+    </dl>
+    <div class="pc-numbers">
+      <div class="pc-num"><span>You pay today</span><b data-r="today"></b><small>a year</small></div>
+      <div class="pc-num"><span>On Colliedesk</span><b data-r="ours"></b><small data-r="plan"></small></div>
+      <div class="pc-num pc-keep"><span>You keep</span><b data-r="keep"></b><small>a year</small></div>
+    </div>
+    <p class="pc-note">Every new hire on a per-seat plan adds <b data-r="hire"></b> a year. On Colliedesk it adds nothing up to the plan's agent limit.</p>
+    <p class="pc-note" data-r="estimate" hidden>You were not sure of your price, so this uses a popular per-seat plan. Your own invoice may differ.</p>
+    <p class="pc-verdict" data-r="save" hidden>Colliedesk fits your team. We move your tickets, tags and history for you.</p>
+    <p class="pc-verdict" data-r="renew-soon" hidden>Your plan renews soon. Start the move now so you do not pay for another term.</p>
+    <p class="pc-verdict" data-r="small" hidden>Honestly, you would not save much. If your help desk works for you, keep it.</p>
+    <p class="pc-verdict" data-r="not-yet" hidden>Colliedesk does not have <span data-r="missing"></span> yet. Tell us below and we will say when it is planned.</p>
+    <p class="pc-verdict" data-r="too-big" hidden>Colliedesk Cloud plans go up to 25 agents today. Self-hosting has no agent limit.</p>
+
+    <form class="pc-email" data-pc-email action={UPDATES_FORM_URL} method="post">
+      <label for="pc-email-input">Send me these numbers and a plan for the move</label>
+      <div class="pc-email-row">
+        <input id="pc-email-input" type="email" name="email" autocomplete="email" placeholder="you@company.com" required>
+        <input type="text" name="website" tabindex="-1" autocomplete="off" class="pc-trap" aria-hidden="true">
+        <button class="btn btn-primary">Send</button>
+      </div>
+      <p class="pc-status" role="status"></p>
+    </form>
+    <div class="cta-row">
+      {open && <a class="btn btn-primary btn-lg" href={FOUNDING_CHECKOUT}>Get Founding</a>}
+      <a class={open ? 'btn btn-lg' : 'btn btn-primary btn-lg'} href={TRIAL_HREF}>Start the free trial</a>
+    </div>
+    <p class="pc-fine">{MONEY_BACK}. Your answers are sent only if you press Send.</p>
+  </div>
+  <script is:inline src="/price-check.js" defer></script>
+</section>

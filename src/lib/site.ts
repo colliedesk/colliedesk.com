@@ -26,6 +26,13 @@ export const TRADEMARK_NOTE =
   'Product names on this page are trademarks of their owners. Colliedesk and HC Labs are not affiliated with or endorsed by them.';
 
 export const FOUNDING_HREF = '/#founding';
+// Founding price per quarter in USD ($396 a year), as sold on Polar.
+export const FOUNDING_QUARTERLY = 99;
+// The /price-check fallback for a visitor who does not know their per-agent price: Freshdesk Pro
+// $66 + Freddy AI Copilot $35 per agent per month, billed monthly, USD, read on freshworks.com
+// from a Vietnamese IP on 22 October 2026. The page describes it as "a popular per-seat plan with
+// its AI add-on" and never names it (Vietnamese advertising law bans direct price comparison).
+export const POPULAR_PER_SEAT = { perSeat: 101, read: '22 October 2026' } as const;
 // The Founding refund promise, stated next to every Founding checkout button and in the terms.
 export const MONEY_BACK = '30-day money-back guarantee';
 // Founding is bought inside the app: the buyer signs up first, then the app opens the Polar
