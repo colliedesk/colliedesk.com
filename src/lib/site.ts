@@ -79,9 +79,11 @@ export const agentsLabel = (plan: CloudPlan): string =>
 
 // While Founding is open, Team 25 is also on sale, for the teams Founding does not fit: 11 to 25 agents.
 // The /pricing card, its Markdown twin and the home page share these lines.
+export const FOUNDING_AGENTS = '3 to 10';
 export const TEAM_25_AGENTS = '11 to 25';
 export const TEAM_25_WHO = `For support teams of ${TEAM_25_AGENTS} agents.`;
 export const TEAM_25_IMPORT = 'We run the Freshdesk import with you.';
+export const TEAM_25_SALE = `Teams of ${TEAM_25_AGENTS} agents can buy ${TEAM_25.name} at ${dollars(TEAM_25.monthly)} a month.`;
 export const TEAM_25_BELOW = `Teams of ${TEAM_25_AGENTS} agents can buy Team 25 below.`;
 export const TEAM_25_HOME_LINE = `Teams of ${TEAM_25_AGENTS} agents can buy [${TEAM_25.name} for ${dollars(TEAM_25.monthly)} a month](/pricing).`;
 

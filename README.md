@@ -46,7 +46,7 @@ to use another checkout. `typecheck` works without it.
 - Shared facts (prices, positioning, repo URL) are in `src/lib/site.ts`. Competitor prices carry their source and read date on each `/vs` page.
 - While Founding is open it leads, and Team 25 is on sale beside it, on /pricing and the home page, for teams of 11 to 25
   agents (`TEAM_25_*` in `src/lib/site.ts`). Solo, Small, Team and Unlimited stay hidden until Founding closes;
-  `scripts/pricing-gate.mjs` enforces this and `pnpm check` runs it. A page that states a Cloud price leads with Founding and gives
+  `scripts/pricing-gate.mjs` enforces this, and fails any page that says Cloud sells one plan, when `pnpm check` runs it. A page that states a Cloud price leads with Founding and gives
   the monthly plans as the prices after the 10 places, through `src/lib/cloud-price.ts` (`FOUNDING_LEAD`,
   `foundingFirst`, `OUR_PLAN`/`OUR_PRICE`, the hero action `FOUNDING_ACTION`). `pnpm check:content` fails a page,
   Markdown twin or llms file that names a monthly plan price before Founding. Build and check with

@@ -2,7 +2,7 @@
 import { FOUNDING_SLOTS, foundingState } from '../../lib/founding';
 import { AI_EXTRA, LADDER_LINE, PRICE, PRICES_READ, TEAM } from '../../lib/site';
 
-// While Founding is open it is the only plan we sell, so the home page prices Founding; once the
+// While Founding is open it leads the plans we sell, so the home page prices Founding; once the
 // places are taken (the site rebuilds on that change) it prices Cloud Team.
 export const FOUNDING_OPEN = foundingState().open;
 export const OURS_NAME = FOUNDING_OPEN ? 'Colliedesk Founding' : 'Colliedesk Cloud Team';
