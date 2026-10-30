@@ -466,6 +466,9 @@ if (!foundingOpen) {
 // new workspace; the bare sign-in page is only for "Log in".
 const SIGN_IN_URL = 'https://app.colliedesk.com/sign-in';
 const TRIAL_URL = `${SIGN_IN_URL}?intent=trial`;
+// Beside Founding, the Team 25 card's trial link also names the plan, so the app puts Team 25 first on its
+// billing page after sign-up (`plan=team25`, colliedesk#351). In HTML the & is written &amp;.
+const TEAM_25_TRIAL_URL = `${TRIAL_URL}&amp;plan=team25`;
 {
   const stale = /v0\.[2-9]|pre-alpha|checkout link is coming soon|\bin testing\b/i;
   for (const file of files.filter((f) => /\.(html|md|txt)$/.test(f))) {
@@ -476,8 +479,9 @@ const TRIAL_URL = `${SIGN_IN_URL}?intent=trial`;
   const cardOf = (plan) => pricing.match(new RegExp(`<article class="plan[^"]*"[^>]*>\\s*<h2 class="plan-name"[^>]*>${plan}</h2>[\\s\\S]*?</article>`))?.[0] ?? '';
   for (const plan of foundingOpen ? ['Team 25'] : ['Solo', 'Small', 'Team', 'Team 25']) {
     const card = cardOf(plan);
+    const trial = foundingOpen && plan === 'Team 25' ? TEAM_25_TRIAL_URL : TRIAL_URL;
     if (!card) fail(`/pricing: ${plan} card missing`);
-    else if (!card.includes(`href="${TRIAL_URL}"`)) fail(`/pricing: ${plan} card has no free-trial CTA to ${TRIAL_URL}`);
+    else if (!card.includes(`href="${trial}"`)) fail(`/pricing: ${plan} card has no free-trial CTA to ${trial}`);
   }
   // Team 25 beside Founding: what a team of 11 to 25 agents reads before it starts the trial.
   if (foundingOpen) {
@@ -491,7 +495,7 @@ const TRIAL_URL = `${SIGN_IN_URL}?intent=trial`;
   else if (!unlimited.includes('Coming soon') || unlimited.includes('<a ')) fail('/pricing: Unlimited card must say Coming soon and offer no checkout or trial link');
   for (const file of pages) {
     for (const m of readFileSync(file, 'utf8').matchAll(/<a[^>]*href="([^"]*)"[^>]*>\s*Start free trial/g)) {
-      if (m[1] !== TRIAL_URL) fail(`${urlPathOf(file)}: "Start free trial" links to ${m[1]}, not ${TRIAL_URL}`);
+      if (m[1] !== TRIAL_URL && m[1] !== TEAM_25_TRIAL_URL) fail(`${urlPathOf(file)}: "Start free trial" links to ${m[1]}, not ${TRIAL_URL}`);
     }
     for (const m of readFileSync(file, 'utf8').matchAll(new RegExp(`<a[^>]*href="${SIGN_IN_URL}"[^>]*>([\\s\\S]*?)</a>`, 'g'))) {
       if (m[1].trim() !== 'Log in') fail(`${urlPathOf(file)}: "${m[1].trim().slice(0, 40)}" links to ${SIGN_IN_URL}; only "Log in" may, a trial link goes to ${TRIAL_URL}`);
