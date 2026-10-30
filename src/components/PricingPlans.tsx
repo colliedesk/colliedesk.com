@@ -1,7 +1,7 @@
 import { FOUNDING_SLOTS, foundingState, type FoundingState } from '../lib/founding';
 import type { Page } from '../lib/page';
 import {
-  agentsLabel, CLOUD_PLANS, CONTACT_EMAIL, dollars, FOUNDING_CHECKOUT, MONEY_BACK, REPO, TEAM_25, TEAM_25_IMPORT, TEAM_25_WHO, TRIAL_HREF,
+  agentsLabel, CLOUD_PLANS, CONTACT_EMAIL, dollars, FOUNDING_CHECKOUT, MONEY_BACK, REPO, TEAM_25, TEAM_25_IMPORT, TEAM_25_TRIAL_HREF, TEAM_25_WHO, TRIAL_HREF,
   type CloudPlan,
 } from '../lib/site';
 import { FoundingMeter } from './FoundingMeter';
@@ -35,7 +35,7 @@ function Team25Card() {
       <ul>
         <li>{TEAM_25_IMPORT}</li>
       </ul>
-      <a className="btn btn-primary" href={TRIAL_HREF}>Start free trial</a>
+      <a className="btn btn-primary" href={TEAM_25_TRIAL_HREF}>Start free trial</a>
     </article>
   );
 }
