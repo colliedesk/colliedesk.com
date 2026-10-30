@@ -48,7 +48,12 @@ const canonical = `${ORIGIN}${page.path}`;
 <meta property="og:title" content={page.title}>
 <meta property="og:description" content={page.description}>
 <meta property="og:url" content={canonical}>
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="https://colliedesk.com/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Colliedesk: the open-source helpdesk for small support teams leaving Freshdesk.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://colliedesk.com/og.png">
 <meta name="last-modified" content={page.updated || UPDATED}>
 {page.jsonLd.map((o) => <script is:inline type="application/ld+json" set:html={JSON.stringify(o)} />)}
 </head>
