@@ -83,11 +83,11 @@
       banner.setAttribute('role', 'region');
       banner.setAttribute('aria-label', 'Cookie choice');
       banner.innerHTML =
-        '<p>We would like to use analytics cookies (Google Analytics, PostHog and Apollo) to see which pages help people and which companies visit. ' +
-        'Until you accept, we only count visits without cookies. <a href="/privacy#cookies">Privacy</a></p>' +
+        '<p>We would like to use analytics cookies from Google Analytics, PostHog and Apollo. ' +
+        'Until you accept, we count visits without cookies. <a href="/privacy#cookies">Privacy</a></p>' +
         '<div class="consent-actions">' +
         '<button type="button" class="btn btn-sm" data-consent="denied">Decline</button>' +
-        '<button type="button" class="btn btn-sm btn-primary" data-consent="granted">Accept</button>' +
+        '<button type="button" class="btn btn-sm" data-consent="granted">Accept</button>' +
         '</div>';
       banner.addEventListener('click', function (event) {
         var button = event.target.closest('[data-consent]');

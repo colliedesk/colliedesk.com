@@ -3,7 +3,11 @@
 //   - at a 375px phone width a page scrolls sideways (a nowrap label or a wide table only overflows once
 //     the browser lays it out);
 //   - in the light or the dark theme a button or link's text is below 4.5:1 against what is behind it
-//     (19/10/2026 the closing band's "Start free trial" was dark text on a transparent button on ink).
+//     (19/10/2026 the closing band's "Start free trial" was dark text on a transparent button on ink);
+//   - with the cookie banner open (it shows only on colliedesk.com, so it is opened here through the
+//     "Cookie settings" button), it covers a button or link-button that starts in the first view of a
+//     1280x800 desktop or a 390x844 phone, or takes more than 15% of that screen (30/10/2026 it hid half of
+//     "Join for $99 every 3 months" on /pricing and a quarter of every phone screen).
 // No dependencies: Chrome DevTools Protocol over Node's built-in WebSocket.
 //   node scripts/check-render.mjs            (needs _site/ and a Chrome binary; CHROME_BIN overrides)
 import { spawn } from 'node:child_process';
@@ -14,6 +18,11 @@ import { fileURLToPath } from 'node:url';
 
 const WIDTH = 375;
 const MIN_CONTRAST = 4.5;
+const BANNER_SCREENS = [
+  { name: 'desktop', width: 1280, height: 800, mobile: false },
+  { name: 'phone', width: 390, height: 844, mobile: true },
+];
+const MAX_BANNER_SHARE = 0.15;
 const site = fileURLToPath(new URL('../_site/', import.meta.url));
 const chromeBin = process.env.CHROME_BIN
   || ['google-chrome', '/usr/bin/google-chrome', '/usr/bin/chromium'].find((b) => !b.startsWith('/') || existsSync(b));
@@ -83,6 +92,25 @@ function lowContrast(theme) {
   })()`;
 }
 
+// Page-side check: opens the cookie banner the way a visitor reopens it, then reports how much of the screen it
+// takes and which buttons that start in the first view it overlaps.
+const OPEN_BANNER = `document.querySelector('[data-consent-open]')?.click()`;
+const bannerCover = `document.fonts.ready.then(() => {
+  ${OPEN_BANNER};
+  const banner = document.querySelector('.consent-banner');
+  if (!banner || banner.hidden) return { opened: false };
+  const bar = banner.getBoundingClientRect();
+  const covered = [];
+  for (const e of document.querySelectorAll('a.btn, button.btn')) {
+    if (banner.contains(e)) continue;
+    const b = e.getBoundingClientRect(); const s = getComputedStyle(e);
+    if (!b.width || !b.height || s.visibility === 'hidden' || +s.opacity === 0) continue;
+    if (b.top >= innerHeight || b.right <= 0 || b.left >= innerWidth) continue;
+    if (b.left < bar.right && b.right > bar.left && b.top < bar.bottom && b.bottom > bar.top) covered.push(e.textContent.trim().replace(/\\s+/g, ' ').slice(0, 50));
+  }
+  return { opened: true, share: bar.height / innerHeight, covered };
+})`;
+
 if (!existsSync(join(site, 'index.html'))) { console.error('check-render: _site/ is missing; build the site first'); process.exit(1); }
 
 const port = 4400 + Math.floor(Math.random() * 500);
@@ -116,9 +144,23 @@ try {
       })()`,
     }, sessionId);
     if (result.value) failures.push(`${path}: scrolls sideways at ${WIDTH}px, ${result.value}`);
+    await c.send('Runtime.evaluate', { expression: OPEN_BANNER }, sessionId);
     for (const theme of ['light', 'dark']) {
       const { result: low } = await c.send('Runtime.evaluate', { returnByValue: true, expression: lowContrast(theme) }, sessionId);
       for (const l of low.value) failures.push(`${path}: ${theme} theme, "${l.text}" ${l.ratio}:1 (${l.fg} on ${l.bg}), needs ${MIN_CONTRAST}:1`);
+    }
+  }
+  for (const screen of BANNER_SCREENS) {
+    await c.send('Emulation.setDeviceMetricsOverride', { width: screen.width, height: screen.height, deviceScaleFactor: 1, mobile: screen.mobile }, sessionId);
+    for (const path of list) {
+      const loaded = c.once('Page.loadEventFired', sessionId);
+      await c.send('Page.navigate', { url: `http://localhost:${port}${path}` }, sessionId);
+      await loaded;
+      const { result } = await c.send('Runtime.evaluate', { returnByValue: true, awaitPromise: true, expression: bannerCover }, sessionId);
+      const at = `${screen.width}x${screen.height}`;
+      if (!result.value.opened) { failures.push(`${path}: the "Cookie settings" button did not open the cookie banner at ${at}`); continue; }
+      for (const label of result.value.covered) failures.push(`${path}: the cookie banner covers "${label}" at ${at}`);
+      if (result.value.share > MAX_BANNER_SHARE) failures.push(`${path}: the cookie banner takes ${Math.round(result.value.share * 100)}% of the ${at} screen, max ${MAX_BANNER_SHARE * 100}%`);
     }
   }
   await c.send('Browser.close').catch(() => {});
@@ -133,4 +175,4 @@ try {
 }
 
 if (failures.length) { failures.forEach((f) => console.error('FAIL ' + f)); process.exit(1); }
-console.log(`OK ${list.length} pages fit ${WIDTH}px without sideways scroll; every control reads at ${MIN_CONTRAST}:1 in both themes`);
+console.log(`OK ${list.length} pages fit ${WIDTH}px without sideways scroll; every control reads at ${MIN_CONTRAST}:1 in both themes; the cookie banner covers no button in the first view of a desktop or phone screen`);
