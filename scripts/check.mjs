@@ -410,16 +410,16 @@ const PRICE_MAX_AGE_DAYS = 90;
 }
 
 // Cloud plan ladder (owner decision 20/10/2026), one flat price per workspace, a year = 10 months:
-// Solo $19 / $190, 1 agent, 10 GB; Small $39 / $390, 3 agents, 30 GB; Team $69 / $690, 10 agents,
-// 100 GB; Team 25 $149 / $1,490, 25 agents, 250 GB; Unlimited $349 a month billed annually only
+// Solo $19 / $190, 1 agent, 10 GiB; Small $39 / $390, 3 agents, 30 GiB; Team $69 / $690, 10 agents,
+// 100 GiB; Team 25 $149 / $1,490, 25 agents, 250 GiB; Unlimited $349 a month billed annually only
 // ($3,490 a year), unlimited agents, 1 TB, coming soon with no checkout. No free Cloud plan.
 // Extra storage is not sold self-serve, so no add-on price may appear. Teams above the caps are
 // never sent to "contact us" for 10 agents: Team 25 covers up to 25.
 const LADDER = [
-  { monthly: '$19', yearly: '$190', agents: '1 agent', storage: '10 GB' },
-  { monthly: '$39', yearly: '$390', agents: 'Up to 3 agents', storage: '30 GB' },
-  { monthly: '$69', yearly: '$690', agents: 'Up to 10 agents', storage: '100 GB' },
-  { monthly: '$149', yearly: '$1,490', agents: 'Up to 25 agents', storage: '250 GB' },
+  { monthly: '$19', yearly: '$190', agents: '1 agent', storage: '10 GiB' },
+  { monthly: '$39', yearly: '$390', agents: 'Up to 3 agents', storage: '30 GiB' },
+  { monthly: '$69', yearly: '$690', agents: 'Up to 10 agents', storage: '100 GiB' },
+  { monthly: '$149', yearly: '$1,490', agents: 'Up to 25 agents', storage: '250 GiB' },
   { monthly: '$349', yearly: '$3,490', agents: 'Unlimited agents', storage: '1 TB' },
 ];
 // The ladder facts below hold once Founding closes; while it is open /pricing sells Founding only.
