@@ -501,13 +501,20 @@ td:first-child { font-weight: 500; color: var(--text-1); }
   .header-cta { padding: 0 var(--space-3); }
 }
 
-/* Cookie banner for Google Analytics (public/consent.js). */
-.consent-banner { position: fixed; z-index: 50; left: var(--space-4); right: var(--space-4); bottom: var(--space-4); max-width: 34rem; margin-left: auto; padding: var(--space-4); border: 1px solid var(--line-strong); border-radius: 8px; background: var(--surface-1); box-shadow: var(--shadow-1); color: var(--text-1); font-size: 14px; }
+/* Cookie banner (public/consent.js): a slim bar along the bottom edge so it never covers the buttons a visitor
+   came to press. One row on a desktop, text above the two buttons on a phone. scripts/check-render.mjs fails
+   when it covers a button in the first view or takes more than 15% of a 1280x800 or 390x844 screen. Decline
+   and Accept look alike (same size, same outline, side by side); the outline meets the 3:1 non-text contrast. */
+.consent-banner { position: fixed; z-index: 50; left: 0; right: 0; bottom: 0; display: flex; align-items: center; justify-content: space-between; gap: var(--space-6); padding: var(--space-2) max(var(--space-10), calc((100% - var(--wrap)) / 2 + var(--space-10))); padding-bottom: max(var(--space-2), env(safe-area-inset-bottom)); border-top: 1px solid var(--line-strong); background: var(--surface-1); color: var(--text-1); font-size: 14px; line-height: 1.4; }
 .consent-banner[hidden] { display: none; }
-.consent-banner p { margin: 0 0 var(--space-3); color: var(--text-2); }
-.consent-actions { display: flex; justify-content: flex-end; gap: var(--space-2); }
-.consent-actions .btn { height: auto; min-height: 44px; min-width: 96px; padding: 0 var(--space-5); }
-@media (max-width: 480px) { .consent-actions { gap: var(--space-3); } .consent-actions .btn { flex: 1 1 0; } }
+.consent-banner p { margin: 0; color: var(--text-2); }
+.consent-actions { display: flex; flex: none; gap: var(--space-2); }
+.consent-actions .btn { min-width: 96px; border-color: var(--line-strong); }
+@media (max-width: 640px) {
+  .consent-banner { flex-direction: column; align-items: stretch; gap: var(--space-2); padding-inline: var(--space-4); font-size: 13px; }
+  .consent-actions { gap: var(--space-3); }
+  .consent-actions .btn { flex: 1 1 0; height: var(--touch); }
+}
 .link-button { padding: 0; border: 0; background: none; color: inherit; font: inherit; text-decoration: underline; cursor: pointer; }
 .link-button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
