@@ -7,7 +7,7 @@ import type { Faq, Page } from '../../lib/page';
 const READ = '23 October 2026';
 // The commit of colliedesk/colliedesk whose importer code and tests back the Colliedesk claims.
 const foundingOpen = foundingState().open;
-const IMPORTER = 'https://github.com/colliedesk/colliedesk/blob/9d6041185a4f5bf8edb86e794b4fbcdd2c9b8f6f/server/internal/freshdesk';
+const IMPORTER = 'https://github.com/colliedesk/colliedesk/blob/6375c6d202494e791ec3eb1a7a58a6d582fb869a/server/internal/freshdesk';
 
 const faq: Faq[] = [
   {
@@ -85,7 +85,7 @@ The Colliedesk import reads your Freshdesk account through the API and copies it
 | Contacts and companies | Contacts, with the company kept as their organization |
 | Canned responses | Shared saved replies (personal folders only on request) |
 | Knowledge base categories, folders and articles | Knowledge base collections and articles |
-| An agent who has no Colliedesk account | Their replies keep the author name; the report lists them |
+| An agent who has no Colliedesk account | Their replies keep the author name; the JSON report lists their emails |
 
 To find archived tickets, the importer checks every ticket number from 1, not just the ones the list returns. When Freshdesk refuses the archive, the report says **UNVERIFIED** and lists the ticket numbers to check by hand.
 
@@ -135,13 +135,13 @@ Read on ${READ}:
 - Archived ticket export: [support.freshdesk.com article 212901](https://support.freshdesk.com/support/solutions/articles/212901)
 - Account export: [support.freshdesk.com article 226393](https://support.freshdesk.com/support/solutions/articles/226393-how-do-i-export-the-data-in-my-account-) and [article 237405](https://support.freshdesk.com/support/solutions/articles/237405-how-can-i-export-tickets-including-the-content-of-the-ticket-)
 - API limits, archive, account export resources, contact and company exports: [developers.freshdesk.com/api](https://developers.freshdesk.com/api/)
-- Colliedesk importer and tests: [colliedesk/colliedesk, server/internal/freshdesk](${IMPORTER})`;
+- Colliedesk importer and tests, read on 31 October 2026: [colliedesk/colliedesk, server/internal/freshdesk](${IMPORTER})`;
 
 const page: Page = {
   jsonLd: [],
   name: 'What a Freshdesk export leaves out',
   path: '/migrate/freshdesk/export-gaps',
-  updated: '2026-10-23',
+  updated: '2026-10-31',
   section: 'Migrate',
   title: 'What a Freshdesk export leaves out, and how to check it',
   description:
