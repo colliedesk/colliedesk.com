@@ -2,6 +2,8 @@
 export interface NavLink {
   href: string;
   label: string;
+  /** Short status shown after the label, e.g. "Soon" for an importer not built yet. */
+  badge?: string;
 }
 
 export interface FooterColumn {
@@ -34,6 +36,8 @@ export const APP_SIGN_IN = 'https://app.colliedesk.com/sign-in';
 // The same page starts the 14-day free trial: a new email gets "Create your workspace" there.
 // intent=trial lets the app title the page for a new workspace instead of "Sign in".
 export const TRIAL_HREF = `${APP_SIGN_IN}?intent=trial`;
+// The Team 25 card's trial link names the plan: after sign-up the app puts Team 25 first on its billing page.
+export const TEAM_25_TRIAL_HREF = `${TRIAL_HREF}&plan=team25`;
 // The updates box posts to the web form channel of HC Labs' own Colliedesk workspace: every
 // signup lands there as a conversation tagged web-form.
 export const UPDATES_FORM_URL = 'https://app.colliedesk.com/api/v1/public/forms/hclabs';
@@ -55,10 +59,10 @@ export interface CloudPlan {
   comingSoon?: boolean;
 }
 export const CLOUD_PLANS: readonly CloudPlan[] = [
-  { name: 'Solo', monthly: 19, yearly: 190, agents: 1, storage: '10 GB', who: 'For one person answering customers.' },
-  { name: 'Small', monthly: 39, yearly: 390, agents: 3, storage: '30 GB', who: 'For a small team sharing one inbox.' },
-  { name: 'Team', monthly: 69, yearly: 690, agents: 10, storage: '100 GB', who: 'For support teams leaving Freshdesk.' },
-  { name: 'Team 25', monthly: 149, yearly: 1490, agents: 25, storage: '250 GB', who: 'For a mid-size support department.' },
+  { name: 'Solo', monthly: 19, yearly: 190, agents: 1, storage: '10 GiB', who: 'For one person answering customers.' },
+  { name: 'Small', monthly: 39, yearly: 390, agents: 3, storage: '30 GiB', who: 'For a small team sharing one inbox.' },
+  { name: 'Team', monthly: 69, yearly: 690, agents: 10, storage: '100 GiB', who: 'For support teams leaving Freshdesk.' },
+  { name: 'Team 25', monthly: 149, yearly: 1490, agents: 25, storage: '250 GiB', who: 'For a mid-size support department.' },
   { name: 'Unlimited', monthly: 349, yearly: 3490, agents: null, storage: '1 TB', who: 'For larger companies.', annualOnly: true, comingSoon: true },
 ];
 const planNamed = (name: CloudPlan['name']): CloudPlan => {
@@ -75,6 +79,20 @@ export const dollars = (n: number): string => `$${n.toLocaleString('en-US')}`;
 export const agentsLabel = (plan: CloudPlan): string =>
   plan.agents === null ? 'Unlimited agents' : plan.agents === 1 ? '1 agent' : `Up to ${plan.agents} agents`;
 
+// While Founding is open, Team 25 is also on sale, for the teams Founding does not fit: 11 to 25 agents.
+// The /pricing card, its Markdown twin and the home page share these lines.
+export const FOUNDING_AGENTS = '3 to 10';
+export const TEAM_25_AGENTS = '11 to 25';
+export const TEAM_25_WHO = `For support teams of ${TEAM_25_AGENTS} agents.`;
+export const TEAM_25_IMPORT = 'We run the Freshdesk import with you.';
+export const TEAM_25_BELOW = `Teams of ${TEAM_25_AGENTS} agents can buy Team 25 below.`;
+export const TEAM_25_HOME_LINE = `Teams of ${TEAM_25_AGENTS} agents can buy [${TEAM_25.name} for ${dollars(TEAM_25.monthly)} a month](/pricing).`;
+
+// AI on Colliedesk Cloud: reply drafts and triage are included in every plan with a monthly allowance;
+// auto-answer (not built yet) is charged per resolution, only when the customer needs no person
+// afterwards, at this price while Colliedesk is alpha; your own key adds no Colliedesk fee.
+export const AI_RESOLUTION = '$0.50';
+
 export const PRICE = {
   monthly: dollars(TEAM.monthly),
   yearly: dollars(TEAM.yearly),
@@ -82,9 +100,12 @@ export const PRICE = {
   team25Yearly: dollars(TEAM_25.yearly),
   // "$19 to $149": the plans that can be bought today, cheapest to dearest.
   range: `${dollars(SOLO.monthly)} to ${dollars(TEAM_25.monthly)}`,
-  founding: '$99 per quarter ($396 a year), locked for life, with free Freshdesk migration',
-  ai: 'LLM cost +30%, or bring your own key',
+  founding: '$99 every 3 months ($396 a year), locked for life, with free Freshdesk migration',
+  ai: `reply drafts and triage included with a monthly allowance; auto-answer ${AI_RESOLUTION} per resolution while alpha, once it ships; your own key adds no fee`,
 } as const;
+// "+ AI ..." after a Colliedesk price in comparisons. Drafts and triage are included, so the only AI
+// that can add to the bill is auto-answer, which is not built yet.
+export const AI_EXTRA = `${AI_RESOLUTION} per AI resolution once auto-answer ships`;
 // One line naming every plan, for page copy and the Markdown twins.
 export const LADDER_LINE = `Solo ${dollars(SOLO.monthly)} a month for 1 agent, Small ${dollars(SMALL.monthly)} for up to 3, Team ${dollars(TEAM.monthly)} for up to 10, Team 25 ${dollars(TEAM_25.monthly)} for up to 25; Unlimited ${dollars(UNLIMITED.monthly)} a month billed annually is coming soon`;
 
@@ -109,10 +130,19 @@ export const FOOTER: readonly FooterColumn[] = [
       { href: '/helpdesk-for-small-teams', label: 'For small teams' },
     ],
   },
+  // Names the helpdesks people leave, like Attio's footer does for CRMs. Freshdesk and Help Scout
+  // have importers today; the others are on the roadmap.
+  {
+    title: 'Import from',
+    links: [
+      { href: '/migrate/freshdesk', label: 'Freshdesk' },
+      { href: '/migrate/zendesk/export', label: 'Zendesk', badge: 'Soon' },
+      { href: '/docs/import-helpscout', label: 'Help Scout' },
+    ],
+  },
   {
     title: 'Switch',
     links: [
-      { href: '/migrate/freshdesk', label: 'Migrate from Freshdesk' },
       { href: '/migrate/freshdesk/done-for-you', label: 'Freshdesk migration, done for you' },
       { href: '/migrate/freshdesk/export', label: 'Export Freshdesk tickets' },
       { href: '/migrate/zendesk/export', label: 'Export Zendesk tickets' },

@@ -227,29 +227,6 @@ td:has(> .badge) { width: 1%; white-space: nowrap; }
 .hero-copy .lede { margin-inline: auto; }
 .hero-eyebrow { display: inline-block; border: 1px solid var(--line); border-radius: var(--radius-full); background: var(--surface-1); padding: .35rem .9rem; color: var(--text-2); font-weight: 500; font-size: 13px; }
 .home-hero h1 { font-size: clamp(2.25rem, 1.4rem + 3vw, 3.5rem); letter-spacing: -0.025em; margin-bottom: .35em; }
-/* Rotating h1: the three items share one grid cell; the first shows by default, so reduced motion
-   and browsers without animation keep a static headline. One pass under 5 s (WCAG 2.2.2), then it rests on the first. */
-.h1-swap { display: grid; justify-items: center; }
-.h1-item { grid-area: 1 / 1; }
-.h1-item em { font-style: normal; color: var(--price); }
-.h1-item + .h1-item { visibility: hidden; opacity: 0; }
-.h1-item:nth-child(1) { animation: h1-first 4.8s ease-in-out 1 forwards; }
-.h1-item:nth-child(2) { animation: h1-pass 1.6s ease-in-out 1.4s 1 both; }
-.h1-item:nth-child(3) { animation: h1-pass 1.6s ease-in-out 3s 1 both; }
-.h1-rotate:hover .h1-item { animation-play-state: paused; }
-@keyframes h1-first {
-  0%, 28% { opacity: 1; visibility: visible; transform: none; }
-  31%, 95% { opacity: 0; visibility: hidden; transform: translateY(-.2em); }
-  100% { opacity: 1; visibility: visible; transform: none; }
-}
-@keyframes h1-pass {
-  0% { opacity: 0; visibility: visible; transform: translateY(.2em); }
-  10%, 90% { opacity: 1; visibility: visible; transform: none; }
-  100% { opacity: 0; visibility: hidden; transform: translateY(-.2em); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .h1-rotate .h1-item { animation: none; }
-}
 .hero-note { margin: var(--space-4) 0 0; color: var(--text-3); font-size: .9rem; }
 .hero-note b { color: var(--text-2); font-weight: 500; }
 .hero-stage { position: relative; max-width: 72rem; margin: var(--space-16) auto 0; padding-bottom: var(--space-16); }
@@ -445,11 +422,12 @@ td:first-child { font-weight: 500; color: var(--text-1); }
 
 /* Footer */
 .site-footer { border-top: 1px solid var(--line); padding: 3.5rem 0 2rem; background: var(--surface-0); font-size: .95rem; }
-.footer-grid { display: grid; grid-template-columns: 1.6fr repeat(3, 1fr); gap: var(--space-8); }
+.footer-grid { display: grid; grid-template-columns: 1.6fr repeat(4, 1fr); gap: var(--space-8); }
 .footer-about p { max-width: 24rem; margin-top: .9rem; color: var(--text-2); }
 .footer-title { font: 600 14px var(--font-sans); color: var(--text-1); margin-bottom: .8rem; }
 .site-footer ul { list-style: none; margin: 0; padding: 0; }
 .site-footer li a { display: inline-block; padding: .3rem 0; color: var(--text-2); text-decoration: none; }
+.site-footer li a .badge { margin-left: .45em; }
 .site-footer li a:hover { color: var(--text-1); text-decoration: underline; }
 .updates-form { grid-column: 1 / -1; max-width: 32rem; }
 .updates-form p { margin: 0 0 .8rem; color: var(--text-2); }
@@ -523,11 +501,20 @@ td:first-child { font-weight: 500; color: var(--text-1); }
   .header-cta { padding: 0 var(--space-3); }
 }
 
-/* Cookie banner for Google Analytics (public/consent.js). */
-.consent-banner { position: fixed; z-index: 50; left: var(--space-4); right: var(--space-4); bottom: var(--space-4); max-width: 34rem; margin-left: auto; padding: var(--space-4); border: 1px solid var(--line-strong); border-radius: 8px; background: var(--surface-1); box-shadow: var(--shadow-1); color: var(--text-1); font-size: 14px; }
+/* Cookie banner (public/consent.js): a slim bar along the bottom edge so it never covers the buttons a visitor
+   came to press. One row on a desktop, text above the two buttons on a phone. scripts/check-render.mjs fails
+   when it covers a button in the first view or takes more than 15% of a 1280x800 or 390x844 screen. Decline
+   and Accept look alike (same size, same outline, side by side); the outline meets the 3:1 non-text contrast. */
+.consent-banner { position: fixed; z-index: 50; left: 0; right: 0; bottom: 0; display: flex; align-items: center; justify-content: space-between; gap: var(--space-6); padding: var(--space-2) max(var(--space-10), calc((100% - var(--wrap)) / 2 + var(--space-10))); padding-bottom: max(var(--space-2), env(safe-area-inset-bottom)); border-top: 1px solid var(--line-strong); background: var(--surface-1); color: var(--text-1); font-size: 14px; line-height: 1.4; }
 .consent-banner[hidden] { display: none; }
-.consent-banner p { margin: 0 0 var(--space-3); color: var(--text-2); }
-.consent-actions { display: flex; justify-content: flex-end; gap: var(--space-2); }
+.consent-banner p { margin: 0; color: var(--text-2); }
+.consent-actions { display: flex; flex: none; gap: var(--space-2); }
+.consent-actions .btn { min-width: 96px; border-color: var(--line-strong); }
+@media (max-width: 640px) {
+  .consent-banner { flex-direction: column; align-items: stretch; gap: var(--space-2); padding-inline: var(--space-4); font-size: 13px; }
+  .consent-actions { gap: var(--space-3); }
+  .consent-actions .btn { flex: 1 1 0; height: var(--touch); }
+}
 .link-button { padding: 0; border: 0; background: none; color: inherit; font: inherit; text-decoration: underline; cursor: pointer; }
 .link-button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 

@@ -1,5 +1,6 @@
 // Machine-readable files built from the page list: llms.txt, llms-full.txt, sitemap.xml,
 // robots.txt, the changelog RSS feed and the Cloudflare Pages _headers file.
+import { foundingFirst } from './cloud-price';
 import { escapeHtml, slugify } from './markdown';
 import { mdUrlOf, type ChangelogEntry, type Page, type Section } from './page';
 import { LADDER_LINE, NAME, ORIGIN, POSITIONING, REPO, UPDATED } from './site';
@@ -14,7 +15,7 @@ export function llmsTxt(pages: readonly Page[]): string {
   });
   return `# ${NAME}
 
-> ${NAME} is an open-source (AGPL-3.0) helpdesk for small support teams by HC Labs: the open-source alternative to Freshdesk, Zendesk and Help Scout. ${POSITIONING} Cloud: one flat price per workspace, ${LADDER_LINE}. Self-host free. Status: alpha, live on Colliedesk Cloud.
+> ${NAME} is an open-source (AGPL-3.0) helpdesk for small support teams by HC Labs: the open-source alternative to Freshdesk, Zendesk and Help Scout. ${POSITIONING} ${foundingFirst(`Colliedesk Cloud is one flat price per workspace: ${LADDER_LINE}.`)} Self-host free. Status: alpha, live on Colliedesk Cloud.
 
 Every page has a Markdown twin: add \`.md\` to the URL (the home page is ${ORIGIN}/index.md).
 All pages in one file: ${ORIGIN}/llms-full.txt

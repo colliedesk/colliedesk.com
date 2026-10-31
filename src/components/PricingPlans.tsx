@@ -1,7 +1,8 @@
 import { FOUNDING_SLOTS, foundingState, type FoundingState } from '../lib/founding';
 import type { Page } from '../lib/page';
 import {
-  agentsLabel, CLOUD_PLANS, CONTACT_EMAIL, dollars, FOUNDING_CHECKOUT, MONEY_BACK, REPO, TRIAL_HREF, type CloudPlan,
+  agentsLabel, CLOUD_PLANS, CONTACT_EMAIL, dollars, FOUNDING_CHECKOUT, MONEY_BACK, REPO, TEAM_25, TEAM_25_IMPORT, TEAM_25_TRIAL_HREF, TEAM_25_WHO, TRIAL_HREF,
+  type CloudPlan,
 } from '../lib/site';
 import { FoundingMeter } from './FoundingMeter';
 import { Hero } from './Hero';
@@ -21,6 +22,24 @@ function CloudCard({ plan }: { plan: CloudPlan }) {
   );
 }
 
+// Team 25 beside Founding, while Founding is open: the plan for teams of 11 to 25 agents, whom Founding
+// does not fit. Once Founding closes the same plan shows in the ladder (CloudCard).
+function Team25Card() {
+  return (
+    <article className="plan">
+      <h2 className="plan-name">{TEAM_25.name}</h2>
+      <p className="plan-price"><strong>{dollars(TEAM_25.monthly)}</strong> <span>a month</span></p>
+      <p className="plan-alt">or {dollars(TEAM_25.yearly)} a year</p>
+      <p className="plan-size"><strong>{agentsLabel(TEAM_25)}</strong> <span>{TEAM_25.storage} of attachments</span></p>
+      <p className="plan-who">{TEAM_25_WHO}</p>
+      <ul>
+        <li>{TEAM_25_IMPORT}</li>
+      </ul>
+      <a className="btn btn-primary" href={TEAM_25_TRIAL_HREF}>Start free trial</a>
+    </article>
+  );
+}
+
 // The Founding offer. While it is open the card sits in the /pricing hero (PricingHero) so its buy
 // button is in the first view; once closed it returns to the plans, after the Cloud ladder.
 function FoundingCard({ state }: { state: FoundingState }) {
@@ -28,7 +47,7 @@ function FoundingCard({ state }: { state: FoundingState }) {
     <article className="plan plan-featured" aria-labelledby="plan-founding">
       <p className="plan-flag">{state.open ? `Only ${FOUNDING_SLOTS} workspaces` : 'Closed: all places taken'}</p>
       <h2 className="plan-name" id="plan-founding">Founding</h2>
-      <p className="plan-price"><strong>$99</strong> <span>per workspace / quarter</span></p>
+      <p className="plan-price"><strong>$99</strong> <span>per workspace, billed quarterly</span></p>
       {state.open && <p className="plan-alt">$396 a year, about $7.60 a week for the whole team</p>}
       <div className="plan-detail">
         {state.open && <p className="plan-who">For support teams of 3 to 10 agents who pay for Freshdesk and just got a price rise. <a href="#who-founding-is-for">Is that you?</a></p>}
@@ -37,7 +56,7 @@ function FoundingCard({ state }: { state: FoundingState }) {
           <li>Price locked for life</li>
           <li>Freshdesk migration done for you, with a reconcile report</li>
           <li>Up to 10 agents, no per-agent fees</li>
-          <li>20 GB of attachments, imported files included</li>
+          <li>20 GiB of attachments, imported files included</li>
           {state.open && <li>A direct line to the founder</li>}
           {state.open && <li>A say in what we build next</li>}
         </ul>
@@ -45,7 +64,7 @@ function FoundingCard({ state }: { state: FoundingState }) {
       {state.open ? (
         <div className="plan-cta">
           <FoundingMeter state={state} />
-          <a className="btn btn-primary" href={FOUNDING_CHECKOUT} rel="noopener">Join for $99/quarter</a>
+          <a className="btn btn-primary" href={FOUNDING_CHECKOUT} rel="noopener">Join for $99 every 3 months</a>
           <p className="plan-guarantee"><a href="/terms#refunds">{MONEY_BACK}</a>. Full refund, no questions asked.</p>
           <p className="plan-guarantee">Want to look first? <a href={TRIAL_HREF}>Start a 14-day free trial</a>, no card.</p>
         </div>
@@ -61,8 +80,8 @@ export function PricingHero({ page }: { page: Page }) {
 }
 
 // The plans above the pricing prose; the Markdown twin carries the same facts as a table.
-// While Founding is open it is the only plan on sale (its card is in the hero) and only Self-host shows
-// here; the Cloud ladder and the closed Founding card show once it closes.
+// While Founding is open its card is in the hero and Team 25 and Self-host show here; the rest of the
+// Cloud ladder and the closed Founding card show once it closes.
 export function PricingPlans() {
   const state = foundingState();
   return (
@@ -73,7 +92,7 @@ export function PricingPlans() {
             {CLOUD_PLANS.map((plan) => <CloudCard key={plan.name} plan={plan} />)}
           </div>
           <div className="plans-reassure">
-            <p><strong>Every plan, every feature.</strong> Unlimited conversations, no per-agent fees, AI at LLM cost +30% or your own key once it is built. We run, update and back it up.</p>
+            <p><strong>Every plan, every feature.</strong> Unlimited conversations, no per-agent fees, AI reply drafts and triage included with a monthly allowance or your own key. We run, update and back it up.</p>
             <ul>
               <li>14-day free trial, no card</li>
               <li>No automatic charge: when the trial ends, you pick a plan or export your data</li>
@@ -83,7 +102,7 @@ export function PricingPlans() {
         </>
       )}
       <div className={state.open ? 'plans plans-after-hero' : 'plans'}>
-        {!state.open && <FoundingCard state={state} />}
+        {state.open ? <Team25Card /> : <FoundingCard state={state} />}
         <article className="plan">
           <h2 className="plan-name">Self-host</h2>
           <p className="plan-price"><strong>$0</strong> <span>forever</span></p>
@@ -91,7 +110,7 @@ export function PricingPlans() {
             <li>Every feature, no paywalled edition</li>
             <li>AGPL-3.0, your server, your PostgreSQL</li>
             <li>No agent limit</li>
-            <li>AI with your own model key, once it is built</li>
+            <li>AI with your own model key</li>
           </ul>
           <a className="btn btn-ghost" href={REPO} rel="noopener">Self-host free <span aria-hidden="true">↗</span></a>
         </article>

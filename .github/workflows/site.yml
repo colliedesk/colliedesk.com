@@ -63,6 +63,8 @@ jobs:
       !cancelled() &&
       (github.event_name != 'schedule' || needs.freshness.outputs.stale == 'true')
     runs-on: ubuntu-latest
+    outputs:
+      indexnow_urls: ${{ steps.indexnow.outputs.urls }}
     steps:
       - uses: actions/checkout@v5
       # A pull request whose branch also exists in colliedesk/colliedesk builds against that branch,
@@ -105,6 +107,10 @@ jobs:
       - run: pnpm run check:render
       - run: pnpm test
       - run: pnpm run check:content
+      # Pages this deploy adds or changes, compared with the live sitemap, for IndexNow after deploy.
+      - id: indexnow
+        if: github.event_name != 'pull_request'
+        run: echo "urls=$(node scripts/indexnow.mjs changed https://colliedesk.com/sitemap.xml _site/sitemap.xml)" >> "$GITHUB_OUTPUT"
       - uses: actions/upload-pages-artifact@v4
         if: github.event_name != 'pull_request'
         with:
@@ -125,3 +131,15 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
+      - uses: actions/checkout@v5
+        with:
+          sparse-checkout: |
+            scripts/indexnow.mjs
+            public/*.txt
+          sparse-checkout-cone-mode: false
+      # Bing, and through it ChatGPT search and DuckDuckGo, learn about new pages from IndexNow.
+      # The site is already live here, so a refused submission is shown but does not fail the deploy.
+      - continue-on-error: true
+        env:
+          URLS: ${{ needs.check.outputs.indexnow_urls }}
+        run: node scripts/indexnow.mjs submit "$URLS"

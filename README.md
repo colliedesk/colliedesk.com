@@ -41,9 +41,17 @@ to use another checkout. `typecheck` works without it.
 
 ## Content
 
-- `/docs` and `/roadmap` render `docs/user/*.md` and `ROADMAP.md` from [colliedesk/colliedesk](https://github.com/colliedesk/colliedesk). Edit those files there, not here. Every 15 minutes CI compares those docs on `main` with `/product-docs-version.txt` on the live site (`scripts/product-docs-version.sh`) and rebuilds when they differ. To preview unmerged docs, run the Site workflow with `product_ref` set to a branch of colliedesk/colliedesk: it builds, checks and uploads the site as an artifact without deploying. Pull requests there that touch the docs build this site too, so a broken link fails before merge.
+- `/docs` and `/roadmap` render `docs/user/*.md` and `ROADMAP.md` from [colliedesk/colliedesk](https://github.com/colliedesk/colliedesk). Edit those files there, not here. Every 15 minutes CI compares those docs on `main` with `/product-docs-version.txt` on the live site (`scripts/product-docs-version.sh`) and rebuilds when they differ. GitHub runs scheduled workflows late and sometimes skips them, so a docs change can take hours to appear; to publish one at once, run `gh workflow run Site -R colliedesk/colliedesk.com` (no `product_ref`), which builds from `main` and deploys. Any merge to this repo's `main` also rebuilds the docs from the app's `main`. To preview unmerged docs, run the Site workflow with `product_ref` set to a branch of colliedesk/colliedesk: it builds, checks and uploads the site as an artifact without deploying. Pull requests there that touch the docs build this site too, so a broken link fails before merge.
 - SEO: an agent researches, writes and audits pages as described in [docs/seo](docs/seo/README.md); `pnpm check:content` checks the copy and a person approves every SEO page (required check `content-approval`).
 - Shared facts (prices, positioning, repo URL) are in `src/lib/site.ts`. Competitor prices carry their source and read date on each `/vs` page.
+- While Founding is open it leads, and Team 25 is on sale beside it, on /pricing and the home page, for teams of 11 to 25
+  agents (`TEAM_25_*` in `src/lib/site.ts`). Solo, Small, Team and Unlimited stay hidden until Founding closes;
+  `scripts/pricing-gate.mjs` enforces this, and fails any page that says Cloud sells one plan, when `pnpm check` runs it. A page that states a Cloud price leads with Founding and gives
+  the monthly plans as the prices after the 10 places, through `src/lib/cloud-price.ts` (`FOUNDING_LEAD`,
+  `foundingFirst`, `OUR_PLAN`/`OUR_PRICE`, the hero action `FOUNDING_ACTION`). `pnpm check:content` fails a page,
+  Markdown twin or llms file that names a monthly plan price before Founding. Build and check with
+  `FOUNDING_STATE_FILE=<file>` to see the closed state.
+- AI prices are in `src/lib/site.ts` too (`AI_RESOLUTION`, `AI_EXTRA`, `PRICE.ai`). `pnpm check:content` fails on the retired "model cost +30%" wording anywhere on the site, llms.txt and JSON-LD included.
 - Colliedesk as a whole is alpha. Mark a feature `**Shipped**` or `**Not built yet**` in Markdown; the build turns
   it into a badge. Never call anything beta: `pnpm check:content` fails on the word until HC Labs announces beta.
 - Deploy: GitHub Pages from `.github/workflows/site.yml`, custom domain `colliedesk.com`, output directory `_site` (`_headers` keeps the Cloudflare Pages rules for `pnpm serve`).
@@ -64,7 +72,7 @@ repo checks contrast for every pair and fails when a grey, a text token or the p
 
 - Colour: neutral grey surfaces (`--surface-0` `#fafafa`, cards `#ffffff`), ink text and ink buttons and
   links (`#171717`; dark theme `#0a0a0a` page, `#fafafa` ink). The price has its own colour (`--price`,
-  `#c2410c`, dark `#fb8a4a`); status colours appear only inside product pictures. `pnpm check` fails
+  `#c2410c`, dark `#fb8a4a`), and the logo tile (`--logo-tile`) is the same orange in both themes; status colours appear only inside product pictures. `pnpm check` fails
   when `styles.css` uses the accent token more than its budget.
 - Layout (from a full-page teardown of nine helpdesk sites): one page background, no tinted bands; one
   idea per section with a crop of the real product on a soft panel (`--panel`); three checkable facts

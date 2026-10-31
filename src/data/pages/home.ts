@@ -1,39 +1,38 @@
-import { CONTACT_EMAIL, LADDER_LINE, POSITIONING, PRICE, PRICES_READ, REPO, TAGLINE, TRIAL_HREF } from '../../lib/site';
+import { AI_RESOLUTION, CONTACT_EMAIL, LADDER_LINE, POSITIONING, PRICE, PRICES_READ, REPO, TAGLINE, TEAM_25, TEAM_25_AGENTS, TEAM_25_HOME_LINE, TRIAL_HREF } from '../../lib/site';
 import { PER_WORKSPACE_FAQ } from './pricing';
 import { faqPage, organization, softwareApplication, website } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
 import { faqMarkdown } from '../../lib/twin';
 import { statusTable } from './collie-status';
-import { FOUNDING_OPEN, FRESHDESK_MONTH, FRESHDESK_RANGE, FRESHDESK_YEAR, HERO_RANGES, homeSectionsMd, OURS_NAME, OURS_YEAR, rangeLabel } from './home-sections';
+import { FOUNDING_OPEN, FRESHDESK_MONTH, FRESHDESK_RANGE, FRESHDESK_YEAR, homeSectionsMd, OURS_NAME, OURS_YEAR, rangeLabel } from './home-sections';
 
-// Headline: our yearly price, then what five agents pay each incumbent in a year (cheapest to dearest
-// plan, from home-sections.ts). The hero shows one competitor at a time; this sentence is what
-// screen readers, the twin and the title get.
-export const HOME_H1_LEAD = `$${OURS_YEAR} a year for your whole team. Five agents pay`;
-export const HOME_H1 = `${HOME_H1_LEAD} ${HERO_RANGES.map((r, i) => `${i > 0 && i === HERO_RANGES.length - 1 ? 'and ' : ''}${rangeLabel(r)} on ${r.name}`).join(', ')}.`;
+// Headline: why our buyer stays on Freshdesk despite the price rise (leaving is hard), and what we
+// changed. The lede names the buyer, the proof (the reconcile report) and the price as evidence:
+// our yearly price against what five agents pay Freshdesk (cheapest to dearest plan, home-sections.ts).
+export const HOME_H1 = 'Freshdesk raises your price because leaving is hard. We made leaving easy.';
 export const HOME_LEDE =
-  'For support teams of 3 to 10 agents who pay for Freshdesk and just got a price rise. Pay for the workspace, not for every agent, and bring every ticket with a report that proves nothing was lost.';
+  `For support teams of 3 to 10 agents who pay for Freshdesk. You import every ticket, reply, attachment and time entry from Freshdesk, with a report that proves nothing was lost. You can run both products side by side until you are sure. Then pay $${OURS_YEAR} a year for your whole team, where five agents pay ${rangeLabel(FRESHDESK_RANGE)} on Freshdesk. It is open source, and you can export all your data at any time and move to another product.`;
 
 export const HOME_FAQ: Faq[] = [
   {
     q: 'What is Colliedesk?',
-    a: 'Colliedesk is an open-source (AGPL-3.0) helpdesk for support teams of 3 to 10 agents leaving Freshdesk, made by HC Labs. It is the open-source alternative to Freshdesk, Zendesk and Help Scout: a shared inbox for your team at one flat price per workspace, with AI included at cost once it is built.',
+    a: 'Colliedesk is an open-source (AGPL-3.0) helpdesk for support teams of 3 to 10 agents leaving Freshdesk, made by HC Labs. It is the open-source alternative to Freshdesk, Zendesk and Help Scout: a shared inbox for your team at one flat price per workspace, with AI reply drafts included.',
   },
   {
     q: 'Is Colliedesk free?',
     a: FOUNDING_OPEN
-      ? 'Self-hosting is free, forever, with every feature. Colliedesk Cloud is sold as one plan while it is young: Founding, $99 a quarter per workspace for up to 10 agents, locked for life, for 10 teams. There is no free Cloud plan; every workspace starts with a 14-day free trial, no card. See [pricing](/pricing).'
+      ? `Self-hosting is free, forever, with every feature. While Colliedesk is young, Cloud is sold as Founding, $99 every 3 months per workspace for up to 10 agents, locked for life, for 10 teams. Teams of ${TEAM_25_AGENTS} agents can buy ${TEAM_25.name} at ${PRICE.team25Monthly} a month. There is no free Cloud plan; every workspace starts with a 14-day free trial, no card. See [pricing](/pricing).`
       : `Self-hosting is free, forever, with every feature. Colliedesk Cloud is one flat price per workspace, with no per-agent fees: ${LADDER_LINE}. There is no free Cloud plan; every workspace starts with a 14-day free trial, no card. See [pricing](/pricing).`,
   },
   {
     q: 'Is Colliedesk ready to use?',
-    a: 'Colliedesk as a whole is alpha. It is released and runs on Colliedesk Cloud, with a 14-day free trial. Shipped today: the email channel (inbound and outbound, threading), the Freshdesk and Help Scout importers with their reconcile reports, the knowledge base and public help center, starting a new conversation from the inbox, contact history, saved replies, Cc on replies, attachments and live updates. Alpha means any release may change the interface or the database schema. AI is not built yet. See the [roadmap](/roadmap).',
+    a: 'Colliedesk as a whole is alpha. It is released and runs on Colliedesk Cloud, with a 14-day free trial. Shipped today: the email channel (inbound and outbound, threading), the Freshdesk and Help Scout importers with their reconcile reports, the knowledge base and public help center, starting a new conversation from the inbox, contact history, saved replies, Cc on replies, attachments and live updates. Alpha means any release may change the interface or the database schema. AI reply drafts and triage suggestions are shipped and off until an admin turns them on; AI auto-answer is not built yet. See the [roadmap](/roadmap).',
   },
   PER_WORKSPACE_FAQ,
   {
     q: 'What happens over the limit?',
     a: FOUNDING_OPEN
-      ? `Founding covers up to 10 agents and 20 GB of attachments, imported files included. With 11 or more agents, Founding is not the right fit: self-host with no agent limit, or write to ${CONTACT_EMAIL}. Storage: we warn you at 80%. Over the cap, customer email keeps arriving with its attachments; only your own uploads and new imports pause. Nothing is deleted. See [pricing](/pricing).`
+      ? `Founding covers up to 10 agents and 20 GiB of attachments, imported files included. With ${TEAM_25_AGENTS} agents, buy ${TEAM_25.name} instead: ${PRICE.team25Monthly} a month, up to ${TEAM_25.agents} agents and ${TEAM_25.storage} of attachments. Above ${TEAM_25.agents} agents, self-host with no agent limit, or write to ${CONTACT_EMAIL}. Storage: we warn you at 80%. Over the cap, customer email keeps arriving with its attachments; only your own uploads and new imports pause. Nothing is deleted. See [pricing](/pricing).`
       : `Agents: each plan has a limit: Solo 1 agent, Small 3, Team 10, Team 25 up to 25. Pass it and you move up one plan; at 11 agents that is Team 25, ${PRICE.team25Monthly} a month. Above 25, Unlimited is coming soon; until then email us at ${CONTACT_EMAIL}, or self-host with no agent limit. Storage: we warn you at 80%. Over the cap, customer email keeps arriving with its attachments; only your own uploads and new imports pause until you free space or move up. Nothing is deleted. See [pricing](/pricing).`,
   },
   {
@@ -42,7 +41,7 @@ export const HOME_FAQ: Faq[] = [
   },
   {
     q: 'How does AI pricing work?',
-    a: 'AI is not built yet. When it ships, it is part of every plan, not an add-on: on Colliedesk Cloud you pay the model cost plus 30%, or bring your own key. Self-hosted installs use your own key.',
+    a: `AI reply drafts and triage suggestions are shipped in alpha and stay off until an admin turns them on. They are part of every plan, not an add-on, with a monthly allowance; with your own key you pay your provider and Colliedesk adds no fee. Auto-answer is not built yet; while Colliedesk is alpha it will cost ${AI_RESOLUTION} per resolution, charged only when the customer needs no person afterwards.`,
   },
   {
     q: 'Can I move my Freshdesk tickets to Colliedesk?',
@@ -54,7 +53,7 @@ const md = `${TAGLINE} ${POSITIONING}
 
 ${HOME_H1} ${HOME_LEDE} The Freshdesk importer is shipped; reconcile report numbers shown on the site are an example.
 
-Status: Colliedesk as a whole is alpha, live on Colliedesk Cloud with a 14-day free trial. Self-host free: ${REPO}. Cloud: ${FOUNDING_OPEN ? 'Founding, $99 a quarter per workspace, locked for life, 10 places' : LADDER_LINE}.
+Status: Colliedesk as a whole is alpha, live on Colliedesk Cloud with a 14-day free trial. Self-host free: ${REPO}. Cloud: ${FOUNDING_OPEN ? `Founding, $99 every 3 months per workspace, locked for life, 10 places. ${TEAM_25_HOME_LINE}` : `${LADDER_LINE}.`}
 
 ${homeSectionsMd}
 
@@ -73,7 +72,7 @@ const page: Page = {
   section: 'Product',
   title: `Colliedesk: $${OURS_YEAR} a year for your whole support team, not per agent`,
   description:
-    `Colliedesk is an open-source helpdesk for teams of 3 to 10 agents leaving Freshdesk, $${OURS_YEAR} a year for up to 10 agents, where five agents pay Freshdesk ${rangeLabel(FRESHDESK_RANGE)} a year. Leave Freshdesk with all your data. ${FOUNDING_OPEN ? 'One plan, locked for life, only 10 places' : `One flat price per workspace from ${PRICE.range} a month`}, no per-agent fees.`,
+    `Colliedesk is an open-source helpdesk for teams of 3 to 10 agents leaving Freshdesk, $${OURS_YEAR} a year for up to 10 agents, where five agents pay Freshdesk ${rangeLabel(FRESHDESK_RANGE)} a year. Leave Freshdesk with all your data. ${FOUNDING_OPEN ? 'Founding, locked for life, only 10 places' : `One flat price per workspace from ${PRICE.range} a month`}, no per-agent fees.`,
   summary: `What Colliedesk is, what we sell, what AI agents can do through MCP, status, founding offer; competitor prices read ${PRICES_READ}`,
   h1: HOME_H1,
   lede: HOME_LEDE,
@@ -81,6 +80,6 @@ const page: Page = {
   md,
   faq: [],
   bodyClass: 'home',
-  jsonLd: [organization(), website(), softwareApplication({ ladder: !FOUNDING_OPEN }), faqPage(HOME_FAQ)],
+  jsonLd: [organization(), website(), softwareApplication(FOUNDING_OPEN ? { plans: [TEAM_25] } : {}), faqPage(HOME_FAQ)],
 };
 export default page;

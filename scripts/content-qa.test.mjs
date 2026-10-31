@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { betaFindings, checkPage, readingGrade } from './content-qa.mjs';
+import { betaFindings, checkPage, foundingLeadFindings, oldAiPriceFindings, readingGrade } from './content-qa.mjs';
 
 // Plain sentences a 7th grader reads easily; links to pricing (CTA) and to a source.
 const CLEAN = `# Move off Freshdesk before your renewal
@@ -138,4 +138,65 @@ test('allows alpha copy and words that only contain the letters beta', () => {
 
 test('allows beta inside a URL or a Markdown link target', () => {
   assert.deepEqual(betaFindings('/vs/x', 'Source: [their pricing](https://example.com/beta/pricing) and https://beta.example.com/plans'), []);
+});
+
+// AI is priced per resolution and by allowance now; the old "model cost plus 30%" price must not come back.
+test('fails the retired AI price in any of its wordings, quoting where it appears', () => {
+  for (const text of [
+    'AI at LLM cost +30% or your own key.',
+    '| AI | Model cost +30% on our key |',
+    'Use ours at cost plus 30%.',
+    'AI usage at cost + 30 %',
+    'A flat price with AI at model cost.',
+    'One flat price with AI included at cost.',
+    '## AI in every plan, at model cost',
+  ]) {
+    const findings = oldAiPriceFindings('/pricing', text);
+    assert.equal(findings.length, 1, text);
+    assert.match(findings[0], /^\/pricing: states the retired AI price/);
+  }
+});
+
+test('allows the current AI price and unrelated percentages', () => {
+  const ok = [
+    'Auto-answer costs $0.50 per resolution while Colliedesk is alpha.',
+    'Reply drafts and triage are included in every plan, with a monthly allowance.',
+    'Bring your own key: Colliedesk adds no fee.',
+    'We warn you at 80%. Freshdesk raised prices by 30% in 2024.',
+  ].join('\n');
+  assert.deepEqual(oldAiPriceFindings('/pricing', ok), []);
+});
+
+// While Founding is open it is the only Cloud plan on sale. A page that names a monthly Cloud plan price
+// must name Founding first, so a visitor from search never meets only a price they cannot buy.
+test('fails a Cloud plan price with no Founding before it while Founding is open, quoting it', () => {
+  for (const text of [
+    'Five agents pay $505 a month. Colliedesk Cloud Team is $69 for the whole workspace.',
+    '| 5 agents | $115 | $505 | $69 (Team) |',
+    'Colliedesk Cloud runs the same code from $19 per workspace per month (Team: $69 for up to 10 agents).',
+    '| **Colliedesk** | **$57.50** (Team, $690 a year) | Flat per workspace |',
+    'Cloud Team 25 covers up to 25 agents for a flat $149 per workspace per month.',
+    'Colliedesk flat plans: Solo $19 a month for 1 agent, Small $39 for up to 3.',
+    'Colliedesk Team at a flat $69 per workspace. The founding offer is $99 every 3 months.',
+  ]) {
+    const findings = foundingLeadFindings('/vs/x', text, true);
+    assert.equal(findings.length, 1, text);
+    assert.match(findings[0], /^\/vs\/x: names a Cloud plan price before Founding/);
+  }
+});
+
+test('allows a Cloud plan price once Founding is named before it, and any price once Founding closes', () => {
+  const led = 'Founding is $99 every 3 months for up to 10 agents. After the 10 Founding places are taken, Team is $69 a month.';
+  assert.deepEqual(foundingLeadFindings('/vs/x', led, true), []);
+  assert.deepEqual(foundingLeadFindings('/vs/x', 'the founding offer, then Solo $19 a month', true), []);
+  assert.deepEqual(foundingLeadFindings('/vs/x', 'Colliedesk Cloud Team is $69 for the whole workspace.', false), []);
+});
+
+test('ignores competitor plans and prices that are not Colliedesk Cloud plans', () => {
+  const competitors = [
+    'Support Team €19 / €25, Suite Team €55 / €69, Suite Professional €115 / €149',
+    'Freshdesk Growth $23 / $19, Pro $66 / $55 per agent per month',
+    'Five agents pay $1,140–5,040 on Freshdesk; a small team of three pays $303.',
+  ].join('\n');
+  assert.deepEqual(foundingLeadFindings('/vs/x', competitors, true), []);
 });
