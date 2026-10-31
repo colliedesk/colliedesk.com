@@ -101,9 +101,9 @@ const page: Page = {
   name: 'Migrate from Freshdesk',
   path: '/migrate/freshdesk',
   section: 'Migrate',
-  title: 'Migrate from Freshdesk without losing tickets: step-by-step guide',
+  title: 'Migrate from Freshdesk without losing tickets: a guide',
   description:
-    'How to leave Freshdesk with every ticket, reply, note and attachment: why the CSV export is not enough, the API limits to plan around, and the reconcile check before you close the account.',
+    'How to leave Freshdesk with every ticket, reply, note and attachment: why the CSV export is not enough, the API limits to plan for, and the reconcile check.',
   summary: 'Step-by-step Freshdesk exit: CSV vs API vs Colliedesk importer (available now), API traps, reconcile report',
   eyebrow: 'Migrate · Freshdesk',
   h1: 'Leave Freshdesk with all your data',

@@ -26,7 +26,7 @@ const faq: Faq[] = [
 const body = `## The short answer
 
 - **Choose Zendesk** if you need the enterprise default: a huge app marketplace, many channels, and AI agents that are already in production.
-- **Choose Colliedesk** if you are a small team where per-agent seats and per-resolution AI fees make up most of the bill, and you want an open-source helpdesk you can self-host or rent for a flat price. Colliedesk is alpha; read the status table first.
+- **Choose Colliedesk** if you are a small team where per-agent seats and per-resolution AI fees make up most of the bill, and you want an open-source helpdesk you can [self-host](/self-hosted-helpdesk) or rent for a [flat price](/pricing). Colliedesk is alpha; read the status table first.
 
 ## Price, side by side
 
@@ -67,15 +67,20 @@ Read on ${PRICES_READ}. Prices change; check the vendor page before you decide.
 - Zendesk pricing (euro page): [zendesk.de/pricing](https://www.zendesk.de/pricing/)
 - Native data export: [support.zendesk.com article 203662346](https://support.zendesk.com/hc/en-us/articles/203662346-Exporting-data-to-a-JSON-CSV-or-XML-file)
 - Incremental Export API: [developer.zendesk.com](https://developer.zendesk.com/api-reference/ticketing/ticket-management/incremental_exports/)
-- API rate limits: [developer.zendesk.com rate limits](https://developer.zendesk.com/api-reference/introduction/rate-limits/)`;
+- API rate limits: [developer.zendesk.com rate limits](https://developer.zendesk.com/api-reference/introduction/rate-limits/)
+
+## Related comparisons
+
+Weighing other tools too? Read [Colliedesk vs Freshdesk](/vs/freshdesk), [Colliedesk vs Help Scout](/vs/help-scout) and [Colliedesk vs Zoho Desk](/vs/zoho-desk), or see [all comparisons](/compare).`;
 
 const page: Page = {
   jsonLd: [],
   path: '/vs/zendesk',
+  updated: '2026-10-31',
   section: 'Compare',
-  title: 'Colliedesk vs Zendesk: a flat-priced, open-source Zendesk alternative',
+  title: 'Colliedesk vs Zendesk: flat-priced, open-source alternative',
   description:
-    'Colliedesk vs Zendesk for small support teams: per-agent seats and per-resolution AI fees vs one flat workspace price. Sourced prices, export limits and honest status.',
+    'Colliedesk vs Zendesk for small support teams: per-agent seats and per-resolution AI fees vs one flat workspace price. Sourced prices and export limits.',
   summary: `Zendesk per-agent seats, €50 Copilot and per-resolution AI vs Colliedesk ${OUR_PLAN} at a flat ${OUR_PRICE} per workspace; export off by default`,
   eyebrow: 'Compare · Zendesk alternative',
   h1: 'Colliedesk vs Zendesk',

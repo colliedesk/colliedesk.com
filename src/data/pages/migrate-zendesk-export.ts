@@ -72,7 +72,7 @@ The API is the route that works on every plan and lets a tool count what it read
 
 ## Moving to Colliedesk
 
-Colliedesk imports from Freshdesk today, with a reconcile report that proves nothing was lost. A Zendesk importer is on the [roadmap](/roadmap). Comparing the two products first? Read [Colliedesk vs Zendesk](/vs/zendesk).
+Colliedesk [imports from Freshdesk](/migrate/freshdesk) today, with a reconcile report that proves nothing was lost. A Zendesk importer is on the [roadmap](/roadmap). Comparing the two products first? Read [Colliedesk vs Zendesk](/vs/zendesk), or see what Colliedesk costs on the [pricing page](/pricing).
 
 ## Sources
 
@@ -86,9 +86,9 @@ const page: Page = {
   path: '/migrate/zendesk/export',
   updated: '2026-10-15',
   section: 'Migrate',
-  title: 'How to export tickets from Zendesk (with comments): CSV, JSON and API',
+  title: 'How to export Zendesk tickets with comments: CSV, JSON, API',
   description:
-    'Zendesk data export is off by default and the CSV has no comments. How to turn it on, which format keeps the conversation, the API limits, and a checklist before you cancel.',
+    'Zendesk data export is off by default and the CSV has no comments. How to turn it on, which format keeps the conversation, API limits and a cancel checklist.',
   summary: 'Export Zendesk tickets: export off by default, CSV without comments vs JSON/XML vs Incremental Export API; steps and limits',
   eyebrow: 'Migrate · Zendesk · Export',
   h1: 'Export your tickets from Zendesk',

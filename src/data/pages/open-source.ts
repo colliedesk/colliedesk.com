@@ -19,10 +19,10 @@ const faq: Faq[] = [
 
 const body = `## Wait, what are you selling me?
 
-Self-hosting Colliedesk is free, forever, with every feature. We sell two things:
+[Self-hosting Colliedesk](/self-hosted-helpdesk) is free, forever, with every feature. We sell two things:
 
-1. **Colliedesk Cloud**: we run it for you. One flat price per workspace, not per agent.
-2. **Migration**: we move your Freshdesk history (tickets, replies, attachments, tags) and give you a reconcile report that proves nothing was lost.
+1. **Colliedesk Cloud**: we run it for you. [One flat price per workspace](/pricing), not per agent.
+2. **Migration**: we [move your Freshdesk history](/migrate/freshdesk) (tickets, replies, attachments, tags) and give you a reconcile report that proves nothing was lost.
 
 AI features work with your own model key on self-hosted installs. On the cloud, reply drafts and triage are included with a monthly allowance, or you bring your own key at no extra fee.
 
@@ -75,9 +75,9 @@ const page: Page = {
   name: 'Open source, license and self-hosting',
   path: '/open-source',
   section: 'Product',
-  title: 'Colliedesk: open source helpdesk and ticketing system (AGPL-3.0), self-host or fork',
+  title: 'Colliedesk: open source helpdesk and ticketing system',
   description:
-    'Colliedesk is an AGPL-3.0 open source helpdesk and ticketing system by HC Labs. Self-hosting is free with every feature. What we sell, the license and CLA, and how to self-host.',
+    'Colliedesk is an AGPL-3.0 open source helpdesk by HC Labs. Self-hosting is free with every feature. What we sell, the license and CLA, and how to self-host.',
   summary: 'AGPL-3.0-only license, CLA, what HC Labs sells, self-host in two commands, fork it, clean-room rule',
   eyebrow: 'Open source',
   h1: 'Open source, and honest about the business',

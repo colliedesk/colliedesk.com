@@ -70,9 +70,9 @@ const page: Page = {
   name: 'Colliedesk overview',
   path: '/',
   section: 'Product',
-  title: `Colliedesk: $${OURS_YEAR} a year for your whole support team, not per agent`,
+  title: `Colliedesk: $${OURS_YEAR} a year for your whole team, not per agent`,
   description:
-    `Colliedesk is an open-source helpdesk for teams of 3 to 10 agents leaving Freshdesk, $${OURS_YEAR} a year for up to 10 agents, where five agents pay Freshdesk ${rangeLabel(FRESHDESK_RANGE)} a year. Leave Freshdesk with all your data. ${FOUNDING_OPEN ? 'Founding, locked for life, only 10 places' : `One flat price per workspace from ${PRICE.range} a month`}, no per-agent fees.`,
+    `An open-source helpdesk for 3 to 10 agents: $${OURS_YEAR} a year for the whole team, where five agents pay Freshdesk ${rangeLabel(FRESHDESK_RANGE)} a year. ${FOUNDING_OPEN ? 'Founding, only 10 places' : 'No per-agent fees'}.`,
   summary: `What Colliedesk is, what we sell, what AI agents can do through MCP, status, founding offer; competitor prices read ${PRICES_READ}`,
   h1: HOME_H1,
   lede: HOME_LEDE,

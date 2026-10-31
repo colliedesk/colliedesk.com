@@ -22,7 +22,7 @@ const faq: Faq[] = [
 const body = `## The short answer
 
 - **Choose FreeScout** if you want a mature, self-hosted helpdesk in the style of Help Scout, you already run PHP, and you are fine buying modules for the knowledge base, live chat, tags or workflows.
-- **Choose Colliedesk** if you want every feature in the open-source code, an official hosted option at one flat price, and a Freshdesk importer that proves nothing was lost. Colliedesk is alpha; read the status table first.
+- **Choose Colliedesk** if you want every feature in the open-source code, an official hosted option at [one flat price](/pricing), and a [Freshdesk importer](/migrate/freshdesk) that proves nothing was lost. Colliedesk is alpha; read the status table first.
 
 ## Side by side
 
@@ -57,16 +57,20 @@ Read on ${PRICES_READ}.
 - Hosting options: [FreeScout wiki, one-click installs](https://github.com/freescout-help-desk/freescout/wiki/One-Click-Installs)
 - Migration: [FreeScout wiki, migrate to FreeScout](https://github.com/freescout-help-desk/freescout/wiki/Migrate-to-FreeScout)
 - Community modules: [FreeScout wiki, community modules](https://github.com/freescout-help-desk/freescout/wiki/Community-Modules)
-- Requirements: [FreeScout installation guide](https://github.com/freescout-help-desk/freescout/wiki/Installation-Guide)`;
+- Requirements: [FreeScout installation guide](https://github.com/freescout-help-desk/freescout/wiki/Installation-Guide)
+
+## Related comparisons
+
+Weighing other tools too? Read [Colliedesk vs Zammad](/vs/zammad), [Colliedesk vs Chatwoot](/vs/chatwoot) and [Colliedesk vs Help Scout](/vs/help-scout), or see [all comparisons](/compare).`;
 
 const page: Page = {
   jsonLd: [],
   path: '/vs/freescout',
-  updated: '2026-10-16',
+  updated: '2026-10-31',
   section: 'Compare',
-  title: 'Colliedesk vs FreeScout: two AGPL helpdesks, paid modules vs every feature free',
+  title: 'Colliedesk vs FreeScout: paid modules vs every feature free',
   description:
-    `Colliedesk vs FreeScout, both AGPL-3.0: FreeScout sells modules and has no official cloud; Colliedesk ships every feature free and offers flat-priced hosting (${OUR_PLAN} ${OUR_PRICE} for up to 10 agents). Freshdesk import compared.`,
+    `Colliedesk vs FreeScout, both AGPL-3.0: FreeScout sells modules and has no official cloud; Colliedesk ships every feature free and hosts at one flat price.`,
   summary: `FreeScout free core plus paid modules, no official cloud or Freshdesk importer vs Colliedesk every feature free, flat-priced Cloud (${OUR_PLAN} ${OUR_PRICE}), importer available now (alpha)`,
   eyebrow: 'Compare · Open source',
   h1: 'Colliedesk vs FreeScout',

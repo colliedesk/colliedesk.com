@@ -24,7 +24,7 @@ const faq: Faq[] = [
 const body = `## The short answer
 
 - **Choose Zoho Desk** if you already run Zoho CRM or Zoho One, or you have one to three agents and the free plan is enough.
-- **Choose Colliedesk** if you have 4 to 10 agents, want AI without moving up a plan tier, and want your data in an open database you can self-host. Colliedesk is alpha; read the status table first.
+- **Choose Colliedesk** if you have [4 to 10 agents](/helpdesk-for-small-teams), want [AI without moving up a plan tier](/pricing), and want your data in an open database you can [self-host](/self-hosted-helpdesk). Colliedesk is alpha; read the status table first.
 
 ## Price, side by side
 
@@ -63,16 +63,20 @@ Read on ${PRICES_READ}. Prices change; check the vendor page before you decide.
 
 - Zoho Desk pricing: [zoho.com/desk/pricing](https://www.zoho.com/desk/pricing.html)
 - Express plan: [zoho.com/desk/express](https://www.zoho.com/desk/express/)
-- Backups: [help.zoho.com, backing up your help desk data](https://help.zoho.com/portal/en/kb/desk/data-administration/backup-and-data-archive/articles/backing-up-your-help-desk-data)`;
+- Backups: [help.zoho.com, backing up your help desk data](https://help.zoho.com/portal/en/kb/desk/data-administration/backup-and-data-archive/articles/backing-up-your-help-desk-data)
+
+## Related comparisons
+
+Weighing other tools too? Read [Colliedesk vs Freshdesk](/vs/freshdesk), [Colliedesk vs Zendesk](/vs/zendesk) and [Colliedesk vs HappyFox](/vs/happyfox), or see [all comparisons](/compare).`;
 
 const page: Page = {
   jsonLd: [],
   path: '/vs/zoho-desk',
-  updated: '2026-10-16',
+  updated: '2026-10-31',
   section: 'Compare',
-  title: `Colliedesk vs Zoho Desk: flat ${OUR_PRICE} for up to 10 agents vs per-user plans`,
+  title: 'Colliedesk vs Zoho Desk: flat price vs per-user plans',
   description:
-    `Colliedesk vs Zoho Desk: Zoho €7–40 per user with Zia on Professional and up vs Colliedesk at one flat price per workspace (${OUR_PLAN} ${OUR_PRICE} for up to 10 agents). Backup limits and honest status, with sources.`,
+    `Colliedesk vs Zoho Desk: Zoho costs €7–40 per user, Zia on Professional and up; Colliedesk is one flat price (${OUR_PLAN} ${OUR_PRICE}). Sourced.`,
   summary: `Zoho Desk free for 3 users, €7–40 per user, Zia from Professional, backups by primary contact without attachments vs Colliedesk ${OUR_PLAN} at a flat ${OUR_PRICE}`,
   eyebrow: 'Compare · Zoho Desk alternative',
   h1: 'Colliedesk vs Zoho Desk',

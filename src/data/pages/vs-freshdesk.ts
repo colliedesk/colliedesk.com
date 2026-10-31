@@ -19,7 +19,7 @@ const pricing: VsPricing = {
   forYou: [
     'You pay Freshdesk per agent, then again per agent for AI, and the bill grows with every hire.',
     'Most of your support is email. The email channel (inbound and outbound, threading) is available now.',
-    'You want your tickets in a PostgreSQL database you control, or to self-host for free.',
+    'You want your tickets in a PostgreSQL database you control, or to [self-host](/self-hosted-helpdesk) for free.',
     'Your Freshdesk renewal is months away, so you can plan the move around our [roadmap](/roadmap).',
   ],
   notForYou: [
@@ -53,7 +53,7 @@ const faq: Faq[] = [
 
 const body = `## Price, side by side
 
-Freshdesk prices are per agent per month, as published on ${PRICES_READ}. The first figure is billed monthly, the second billed annually.
+[Freshdesk prices](/freshdesk-pricing-history) are per agent per month, as published on ${PRICES_READ}. The first figure is billed monthly, the second billed annually.
 
 | Topic | Freshdesk | Colliedesk |
 |---|---|---|
@@ -67,7 +67,7 @@ List prices before tax. On Colliedesk, AI reply drafts and triage are included w
 
 ## Leaving: what Freshdesk gives you
 
-- The ticket export in the Freshdesk UI gives **ticket fields only**, as CSV or Excel. It does not include the conversation, and archived tickets are excluded.
+- The [ticket export](/migrate/freshdesk/export) in the Freshdesk UI gives **ticket fields only**, as CSV or Excel. It does not include the conversation, and archived tickets are excluded.
 - The API lists **100 tickets per page, up to 300 pages** (30,000 tickets) per filter, and only the **last 30 days** unless you pass \`updated_since\`.
 - Closed tickets with no activity for 120 days are **archived** and fetched through a separate endpoint.
 - API rate limits are **100, 400 or 700 calls per minute** on Growth, Pro and Enterprise.
@@ -101,15 +101,20 @@ Read on ${PRICES_READ}. Prices change; check the vendor page before you decide.
 - Freshdesk pricing: [freshworks.com/freshdesk/pricing](https://www.freshworks.com/freshdesk/pricing/)
 - Ticket export (fields only, archived excluded): [support.freshdesk.com article 225158](https://support.freshdesk.com/support/solutions/articles/225158)
 - API pagination, 30-day default, archived tickets: [developers.freshdesk.com/api](https://developers.freshdesk.com/api/)
-- API rate limits: [support.freshdesk.com article 225439](https://support.freshdesk.com/support/solutions/articles/225439-what-are-the-rate-limits-for-the-api-calls-to-freshdesk-)`;
+- API rate limits: [support.freshdesk.com article 225439](https://support.freshdesk.com/support/solutions/articles/225439-what-are-the-rate-limits-for-the-api-calls-to-freshdesk-)
+
+## Related comparisons
+
+Weighing other tools too? Read [Colliedesk vs Zendesk](/vs/zendesk), [Colliedesk vs Help Scout](/vs/help-scout) and [Colliedesk vs Zammad](/vs/zammad), or see [all comparisons](/compare).`;
 
 const page: Page = {
   jsonLd: [],
   path: '/vs/freshdesk',
+  updated: '2026-10-31',
   section: 'Compare',
-  title: `Colliedesk vs Freshdesk: ${OUR_PRICE} for up to 10 agents, not $19–107 per agent`,
+  title: 'Colliedesk vs Freshdesk: flat price vs $19–107 per agent',
   description:
-    `An honest comparison of Colliedesk and Freshdesk: published prices, AI add-on costs, export limits and what Colliedesk can and cannot do yet. Prices read ${PRICES_READ}.`,
+    `Colliedesk and Freshdesk compared: published prices, AI add-on costs, export limits and what Colliedesk cannot do yet. Prices read ${PRICES_READ}.`,
   summary: `Freshdesk $19–107 per agent plus $29–35 Copilot vs Colliedesk ${OUR_PLAN} at a flat ${OUR_PRICE} per workspace for up to 10 agents; export limits; honest status`,
   eyebrow: 'Compare · Freshdesk alternative',
   h1: 'Colliedesk vs Freshdesk',

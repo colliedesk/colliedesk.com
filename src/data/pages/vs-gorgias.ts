@@ -23,7 +23,7 @@ const faq: Faq[] = [
 const body = `## The short answer
 
 - **Choose Gorgias** if you run an e-commerce store and want store and order data next to every ticket, with order management automation. That is what it is built for.
-- **Choose Colliedesk** if your ticket volume is growing and you do not want the bill to grow with it, or you are not an e-commerce team. Colliedesk is alpha; read the status table first.
+- **Choose Colliedesk** if your ticket volume is growing and you [do not want the bill to grow with it](/pricing), or you are not an e-commerce team. Colliedesk is alpha; read the status table first.
 
 ## Price, side by side
 
@@ -53,16 +53,20 @@ ${statusTable}
 
 Read on ${PRICES_READ}. Prices change; check the vendor page before you decide.
 
-- Gorgias pricing: [gorgias.com/pricing](https://www.gorgias.com/pricing)`;
+- Gorgias pricing: [gorgias.com/pricing](https://www.gorgias.com/pricing)
+
+## Related comparisons
+
+Weighing other tools too? Read [Colliedesk vs Zendesk](/vs/zendesk), [Colliedesk vs Freshdesk](/vs/freshdesk) and [Colliedesk vs Front](/vs/front), or see [all comparisons](/compare).`;
 
 const page: Page = {
   jsonLd: [],
   path: '/vs/gorgias',
-  updated: '2026-10-16',
+  updated: '2026-10-31',
   section: 'Compare',
-  title: `Colliedesk vs Gorgias: flat ${OUR_PRICE} per workspace vs pricing by ticket volume`,
+  title: 'Colliedesk vs Gorgias: flat price, not ticket-based pricing',
   description:
-    `Colliedesk vs Gorgias: Gorgias $50–750 per month by tickets, plus AI Agent, vs Colliedesk at one flat price per workspace (${OUR_PLAN} ${OUR_PRICE} for up to 10 agents) with unlimited conversations. Sourced prices and honest status.`,
+    `Colliedesk vs Gorgias: Gorgias costs $50–750 a month by ticket volume, plus AI Agent; Colliedesk is flat (${OUR_PLAN} ${OUR_PRICE}, up to 10 agents).`,
   summary: `Gorgias $50–750 per month by ticket volume, $77–1,227 with AI Agent vs Colliedesk ${OUR_PLAN} at a flat ${OUR_PRICE} with unlimited conversations`,
   eyebrow: 'Compare · Gorgias alternative',
   h1: 'Colliedesk vs Gorgias',

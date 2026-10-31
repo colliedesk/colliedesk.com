@@ -28,7 +28,7 @@ const faq: Faq[] = [
 const body = `## The short answer
 
 - **Choose Front** if your team lives in email across many shared and personal inboxes, wants a Gmail-like workspace with comments on every thread, and needs many channels today. It is a mature product.
-- **Choose Colliedesk** if you want a shared inbox whose price does not grow with every seat, and data you can export or self-host without asking anyone. Colliedesk is alpha; read the status table first.
+- **Choose Colliedesk** if you want a shared inbox whose [price does not grow with every seat](/pricing), and data you can export or [self-host](/self-hosted-helpdesk) without asking anyone. Colliedesk is alpha; read the status table first.
 
 ## Price, side by side
 
@@ -66,16 +66,20 @@ ${statusTable}
 Read on ${PRICES_READ}. Prices change; check the vendor page before you decide.
 
 - Front pricing: [front.com/pricing](https://front.com/pricing)
-- Account data export: [help.front.com](https://help.front.com/t/182vg7)`;
+- Account data export: [help.front.com](https://help.front.com/t/182vg7)
+
+## Related comparisons
+
+Weighing other tools too? Read [Colliedesk vs Help Scout](/vs/help-scout), [Colliedesk vs Zendesk](/vs/zendesk) and [Colliedesk vs Gorgias](/vs/gorgias), or see [all comparisons](/compare).`;
 
 const page: Page = {
   jsonLd: [],
   path: '/vs/front',
-  updated: '2026-10-15',
+  updated: '2026-10-31',
   section: 'Compare',
-  title: 'Colliedesk vs Front: an open-source Front alternative with flat pricing',
+  title: 'Colliedesk vs Front: an open-source Front alternative',
   description:
-    'Colliedesk vs Front for small support teams: per-seat plans and a $20 Copilot add-on vs one flat workspace price. Sourced prices, export limits and honest status.',
+    'Colliedesk vs Front for small support teams: per-seat plans and a $20 Copilot add-on vs one flat workspace price. Sourced prices and export limits.',
   summary: `Front $25–105 per seat plus $20 Copilot vs Colliedesk ${OUR_PLAN} at a flat ${OUR_PRICE} per workspace; export only through Front Support`,
   eyebrow: 'Compare · Front alternative',
   h1: 'Colliedesk vs Front',
