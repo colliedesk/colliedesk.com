@@ -1,4 +1,4 @@
-import { AI_RESOLUTION, FOUNDING_HREF, TRIAL_HREF } from '../../lib/site';
+import { AI_ALLOWANCE, AI_RESOLUTION, FOUNDING_HREF, TRIAL_HREF } from '../../lib/site';
 import { faqPage, techArticle } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
 import { statusTable } from './collie-status';
@@ -43,7 +43,7 @@ ${FOUNDING_LEAD ? `${FOUNDING_LEAD} The table shows the Cloud plans after that.
 | 5 | $115 | $505 | $69 (Team) |
 | 10 | $230 | $1,010 | $69 (Team) |
 
-AI reply drafts and triage are included in every plan with a monthly allowance; on your own key your provider bills you and Colliedesk adds no fee. Auto-answer is not built yet; while Colliedesk is alpha it will cost ${AI_RESOLUTION} per resolution. Full sources: [Colliedesk vs Freshdesk](/vs/freshdesk).
+AI reply drafts and triage are included in every plan, ${AI_ALLOWANCE}; on your own key your provider bills you and Colliedesk adds no fee. Auto-answer is not built yet; it will cost ${AI_RESOLUTION} per resolution. Full sources: [Colliedesk vs Freshdesk](/vs/freshdesk).
 
 ## What Colliedesk does today
 

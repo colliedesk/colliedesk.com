@@ -1,7 +1,7 @@
 import { faqPage, techArticle } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
 import { FOUNDING_ACTION, FOUNDING_LEAD, OUR_PLAN, OUR_PRICE } from '../../lib/cloud-price';
-import { AI_RESOLUTION, dollars, PRICE, SMALL } from '../../lib/site';
+import { AI_ALLOWANCE, AI_RESOLUTION, dollars, PRICE, SMALL } from '../../lib/site';
 import { readOnLabel, rowsAt, usd, vsMarkdown, type VsPricing } from '../../lib/vs-pricing';
 import { collieFacts as c, statusTable } from './collie-status';
 
@@ -63,7 +63,7 @@ Freshdesk prices are per agent per month, as published on ${PRICES_READ}. The fi
 | Free option | No free plan on the pricing page; 14-day trial | ${c.free} |
 | Source code | Proprietary | ${c.source} |
 
-List prices before tax. On Colliedesk, AI reply drafts and triage are included with a monthly allowance; with your own key your provider bills you. Auto-answer, once it ships, is ${AI_RESOLUTION} per resolution while alpha.
+List prices before tax. On Colliedesk, AI reply drafts and triage are included, ${AI_ALLOWANCE}; with your own key your provider bills you. Auto-answer, once it ships, is ${AI_RESOLUTION} per resolution.
 
 ## Leaving: what Freshdesk gives you
 

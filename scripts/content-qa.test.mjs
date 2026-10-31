@@ -157,9 +157,24 @@ test('fails the retired AI price in any of its wordings, quoting where it appear
   }
 });
 
+// The auto-answer price is final: an "alpha" price would promise customers a rise later.
+test('fails an alpha auto-answer price that would rise later', () => {
+  for (const text of [
+    'Auto-answer costs $0.50 per resolution while Colliedesk is alpha.',
+    'Auto-answer is not built yet; while Colliedesk is alpha it will cost $0.75 per resolution.',
+    '| AI agent | Auto-answer, $0.75 per resolution while alpha (not built yet) |',
+  ]) {
+    const findings = oldAiPriceFindings('/pricing', text);
+    assert.equal(findings.length, 1, text);
+    assert.match(findings[0], /^\/pricing: states the retired AI price/);
+  }
+});
+
 test('allows the current AI price and unrelated percentages', () => {
   const ok = [
-    'Auto-answer costs $0.50 per resolution while Colliedesk is alpha.',
+    'Auto-answer costs $0.75 per resolution, charged only when the customer needs no person afterwards.',
+    'Reply drafts and triage use 1,000 AI credits a month; add 1,000 more for $20.',
+    'HubSpot: about $0.50 per resolved conversation beyond the credits in your plan.',
     'Reply drafts and triage are included in every plan, with a monthly allowance.',
     'Bring your own key: Colliedesk adds no fee.',
     'We warn you at 80%. Freshdesk raised prices by 30% in 2024.',

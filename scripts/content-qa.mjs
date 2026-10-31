@@ -164,16 +164,17 @@ export function betaFindings(path, text) {
 // AI on Colliedesk Cloud is no longer sold at the model provider's cost plus a margin: reply drafts and
 // triage are included with a monthly allowance, auto-answer is priced per resolution, and your own key
 // adds no fee (src/lib/site.ts). Any wording of the retired price fails, so it cannot come back.
-const OLD_AI_PRICE_RE = /\+\s?30\s?%|\bplus 30\s?%|\b(?:LLM|model) cost\b|\bAI (?:included )?at cost\b/i;
+// Retired AI prices: "model cost +30%", and an auto-answer price "while alpha", which promises a rise later.
+const OLD_AI_PRICE_RE = /\+\s?30\s?%|\bplus 30\s?%|\b(?:LLM|model) cost\b|\bAI (?:included )?at cost\b|\bper resolution while (?:Colliedesk is )?alpha\b|\bwhile Colliedesk is alpha it will cost\b/i;
 
-/** One finding per line of text that states the retired "model cost +30%" AI price. */
+/** One finding per line of text that states a retired AI price. */
 export function oldAiPriceFindings(path, text) {
   return text.split('\n').flatMap((raw) => {
     const line = raw.replace(URL_RE, '');
     const at = line.search(OLD_AI_PRICE_RE);
     if (at < 0) return [];
     const quote = line.slice(Math.max(0, at - 50), at + 40).replace(/\s+/g, ' ').trim();
-    return [`${path}: states the retired AI price (model cost +30%); use the AI price in src/lib/site.ts: "${quote}"`];
+    return [`${path}: states the retired AI price (model cost +30%, or an alpha price that rises later); use the AI price in src/lib/site.ts: "${quote}"`];
   });
 }
 

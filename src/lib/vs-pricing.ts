@@ -1,7 +1,7 @@
 // Price-by-team-size comparison for /vs pages: one competitor's per-agent plans against the flat
 // Colliedesk Cloud plan that covers the team. The HTML chart and the Markdown twin both render from this.
 import { AFTER_FOUNDING, FOUNDING_OPEN } from './cloud-price';
-import { AI_RESOLUTION, CONTACT_EMAIL, dollars, LADDER_LINE, SMALL, SOLO, TEAM, TEAM_25, type CloudPlan, UNLIMITED } from './site';
+import { AI_ALLOWANCE, AI_RESOLUTION, CONTACT_EMAIL, dollars, LADDER_LINE, SMALL, SOLO, TEAM, TEAM_25, type CloudPlan, UNLIMITED } from './site';
 
 export interface VsPlan {
   name: string;
@@ -115,7 +115,7 @@ export const readOnLabel = (iso: string): string =>
 
 // While Founding is open the chart shows the Cloud plans that apply once its places are taken.
 export const chartCaption = (p: VsPricing): string =>
-  `${p.competitor} list prices per month, ${p.billing}, read on ${readOnLabel(p.readOn)}. ${AFTER_FOUNDING}Colliedesk Cloud is one price per workspace, billed monthly: ${LADDER_LINE}. A year costs ten months. AI reply drafts and triage are included with a monthly allowance; auto-answer, once it ships, is ${AI_RESOLUTION} per resolution while alpha.`;
+  `${p.competitor} list prices per month, ${p.billing}, read on ${readOnLabel(p.readOn)}. ${AFTER_FOUNDING}Colliedesk Cloud is one price per workspace, billed monthly: ${LADDER_LINE}. A year costs ten months. AI reply drafts and triage are included, ${AI_ALLOWANCE}; auto-answer, once it ships, is ${AI_RESOLUTION} per resolution.`;
 
 export function notForYouLines(p: VsPricing): string[] {
   const from = cheaperFrom(p);
