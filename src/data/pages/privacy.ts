@@ -61,7 +61,7 @@ It does **not** cover a Colliedesk server that you run yourself. A self-hosted s
 
 ## Sign-ups from our ads
 
-We advertise Colliedesk on Facebook and Instagram. When you click one of these ads, Meta adds a click ID (\`fbclid\`) to the link. If you then start a Colliedesk Cloud trial, we keep that click ID with your sign-up, and our server tells Meta:
+We advertise Colliedesk on Facebook and Instagram. When you click one of these ads, Meta adds a click ID (\`fbclid\`) to the link. This website carries the click ID, and the campaign names in the link (\`utm_*\`), to the sign-up link; it keeps them in that browser tab for the rest of your visit, at most a day, and sets no cookie for it. If you then start a Colliedesk Cloud trial, we keep that click ID with your sign-up, and our server tells Meta:
 
 - that the click led to a trial, and later, if your team subscribes, to a paid plan with its price,
 - the click ID and the time of the click,
