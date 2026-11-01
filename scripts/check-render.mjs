@@ -1,6 +1,6 @@
 // Renders every built page in headless Chrome and fails when what a person sees is broken, which static
 // checks cannot catch:
-//   - at a 375px phone width a page scrolls sideways (a nowrap label or a wide table only overflows once
+//   - at a 320, 375 or 390px phone width a page scrolls sideways (a nowrap label or a wide table only overflows once
 //     the browser lays it out);
 //   - in the light or the dark theme a button or link's text is below 4.5:1 against what is behind it
 //     (19/10/2026 the closing band's "Start free trial" was dark text on a transparent button on ink);
@@ -17,6 +17,8 @@ import { join, relative, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const WIDTH = 375;
+// Narrow phones (320: iPhone SE 1st gen, small Android) and the common 390 are checked for sideways scroll too.
+const MORE_WIDTHS = [320, 390];
 const MIN_CONTRAST = 4.5;
 const BANNER_SCREENS = [
   { name: 'desktop', width: 1280, height: 800, mobile: false },
@@ -92,6 +94,16 @@ function lowContrast(theme) {
   })()`;
 }
 
+// Page-side check: null when the page fits its width, else the width and the last element that sticks out.
+const SIDEWAYS = `(() => {
+        const w = document.documentElement.clientWidth, sw = document.documentElement.scrollWidth;
+        if (sw <= w) return null;
+        const clipped = (e) => { for (let p = e.parentElement; p; p = p.parentElement) { const o = getComputedStyle(p).overflowX; if (o !== 'visible') return true; } return false; };
+        const worst = [...document.body.querySelectorAll('*')].filter((e) => e.getBoundingClientRect().right > w + 0.5 && !clipped(e))
+          .map((e) => e.tagName.toLowerCase() + (e.className ? '.' + String(e.className).trim().split(/\\s+/).join('.') : '') + ' "' + e.textContent.trim().slice(0, 40) + '"');
+        return sw + 'px wide; ' + (worst.slice(-1)[0] || 'no single element');
+      })()`;
+
 // Page-side check: opens the cookie banner the way a visitor reopens it, then reports how much of the screen it
 // takes and which buttons that start in the first view it overlaps.
 const OPEN_BANNER = `document.querySelector('[data-consent-open]')?.click()`;
@@ -134,20 +146,23 @@ try {
     await loaded;
     const { result } = await c.send('Runtime.evaluate', {
       returnByValue: true,
-      expression: `(() => {
-        const w = document.documentElement.clientWidth, sw = document.documentElement.scrollWidth;
-        if (sw <= w) return null;
-        const clipped = (e) => { for (let p = e.parentElement; p; p = p.parentElement) { const o = getComputedStyle(p).overflowX; if (o !== 'visible') return true; } return false; };
-        const worst = [...document.body.querySelectorAll('*')].filter((e) => e.getBoundingClientRect().right > w + 0.5 && !clipped(e))
-          .map((e) => e.tagName.toLowerCase() + (e.className ? '.' + String(e.className).trim().split(/\\s+/).join('.') : '') + ' "' + e.textContent.trim().slice(0, 40) + '"');
-        return sw + 'px wide; ' + (worst.slice(-1)[0] || 'no single element');
-      })()`,
+      expression: SIDEWAYS,
     }, sessionId);
     if (result.value) failures.push(`${path}: scrolls sideways at ${WIDTH}px, ${result.value}`);
     await c.send('Runtime.evaluate', { expression: OPEN_BANNER }, sessionId);
     for (const theme of ['light', 'dark']) {
       const { result: low } = await c.send('Runtime.evaluate', { returnByValue: true, expression: lowContrast(theme) }, sessionId);
       for (const l of low.value) failures.push(`${path}: ${theme} theme, "${l.text}" ${l.ratio}:1 (${l.fg} on ${l.bg}), needs ${MIN_CONTRAST}:1`);
+    }
+  }
+  for (const width of MORE_WIDTHS) {
+    await c.send('Emulation.setDeviceMetricsOverride', { width, height: 812, deviceScaleFactor: 1, mobile: true }, sessionId);
+    for (const path of list) {
+      const loaded = c.once('Page.loadEventFired', sessionId);
+      await c.send('Page.navigate', { url: `http://localhost:${port}${path}` }, sessionId);
+      await loaded;
+      const { result } = await c.send('Runtime.evaluate', { returnByValue: true, expression: SIDEWAYS }, sessionId);
+      if (result.value) failures.push(`${path}: scrolls sideways at ${width}px, ${result.value}`);
     }
   }
   for (const screen of BANNER_SCREENS) {
@@ -175,4 +190,4 @@ try {
 }
 
 if (failures.length) { failures.forEach((f) => console.error('FAIL ' + f)); process.exit(1); }
-console.log(`OK ${list.length} pages fit ${WIDTH}px without sideways scroll; every control reads at ${MIN_CONTRAST}:1 in both themes; the cookie banner covers no button in the first view of a desktop or phone screen`);
+console.log(`OK ${list.length} pages fit ${[WIDTH, ...MORE_WIDTHS].sort((a, b) => a - b).join(', ')}px without sideways scroll; every control reads at ${MIN_CONTRAST}:1 in both themes; the cookie banner covers no button in the first view of a desktop or phone screen`);
