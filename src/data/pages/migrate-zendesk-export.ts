@@ -17,7 +17,7 @@ const faq: Faq[] = [
   },
   {
     q: 'Can Colliedesk import my Zendesk export?',
-    a: 'Not yet. The first Colliedesk importer is Freshdesk. A Zendesk importer is on the [roadmap](/roadmap) for later. Export your data now anyway: you own it, and a backup taken before you cancel cannot be taken after.',
+    a: 'Not yet. Colliedesk imports from Freshdesk and Help Scout today. A Zendesk importer is on the [roadmap](/roadmap) for later. Export your data now anyway: you own it, and a backup taken before you cancel cannot be taken after.',
   },
 ];
 
@@ -72,7 +72,7 @@ The API is the route that works on every plan and lets a tool count what it read
 
 ## Moving to Colliedesk
 
-Colliedesk imports from Freshdesk today, with a reconcile report that proves nothing was lost. A Zendesk importer is on the [roadmap](/roadmap). Comparing the two products first? Read [Colliedesk vs Zendesk](/vs/zendesk).
+Colliedesk imports from Freshdesk and Help Scout today, with a reconcile report that proves nothing was lost. A Zendesk importer is on the [roadmap](/roadmap). Comparing the two products first? Read [Colliedesk vs Zendesk](/vs/zendesk).
 
 ## Sources
 

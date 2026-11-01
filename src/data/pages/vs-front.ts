@@ -21,7 +21,7 @@ const faq: Faq[] = [
   },
   {
     q: 'Does Colliedesk import from Front?',
-    a: 'Not yet. The first importer is Freshdesk (available now). Tell us on GitHub if you need a Front importer; requests decide the order.',
+    a: 'Not yet. Colliedesk imports from Freshdesk and Help Scout today. Tell us on GitHub if you need a Front importer; requests decide the order.',
   },
 ];
 

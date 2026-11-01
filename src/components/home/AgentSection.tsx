@@ -16,7 +16,7 @@ export function AgentSection() {
             <h2 id="agents">{AGENT_HEADING}</h2>
             <p className="section-lede">{AGENT_LEDE_SHORT}</p>
             <p><Badge kind="shipped">Shipped</Badge> <a href="/docs/mcp">Connect an AI agent</a> · <a href="/docs/agent-requests">How approval works</a></p>
-            <pre className="code-card"><code><span className="t-prompt">$</span>{` claude mcp add --transport http colliedesk \\\n    ${MCP_URL} \\\n    --header "Authorization: Bearer $COLLIEDESK_TOKEN"`}</code></pre>
+            <pre className="code-card"><code><span className="t-prompt">$</span>{` claude mcp add --transport http colliedesk \\\n    ${MCP_URL} \\\n    --header 'Authorization: Bearer \${COLLIEDESK_TOKEN}'`}</code></pre>
           </div>
           <div className="panel agent-panel">
             <ProductCrop region={THREAD} maxWidth={600} label="A Colliedesk conversation: the customer's email, a private note by Tom Okoye via Claude Code, and the reply Claude Code drafted and Tom approved, marked Sent." />
