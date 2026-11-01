@@ -428,6 +428,13 @@ if (privacyPage) {
   if (/PostHog without cookies and without a profile|Cookieless website statistics/.test(text)) fail('/privacy: still says PostHog never sets cookies');
   if (!/record/i.test(text) || !/masked/i.test(text)) fail('/privacy: must say PostHog records visits after Accept, with form fields masked');
   if (/sets <strong>no cookies<\/strong>|sets no cookies/.test(text)) fail('/privacy: still says the website sets no cookies');
+  // Colliedesk Cloud reports a sign-up from a Meta ad back to Meta (Conversions API), so the page
+  // must name Meta, list what is sent and say a self-hosted server never sends it, and must no
+  // longer promise that nothing is shared with ad networks.
+  if (!text.includes('Meta Platforms Ireland')) fail('/privacy: must list Meta as a provider for sign-ups from Meta ads');
+  if (!/fbclid/.test(text) || !/never your email/i.test(text)) fail('/privacy: must say what a sign-up from a Meta ad sends to Meta, and that the email is never sent');
+  if (!/self-hosted[^.]*never sends[^.]*Meta/i.test(text)) fail('/privacy: must say a self-hosted server never reports sign-ups to Meta');
+  if (/share it with ad networks/.test(text)) fail('/privacy: still says no data is shared with ad networks');
 }
 
 // The Freshdesk page leads with price, so its chart must let a visitor pick a team size, say where

@@ -4,7 +4,7 @@ import { CONTACT_EMAIL } from '../../lib/site';
 
 // /terms reads LEGAL_UPDATED; privacy has its own date.
 export const LEGAL_UPDATED = '2026-10-28';
-export const PRIVACY_UPDATED = '2026-10-28';
+export const PRIVACY_UPDATED = '2026-11-01';
 export { CONTACT_EMAIL };
 
 const body = `## The short version
@@ -15,6 +15,7 @@ const body = `## The short version
 - You can export your whole workspace as a ZIP file at any time, even after your trial ends.
 - A locked workspace is deleted 12 months after it locks. We email the admins 30 days before.
 - To stop repeated free trials, we keep a one-way, keyed fingerprint of your email address. We cannot turn it back into your address.
+- If you start a Colliedesk Cloud trial after clicking one of our ads on Facebook or Instagram, we tell Meta that the click led to a trial, and later to a paid plan. Never your email, name or company (see "Sign-ups from our ads").
 - This website sets analytics cookies (Google Analytics and PostHog) and loads Apollo only if you accept them in the cookie banner. Without them it counts visits without cookies.
 - If you self-host Colliedesk, your tickets and contacts never reach us. A self-hosted server sends an anonymous daily usage report and screen and button counts unless you turn them off with \`DISABLE_TELEMETRY=true\` or \`DO_NOT_TRACK=1\` (see "What this policy covers").
 
@@ -47,15 +48,29 @@ It does **not** cover a Colliedesk server that you run yourself. A self-hosted s
 | Technical data: IP address, browser, request times, errors | To keep the service secure and to fix problems | Your browser |
 | Usage counts: active agents, replies sent | To understand how Colliedesk is used, without names or content | The Colliedesk server |
 | Your email address, if you subscribe to release notes | To send one email per release | You |
+| The Meta ad click ID (\`fbclid\`) in the link you followed, if you came from one of our ads | To tell Meta which ad led to a trial or a paid plan | The link of the ad you clicked |
 
 **About the sign-up fingerprint.** We store an HMAC (a one-way hash made with a secret key) of your verified email address and of your IP address. With it we can answer one question: "did this email already have a trial?" Nobody can read your email address from it. We keep it for as long as Colliedesk Cloud runs, because deleting it would allow a new trial.
 
 ## What we do not do
 
 - We do not sell or rent personal data.
-- We do not use your data for advertising or share it with ad networks.
+- We do not show ads, and we do not give your workspace content, email address, name or company to ad networks. The only thing an ad network learns from us is described in "Sign-ups from our ads".
 - We do not use your workspace content, or data we get from Google or Microsoft, to train AI models.
 - We do not read your conversations. We look at workspace content only when you ask us for help, or when we must to keep the service secure or to follow the law.
+
+## Sign-ups from our ads
+
+We advertise Colliedesk on Facebook and Instagram. When you click one of these ads, Meta adds a click ID (\`fbclid\`) to the link. If you then start a Colliedesk Cloud trial, we keep that click ID with your sign-up, and our server tells Meta:
+
+- that the click led to a trial, and later, if your team subscribes, to a paid plan with its price,
+- the click ID and the time of the click,
+- the IP address and browser name of the sign-up,
+- a random ID of the workspace, so that the same sign-up is never counted twice.
+
+We never send your email, name, company, workspace name or anything from your workspace. Meta uses this to measure which ads work and to show them to people like those who signed up. Nothing is sent if you did not come from one of our ads. This website loads no Meta pixel and sets no Meta cookie: the report goes from our server, only after a sign-up.
+
+A self-hosted Colliedesk server never sends anything to Meta, and has no setting to turn it on.
 
 ## Google user data
 
@@ -96,6 +111,7 @@ Some of the providers below are outside the European Union (for example in the U
 | Cloudflare | DNS and network protection | Global |
 | PostHog | Website statistics (with a cookie only after you accept cookies) and anonymous usage counts. It does not store your IP address | United States |
 | Google | Google Analytics website statistics, only after you accept cookies | United States |
+| Meta Platforms Ireland | Receives the report described in "Sign-ups from our ads", only for sign-ups that came from one of our Facebook or Instagram ads | Ireland and United States |
 | Apollo | Tells us which company a website visit came from, from its network address, only after you accept cookies | United States |
 | GitHub | Hosts this website and the Colliedesk source code | United States |
 
