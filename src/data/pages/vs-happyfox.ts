@@ -19,7 +19,7 @@ const faq: Faq[] = [
 const body = `## The short answer
 
 - **Choose HappyFox** if you need a mature, established helpdesk today and the per-agent price fits your budget.
-- **Choose Colliedesk** if you have 3 to 10 agents and want one flat price with AI drafts included. Colliedesk is alpha; read the status table first.
+- **Choose Colliedesk** if you have [3 to 10 agents](/helpdesk-for-small-teams) and want [one flat price](/pricing) with AI drafts included. Colliedesk is alpha; read the status table first.
 
 ## Price, side by side
 
@@ -52,16 +52,20 @@ ${statusTable}
 Read on ${PRICES_READ}. Prices change; check the vendor page before you decide.
 
 - HappyFox pricing: [happyfox.com/help-desk-price](https://www.happyfox.com/help-desk-price/)
-- HappyFox Autopilot: [happyfox.com/autopilot](https://www.happyfox.com/autopilot/)`;
+- HappyFox Autopilot: [happyfox.com/autopilot](https://www.happyfox.com/autopilot/)
+
+## Related comparisons
+
+Weighing other tools too? Read [Colliedesk vs Freshdesk](/vs/freshdesk), [Colliedesk vs Zoho Desk](/vs/zoho-desk) and [Colliedesk vs HubSpot Service Hub](/vs/hubspot-service-hub), or see [all comparisons](/compare).`;
 
 const page: Page = {
   jsonLd: [],
   path: '/vs/happyfox',
-  updated: '2026-10-16',
+  updated: '2026-10-31',
   section: 'Compare',
-  title: `Colliedesk vs HappyFox: flat ${OUR_PRICE} for up to 10 agents vs $24–99 per agent`,
+  title: 'Colliedesk vs HappyFox: flat price vs $24–99 per agent',
   description:
-    `Colliedesk vs HappyFox: HappyFox $24–99 per agent with AI sold separately vs Colliedesk at one flat price per workspace (${OUR_PLAN} ${OUR_PRICE} for up to 10 agents) with AI drafts included. Sourced prices and honest status.`,
+    `Colliedesk vs HappyFox: HappyFox costs $24–99 per agent, AI sold separately; Colliedesk is one flat price (${OUR_PLAN} ${OUR_PRICE}) and AI drafts included.`,
   summary: `HappyFox $24–99 per agent (Basic capped at 5), AI sold separately vs Colliedesk ${OUR_PLAN} at a flat ${OUR_PRICE} per workspace`,
   eyebrow: 'Compare · HappyFox alternative',
   h1: 'Colliedesk vs HappyFox',

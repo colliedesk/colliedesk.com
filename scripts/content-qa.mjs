@@ -51,31 +51,9 @@ const EXEMPT = [/^\/docs(\/|$)/, /^\/roadmap$/, /^\/changelog$/, /^\/privacy$/, 
 // Pages that miss a rule today, by rule. Fix the page, then delete its line; never add one.
 // The finding text each debt rule waives, so the gate can tell when a listed page passes.
 const RULE_FINDING = {
-  cta: 'no call to action', source: 'competitor price', title: 'title is',
-  description: 'meta description is', links: 'other page',
+  cta: 'no call to action', source: 'competitor price', links: 'other page',
 };
-export const KNOWN_DEBT = {
-  cta: [
-    '/migrate/zendesk/export', '/open-source', '/vs/chatwoot', '/vs/front', '/vs/gorgias', '/vs/groove',
-    '/vs/happyfox', '/vs/help-scout', '/vs/hubspot-service-hub', '/vs/zoho-desk',
-  ],
-  title: [
-    '/', '/compare', '/freshdesk-alternative', '/freshdesk-pricing-history', '/migrate/freshdesk',
-    '/migrate/freshdesk/export', '/migrate/zendesk/export', '/open-source', '/pricing', '/self-hosted-helpdesk',
-    '/vs/chatwoot', '/vs/freescout', '/vs/freshdesk', '/vs/front', '/vs/gorgias', '/vs/groove', '/vs/happyfox',
-    '/vs/help-scout', '/vs/hubspot-service-hub', '/vs/zammad', '/vs/zendesk', '/vs/zoho-desk',
-  ],
-  description: [
-    '/', '/compare', '/freshdesk-alternative', '/freshdesk-pricing-history', '/helpdesk-for-small-teams',
-    '/migrate/freshdesk', '/migrate/freshdesk/done-for-you', '/migrate/zendesk/export', '/open-source', '/pricing',
-    '/self-hosted-helpdesk', '/vs/freescout', '/vs/freshdesk', '/vs/front', '/vs/gorgias', '/vs/groove',
-    '/vs/happyfox', '/vs/help-scout', '/vs/hubspot-service-hub', '/vs/zammad', '/vs/zendesk', '/vs/zoho-desk',
-  ],
-  links: [
-    '/open-source', '/vs/chatwoot', '/vs/freescout', '/vs/front', '/vs/gorgias', '/vs/groove', '/vs/happyfox',
-    '/vs/help-scout', '/vs/hubspot-service-hub', '/vs/zammad', '/vs/zoho-desk',
-  ],
-};
+export const KNOWN_DEBT = {};
 
 // Lines a reader reads as sentences: no headings, tables, lists, quotes, images, HTML or code.
 function proseOf(md) {

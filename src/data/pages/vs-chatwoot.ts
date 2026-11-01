@@ -23,7 +23,7 @@ const faq: Faq[] = [
 const body = `## The short answer
 
 - **Choose Chatwoot** if most of your conversations come through chat and messaging apps and you want them in one inbox today. It is mature and widely used.
-- **Choose Colliedesk** if you run email support, you are leaving Freshdesk with years of tickets and attachments, and you want one flat price. Colliedesk is alpha; read the status table first.
+- **Choose Colliedesk** if you run email support, you are [leaving Freshdesk](/migrate/freshdesk) with years of tickets and attachments, and you want [one flat price](/pricing). Colliedesk is alpha; read the status table first.
 
 ## Price, side by side
 
@@ -67,14 +67,18 @@ Read on ${PRICES_READ}. Prices change; check the vendor page before you decide.
 - Chatwoot Cloud pricing: [chatwoot.com/pricing](https://www.chatwoot.com/pricing)
 - Self-hosted plans: [chatwoot.com/pricing/self-hosted-plans](https://www.chatwoot.com/pricing/self-hosted-plans)
 - Freshdesk migration guide: [chatwoot.com help center](https://www.chatwoot.com/hc/user-guide/articles/1696159781-how-to-migrate-from-freshdesk-to-chatwoot)
-- Licence: [github.com/chatwoot/chatwoot](https://github.com/chatwoot/chatwoot)`;
+- Licence: [github.com/chatwoot/chatwoot](https://github.com/chatwoot/chatwoot)
+
+## Related comparisons
+
+Weighing other tools too? Read [Colliedesk vs FreeScout](/vs/freescout), [Colliedesk vs Zammad](/vs/zammad) and [Colliedesk vs Freshdesk](/vs/freshdesk), or see [all comparisons](/compare).`;
 
 const page: Page = {
   jsonLd: [],
   path: '/vs/chatwoot',
-  updated: '2026-10-16',
+  updated: '2026-10-31',
   section: 'Compare',
-  title: 'Colliedesk vs Chatwoot: email helpdesk with flat pricing vs omnichannel inbox',
+  title: 'Colliedesk vs Chatwoot: email helpdesk vs omnichannel inbox',
   description:
     `Chatwoot costs $19–99 per agent; Colliedesk ${OUR_PLAN} is a flat ${OUR_PRICE} for up to 10 agents. What each Freshdesk importer brings over, with sources.`,
   summary: `Chatwoot $19–99 per agent, Freshdesk import without attachments on paid plans vs Colliedesk ${OUR_PLAN} at a flat ${OUR_PRICE}, importer with attachments and reconcile report (available now)`,

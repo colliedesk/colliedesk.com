@@ -23,7 +23,7 @@ const faq: Faq[] = [
 const body = `## The short answer
 
 - **Choose HubSpot Service Hub** if your sales and marketing already run on HubSpot and you want tickets on the same contact records.
-- **Choose Colliedesk** if you need a helpdesk, not a CRM suite, and want one flat price with AI drafts included. Colliedesk is alpha; read the status table first.
+- **Choose Colliedesk** if you need a helpdesk, not a CRM suite, and want [one flat price](/pricing) with AI drafts included. Colliedesk is alpha; read the status table first.
 
 ## Price, side by side
 
@@ -61,16 +61,20 @@ Read on ${PRICES_READ}. Prices change; check the vendor page before you decide.
 
 - Service Hub product page: [hubspot.com/products/service](https://www.hubspot.com/products/service)
 - Product and services catalog: [legal.hubspot.com](https://legal.hubspot.com/hubspot-product-and-services-catalog)
-- Export records: [knowledge.hubspot.com](https://knowledge.hubspot.com/import-and-export/export-records)`;
+- Export records: [knowledge.hubspot.com](https://knowledge.hubspot.com/import-and-export/export-records)
+
+## Related comparisons
+
+Weighing other tools too? Read [Colliedesk vs Zendesk](/vs/zendesk), [Colliedesk vs Zoho Desk](/vs/zoho-desk) and [Colliedesk vs Freshdesk](/vs/freshdesk), or see [all comparisons](/compare).`;
 
 const page: Page = {
   jsonLd: [],
   path: '/vs/hubspot-service-hub',
-  updated: '2026-10-16',
+  updated: '2026-10-31',
   section: 'Compare',
-  title: `Colliedesk vs HubSpot Service Hub: a helpdesk at ${OUR_PRICE} flat for up to 10 agents vs $100 per seat`,
+  title: 'Colliedesk vs HubSpot Service Hub: flat price vs per seat',
   description:
-    `Colliedesk vs HubSpot Service Hub: HubSpot $20–150 per seat with AI on credits vs Colliedesk at one flat price per workspace (${OUR_PLAN} ${OUR_PRICE} for up to 10 agents) with AI drafts included. Sourced prices and export limits.`,
+    `Colliedesk vs HubSpot Service Hub: HubSpot charges per seat, with AI on credits; Colliedesk is one flat price (${OUR_PLAN} ${OUR_PRICE}).`,
   summary: `HubSpot Service Hub $20–150 per seat, AI customer agent on credits (~$0.50 per resolution) vs Colliedesk ${OUR_PLAN} at a flat ${OUR_PRICE} per workspace`,
   eyebrow: 'Compare · HubSpot Service Hub alternative',
   h1: 'Colliedesk vs HubSpot Service Hub',

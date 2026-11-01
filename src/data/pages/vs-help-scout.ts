@@ -26,7 +26,7 @@ const faq: Faq[] = [
 const body = `## The short answer
 
 - **Choose Help Scout** if you want one of the most polished email-first helpdesks, with AI drafting already included. It is a good product.
-- **Choose Colliedesk** if you want a price that never depends on headcount or contacts, your data in a database you control, and code you can read and fork. Colliedesk is alpha; read the status table first.
+- **Choose Colliedesk** if you want a [price that never depends on headcount or contacts](/pricing), your data in a database you control, and [code you can read and fork](/open-source). Colliedesk is alpha; read the status table first.
 
 ## Price, side by side
 
@@ -68,15 +68,20 @@ Read on ${PRICES_READ}. Prices change; check the vendor page before you decide.
 - Help Scout pricing: [helpscout.com/pricing](https://www.helpscout.com/pricing/)
 - Data export: [docs.helpscout.com article 466](https://docs.helpscout.com/article/466-data-export)
 - Mailbox API and plan access: [docs.helpscout.com article 1140](https://docs.helpscout.com/article/1140-mailbox-api)
-- 2025 pricing change: [mjtsai.com](https://mjtsai.com/blog/2025/04/30/whither-help-scout) (third-party account)`;
+- 2025 pricing change: [mjtsai.com](https://mjtsai.com/blog/2025/04/30/whither-help-scout) (third-party account)
+
+## Related comparisons
+
+Weighing other tools too? Read [Colliedesk vs Freshdesk](/vs/freshdesk), [Colliedesk vs Front](/vs/front) and [Colliedesk vs Groove](/vs/groove), or see [all comparisons](/compare).`;
 
 const page: Page = {
   jsonLd: [],
   path: '/vs/help-scout',
+  updated: '2026-10-31',
   section: 'Compare',
-  title: 'Colliedesk vs Help Scout: open-source, flat-priced Help Scout alternative',
+  title: 'Colliedesk vs Help Scout: open source with one flat price',
   description:
-    'Colliedesk vs Help Scout: per-user plans and $0.75 AI resolutions vs one flat workspace price, plus what Help Scout lets you export. Prices read 14 October 2026.',
+    'Colliedesk vs Help Scout: per-user plans and $0.75 AI resolutions vs one flat workspace price, and Help Scout export limits. Prices read 14 October 2026.',
   summary: `Help Scout $25–75 per user and $0.75 per AI resolution vs Colliedesk ${OUR_PLAN} at a flat ${OUR_PRICE} per workspace; no bulk export in Help Scout`,
   eyebrow: 'Compare · Help Scout alternative',
   h1: 'Colliedesk vs Help Scout',

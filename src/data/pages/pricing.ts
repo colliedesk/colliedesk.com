@@ -174,9 +174,9 @@ ${aiSection}
 For five agents, Freshdesk Pro with Freddy AI Copilot lists at $5,040 a year billed annually. Founding is $396 a year ($99 every 3 months) for the workspace, plus ${AI_EXTRA}. Prices and sources: [vs Freshdesk](/vs/freshdesk), [vs Zendesk](/vs/zendesk), [vs Help Scout](/vs/help-scout).`;
 
 const foundingPage = {
-  title: `Colliedesk pricing: Founding $99 every 3 months, ${TEAM_25.name} ${PRICE.team25Monthly} a month`,
+  title: 'Colliedesk pricing: Founding at $99 every 3 months',
   description:
-    `Founding is $99 every 3 months per workspace for up to 10 agents, locked for life, with Freshdesk migration done for you. Only ${FOUNDING_SLOTS} places, 30-day money-back guarantee. ${TEAM_25.name} is ${PRICE.team25Monthly} a month for up to ${TEAM_25.agents} agents. Self-hosting is free.`,
+    `Founding is $99 every 3 months for up to 10 agents, locked for life, with migration done for you. ${FOUNDING_SLOTS} places. ${TEAM_25.name} is ${PRICE.team25Monthly} a month for up to ${TEAM_25.agents} agents.`,
   summary: `Founding while it is open: $99 every 3 months per workspace, locked for life, up to 10 agents, Freshdesk migration done for you, ${FOUNDING_SLOTS} places, 30-day money-back guarantee; ${TEAM_25.name} ${PRICE.team25Monthly} a month for up to ${TEAM_25.agents} agents; 14-day free trial; self-host free`,
   h1: 'Founding: $99 every 3 months, locked for life.',
   lede: `For ${FOUNDING_SLOTS} support teams of 3 to 10 agents who pay for Freshdesk and just got a price rise. $396 a year, about $7.60 a week for the whole team. If it is not right within 30 days, we refund you in full. ${TEAM_25_BELOW}`,
@@ -186,9 +186,9 @@ const foundingPage = {
 };
 
 const ladderPage = {
-  title: `Colliedesk pricing: ${PRICE.range} a month per workspace, no per-agent fees, 14-day free trial`,
+  title: `Colliedesk pricing: ${PRICE.range} a month, no per-agent fees`,
   description:
-    `Colliedesk Cloud costs one flat price per workspace: Solo ${dollars(SOLO.monthly)} a month for 1 agent, Small ${dollars(SMALL.monthly)} for 3, Team ${PRICE.monthly} for 10, Team 25 ${PRICE.team25Monthly} for 25. No per-agent fees, 14-day free trial, no card. Self-hosting is free.`,
+    `One flat price per workspace: Solo ${dollars(SOLO.monthly)} a month, Small ${dollars(SMALL.monthly)}, Team ${PRICE.monthly}, Team 25 ${PRICE.team25Monthly}. No per-agent fees, 14-day free trial, no card. Self-hosting is free.`,
   summary: `14-day free trial, no card; ${LADDER_LINE}; a year costs ten months; no per-agent fees; founding offer limited to 10 workspaces; AI: ${PRICE.ai}; self-host free`,
   h1: 'Clear, fixed prices. No per-agent fees.',
   lede: `Everyone on your team is included. Pick the plan by team size, from Solo at ${dollars(SOLO.monthly)} a month to Team 25 at ${PRICE.team25Monthly}. Try it free for 14 days, no card. Self-host for $0.`,

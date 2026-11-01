@@ -24,7 +24,7 @@ const faq: Faq[] = [
 const body = `## The short answer
 
 - **Choose Zammad** if you need a mature open-source helpdesk now: many channels (email, chat, Telegram, Facebook, WhatsApp, SMS, phone), SLAs, a knowledge base, and a released Freshdesk migrator.
-- **Choose Colliedesk** if your team is 3 to 10 agents and you want one flat price instead of per-agent fees, AI without a per-call fee on top, and an import that proves nothing was lost. Colliedesk is alpha; read the status table first.
+- **Choose Colliedesk** if your team is 3 to 10 agents and you want [one flat price](/pricing) instead of per-agent fees, AI without a per-call fee on top, and an [import that proves nothing was lost](/migrate/freshdesk). Colliedesk is alpha; read the status table first.
 
 ## Price, side by side
 
@@ -69,16 +69,20 @@ Read on ${PRICES_READ}. Prices change; check the vendor page before you decide.
 - Freshdesk migration: [docs.zammad.org migration/freshdesk](https://docs.zammad.org/en/latest/migration/freshdesk.html)
 - Migration overview: [docs.zammad.org migration](https://docs.zammad.org/en/latest/migration/index.html)
 - Software requirements: [docs.zammad.org prerequisites](https://docs.zammad.org/en/latest/prerequisites/software.html)
-- Licence: [github.com/zammad/zammad](https://github.com/zammad/zammad)`;
+- Licence: [github.com/zammad/zammad](https://github.com/zammad/zammad)
+
+## Related comparisons
+
+Weighing other tools too? Read [Colliedesk vs FreeScout](/vs/freescout), [Colliedesk vs Chatwoot](/vs/chatwoot) and [Colliedesk vs Freshdesk](/vs/freshdesk), or see [all comparisons](/compare).`;
 
 const page: Page = {
   jsonLd: [],
   path: '/vs/zammad',
-  updated: '2026-10-16',
+  updated: '2026-10-31',
   section: 'Compare',
-  title: 'Colliedesk vs Zammad: two open-source helpdesks, flat price vs per agent',
+  title: 'Colliedesk vs Zammad: open source, flat price vs per agent',
   description:
-    `Colliedesk vs Zammad, both AGPL-3.0: Zammad hosted €7–27 per agent plus €0.03 per AI call vs Colliedesk at one flat price per workspace (${OUR_PLAN} ${OUR_PRICE} for up to 10 agents). Freshdesk migration compared honestly.`,
+    `Colliedesk vs Zammad, both AGPL-3.0: Zammad hosted costs €7–27 per agent plus €0.03 per AI call; Colliedesk is one flat price (${OUR_PLAN} ${OUR_PRICE}).`,
   summary: `Zammad €7–27 per agent hosted, €0.03 per AI call, released Freshdesk migrator vs Colliedesk ${OUR_PLAN} at a flat ${OUR_PRICE}, importer available now (alpha) with reconcile report`,
   eyebrow: 'Compare · Open source',
   h1: 'Colliedesk vs Zammad',
