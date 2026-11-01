@@ -71,7 +71,7 @@ The API is the only route that lets a tool count what it read and prove nothing 
 
 ## Moving to Colliedesk
 
-\`colliedesk import freshdesk\` does the API route for you: tickets with every reply and note, archived tickets, attachments with a SHA-256 checksum, tags, contacts, companies and time entries. It ends with a reconcile report. If one count does not match, the report says **FAILED** and you keep using Freshdesk. It is available now, in alpha; the [import guide](/docs/import-freshdesk) has the command and flags.
+Colliedesk's importer does the API route for you, from **Settings → Import from Freshdesk** or the \`collie import freshdesk\` command: tickets with every reply and note, archived tickets, attachments with a SHA-256 checksum, tags, contacts, companies and time entries. It ends with a reconcile report. If one count does not match, the report says **FAILED** and you keep using Freshdesk. It is available now, in alpha; the [import guide](/docs/import-freshdesk) has the command and flags.
 
 Founding customers get the migration done for them, free. The full exit plan is in [Migrate from Freshdesk](/migrate/freshdesk).
 
