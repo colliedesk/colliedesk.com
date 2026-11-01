@@ -58,8 +58,13 @@ function wrapTables(html: string): string {
 // Inline Markdown (a lede) without the wrapping paragraph.
 export const renderInline = (md: string): string => renderMarkdown(md).replace(/^<p>|<\/p>\n?$/g, '');
 
-// Markdown twin links must work outside the site, so root-relative links become absolute.
-export const absolutizeMarkdownLinks = (md: string): string => md.replace(/\]\(\/(?!\/)/g, `](${ORIGIN}/`);
+// Markdown twin links must work outside the site (a twin is pasted into an AI chat, an issue, an
+// email), so root-relative links become absolute. With the page path, in-page anchors do too:
+// "](#x)" on /docs/inbox becomes "](https://colliedesk.com/docs/inbox#x)".
+export const absolutizeMarkdownLinks = (md: string, pagePath?: string): string => {
+  const rooted = md.replace(/\]\(\/(?!\/)/g, `](${ORIGIN}/`);
+  return pagePath === undefined ? rooted : rooted.replace(/\]\(#/g, `](${ORIGIN}${pagePath}#`);
+};
 
 // Markdown -> plain text for meta descriptions and JSON-LD.
 export const plain = (md: string): string => md.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1').replace(/[*_`]/g, '');

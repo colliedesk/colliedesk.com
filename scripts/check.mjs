@@ -253,6 +253,19 @@ if (foundingOpen) {
 
 for (const m of llms.matchAll(/\]\(([^)\s]+)\)/g)) checkLink(m[1], '/', 'llms.txt');
 
+// Markdown twins are read outside the site (pasted into an AI chat, an issue, an email), so every link
+// in them is absolute, in-page anchors included (src/lib/markdown.ts, absolutizeMarkdownLinks).
+for (const file of files.filter((f) => f.endsWith('.md') || f.endsWith('llms-full.txt'))) {
+  for (const m of readFileSync(file, 'utf8').matchAll(/\]\(([^)\s]*)/g)) {
+    if (!/^(https:\/\/|http:\/\/|mailto:)/.test(m[1])) fail(`${file.slice(outDir.length - 1)}: relative link "${m[1]}" in a Markdown twin; twins carry absolute URLs`);
+  }
+}
+// Proof that the anchor rewrite runs, not only that relative links are absent. The heading
+// "Filter and sort" comes from docs/user/inbox.md in colliedesk/colliedesk; renaming it there fails here.
+if (!read('docs/inbox.md').includes('](https://colliedesk.com/docs/inbox#filter-and-sort)')) {
+  fail('/docs/inbox.md: in-page link to the "Filter and sort" heading is not https://colliedesk.com/docs/inbox#filter-and-sort');
+}
+
 // PostHog counts every visit: without cookies until the visitor accepts cookies in the consent
 // banner, with its cookie after. It never creates a person profile. A browser driven by
 // automation (Playwright, Puppeteer, Selenium, an agent's DevTools session) is not a visitor.

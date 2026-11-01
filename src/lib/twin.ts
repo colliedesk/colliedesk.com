@@ -13,5 +13,5 @@ export function markdownTwin(page: Page): string {
   const trademark = page.section === 'Compare' ? `\n\n${TRADEMARK_NOTE}` : '';
   const content = (page.md ?? [page.preMd, page.body].filter(Boolean).join('\n\n') + faqMarkdown(page.faq)) + trademark;
   const md = `# ${page.h1}\n${lede}\nSource: ${ORIGIN}${page.path}\nUpdated: ${page.updated || UPDATED}\n\n${content.trim()}\n`;
-  return absolutizeMarkdownLinks(md);
+  return absolutizeMarkdownLinks(md, page.path);
 }
