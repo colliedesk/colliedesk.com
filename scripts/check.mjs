@@ -435,6 +435,12 @@ if (privacyPage) {
   if (!/fbclid/.test(text) || !/never your email/i.test(text)) fail('/privacy: must say what a sign-up from a Meta ad sends to Meta, and that the email is never sent');
   if (!/self-hosted[^.]*never sends[^.]*Meta/i.test(text)) fail('/privacy: must say a self-hosted server never reports sign-ups to Meta');
   if (/share it with ad networks/.test(text)) fail('/privacy: still says no data is shared with ad networks');
+  if (!/carries the click ID[^.]*sets no cookie/i.test(text)) fail('/privacy: must say the site carries the ad click ID to the sign-up link without a cookie');
+}
+// Every page carries an ad link's keys to the app's sign-up links; without the script a trial from an ad
+// is counted as unknown and a Meta ad click is never reported.
+for (const file of pages) {
+  if (!readFileSync(file, 'utf8').includes('src="/attribution.js"')) fail(`${file.slice(outDir.length - 1)}: does not load /attribution.js`);
 }
 
 // The Freshdesk page leads with price, so its chart must let a visitor pick a team size, say where
