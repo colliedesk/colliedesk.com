@@ -16,12 +16,22 @@
     var text = null;
     var loading = null;
     var timer = 0;
+    var loadFailed = false;
+    // The twin request gives up after 8 s, so a request that never answers ends in the error state
+    // instead of leaving the button on "Copying…"; the next click requests it again.
     var load = function () {
       if (!loading) {
-        loading = fetch(url, { credentials: 'same-origin' }).then(function (res) {
-          if (!res.ok) throw new Error('HTTP ' + res.status);
-          return res.text();
-        }).then(function (t) { text = t; return t; }, function (err) { loading = null; throw err; });
+        loading = new Promise(function (resolve, reject) {
+          var abort = window.AbortController ? new AbortController() : null;
+          var giveUp = setTimeout(function () {
+            if (abort) abort.abort();
+            reject(new Error('timeout'));
+          }, 8000);
+          fetch(url, { credentials: 'same-origin', signal: abort ? abort.signal : undefined }).then(function (res) {
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            return res.text();
+          }).then(function (t) { clearTimeout(giveUp); resolve(t); }, function (err) { clearTimeout(giveUp); reject(err); });
+        }).then(function (t) { text = t; return t; }, function (err) { loading = null; loadFailed = true; throw err; });
       }
       return loading;
     };
@@ -47,10 +57,14 @@
     button.addEventListener('click', function () {
       if (button.dataset.state === 'busy') return;
       show('busy', 'Copying…', '');
+      loadFailed = false;
       write().then(function () {
         show('copied', 'Copied', 'Page copied as Markdown. Paste it into ChatGPT, Claude or another AI chat.');
       }, function () {
-        show('error', idle, 'Could not copy. Open "View as Markdown" and copy the page from there.');
+        // The twin did not load (offline, timeout, server error): "View as Markdown" would fail too.
+        show('error', idle, loadFailed
+          ? 'Could not load the page. Check your connection and try again.'
+          : 'Could not copy. Open "View as Markdown" and copy the page from there.');
       });
     });
     button.setAttribute('data-ready', '');

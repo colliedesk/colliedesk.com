@@ -58,13 +58,27 @@ function wrapTables(html: string): string {
 // Inline Markdown (a lede) without the wrapping paragraph.
 export const renderInline = (md: string): string => renderMarkdown(md).replace(/^<p>|<\/p>\n?$/g, '');
 
+// Applies fn to the Markdown outside code: fenced blocks and inline code spans pass through unchanged,
+// so a link written as an example inside code is never rewritten.
+const CODE = /^ {0,3}(`{3,}|~{3,})[^\n]*\n[\s\S]*?^ {0,3}\1[^\n]*$|(`+)(?!`)[\s\S]*?[^`]\2(?!`)/gm;
+export function outsideCode(md: string, fn: (prose: string) => string): string {
+  let out = '';
+  let last = 0;
+  for (const m of md.matchAll(CODE)) {
+    out += fn(md.slice(last, m.index)) + m[0];
+    last = m.index + m[0].length;
+  }
+  return out + fn(md.slice(last));
+}
+
 // Markdown twin links must work outside the site (a twin is pasted into an AI chat, an issue, an
 // email), so root-relative links become absolute. With the page path, in-page anchors do too:
 // "](#x)" on /docs/inbox becomes "](https://colliedesk.com/docs/inbox#x)".
-export const absolutizeMarkdownLinks = (md: string, pagePath?: string): string => {
-  const rooted = md.replace(/\]\(\/(?!\/)/g, `](${ORIGIN}/`);
-  return pagePath === undefined ? rooted : rooted.replace(/\]\(#/g, `](${ORIGIN}${pagePath}#`);
-};
+export const absolutizeMarkdownLinks = (md: string, pagePath?: string): string =>
+  outsideCode(md, (prose) => {
+    const rooted = prose.replace(/\]\(\/(?!\/)/g, `](${ORIGIN}/`);
+    return pagePath === undefined ? rooted : rooted.replace(/\]\(#/g, `](${ORIGIN}${pagePath}#`);
+  });
 
 // Markdown -> plain text for meta descriptions and JSON-LD.
 export const plain = (md: string): string => md.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1').replace(/[*_`]/g, '');

@@ -27,6 +27,39 @@ const outDir = fileURLToPath(new URL('../_site/', import.meta.url));
 const errors = [];
 const fail = (msg) => { if (!errors.includes(msg)) errors.push(msg); };
 
+// Markdown with its code (fenced blocks and inline code spans) removed: a link written inside code is
+// an example to read, not a link.
+const withoutCode = (md) => md.replace(/^ {0,3}(`{3,}|~{3,})[^\n]*\n[\s\S]*?^ {0,3}\1[^\n]*$|(`+)(?!`)[\s\S]*?[^`]\2(?!`)/gm, '');
+
+// Runs public/docs-copy.js against a stub page, clicks the button, fires the timers the script set (its
+// fetch timeout) and returns the button state and the status line.
+async function docsCopyClick(source, { fetch, refuse = false, clipboardItem = false }) {
+  const timers = [];
+  const el = (props = {}) => ({ textContent: '', dataset: {}, hidden: false, attrs: {}, on: {}, classes: new Set(['visually-hidden']),
+    setAttribute(k, v) { this.attrs[k] = v; }, getAttribute(k) { return this.attrs[k] ?? null; },
+    addEventListener(t, f) { this.on[t] = f; }, ...props });
+  const label = el({ textContent: 'Copy for AI' });
+  const status = el();
+  status.classList = { toggle: (c, on) => (on ? status.classes.add(c) : status.classes.delete(c)) };
+  const button = el({ querySelector: () => label });
+  button.attrs['data-md'] = '/docs/x.md';
+  let ready;
+  const document = { addEventListener: (t, f) => { if (t === 'DOMContentLoaded') ready = f; }, querySelector: (s) => (s === '[data-docs-copy]' ? button : status) };
+  const answer = () => (refuse ? Promise.reject(new Error('NotAllowedError')) : Promise.resolve());
+  const clipboard = { writeText: answer, write: (items) => items[0].data['text/plain'].then(answer) };
+  const ctx = { document, navigator: { clipboard }, fetch, Blob: class {}, setTimeout: (f, ms) => timers.push({ f, ms }), clearTimeout: () => {} };
+  if (clipboardItem) ctx.ClipboardItem = class { constructor(data) { this.data = data; } };
+  ctx.window = ctx;
+  runInNewContext(source, ctx);
+  ready();
+  button.on.click();
+  const settle = async () => { for (let i = 0; i < 20; i++) await new Promise((r) => setImmediate(r)); };
+  await settle();
+  for (const t of timers.splice(0)) if (t.ms > 2000) t.f();
+  await settle();
+  return { state: button.dataset.state, status: status.textContent, visible: !status.classes.has('visually-hidden') };
+}
+
 function walk(dir) {
   return readdirSync(dir).flatMap((name) => {
     const full = join(dir, name);
@@ -143,7 +176,7 @@ for (const file of pages) {
   for (const m of html.matchAll(/\s(?:href|src)="([^"]+)"/g)) checkLink(m[1], urlPath, where);
 
   const md = fileFor(mdUrl) ? readFileSync(fileFor(mdUrl), 'utf8') : '';
-  for (const m of md.matchAll(/\]\(([^)\s]+)\)/g)) checkLink(m[1], urlPath, `${mdUrl}`);
+  for (const m of withoutCode(md).matchAll(/\]\(([^)\s]+)\)/g)) checkLink(m[1], urlPath, `${mdUrl}`);
 }
 
 // Tables sit in a scrollable region (src/lib/markdown.ts). Each region needs its own name, or screen
@@ -256,7 +289,7 @@ for (const m of llms.matchAll(/\]\(([^)\s]+)\)/g)) checkLink(m[1], '/', 'llms.tx
 // Markdown twins are read outside the site (pasted into an AI chat, an issue, an email), so every link
 // in them is absolute, in-page anchors included (src/lib/markdown.ts, absolutizeMarkdownLinks).
 for (const file of files.filter((f) => f.endsWith('.md') || f.endsWith('llms-full.txt'))) {
-  for (const m of readFileSync(file, 'utf8').matchAll(/\]\(([^)\s]*)/g)) {
+  for (const m of withoutCode(readFileSync(file, 'utf8')).matchAll(/\]\(([^)\s]*)/g)) {
     if (!/^(https:\/\/|http:\/\/|mailto:)/.test(m[1])) fail(`${file.slice(outDir.length - 1)}: relative link "${m[1]}" in a Markdown twin; twins carry absolute URLs`);
   }
 }
@@ -265,6 +298,13 @@ for (const file of files.filter((f) => f.endsWith('.md') || f.endsWith('llms-ful
 if (!read('docs/inbox.md').includes('](https://colliedesk.com/docs/inbox#filter-and-sort)')) {
   fail('/docs/inbox.md: in-page link to the "Filter and sort" heading is not https://colliedesk.com/docs/inbox#filter-and-sort');
 }
+// Links written inside code are examples and stay as written, in the HTML and in the twin: the knowledge
+// base guide shows `![name](/api/v1/kb/images/…)`, which must not become a GitHub or colliedesk.com link.
+for (const file of files.filter((f) => /\.(html|md|txt)$/.test(f))) {
+  const text = readFileSync(file, 'utf8');
+  if (text.includes('colliedesk/colliedesk/blob/main/api/v1/kb/images')) fail(`${file.slice(outDir.length - 1)}: a link inside code was rewritten to a repository file ("/api/v1/kb/images/…" in the knowledge base guide)`);
+}
+if (!read('docs/knowledge-base.md').includes('`![name](/api/v1/kb/images/…)`')) fail('/docs/knowledge-base.md: the inline-code example `![name](/api/v1/kb/images/…)` was rewritten; links inside code stay as written');
 
 // Docs pages: "Copy for AI" copies the page's Markdown twin to the clipboard (public/docs-copy.js) and
 // "View as Markdown" opens it. The Docs set is what llms.txt lists under "## Docs" (from page.section),
@@ -298,7 +338,23 @@ if (!read('docs/inbox.md').includes('](https://colliedesk.com/docs/inbox#filter-
   if (!/\.docs-copy \{ display: none; \}/.test(css) || !/@media \(scripting: enabled\) \{ \.docs-copy \{ display: inline-flex; \} \}/.test(css)) fail('styles.css: the Copy for AI button must be hidden without scripting and shown with it (@media (scripting: enabled))');
   const script = read('docs-copy.js');
   if (!script) fail('docs-copy.js not built');
-  else if (/posthog/i.test(script)) fail('docs-copy.js: copies are not counted (no PostHog event)');
+  else {
+    if (/posthog/i.test(script)) fail('docs-copy.js: copies are not counted (no PostHog event)');
+    // A twin request that never answers, or a failed one, ends in the error state and says to try again;
+    // a refused clipboard points at "View as Markdown". Neither leaves the button on "Copying…".
+    const NETWORK = 'Could not load the page. Check your connection and try again.';
+    const CLIPBOARD = 'Could not copy. Open "View as Markdown" and copy the page from there.';
+    for (const c of [
+      { name: 'a twin request that never answers', fetch: () => new Promise(() => {}), want: NETWORK },
+      { name: 'a twin request that never answers (ClipboardItem)', fetch: () => new Promise(() => {}), clipboardItem: true, want: NETWORK },
+      { name: 'a failed twin request', fetch: () => Promise.resolve({ ok: false, status: 503 }), want: NETWORK },
+      { name: 'a refused clipboard', fetch: () => Promise.resolve({ ok: true, text: () => Promise.resolve('# T') }), refuse: true, want: CLIPBOARD },
+      { name: 'a refused clipboard (ClipboardItem)', fetch: () => Promise.resolve({ ok: true, text: () => Promise.resolve('# T') }), refuse: true, clipboardItem: true, want: CLIPBOARD },
+    ]) {
+      const got = await docsCopyClick(script, c);
+      if (got.state !== 'error' || got.status !== c.want || !got.visible) fail(`docs-copy.js: after ${c.name} the button is "${got.state}" with "${got.status}"; want the error state with "${c.want}" visible`);
+    }
+  }
 }
 
 // PostHog counts every visit: without cookies until the visitor accepts cookies in the consent
