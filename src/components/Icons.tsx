@@ -1,7 +1,16 @@
 // Inline stroke icons; decorative, hidden from assistive technology.
-export function CheckIcon() {
+export function CheckIcon({ className = 'i' }: { className?: string } = {}) {
   return (
-    <svg className="i" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5" /></svg>
+    <svg className={className} viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5" /></svg>
+  );
+}
+
+export function CopyIcon({ className = 'i' }: { className?: string } = {}) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <rect x="9" y="9" width="12" height="12" rx="2" />
+      <path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1" />
+    </svg>
   );
 }
 

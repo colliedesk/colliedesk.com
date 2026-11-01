@@ -1,10 +1,11 @@
 import type { ReactNode } from 'react';
 import { foundingState } from '../lib/founding';
 import { renderInline } from '../lib/markdown';
-import type { Page } from '../lib/page';
+import { mdUrlOf, type Page } from '../lib/page';
 import { CtaButtons } from './CtaButtons';
+import { DocsActions } from './DocsActions';
 
-type HeroPage = Pick<Page, 'h1'> & Partial<Pick<Page, 'eyebrow' | 'lede' | 'cta' | 'ctaFounding'>>;
+type HeroPage = Pick<Page, 'h1'> & Partial<Pick<Page, 'path' | 'section' | 'eyebrow' | 'lede' | 'cta' | 'ctaFounding'>>;
 
 // The page hero. An aside (the Founding card on /pricing) sits beside the copy on wide screens, so the
 // offer is in the first view instead of an empty right half.
@@ -14,6 +15,7 @@ export function Hero({ page, aside }: { page: HeroPage; aside?: ReactNode }) {
     <>
       {page.eyebrow && <p className="eyebrow">{page.eyebrow}</p>}
       <h1>{page.h1}</h1>
+      {page.section === 'Docs' && page.path && <DocsActions mdUrl={mdUrlOf(page.path)} />}
       {page.lede && <p className="lede" dangerouslySetInnerHTML={{ __html: renderInline(page.lede) }} />}
       {page.cta && <CtaButtons founding={founding} />}
     </>

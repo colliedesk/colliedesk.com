@@ -1,8 +1,9 @@
 # colliedesk.com
 
 Static marketing and docs site, built with [Astro](https://astro.build), React and TypeScript.
-React renders at build time only: the browser gets HTML, CSS and two small vanilla scripts
-(`public/theme.js`, `public/updates.js`) plus PostHog web analytics (`public/analytics.js`:
+React renders at build time only: the browser gets HTML, CSS and small vanilla scripts
+(`public/theme.js`, `public/updates.js`; on Docs pages `public/docs-copy.js`, the "Copy for AI" button that
+copies the page's Markdown twin) plus PostHog web analytics (`public/analytics.js`:
 cookieless until the visitor accepts cookies in the banner of `public/consent.js`, then cookie
 and masked session replay; JavaScript errors always; no person profiles, IP discarded; `pnpm check` fails if that changes), no framework runtime.
 
@@ -34,9 +35,9 @@ to use another checkout. `typecheck` works without it.
   Markdown twin (`/pricing` and `/pricing.md`); `llms.txt`, `llms-full.txt`, `sitemap.xml`,
   `robots.txt` and `changelog.xml` are static endpoints; `404.astro` is the not-found page.
   `_headers` is written after the build by `src/integrations/cloudflare-headers.ts`.
-- `public/`: files served as they are (fonts, icons, images, CSS, the two scripts).
+- `public/`: files served as they are (fonts, icons, images, CSS, the scripts).
 - `src/integrations/no-bundled-client-js.ts` fails the build if any script other than
-  `theme.js`, `updates.js`, `analytics.js` and JSON-LD would ship (a bundled or inlined `<script>`). A `client:*`
+  `theme.js`, `updates.js`, `analytics.js`, `consent.js`, `docs-copy.js` and JSON-LD would ship (a bundled or inlined `<script>`). A `client:*`
   directive on a React component fails earlier: without a React renderer Astro cannot hydrate it.
 
 ## Content

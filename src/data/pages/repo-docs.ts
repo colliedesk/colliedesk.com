@@ -4,7 +4,7 @@
 // their links. PRODUCT_DIR points at a checkout of that repo (default ./product).
 import { readFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
-import { plain } from '../../lib/markdown';
+import { outsideCode, plain } from '../../lib/markdown';
 import type { DocsNavGroup, Page } from '../../lib/page';
 import { techArticle } from '../../lib/schema';
 import { REPO } from '../../lib/site';
@@ -75,7 +75,7 @@ function rewriteLink(href: string, fromDir: string): string {
 }
 
 const rewriteLinks = (md: string, fromDir: string): string =>
-  md.replace(/\]\(([^)\s]+)\)/g, (_, href: string) => `](${rewriteLink(href, fromDir)})`);
+  outsideCode(md, (prose) => prose.replace(/\]\(([^)\s]+)\)/g, (_, href: string) => `](${rewriteLink(href, fromDir)})`));
 
 // Splits "# Title\n\nFirst paragraph\n\nrest" into parts. The first paragraph becomes the lede
 // unless it is a list, table or code block.
