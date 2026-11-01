@@ -266,6 +266,41 @@ if (!read('docs/inbox.md').includes('](https://colliedesk.com/docs/inbox#filter-
   fail('/docs/inbox.md: in-page link to the "Filter and sort" heading is not https://colliedesk.com/docs/inbox#filter-and-sort');
 }
 
+// Docs pages: "Copy for AI" copies the page's Markdown twin to the clipboard (public/docs-copy.js) and
+// "View as Markdown" opens it. The Docs set is what llms.txt lists under "## Docs" (from page.section),
+// so /docs itself is in it and /roadmap (section Product) is not. Copies are not counted.
+{
+  const docsList = llms.match(/^## Docs\n([\s\S]*?)(?=^## |(?![\s\S]))/m)?.[1] ?? '';
+  const docsTwins = new Set([...docsList.matchAll(/\]\(https:\/\/colliedesk\.com(\/[^)\s]+\.md)\)/g)].map((m) => m[1]));
+  if (!docsTwins.size) fail('llms.txt: no pages under "## Docs"; the Copy for AI check cannot find the docs pages');
+  for (const file of [...pages, join(outDir, '404.html')].filter(existsSync)) {
+    const urlPath = urlPathOf(file);
+    const mdUrl = mdPathOf(urlPath);
+    const html = readFileSync(file, 'utf8');
+    const loads = html.includes('<script src="/docs-copy.js" defer></script>');
+    if (!docsTwins.has(mdUrl)) {
+      if (html.includes('data-docs-copy') || html.includes('docs-copy.js')) fail(`${urlPath}: has the Copy for AI button or script but is not a Docs page`);
+      continue;
+    }
+    const buttons = html.match(/<button\b[^>]*\sdata-docs-copy=""[^>]*>/g) ?? [];
+    if (buttons.length !== 1) fail(`${urlPath}: expected one Copy for AI button (data-docs-copy), found ${buttons.length}`);
+    else {
+      if (!buttons[0].includes(`data-md="${mdUrl}"`)) fail(`${urlPath}: Copy for AI button does not copy ${mdUrl}`);
+      if (/\shidden(=""|[\s>])/.test(buttons[0])) fail(`${urlPath}: Copy for AI button must not start hidden; CSS shows it from the first paint when scripting is on, so showing it later would shift the row`);
+    }
+    if (!html.includes(`<a class="docs-md-link" href="${mdUrl}" type="text/markdown">View as Markdown</a>`)) fail(`${urlPath}: no "View as Markdown" link to ${mdUrl}`);
+    if (!/<p class="docs-copy-status visually-hidden" role="status" data-docs-copy-status=""><\/p>/.test(html)) fail(`${urlPath}: Copy for AI has no empty visually-hidden status (role="status") in the page from load`);
+    if (!loads) fail(`${urlPath}: docs-copy.js not loaded`);
+    // Between the h1 and the lede, so a long lede never pushes the row under the cookie banner on a phone.
+    if (!/<\/h1><div class="docs-actions">/.test(html) || html.indexOf('class="docs-actions"') > html.indexOf('class="lede"')) fail(`${urlPath}: the Copy for AI row must sit right after the h1, before the lede`);
+  }
+  const css = read('styles.css');
+  if (!/\.docs-copy \{ display: none; \}/.test(css) || !/@media \(scripting: enabled\) \{ \.docs-copy \{ display: inline-flex; \} \}/.test(css)) fail('styles.css: the Copy for AI button must be hidden without scripting and shown with it (@media (scripting: enabled))');
+  const script = read('docs-copy.js');
+  if (!script) fail('docs-copy.js not built');
+  else if (/posthog/i.test(script)) fail('docs-copy.js: copies are not counted (no PostHog event)');
+}
+
 // PostHog counts every visit: without cookies until the visitor accepts cookies in the consent
 // banner, with its cookie after. It never creates a person profile. A browser driven by
 // automation (Playwright, Puppeteer, Selenium, an agent's DevTools session) is not a visitor.

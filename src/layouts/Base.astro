@@ -41,6 +41,7 @@ const canonical = `${ORIGIN}${page.path}`;
 <script is:inline src="/updates.js" defer></script>
 <script is:inline src="/analytics.js" defer></script>
 <script is:inline src="/consent.js" defer></script>
+{page.section === 'Docs' && <script is:inline src="/docs-copy.js" defer></script>}
 <meta name="theme-color" content="#ffffff">
 <meta name="color-scheme" content="light">
 <meta property="og:type" content="website">
