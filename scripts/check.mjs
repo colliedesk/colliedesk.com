@@ -630,6 +630,32 @@ if (accentUses > ACCENT_BUDGET) fail(`styles.css uses var(--accent…) ${accentU
   }
 }
 
+// Scrollbars are styled site-wide (thin, palette grey), never the OS default: the page and every
+// scroll area (code blocks, tables, the home terminal). Chrome and Edge 121+ drop ::-webkit-scrollbar
+// as soon as scrollbar-width or scrollbar-color applies, so those two standard properties may only
+// sit inside @supports not selector(::-webkit-scrollbar), for Firefox.
+{
+  const css = readFileSync(join(outDir, 'styles.css'), 'utf8');
+  const start = css.indexOf('@supports not selector(::-webkit-scrollbar)');
+  let rest = css;
+  if (start < 0) fail('styles.css: no @supports not selector(::-webkit-scrollbar) block for Firefox scrollbars');
+  else {
+    let depth = 0;
+    let end = css.indexOf('{', start);
+    for (; end < css.length; end++) {
+      if (css[end] === '{') depth++;
+      else if (css[end] === '}' && --depth === 0) break;
+    }
+    const firefox = css.slice(start, end + 1);
+    if (!/scrollbar-width:\s*thin/.test(firefox) || !/scrollbar-color:\s*var\(--/.test(firefox)) fail('styles.css: the Firefox block must set scrollbar-width: thin and a palette scrollbar-color');
+    rest = css.slice(0, start) + css.slice(end + 1);
+  }
+  for (const sel of ['::-webkit-scrollbar {', '::-webkit-scrollbar-thumb {', '::-webkit-scrollbar-thumb:hover {', '::-webkit-scrollbar-track {', '::-webkit-scrollbar-corner {']) {
+    if (!rest.includes(sel)) fail(`styles.css: no "${sel.slice(0, -2)}" rule; scrollbars must never show the OS default`);
+  }
+  if (/scrollbar-(width|color)\s*:/.test(rest)) fail('styles.css: scrollbar-width/scrollbar-color outside @supports not selector(::-webkit-scrollbar); Chrome would drop the styled ::-webkit-scrollbar');
+}
+
 // The hero screenshot is the largest paint on a phone. It offers AVIF and WebP by width with a sizes
 // hint, so a 390px screen does not download the 2880px JPEG; every file it names must be built.
 {

@@ -46,6 +46,20 @@ code { font-family: var(--font-mono); font-size: .88em; background: var(--surfac
 .skip { position: absolute; left: 1rem; top: -4rem; background: var(--accent); color: var(--on-accent); padding: .6rem 1rem; border-radius: var(--radius); z-index: 10; }
 .skip:focus { top: 1rem; color: var(--on-accent); }
 .i { width: 18px; height: 18px; flex: none; fill: none; stroke: currentColor; stroke-width: var(--icon-stroke); stroke-linecap: round; stroke-linejoin: round; }
+/* Scrollbars: thin, rounded, transparent track, grey from the palette (never the OS default), for the
+   page and every scroll area (code blocks, tables, the home terminal). Chrome/Edge 121+ ignore
+   ::-webkit-scrollbar when scrollbar-width/-color are set, so the standard properties are only for
+   browsers without the WebKit selector (Firefox). The 2px transparent border shows a 4px thumb in an
+   8px hit area. */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--line-control); border-radius: var(--radius-full); border: 2px solid transparent; background-clip: padding-box; }
+::-webkit-scrollbar-thumb:hover { background: var(--line-strong); background-clip: padding-box; }
+::-webkit-scrollbar-corner { background: transparent; }
+::-webkit-scrollbar-button { display: none; }
+@supports not selector(::-webkit-scrollbar) {
+  * { scrollbar-width: thin; scrollbar-color: var(--line-control) transparent; }
+}
 
 /* Header */
 .site-header { position: sticky; top: 0; z-index: 5; background: var(--surface-1); border-bottom: 1px solid var(--line); }

@@ -78,6 +78,8 @@ repo checks contrast for every pair and fails when a grey, a text token or the p
   idea per section with a crop of the real product on a soft panel (`--panel`); three checkable facts
   under the hero; a dark closing band. Text sits in plain columns under a hairline; code and tables sit
   on a 1px shadow ring (`--ring`).
+- Scrollbars are styled site-wide (thin, palette grey: `--line-control`, `--line-strong` on hover); never the OS
+  default. `pnpm check` fails if `scrollbar-width`/`scrollbar-color` appear outside the Firefox `@supports` block.
 - Type: self-hosted IBM Plex Sans and Mono; IBM Plex Serif 500 for h1 and h2. Sentence case everywhere,
   mono only for code.
 - Product pictures: `public/product-inbox.jpg` (and `@2x`) is a screenshot of the app with demo data
