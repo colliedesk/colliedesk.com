@@ -15,7 +15,7 @@ export const statusTable = `Colliedesk as a whole is alpha. Everything marked sh
 | New conversation from the inbox, contact history | **Shipped** |
 | Saved replies, attachments, live updates, browser notifications, see who else has a conversation open | **Shipped** |
 | Passwordless sign-in, revocable sessions, isolated workspaces, full export | **Shipped** |
-| MCP server for your AI agent: read, draft, send and admin tokens, risky actions approved by a person | **Shipped** |
+| MCP server for your AI agent: tokens that follow a role or a fixed list of permissions, never more than their person holds | **Shipped** |
 | One-command install and published container image | **Shipped** |
 | Upgrade guide, upgrades tested on real data | **Shipped** |
 | Colliedesk Cloud with a 14-day free trial, ${cloudPlans} | **Shipped** |

@@ -34,8 +34,8 @@ export async function seed(origin, now = new Date()) {
     ids.set(index, { conversation: result.conversation_id, incoming: result.message_id });
   }
 
-  // The agent (an admin token labelled "Claude Code") triages over MCP and drafts the reply.
-  const agent = mcp(origin, collie('token', 'create', '--workspace', slug, '--email', SCENE.admin.email, '--scope', 'admin', '--label', SCENE.tokenLabel));
+  // The agent (a token labelled "Claude Code" that follows Tom's Admin role) triages over MCP and drafts the reply.
+  const agent = mcp(origin, collie('token', 'create', '--workspace', slug, '--email', SCENE.admin.email, '--role', 'Admin', '--label', SCENE.tokenLabel));
   await agent('colliedesk_workspace_settings_update', { timezone: timeZone });
   let draft;
   for (const [index, conversation] of SCENE.conversations.entries()) {
@@ -45,13 +45,13 @@ export async function seed(origin, now = new Date()) {
     if (conversation.assignee) change.assignee = conversation.assignee;
     await agent('colliedesk_conversation_update', change);
     if (conversation.note) id.note = (await agent('colliedesk_note_add', { conversation_id: id.conversation, body: conversation.note })).message.id;
-    if (conversation.reply) draft = { index, request: (await agent('colliedesk_reply_draft', { conversation_id: id.conversation, body: conversation.reply })).agent_request.id };
+    if (conversation.reply) draft = { index, id: (await agent('colliedesk_reply_draft', { conversation_id: id.conversation, body: conversation.reply })).draft.id, body: conversation.reply };
   }
 
-  // Tom approves the drafted reply; it goes out through SMTP to the Mailpit sink.
-  await tom('POST', `/agent-requests/${draft.request}/approve`);
+  // Tom sends the drafted reply from its draft card; it goes out through SMTP to the Mailpit sink.
   const replied = ids.get(draft.index);
-  replied.request = draft.request;
+  await tom('POST', `/conversations/${replied.conversation}/messages`, { kind: 'outgoing', body: draft.body, ai_draft_id: draft.id });
+  replied.draft = draft.id;
   replied.reply = await waitForSentReply(tom, replied.conversation);
 
   retime(SCENE.conversations.map((_, index) => ({ ids: ids.get(index), times: times[index].times })));
@@ -90,12 +90,11 @@ function retime(rows) {
     );
     if (ids.note) statements.push(`UPDATE messages SET created_at=${literal(times.note)} WHERE id=${literal(ids.note)};`);
     if (ids.reply) {
-      const requested = new Date(times.reply.getTime() - 4 * 60_000);
+      const drafted = new Date(times.reply.getTime() - 4 * 60_000);
       const sent = new Date(times.reply.getTime() + 3_000);
       statements.push(
         `UPDATE messages SET created_at=${literal(times.reply)} WHERE id=${literal(ids.reply)};`,
-        `UPDATE agent_requests SET created_at=${literal(requested)}, decided_at=${literal(times.reply)},
-           expires_at=${literal(new Date(requested.getTime() + 7 * 86_400_000))} WHERE id=${literal(ids.request)};`,
+        `UPDATE ai_drafts SET created_at=${literal(drafted)}, ready_at=${literal(drafted)}, decided_at=${literal(times.reply)} WHERE id=${literal(ids.draft)};`,
         `UPDATE channel_outbox SET created_at=${literal(times.reply)}, updated_at=${literal(sent)}, sent_at=${literal(sent)},
            next_attempt_at=${literal(times.reply)} WHERE message_id=${literal(ids.reply)};`,
       );

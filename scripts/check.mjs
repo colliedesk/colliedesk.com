@@ -712,9 +712,10 @@ for (const file of files.filter((f) => f.endsWith('.html') && !/[\\/](changelog|
   }
 }
 
-// Home "your AI agent can do this too": the MCP server, the four agent token tiers and the requests a
-// person approves shipped in colliedesk (live on Cloud). The section, its Markdown twin and llms.txt
-// must say so, and link the MCP guide rendered from the product docs.
+// Home "your AI agent can do this too": the MCP server, roles and permissions and agent tokens that act
+// at once shipped in colliedesk (live on Cloud). The section, its Markdown twin and llms.txt must say so,
+// and link the MCP and roles guides rendered from the product docs. Agent requests were removed, so
+// neither may promise an approval queue.
 {
   const section = read('index.html').match(/<section[^>]*aria-labelledby="agents"[\s\S]*?<\/section>/)?.[0] ?? '';
   const homeMd = read('index.md');
@@ -722,14 +723,16 @@ for (const file of files.filter((f) => f.endsWith('.html') && !/[\\/](changelog|
   if (!section) fail('/: AI agent section (aria-labelledby="agents") missing');
   else {
     if (!section.includes(heading)) fail(`/: AI agent section lacks the heading "${heading}"`);
-    for (const t of ['read', 'draft', 'send', 'admin']) if (!section.includes(`<code>${t}</code>`)) fail(`/: AI agent section does not name the ${t} tier`);
-    for (const needle of ['https://app.colliedesk.com/mcp', 'href="/docs/mcp"', 'href="/docs/agent-requests"', 'approves or rejects', 'seven days']) {
-      if (!section.includes(needle)) fail(`/: AI agent section lacks "${needle}"`);
+    for (const needle of ['https://app.colliedesk.com/mcp', 'href="/docs/mcp"', 'href="/docs/roles-and-permissions"', 'Follow my role', 'Pick permissions', 'never more than you']) {
+      if (!section.toLowerCase().includes(needle.toLowerCase())) fail(`/: AI agent section lacks "${needle}"`);
+    }
+    for (const stale of ['href="/docs/agent-requests"', 'approves or rejects', 'wait for your yes']) {
+      if (section.includes(stale)) fail(`/: AI agent section still promises agent requests ("${stale}")`);
     }
   }
   if (!homeMd.includes(`## ${heading}`)) fail('/index.md: twin lacks the AI agent section');
-  for (const t of ['read', 'draft', 'send', 'admin']) if (!homeMd.includes(`\`${t}\``)) fail(`/index.md: twin does not name the ${t} tier`);
-  if (!homeMd.includes('/docs/mcp)') || !homeMd.includes('seven days')) fail('/index.md: twin lacks the MCP guide link or the seven-day expiry');
+  if (!homeMd.includes('/docs/mcp)') || !homeMd.includes('/docs/roles-and-permissions)')) fail('/index.md: twin lacks the MCP guide or the roles and permissions link');
+  if (homeMd.includes('/docs/agent-requests)')) fail('/index.md: twin still links agent requests');
   if (!/\| MCP server[^\n]*\| \*\*Shipped\*\*/.test(homeMd)) fail('/index.md: status table does not list the MCP server as shipped');
   if (!/\(https:\/\/colliedesk\.com\/index\.md\)[^\n]*AI agents/.test(llms)) fail('llms.txt: home entry does not mention AI agents');
 }
