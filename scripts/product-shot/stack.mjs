@@ -28,8 +28,13 @@ function compose(args, { password = 'unused', input } = {}) {
 // up replaces any previous stack and its volumes, so every run starts from an empty database.
 export function up() {
   down();
-  compose(['pull', '--quiet', 'server']);
+  // A local build (docker build -t colliedesk:… from a product branch) is in no registry: use it as it is.
+  if (!localImage()) compose(['pull', '--quiet', 'server']);
   compose(['up', '--detach', '--wait', '--quiet-pull'], { password: randomBytes(24).toString('hex') });
+}
+
+function localImage() {
+  return !IMAGE.includes('/') && spawnSync('docker', ['image', 'inspect', IMAGE], { stdio: 'ignore' }).status === 0;
 }
 
 export function down() {
