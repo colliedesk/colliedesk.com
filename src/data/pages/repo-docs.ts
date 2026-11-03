@@ -147,10 +147,10 @@ export function roadmapPage(): Page {
     section: 'Product',
     eyebrow: 'Roadmap',
     h1: 'Colliedesk roadmap',
-    title: 'Colliedesk roadmap: what is live in alpha and what comes next',
+    title: 'Colliedesk roadmap: shipped, planned and later',
     description:
-      'What Colliedesk has shipped in alpha on Colliedesk Cloud and what comes next: one-click Gmail and Microsoft 365 mailboxes, then AI, then automations, SLA and reports. Dates are targets.',
-    summary: 'Now alpha (email, Freshdesk and Help Scout importers, knowledge base, Cloud trial); next one-click mailboxes; then AI; later automations, SLA, reports',
+      'The Colliedesk roadmap by what it does for a team leaving Freshdesk: importers, AI drafts a person sends, MCP for your agent, help desk basics, data you keep.',
+    summary: 'Shipped: Freshdesk and Help Scout importers, AI drafts and help chat, MCP server, shared inbox, help center, self-host. Planned: one-click Gmail and Microsoft 365, AI backtest. Later: Freshdesk sync, Zendesk importer, rules, macros, reports',
   } satisfies Partial<Page>);
   page.jsonLd = [techArticle(page)];
   return page;
