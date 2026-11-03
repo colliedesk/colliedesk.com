@@ -179,6 +179,16 @@ for (const file of pages) {
   for (const m of withoutCode(md).matchAll(/\]\(([^)\s]+)\)/g)) checkLink(m[1], urlPath, `${mdUrl}`);
 }
 
+// People who get a cold email search the product name. Google takes the site name from the
+// WebSite entity and the brand from the Organization on the home page, so both must say Colliedesk.
+{
+  const home = fileFor('/');
+  const ld = home ? [...readFileSync(home, 'utf8').matchAll(/<script[^>]*application\/ld\+json[^>]*>([\s\S]*?)<\/script>/g)].map((m) => { try { return JSON.parse(m[1]); } catch { return {}; } }) : [];
+  for (const type of ['Organization', 'WebSite']) {
+    if (!ld.some((o) => o['@type'] === type && o.name === 'Colliedesk')) fail(`/: no ${type} JSON-LD named "Colliedesk"`);
+  }
+}
+
 // Tables sit in a scrollable region (src/lib/markdown.ts). Each region needs its own name, or screen
 // readers list several landmarks called the same; each header cell needs text (axe landmark-unique,
 // empty-table-header).

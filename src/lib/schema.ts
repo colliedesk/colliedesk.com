@@ -3,12 +3,22 @@ import { plain } from './markdown';
 import type { Faq, JsonLd, Page } from './page';
 import { agentsLabel, CLOUD_PLANS, type CloudPlan, dollars, NAME, ORIGIN, POSITIONING, REPO, UPDATED } from './site';
 
+// The brand is Colliedesk; HC Labs is the company behind it. Google reads the site name from
+// WebSite and the brand from Organization, and people who get a cold email search the product name.
 export const organization = (): JsonLd => ({
   '@context': 'https://schema.org',
   '@type': 'Organization',
-  name: 'HC Labs',
+  name: NAME,
   url: ORIGIN,
   sameAs: [REPO],
+  parentOrganization: { '@type': 'Organization', name: 'HC Labs' },
+});
+
+export const website = (): JsonLd => ({
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: NAME,
+  url: `${ORIGIN}/`,
 });
 
 // plans: the Cloud plans on sale. While Founding is open that is Team 25 alone (see src/data/pages/pricing.ts).
