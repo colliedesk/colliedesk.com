@@ -56,37 +56,37 @@ export const BORING: readonly (readonly [title: string, text: string, short: str
   ['Nothing to stitch together', 'Self-hosted, it is one server and PostgreSQL. Bring an SMTP account for outgoing mail and a forwarder, such as Cloudflare Email Routing, for incoming mail. That is the list.', 'Self-hosted, it is one server and PostgreSQL.'],
 ];
 
-// "Your AI agent can do this too": the MCP server, agent token tiers and agent requests, as shipped in
-// colliedesk (docs/user/mcp.md, docs/user/sessions.md#agent-tokens, docs/user/agent-requests.md). Each
-// tier includes the one above it. Only state what those guides say.
+// "Your AI agent can do this too": the MCP server, roles and permissions and agent tokens, as shipped in
+// colliedesk (docs/user/mcp.md, docs/user/roles-and-permissions.md, docs/user/sessions.md#agent-tokens).
+// Only state what those guides say.
 export const MCP_URL = 'https://app.colliedesk.com/mcp';
 export const AGENT_HEADING = 'Everything you see here, your AI agent can do too';
 // The home page's shorter lede; the Markdown twin keeps AGENT_LEDE.
 export const AGENT_LEDE_SHORT =
-  'Give Claude Code, Codex or Cursor one URL and an agent token. The risky things wait for your yes.';
+  'Give Claude Code, Codex or Cursor one URL and an agent token. It does what you allow, never more than you can.';
 export const AGENT_LEDE =
-  'Colliedesk has an MCP server. Give an MCP client, such as Claude Code, Codex, Cursor or Claude Desktop, one URL and an agent token, and it works the same inbox your team does. The risky things wait for your yes.';
-export const AGENT_TIERS: readonly (readonly [tier: string, text: string, short: string])[] = [
-  ['read', 'Searches and reads conversations, customers, saved replies and settings. Anything more becomes a request.', 'Reads everything. Anything more becomes a request.'],
-  ['draft', 'Also sets status, priority, assignee and tags, and adds private notes. Nothing reaches a customer.', 'Also triages and adds notes. Nothing reaches a customer.'],
-  ['send', 'Also replies to customers, adds customers and conversations, and edits saved replies.', 'Also replies to customers.'],
-  ['admin', 'Also changes workspace settings, the team and the channels, with the role of the admin who created it.', 'Also changes settings, the team and the channels.'],
+  'Colliedesk has an MCP server. Give an MCP client, such as Claude Code, Codex, Cursor or Claude Desktop, one URL and an agent token, and it works the same inbox your team does, with the permissions you gave the token and never more than you hold.';
+export const AGENT_ACCESS: readonly (readonly [title: string, text: string, short: string])[] = [
+  ['Roles', 'A role is a set of permissions, such as messages:send or workspace:export. Admin and Agent are built in; make your own, and give a person several.', 'Admin, Agent, or roles you make. A person can hold several.'],
+  ['Follow a role', 'A token can follow any role whose permissions you hold, such as Agent for an admin: change the role and the token changes with it. Lose a permission of the role and the token stops.', 'The token follows a role as it changes.'],
+  ['Pick permissions', 'Or tick the permissions the token gets, out of the ones you hold. The list is fixed when you create it.', 'Or a fixed list, out of the permissions you hold.'],
+  ['Never more than you', 'A token never does more than its person can do right now. Lose a permission and every token of yours loses it too.', 'Lose a permission and every token of yours loses it too.'],
 ];
 export const AGENT_POINTS: readonly (readonly [title: string, text: string, short: string])[] = [
   ['Every action, not a subset', 'Each action in the web app has an API route and an MCP tool. A test in the product repository fails the build when one is missing.', "Every action in the web app has an MCP tool. A test keeps it that way."],
-  ['Above its tier, it asks', 'A call above the token\'s tier is not refused. It becomes a request, and a person approves or rejects it in one click. A reply from a token below send becomes a draft you edit, send or discard.', "A call above the token's tier becomes a request. A person approves or rejects it in one click."],
-  ['Some things always ask', 'New tokens, invites, admin role changes, signing out another person, export, billing, disconnecting the email channel, a new inbound secret and the workspace address wait for a person, admin tokens included. A request expires after seven days.', "Tokens, invites, export and billing always wait for a person. A request expires after seven days."],
-  ['Saved replies keep their history', 'A send token edits saved replies directly; lower tiers propose a change you see before and after. Every edit is a version you can restore, and a deleted reply stays in the trash for 30 days.', "Every edit is a version you can restore."],
+  ['It acts, or says what is missing', 'A token with the permission acts at once; nothing waits in a queue. A call without it is refused with the permission it lacks and how to get it.', 'With the permission it acts at once. Without it, it is told which permission is missing.'],
+  ['Some things stay with you', 'Only a person creates tokens. Connecting Gmail, Microsoft 365 or GitHub, and paying, happen in your browser: the agent gets the address and you finish it. A reply the agent may not send waits as a draft you edit, send or discard.', 'Only a person creates tokens. A reply it may not send waits as a draft.'],
+  ['Saved replies keep their history', 'Every edit, by a person or an agent, is a version you can restore, and a deleted reply stays in the trash for 30 days.', "Every edit is a version you can restore."],
 ];
 const agentSectionMd = `## ${AGENT_HEADING}
 
 ${AGENT_LEDE} MCP endpoint on Colliedesk Cloud: \`${MCP_URL}\`, with the agent token as a bearer token. [Connect an AI agent](/docs/mcp).
 
-${AGENT_TIERS.map(([t, v]) => `- \`${t}\`: ${v}`).join('\n')}
+${AGENT_ACCESS.map(([t, v]) => `- **${t}.** ${v}`).join('\n')}
 
 ${AGENT_POINTS.map(([k, v]) => `- **${k}.** ${v}`).join('\n')}
 
-How approval works: [Agent requests and reply drafts](/docs/agent-requests).`;
+Who can do what: [Roles and permissions](/docs/roles-and-permissions).`;
 
 const cloudLine = FOUNDING_OPEN
   ? `Founding: $99 every 3 months per workspace for up to 10 agents, locked for life, for ${FOUNDING_SLOTS} teams. [Who it is for](/pricing#who-founding-is-for).`

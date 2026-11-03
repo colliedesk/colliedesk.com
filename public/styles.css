@@ -175,38 +175,11 @@ td:has(> .badge) { width: 1%; white-space: nowrap; }
 @keyframes chip-in { from { opacity: 0; transform: scale(.8); } to { opacity: 1; transform: none; } }
 @keyframes stamp-in { from { opacity: 0; transform: scale(1.5) rotate(-8deg); } 70% { opacity: 1; transform: scale(.95) rotate(0); } to { opacity: 1; transform: none; } }
 
-/* Home "your AI agent can do this too": the MCP command over a request card, the four token tiers as a
-   ladder, then the approval rules as bento cards. */
+/* Home "your AI agent can do this too": the MCP command over the refusal a token gets for a permission
+   it lacks, roles and token access as four columns, then the rules as bento cards. */
 .agent-request { margin: 0; background: var(--surface-1); box-shadow: var(--ring), var(--shadow-1); }
-.agent-request-actions { display: flex; gap: var(--space-2); margin-top: var(--space-3) !important; }
-.agent-approve, .agent-reject { padding: .2rem var(--space-3); border-radius: var(--radius); border: 1px solid var(--line-control); font-weight: 600; }
-.agent-approve { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
-.agent-reject { color: var(--text-2); }
-/* The request card plays one request: it waits, Approve is pressed, it runs once. Same 9 s clock and Pause as .flow. */
-.agent-loop { display: grid; gap: var(--space-2); }
-.agent-loop .flow-pause { position: static; justify-self: end; }
-.req { --flow: 9s; }
-.req, .req-from, .req-wait, .req-done, .req-actions, .req-approve, .req-ran { animation: var(--flow) var(--ease) infinite both; }
-.req-wait { color: var(--warn); background: var(--warn-soft); opacity: 0; }
-.req-done { color: var(--ok); background: var(--ok-soft); }
-.req-done::before { content: "✓ "; }
-.req-foot { display: grid; margin-top: var(--space-3); }
-.req-foot > * { grid-area: 1 / 1; align-self: center; }
-.req-foot .agent-request-actions { margin-top: 0 !important; opacity: 0; }
-.req { animation-name: req-card; }
-.req-from { animation-name: req-from; }
-.req-wait { animation-name: req-wait; }
-.req-done { animation-name: req-done; }
-.req-actions { animation-name: req-actions; }
-.req-approve { animation-name: req-press; }
-.req-ran { animation-name: req-ran; }
-@keyframes req-card { 0% { opacity: 0; transform: translateY(-6px); } 5%, 94% { opacity: 1; transform: none; } 100% { opacity: 0; } }
-@keyframes req-from { 0%, 6% { opacity: 0; } 10%, 100% { opacity: 1; } }
-@keyframes req-wait { 0%, 8% { opacity: 0; } 11%, 50% { opacity: 1; } 53%, 100% { opacity: 0; } }
-@keyframes req-actions { 0%, 12% { opacity: 0; transform: translateY(4px); } 16%, 47% { opacity: 1; transform: none; } 50%, 100% { opacity: 0; } }
-@keyframes req-press { 0%, 40% { transform: none; box-shadow: none; } 42% { transform: scale(.92); box-shadow: 0 0 0 4px var(--accent-soft); } 45%, 100% { transform: none; box-shadow: none; } }
-@keyframes req-done { 0%, 50% { opacity: 0; transform: scale(.85); } 54% { opacity: 1; transform: scale(1.06); } 57%, 100% { opacity: 1; transform: none; } }
-@keyframes req-ran { 0%, 51% { opacity: 0; transform: translateY(4px); } 55%, 100% { opacity: 1; transform: none; } }
+.agent-refusal .refusal-status { color: var(--warn); background: var(--warn-soft); }
+.agent-refusal .refusal-text { margin: var(--space-2) 0 0; color: var(--text-2); }
 .agent-tiers { list-style: none; margin: var(--space-10) 0 0; padding: 0; display: grid; gap: var(--space-4); }
 @media (min-width: 760px) { .agent-tiers { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 1100px) { .agent-tiers { grid-template-columns: repeat(4, 1fr); } }
@@ -578,8 +551,7 @@ td:first-child { font-weight: 500; color: var(--text-1); }
 .panel { position: relative; display: grid; place-items: center; padding: clamp(1.5rem, 4vw, 3rem); background: var(--panel); border-radius: 24px; overflow: hidden; }
 .crop { background-image: url(/product-inbox.jpg); background-image: image-set(url(/product-inbox-1440.avif) type("image/avif"), url(/product-inbox-1440.webp) type("image/webp"), url(/product-inbox.jpg) type("image/jpeg")); background-repeat: no-repeat; border-radius: 12px; box-shadow: var(--ring), var(--shadow-3); }
 .agent-panel { place-items: start center; padding-bottom: 9rem; }
-.agent-panel .agent-loop { position: absolute; right: clamp(1rem, 3vw, 1.75rem); bottom: clamp(1rem, 3vw, 1.75rem); width: min(24rem, calc(100% - 2rem)); }
-.agent-panel .flow-pause { color: var(--text-2); }
+.agent-panel .agent-refusal { position: absolute; right: clamp(1rem, 3vw, 1.75rem); bottom: clamp(1rem, 3vw, 1.75rem); width: min(24rem, calc(100% - 2rem)); }
 @media (max-width: 899px) {
   .feature-row, .feature-rev { grid-template-columns: 1fr; }
   .feature-rev .feature-copy { order: 0; }

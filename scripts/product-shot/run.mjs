@@ -5,7 +5,8 @@
 //   pnpm shot:product --link     print a new sign-in link for the running stack
 //   pnpm shot:product --down     remove the stack and its volumes
 //
-// COLLIEDESK_IMAGE picks the app image (default ghcr.io/colliedesk/colliedesk:edge); SHOT_PORT the local
+// COLLIEDESK_IMAGE picks the app image (default ghcr.io/colliedesk/colliedesk:edge; a local tag without a
+// registry, such as colliedesk:shot from docker build, is used without pulling); SHOT_PORT the local
 // port (default 55480); CHROME_BIN the browser (default google-chrome).
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
