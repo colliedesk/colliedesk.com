@@ -68,7 +68,7 @@ export const AGENT_LEDE =
   'Colliedesk has an MCP server. Give an MCP client, such as Claude Code, Codex, Cursor or Claude Desktop, one URL and an agent token, and it works the same inbox your team does, with the permissions you gave the token and never more than you hold.';
 export const AGENT_ACCESS: readonly (readonly [title: string, text: string, short: string])[] = [
   ['Roles', 'A role is a set of permissions, such as messages:send or workspace:export. Admin and Agent are built in; make your own, and give a person several.', 'Admin, Agent, or roles you make. A person can hold several.'],
-  ['Follow my role', 'A token can follow one of your roles: change the role and the token changes with it. Take the role away and the token stops.', 'The token follows one of your roles as it changes.'],
+  ['Follow a role', 'A token can follow any role whose permissions you hold, such as Agent for an admin: change the role and the token changes with it. Lose a permission of the role and the token stops.', 'The token follows a role as it changes.'],
   ['Pick permissions', 'Or tick the permissions the token gets, out of the ones you hold. The list is fixed when you create it.', 'Or a fixed list, out of the permissions you hold.'],
   ['Never more than you', 'A token never does more than its person can do right now. Lose a permission and every token of yours loses it too.', 'Lose a permission and every token of yours loses it too.'],
 ];

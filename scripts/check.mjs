@@ -723,7 +723,7 @@ for (const file of files.filter((f) => f.endsWith('.html') && !/[\\/](changelog|
   if (!section) fail('/: AI agent section (aria-labelledby="agents") missing');
   else {
     if (!section.includes(heading)) fail(`/: AI agent section lacks the heading "${heading}"`);
-    for (const needle of ['https://app.colliedesk.com/mcp', 'href="/docs/mcp"', 'href="/docs/roles-and-permissions"', 'Follow my role', 'Pick permissions', 'never more than you']) {
+    for (const needle of ['https://app.colliedesk.com/mcp', 'href="/docs/mcp"', 'href="/docs/roles-and-permissions"', 'Follow a role', 'Pick permissions', 'never more than you']) {
       if (!section.toLowerCase().includes(needle.toLowerCase())) fail(`/: AI agent section lacks "${needle}"`);
     }
     for (const stale of ['href="/docs/agent-requests"', 'approves or rejects', 'wait for your yes']) {
