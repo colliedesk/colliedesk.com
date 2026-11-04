@@ -51,7 +51,8 @@ ${COMPARISONS.map((p) => `| [Colliedesk vs ${competitorOf(p)}](${p.path}) | ${p.
 
 - [Freshdesk alternatives](${freshdeskAlternative.path}): the options, including other tools, and who each one fits.
 - [Freshdesk pricing history](${freshdeskPricingHistory.path}): how the per-agent price and the AI add-ons changed.
-- [Migrate from Freshdesk](/migrate/freshdesk): every ticket, reply, note and attachment, with a reconcile report.`;
+- [Migrate from Freshdesk](/migrate/freshdesk): every ticket, reply, note and attachment, with a reconcile report.
+- [What a Freshdesk export leaves out](/migrate/freshdesk/export-gaps): what the CSV, XML and API exports hold, and how to check you got everything.`;
 
 const page: Page = {
   jsonLd: [],

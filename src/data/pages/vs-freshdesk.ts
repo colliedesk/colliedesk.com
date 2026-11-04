@@ -72,7 +72,7 @@ List prices before tax. On Colliedesk, AI reply drafts and triage are included w
 - Closed tickets with no activity for 120 days are **archived** and fetched through a separate endpoint.
 - API rate limits are **100, 400 or 700 calls per minute** on Growth, Pro and Enterprise.
 
-Colliedesk keeps your data in PostgreSQL with an open, documented model. ${c.export} The step-by-step guide: [migrate from Freshdesk](/migrate/freshdesk).
+Colliedesk keeps your data in PostgreSQL with an open, documented model. ${c.export} The step-by-step guide: [migrate from Freshdesk](/migrate/freshdesk). What each Freshdesk export leaves out: [the export gaps](/migrate/freshdesk/export-gaps).
 
 ## Where Freshdesk does more, and where Colliedesk does
 

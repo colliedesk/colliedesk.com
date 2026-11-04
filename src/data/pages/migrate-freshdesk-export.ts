@@ -57,7 +57,7 @@ Use this before you cancel, even if you migrate with a tool.
 5. Download the attachments from the links in the export **the same day**. The links expire.
 6. Open a few tickets in the XML and compare them with Freshdesk before you trust the backup.
 
-XML is a backup format, not something another helpdesk imports directly. To move to a new helpdesk you still need an importer.
+XML is a backup format, not something another helpdesk imports directly. To move to a new helpdesk you still need an importer. Before you trust any export, read [what a Freshdesk export leaves out](/migrate/freshdesk/export-gaps).
 
 ## 3. API: the export you can check
 
