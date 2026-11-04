@@ -2,7 +2,7 @@
 
 Static marketing and docs site, built with [Astro](https://astro.build), React and TypeScript.
 React renders at build time only: the browser gets HTML, CSS and small vanilla scripts
-(`public/theme.js`, `public/updates.js`, `public/attribution.js` that carries an ad link's `utm_*`, `ttclid` and `fbclid` to the app's sign-up links; on Docs pages `public/docs-copy.js`, the "Copy for AI" button that
+(`public/theme.js`, `public/updates.js`, `public/attribution.js` that carries an ad link's `utm_*`, `ttclid` and `fbclid`, and the first page of the visit as `landing_path`, to the app's sign-up links; on Docs pages `public/docs-copy.js`, the "Copy for AI" button that
 copies the page's Markdown twin) plus PostHog web analytics (`public/analytics.js`:
 cookieless until the visitor accepts cookies in the banner of `public/consent.js`, then cookie
 and masked session replay; JavaScript errors always; no person profiles, IP discarded; `pnpm check` fails if that changes), no framework runtime.

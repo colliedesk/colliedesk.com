@@ -4,7 +4,7 @@ import { CONTACT_EMAIL } from '../../lib/site';
 
 // /terms reads LEGAL_UPDATED; privacy has its own date.
 export const LEGAL_UPDATED = '2026-10-28';
-export const PRIVACY_UPDATED = '2026-11-01';
+export const PRIVACY_UPDATED = '2026-11-04';
 export { CONTACT_EMAIL };
 
 const body = `## The short version
@@ -71,6 +71,10 @@ We advertise Colliedesk on Facebook and Instagram. When you click one of these a
 We never send your email, name, company, workspace name or anything from your workspace. Meta uses this to measure which ads work and to show them to people like those who signed up. Nothing is sent if you did not come from one of our ads. This website loads no Meta pixel and sets no Meta cookie: the report goes from our server, only after a sign-up.
 
 A self-hosted Colliedesk server never sends anything to Meta, and has no setting to turn it on.
+
+## The page you started from
+
+When you follow a sign-up link on this website, it adds the path of the first page you opened on colliedesk.com in that tab (for example \`/vs/zendesk\`) to the link, as \`landing_path\`. It keeps that path in the browser tab for at most a day, the same way as the click ID above, and sets no cookie for it. If you start a Colliedesk Cloud trial, we keep the path with your sign-up so we can count which pages lead to trials. It is only a page of this website, never a page of another site, and it is not sent to Meta or any other ad network.
 
 ## Google user data
 
