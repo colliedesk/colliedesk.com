@@ -4,7 +4,7 @@ import { CONTACT_EMAIL } from '../../lib/site';
 
 // /terms reads LEGAL_UPDATED; privacy has its own date.
 export const LEGAL_UPDATED = '2026-10-28';
-export const PRIVACY_UPDATED = '2026-11-01';
+export const PRIVACY_UPDATED = '2026-11-04';
 export { CONTACT_EMAIL };
 
 const body = `## The short version
@@ -16,7 +16,7 @@ const body = `## The short version
 - A locked workspace is deleted 12 months after it locks. We email the admins 30 days before.
 - To stop repeated free trials, we keep a one-way, keyed fingerprint of your email address. We cannot turn it back into your address.
 - If you start a Colliedesk Cloud trial after clicking one of our ads on Facebook or Instagram, we tell Meta that the click led to a trial, and later to a paid plan. Never your email, name or company (see "Sign-ups from our ads").
-- This website sets analytics cookies (Google Analytics and PostHog) and loads Apollo only if you accept them in the cookie banner. Without them it counts visits without cookies.
+- This website sets analytics and advertising cookies (Google Analytics, PostHog and the Meta pixel) and loads Apollo only if you accept them in the cookie banner. Without them it counts visits without cookies.
 - If you self-host Colliedesk, your tickets and contacts never reach us. A self-hosted server sends an anonymous daily usage report and screen and button counts unless you turn them off with \`DISABLE_TELEMETRY=true\` or \`DO_NOT_TRACK=1\` (see "What this policy covers").
 
 The rest of this page says the same thing in more detail.
@@ -68,7 +68,7 @@ We advertise Colliedesk on Facebook and Instagram. When you click one of these a
 - the IP address and browser name of the sign-up,
 - a random ID of the workspace, so that the same sign-up is never counted twice.
 
-We never send your email, name, company, workspace name or anything from your workspace. Meta uses this to measure which ads work and to show them to people like those who signed up. Nothing is sent if you did not come from one of our ads. This website loads no Meta pixel and sets no Meta cookie: the report goes from our server, only after a sign-up.
+We never send your email, name, company, workspace name or anything from your workspace. Meta uses this to measure which ads work and to show them to people like those who signed up. Nothing is sent if you did not come from one of our ads. If you accept cookies on this website, it also loads the Meta pixel (see "Cookies"); if you do not, it loads nothing from Meta and the report above goes only from our server, after a sign-up.
 
 A self-hosted Colliedesk server never sends anything to Meta, and has no setting to turn it on.
 
@@ -111,7 +111,7 @@ Some of the providers below are outside the European Union (for example in the U
 | Cloudflare | DNS and network protection | Global |
 | PostHog | Website statistics (with a cookie only after you accept cookies) and anonymous usage counts. It does not store your IP address | United States |
 | Google | Google Analytics website statistics, only after you accept cookies | United States |
-| Meta Platforms Ireland | Receives the report described in "Sign-ups from our ads", only for sign-ups that came from one of our Facebook or Instagram ads | Ireland and United States |
+| Meta Platforms Ireland | Receives the report described in "Sign-ups from our ads", only for sign-ups that came from one of our Facebook or Instagram ads, and runs the Meta pixel on this website after you accept cookies | Ireland and United States |
 | Apollo | Tells us which company a website visit came from, from its network address, only after you accept cookies | United States |
 | GitHub | Hosts this website and the Colliedesk source code | United States |
 
@@ -121,7 +121,9 @@ We will list a new provider on this page before it receives personal data.
 
 Until you choose, or if you decline, this website counts visits with PostHog without cookies: nothing is stored in your browser and PostHog never builds a profile of you.
 
-If you click **Accept** in the cookie banner, PostHog sets a \`ph_\` cookie so a later visit is recognised as yours, and the website loads Google Analytics, which sets the \`_ga\` cookies to tell visits apart. The \`ph_\` cookie lasts up to 1 year; the \`_ga\` cookies last up to 14 months. Google Analytics is not loaded and sets nothing until you accept. It also loads Apollo, which tells us which company a visit came from (from the network address, not who you are) and keeps a random ID in local storage as \`apolloAnonId\`. We do not use any of them for advertising. Your choice is kept in your browser's local storage as \`colliedesk-consent\`, and PostHog keeps a copy of it in local storage too. You can change it at any time with **Cookie settings** at the bottom of every page; declining deletes the Google Analytics and PostHog cookies and the Apollo ID.
+If you click **Accept** in the cookie banner, PostHog sets a \`ph_\` cookie so a later visit is recognised as yours, and the website loads Google Analytics, which sets the \`_ga\` cookies to tell visits apart. The \`ph_\` cookie lasts up to 1 year; the \`_ga\` cookies last up to 14 months. Google Analytics is not loaded and sets nothing until you accept. It also loads Apollo, which tells us which company a visit came from (from the network address, not who you are) and keeps a random ID in local storage as \`apolloAnonId\`. Google Analytics, PostHog and Apollo are not used for advertising.
+
+Accepting also loads the Meta pixel. It tells Meta which pages you visited on this website, so we can measure our Facebook and Instagram ads and show them to people who visited. It sets the \`_fbp\` cookie (up to 90 days) and, if you came from one of our ads, the \`_fbc\` cookie with the ad click ID (up to 90 days). Meta may link these visits to your Facebook or Instagram account under its own privacy policy. The Meta pixel is not loaded and sets nothing until you accept. Your choice is kept in your browser's local storage as \`colliedesk-consent\`, and PostHog keeps a copy of it in local storage too. You can change it at any time with **Cookie settings** at the bottom of every page; declining deletes the Google Analytics, PostHog and Meta cookies and the Apollo ID.
 
 After you accept, PostHog also records how you move through this website (clicks, scrolling and page changes) so we can see where a page is unclear. Every form field is masked, so nothing you type is recorded, and recordings are deleted after 30 days. If a page shows a JavaScript error, PostHog receives the error message and the page address, with or without cookies.
 
