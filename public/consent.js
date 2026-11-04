@@ -1,13 +1,14 @@
 // Cookie consent on colliedesk.com. Accept loads Google Analytics, which sets the _ga cookies,
-// and Apollo website visitors, and lets PostHog (analytics.js) set its ph_ cookie; nothing from
-// Google or Apollo loads before that and PostHog stays cookieless. The choice is kept in
+// Apollo website visitors and the Meta pixel (_fbp, _fbc), and lets PostHog (analytics.js) set its
+// ph_ cookie; nothing from Google, Apollo or Meta loads before that and PostHog stays cookieless. The choice is kept in
 // localStorage under "colliedesk-consent" ("granted" or "denied"). Any element with
 // data-consent-open (the footer "Cookie settings" button) reopens the banner, and declining after
-// an earlier accept deletes the Google Analytics and PostHog cookies and the Apollo ID.
-// scripts/check.mjs fails if Google Analytics or Apollo can load another way.
+// an earlier accept deletes the Google Analytics, PostHog and Meta cookies and the Apollo ID.
+// scripts/check.mjs fails if Google Analytics, Apollo or the Meta pixel can load another way.
 (function () {
   var KEY = 'colliedesk-consent';
   var GA_ID = 'G-7VBE3TER7E';
+  var META_PIXEL_ID = '2097540104486917';
   var live = location.hostname === 'colliedesk.com';
 
   function read() {
@@ -29,6 +30,38 @@
     s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
     document.head.appendChild(s);
     loadApollo();
+    loadMetaPixel();
+  }
+
+  // Meta pixel (dataset Colliedesk, the same one the app reports trials to from its server):
+  // counts visits from our Facebook and Instagram ads and lets those ads reach past visitors.
+  // It sets the _fbp cookie, and _fbc when the visit came from an ad click.
+  function loadMetaPixel() {
+    if (window.fbq) return;
+    var fbq = window.fbq = function () {
+      if (fbq.callMethod) fbq.callMethod.apply(fbq, arguments);
+      else fbq.queue.push(arguments);
+    };
+    if (!window._fbq) window._fbq = fbq;
+    fbq.push = fbq;
+    fbq.loaded = true;
+    fbq.version = '2.0';
+    fbq.queue = [];
+    fbq('init', META_PIXEL_ID);
+    fbq('track', 'PageView');
+    // fbevents.js is about 90 KB: fetch it only after the page has loaded, so it never slows the
+    // first screen. Calls made before then wait in fbq.queue and are sent when it arrives.
+    afterLoad(function () {
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://connect.facebook.net/en_US/fbevents.js';
+      document.head.appendChild(s);
+    });
+  }
+
+  function afterLoad(fn) {
+    if (document.readyState === 'complete') fn();
+    else window.addEventListener('load', function () { window.setTimeout(fn, 0); });
   }
 
   // Apollo website visitors: names the company behind a visit from its network, for sales
@@ -53,7 +86,7 @@
     var domain = location.hostname.replace(/^www\./, '');
     document.cookie.split(';').forEach(function (c) {
       var name = c.split('=')[0].trim();
-      if (name === '_ga' || name.indexOf('_ga_') === 0 || name.indexOf('ph_') === 0) {
+      if (name === '_ga' || name.indexOf('_ga_') === 0 || name.indexOf('ph_') === 0 || name === '_fbp' || name === '_fbc') {
         document.cookie = name + '=; Max-Age=0; path=/; domain=.' + domain;
         document.cookie = name + '=; Max-Age=0; path=/';
       }
@@ -83,7 +116,7 @@
       banner.setAttribute('role', 'region');
       banner.setAttribute('aria-label', 'Cookie choice');
       banner.innerHTML =
-        '<p>We would like to use analytics cookies from Google Analytics, PostHog and Apollo. ' +
+        '<p>We would like to use analytics and advertising cookies from Google Analytics, PostHog, Apollo and Meta. ' +
         'Until you accept, we count visits without cookies. <a href="/privacy#cookies">Privacy</a></p>' +
         '<div class="consent-actions">' +
         '<button type="button" class="btn btn-sm" data-consent="denied">Decline</button>' +

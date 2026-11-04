@@ -411,12 +411,51 @@ else {
   // loads with Google Analytics after Accept, and a Decline deletes that ID.
   if (!/function loadAnalytics\(\)[\s\S]*assets\.apollo\.io\/micro\/website-tracker\/tracker\.iife\.js/.test(source)) fail('consent.js: the Apollo tracker must load only inside loadAnalytics()');
   if (!/removeItem\('apolloAnonId'\)/.test(source)) fail('consent.js: declining must delete the Apollo anonymous ID');
+  // The Meta pixel (dataset Colliedesk) sets _fbp and _fbc, so it loads with the other cookies after
+  // Accept, never before, and a Decline deletes both cookies.
+  const META_PIXEL_ID = '2097540104486917';
+  // fbevents.js (~90 KB) must not compete with the page's own first load: the pixel queues its
+  // PageView at once and fetches the script only after the window load event.
+  const runConsent = (choice, { fireLoad = true } = {}) => {
+    const loaded = [];
+    const fbqCalls = [];
+    const onLoad = [];
+    const window = {
+      addEventListener: (type, fn) => { if (type === 'load') onLoad.push(fn); },
+      setTimeout: (fn) => fn(),
+    };
+    const document = {
+      cookie: '',
+      head: { appendChild: (el) => { if (el.src) loaded.push(el.src); } },
+      createElement: () => ({}),
+      addEventListener: () => {},
+    };
+    const localStorage = { getItem: (key) => (key === 'colliedesk-consent' ? choice : null), setItem: () => {} };
+    runInNewContext(source, { window, document, localStorage, location: { hostname: 'colliedesk.com' }, navigator: {} });
+    if (fireLoad) onLoad.forEach((fn) => fn());
+    for (const args of window.fbq?.queue ?? []) fbqCalls.push(Array.from(args));
+    return { loaded, fbqCalls };
+  };
+  const pixelLoaded = (run) => run.loaded.some((src) => src.startsWith('https://connect.facebook.net/') && src.endsWith('/fbevents.js'));
+  for (const choice of [null, 'denied']) {
+    if (pixelLoaded(runConsent(choice))) fail(`consent.js: the Meta pixel must not load when the stored choice is ${choice}`);
+  }
+  const granted = runConsent('granted');
+  if (!pixelLoaded(granted)) fail('consent.js: an earlier Accept must load the Meta pixel (fbevents.js)');
+  const beforeLoad = runConsent('granted', { fireLoad: false });
+  if (pixelLoaded(beforeLoad)) fail('consent.js: fbevents.js must wait for the window load event');
+  if (!beforeLoad.fbqCalls.some((c) => c[0] === 'track' && c[1] === 'PageView')) fail('consent.js: the PageView must be queued before fbevents.js loads');
+  if (!granted.fbqCalls.some((c) => c[0] === 'init' && c[1] === META_PIXEL_ID)) fail(`consent.js: the Meta pixel must init dataset ${META_PIXEL_ID}`);
+  if (!granted.fbqCalls.some((c) => c[0] === 'track' && c[1] === 'PageView')) fail('consent.js: the Meta pixel must track PageView');
+  if (!/name === '_fbp'/.test(source) || !/name === '_fbc'/.test(source)) fail('consent.js: declining must delete the Meta _fbp and _fbc cookies');
+  if (!/Meta/.test(source.match(/banner\.innerHTML =[\s\S]*?<\/p>/)?.[0] ?? '')) fail('consent.js: the cookie banner must name Meta');
 }
 for (const file of pages) {
   const page = readFileSync(file, 'utf8');
   if (!page.includes('<script src="/consent.js" defer></script>')) fail(`${urlPathOf(file)}: consent.js not loaded`);
   if (page.includes('googletagmanager.com')) fail(`${urlPathOf(file)}: loads Google Analytics without consent`);
   if (page.includes('assets.apollo.io')) fail(`${urlPathOf(file)}: loads the Apollo tracker without consent`);
+  if (page.includes('connect.facebook.net')) fail(`${urlPathOf(file)}: loads the Meta pixel without consent`);
   if (!page.includes('data-consent-open')) fail(`${urlPathOf(file)}: no way to change the cookie choice`);
 }
 const privacyPage = fileFor('/privacy');
@@ -436,6 +475,8 @@ if (privacyPage) {
   if (!/self-hosted[^.]*never sends[^.]*Meta/i.test(text)) fail('/privacy: must say a self-hosted server never reports sign-ups to Meta');
   if (/share it with ad networks/.test(text)) fail('/privacy: still says no data is shared with ad networks');
   if (!/carries the click ID[^.]*sets no cookie/i.test(text)) fail('/privacy: must say the site carries the ad click ID to the sign-up link without a cookie');
+  if (/loads no Meta pixel/i.test(text)) fail('/privacy: still says the website loads no Meta pixel');
+  if (!text.includes('_fbp') || !text.includes('_fbc') || !/Meta pixel/.test(text)) fail('/privacy: must name the Meta pixel and the _fbp and _fbc cookies it sets after Accept');
 }
 // Every page carries an ad link's keys to the app's sign-up links; without the script a trial from an ad
 // is counted as unknown and a Meta ad click is never reported.
