@@ -1,8 +1,8 @@
 ---
 // The Markdown body of a page, then its FAQ and, for pages rendered from the product repo, a source note.
-import { renderMarkdown } from '../lib/markdown';
+import { renderInline, renderMarkdown } from '../lib/markdown';
 import type { Page } from '../lib/page';
-import { TRADEMARK_NOTE } from '../lib/site';
+import { correctionNote, TRADEMARK_NOTE } from '../lib/site';
 import Faq from './Faq.astro';
 
 interface Props {
@@ -15,5 +15,6 @@ const { page } = Astro.props;
   <Fragment set:html={renderMarkdown(page.body ?? '')} />
   <Faq faq={page.faq} />
   {page.section === 'Compare' && <p class="edit-source">{TRADEMARK_NOTE}</p>}
+  {page.section === 'Compare' && <p class="edit-source"><Fragment set:html={renderInline(correctionNote(page.path))} /></p>}
   {page.sourceUrl && <p class="edit-source">This page is rendered from <a href={page.sourceUrl} rel="noopener">the repository</a>. Spot a mistake? Open an issue or a pull request.</p>}
 </article>

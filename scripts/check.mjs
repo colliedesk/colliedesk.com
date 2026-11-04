@@ -7,6 +7,7 @@ import { join, relative, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { runInNewContext } from 'node:vm';
 import { homeFindings, onePlanFindings, pricingFindings } from './pricing-gate.mjs';
+import { compareFindings, sourceFileOf } from './vs-gate.mjs';
 
 const ORIGIN = 'https://colliedesk.com';
 const UPDATES_FORM_URL = 'https://app.colliedesk.com/api/v1/public/forms/hclabs';
@@ -805,6 +806,15 @@ for (const file of [...pages, join(outDir, '404.html')].filter(existsSync)) {
     const hash = createHash('sha256').update(readFileSync(asset)).digest('hex').slice(0, 10);
     if (version !== hash) fail(`${urlPathOf(file)}: icon link ${href} must be ${path}?v=${hash} so browsers drop the old icon`);
   }
+}
+
+// Every /vs page and its Markdown twin: competitor facts read within 90 days, and an invitation to
+// correct the page through its source file (scripts/vs-gate.mjs).
+for (const urlPath of urlPaths.filter((p) => p.startsWith('/vs/'))) {
+  for (const twin of [`${urlPath.slice(1)}.html`, `${urlPath.slice(1)}.md`]) {
+    for (const finding of compareFindings({ path: `/${twin}`, text: read(twin), now: Date.now() })) fail(finding);
+  }
+  if (!existsSync(fileURLToPath(new URL(`../${sourceFileOf(urlPath)}`, import.meta.url)))) fail(`${urlPath}: edit link points at ${sourceFileOf(urlPath)}, which does not exist`);
 }
 
 if (jsBytes > JS_BUDGET_BYTES) fail(`JavaScript budget exceeded: ${jsBytes} bytes > ${JS_BUDGET_BYTES}`);
