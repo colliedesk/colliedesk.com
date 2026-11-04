@@ -49,10 +49,19 @@
     fbq.queue = [];
     fbq('init', META_PIXEL_ID);
     fbq('track', 'PageView');
-    var s = document.createElement('script');
-    s.async = true;
-    s.src = 'https://connect.facebook.net/en_US/fbevents.js';
-    document.head.appendChild(s);
+    // fbevents.js is about 90 KB: fetch it only after the page has loaded, so it never slows the
+    // first screen. Calls made before then wait in fbq.queue and are sent when it arrives.
+    afterLoad(function () {
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://connect.facebook.net/en_US/fbevents.js';
+      document.head.appendChild(s);
+    });
+  }
+
+  function afterLoad(fn) {
+    if (document.readyState === 'complete') fn();
+    else window.addEventListener('load', function () { window.setTimeout(fn, 0); });
   }
 
   // Apollo website visitors: names the company behind a visit from its network, for sales

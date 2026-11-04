@@ -414,10 +414,16 @@ else {
   // The Meta pixel (dataset Colliedesk) sets _fbp and _fbc, so it loads with the other cookies after
   // Accept, never before, and a Decline deletes both cookies.
   const META_PIXEL_ID = '2097540104486917';
-  const runConsent = (choice) => {
+  // fbevents.js (~90 KB) must not compete with the page's own first load: the pixel queues its
+  // PageView at once and fetches the script only after the window load event.
+  const runConsent = (choice, { fireLoad = true } = {}) => {
     const loaded = [];
     const fbqCalls = [];
-    const window = {};
+    const onLoad = [];
+    const window = {
+      addEventListener: (type, fn) => { if (type === 'load') onLoad.push(fn); },
+      setTimeout: (fn) => fn(),
+    };
     const document = {
       cookie: '',
       head: { appendChild: (el) => { if (el.src) loaded.push(el.src); } },
@@ -426,6 +432,7 @@ else {
     };
     const localStorage = { getItem: (key) => (key === 'colliedesk-consent' ? choice : null), setItem: () => {} };
     runInNewContext(source, { window, document, localStorage, location: { hostname: 'colliedesk.com' }, navigator: {} });
+    if (fireLoad) onLoad.forEach((fn) => fn());
     for (const args of window.fbq?.queue ?? []) fbqCalls.push(Array.from(args));
     return { loaded, fbqCalls };
   };
@@ -435,6 +442,9 @@ else {
   }
   const granted = runConsent('granted');
   if (!pixelLoaded(granted)) fail('consent.js: an earlier Accept must load the Meta pixel (fbevents.js)');
+  const beforeLoad = runConsent('granted', { fireLoad: false });
+  if (pixelLoaded(beforeLoad)) fail('consent.js: fbevents.js must wait for the window load event');
+  if (!beforeLoad.fbqCalls.some((c) => c[0] === 'track' && c[1] === 'PageView')) fail('consent.js: the PageView must be queued before fbevents.js loads');
   if (!granted.fbqCalls.some((c) => c[0] === 'init' && c[1] === META_PIXEL_ID)) fail(`consent.js: the Meta pixel must init dataset ${META_PIXEL_ID}`);
   if (!granted.fbqCalls.some((c) => c[0] === 'track' && c[1] === 'PageView')) fail('consent.js: the Meta pixel must track PageView');
   if (!/name === '_fbp'/.test(source) || !/name === '_fbc'/.test(source)) fail('consent.js: declining must delete the Meta _fbp and _fbc cookies');
