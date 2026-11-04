@@ -25,6 +25,12 @@ export const POSITIONING =
 export const TRADEMARK_NOTE =
   'Product names on this page are trademarks of their owners. Colliedesk and HC Labs are not affiliated with or endorsed by them.';
 
+// Shown after TRADEMARK_NOTE on every Compare page: the companies we describe can correct us in the open.
+// The link edits the page's own source file; scripts/vs-gate.mjs requires it on every /vs page.
+export const SITE_REPO = 'https://github.com/colliedesk/colliedesk.com';
+export const correctionNote = (path: string): string =>
+  `Work at a company on this page? We wrote it from your public pricing and docs pages, and its source is public. If we got something wrong or out of date, [open a pull request](${SITE_REPO}/edit/main/src/data/pages/${path.slice(1).replace('/', '-')}.ts) or email ${CONTACT_EMAIL}, and we will correct it.`;
+
 export const FOUNDING_HREF = '/#founding';
 // The Founding refund promise, stated next to every Founding checkout button and in the terms.
 export const MONEY_BACK = '30-day money-back guarantee';
