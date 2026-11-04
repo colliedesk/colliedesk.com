@@ -18,7 +18,7 @@ const faq: Faq[] = [
   },
   {
     q: 'What if my team outgrows Cloud Team?',
-    a: `${FOUNDING_OPEN ? 'Founding covers up to 10 agents; a bigger team moves to a Cloud plan. ' : ''}Cloud Team 25 covers up to 25 agents for a flat $149 per workspace per month ($1,490 per year). Above 25 agents, Unlimited is coming soon at $349 a month, billed annually; until then, email us. Self-hosting has no agent limit.`,
+    a: `${FOUNDING_OPEN ? 'Founding covers up to 10 agents; a bigger team moves to a Cloud plan. ' : ''}Cloud Team 25 covers up to 25 agents for a flat $149 per workspace per month ($1,490 per year). Above 25 agents, Business covers 26 to 100 agents at $499 a month, sold on a call with the founder. Self-hosting has no agent limit.`,
   },
 ];
 

@@ -46,7 +46,9 @@ to use another checkout. `typecheck` works without it.
 - SEO: an agent researches, writes and audits pages as described in [docs/seo](docs/seo/README.md); `pnpm check:content` checks the copy and a person approves every SEO page (required check `content-approval`).
 - Shared facts (prices, positioning, repo URL) are in `src/lib/site.ts`. Competitor prices carry their source and read date on each `/vs` page.
 - While Founding is open it leads, and Team 25 is on sale beside it, on /pricing and the home page, for teams of 11 to 25
-  agents (`TEAM_25_*` in `src/lib/site.ts`). Solo, Small, Team and Unlimited stay hidden until Founding closes;
+  agents (`TEAM_25_*` in `src/lib/site.ts`). Business (26 to 100 agents, $499 a month) is sold through a call with the founder in
+  both states, never a checkout, with the switch and invoice offers for Team 25 and Business (`SWITCH_*` in `src/lib/site.ts`);
+  `/migrate/freshdesk/switch` is the page ads and emails link to, and `scripts/switch-offer-gate.mjs` holds its rules. Solo, Small and Team stay hidden until Founding closes;
   `scripts/pricing-gate.mjs` enforces this, and fails any page that says Cloud sells one plan, when `pnpm check` runs it. A page that states a Cloud price leads with Founding and gives
   the monthly plans as the prices after the 10 places, through `src/lib/cloud-price.ts` (`FOUNDING_LEAD`,
   `foundingFirst`, `OUR_PLAN`/`OUR_PRICE`, the hero action `FOUNDING_ACTION`). `pnpm check:content` fails a page,
