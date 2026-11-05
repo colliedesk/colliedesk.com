@@ -16,5 +16,22 @@ export const heroSrcset = (format: HeroFormat): string =>
 // JPEG for browsers without AVIF or WebP: the 1x and 2x captures themselves.
 export const HERO_JPEG_SRCSET = '/product-inbox.jpg 1440w, /product-inbox@2x.jpg 2880w';
 
-// Rendered width of the hero: the page column less its side padding (5rem, 2.5rem up to 640px), at most 72rem.
-export const HERO_SIZES = '(max-width: 640px) calc(100vw - 2.5rem), (max-width: 77rem) calc(100vw - 5rem), 72rem';
+// Rendered width of the hero: at most 1000px; narrower, the window less the page padding (2 × 40px), the
+// sheet border (2px) and the stage row's padding (2 × 32px). Phones use HERO_MOBILE_SIZES.
+export const HERO_SIZES = '(max-width: 1146px) calc(100vw - 146px), 1000px';
+
+// Phones get their own picture (art direction): the conversation, its owner and the reply draft stacked as
+// three crops in public/product-inbox-mobile@2x.jpg (700 × 1036), so 13px interface text stays readable at
+// 390px. Written from the design for now, like the 2x screenshot; variants.mjs scales it.
+export const HERO_MOBILE_SOURCE = 'product-inbox-mobile@2x.jpg';
+export const HERO_MOBILE_WIDTHS = [350, 700] as const;
+const MOBILE_RATIO = 1036 / 700;
+export const HERO_MOBILE_MEDIA = '(max-width: 640px)';
+// The picture sits in the page column less 20px a side.
+export const HERO_MOBILE_SIZES = 'calc(100vw - 2.5rem)';
+
+export const heroMobileVariants = (): HeroVariant[] =>
+  HERO_FORMATS.flatMap((format) => HERO_MOBILE_WIDTHS.map((width) => ({ file: `product-inbox-mobile-${width}.${format}`, width, height: Math.round(width * MOBILE_RATIO), format })));
+
+export const heroMobileSrcset = (format: HeroFormat): string =>
+  heroMobileVariants().filter((v) => v.format === format).map((v) => `/${v.file} ${v.width}w`).join(', ');
