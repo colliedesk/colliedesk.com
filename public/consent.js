@@ -1,18 +1,39 @@
 // Cookie consent on colliedesk.com. Accept loads Google Analytics, which sets the _ga cookies,
 // Apollo website visitors and the Meta pixel (_fbp, _fbc), and lets PostHog (analytics.js) set its
-// ph_ cookie; nothing from Google, Apollo or Meta loads before that and PostHog stays cookieless. The choice is kept in
-// localStorage under "colliedesk-consent" ("granted" or "denied"). Any element with
-// data-consent-open (the footer "Cookie settings" button) reopens the banner, and declining after
-// an earlier accept deletes the Google Analytics, PostHog and Meta cookies and the Apollo ID.
-// scripts/check.mjs fails if Google Analytics, Apollo or the Meta pixel can load another way.
+// ph_ cookie. The choice is kept in localStorage under "colliedesk-consent" ("granted" or "denied").
+// Any element with data-consent-open (the footer "Your privacy choices" button) reopens the banner,
+// and declining after the cookies loaded deletes the Google Analytics, PostHog and Meta cookies and
+// the Apollo ID.
+// Where the law asks for opt-in (EU, EEA, UK, Switzerland, Quebec) nothing from Google, Apollo or
+// Meta loads before Accept and PostHog stays cookieless. In the opt-out places we advertise in (the
+// US, Canada outside the Quebec time zones, Australia) they load at once, unless the browser sends
+// Global Privacy Control or the visitor declined. The place comes from the browser's time zone, with
+// no network call; a zone that is not on the opt-out list counts as opt-in.
+// scripts/check.mjs and scripts/consent.test.mjs fail if Google Analytics, Apollo or the Meta pixel
+// can load another way.
 (function () {
   var KEY = 'colliedesk-consent';
   var GA_ID = 'G-7VBE3TER7E';
   var META_PIXEL_ID = '2097540104486917';
   var live = location.hostname === 'colliedesk.com';
+  var OPT_OUT_ZONES = new RegExp('^(?:US/.+|Australia/.+|Pacific/Honolulu|America/(?:' + [
+    // United States
+    'New_York', 'Detroit', 'Kentucky/.+', 'Indiana/.+', 'Indianapolis', 'Fort_Wayne', 'Louisville',
+    'Chicago', 'Menominee', 'North_Dakota/.+', 'Knox_IN', 'Denver', 'Boise', 'Phoenix', 'Shiprock',
+    'Los_Angeles', 'Anchorage', 'Juneau', 'Sitka', 'Metlakatla', 'Yakutat', 'Nome', 'Adak',
+    // Canada, without America/Toronto, America/Montreal and the other zones Quebec shares
+    'St_Johns', 'Halifax', 'Glace_Bay', 'Moncton', 'Goose_Bay', 'Winnipeg', 'Rainy_River', 'Regina',
+    'Swift_Current', 'Edmonton', 'Cambridge_Bay', 'Yellowknife', 'Inuvik', 'Vancouver', 'Whitehorse',
+    'Dawson', 'Dawson_Creek', 'Fort_Nelson', 'Creston', 'Resolute', 'Rankin_Inlet'
+  ].join('|') + '))$');
 
   function read() {
     try { return localStorage.getItem(KEY); } catch (e) { return null; }
+  }
+  function optOutPlace() {
+    var zone = '';
+    try { zone = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) { /* no Intl: opt-in */ }
+    return OPT_OUT_ZONES.test(zone);
   }
   function store(value) {
     try { localStorage.setItem(KEY, value); } catch (e) { /* private mode: ask again next visit */ }
@@ -107,7 +128,7 @@
     hide();
     setPostHogConsent(value);
     if (value === 'granted') loadAnalytics();
-    else if (before === 'granted') { clearAnalyticsCookies(); location.reload(); }
+    else if (before === 'granted' || byDefault) { clearAnalyticsCookies(); location.reload(); }
   }
   function show() {
     if (!banner) {
@@ -117,7 +138,7 @@
       banner.setAttribute('aria-label', 'Cookie choice');
       banner.innerHTML =
         '<p>We would like to use analytics and advertising cookies from Google Analytics, PostHog, Apollo and Meta. ' +
-        'Until you accept, we count visits without cookies. <a href="/privacy#cookies">Privacy</a></p>' +
+        'If you decline, we count visits without cookies. <a href="/privacy#cookies">Privacy</a></p>' +
         '<div class="consent-actions">' +
         '<button type="button" class="btn btn-sm" data-consent="denied">Decline</button>' +
         '<button type="button" class="btn btn-sm" data-consent="granted">Accept</button>' +
@@ -132,12 +153,15 @@
   }
 
   var choice = read();
-  if (choice === 'granted') loadAnalytics();
+  var optOut = optOutPlace();
+  // In an opt-out place, no choice yet and no Global Privacy Control means the cookies load now.
+  var byDefault = choice === null && optOut && navigator.globalPrivacyControl !== true;
+  if (choice === 'granted' || byDefault) loadAnalytics();
 
   document.addEventListener('DOMContentLoaded', function () {
     document.addEventListener('click', function (event) {
       if (event.target.closest('[data-consent-open]')) show();
     });
-    if (live && choice !== 'granted' && choice !== 'denied') show();
+    if (live && choice !== 'granted' && choice !== 'denied' && !optOut) show();
   });
 })();

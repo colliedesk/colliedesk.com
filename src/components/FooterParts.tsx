@@ -29,7 +29,7 @@ export function FooterColumns() {
 export function FooterLegal() {
   return (
     <div className="wrap footer-legal">
-      <p>© 2026 HC Labs. Alpha software: the interface and database schema may change, and we will say so in the <a href="/changelog">changelog</a>. <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · <button type="button" className="link-button" data-consent-open="">Cookie settings</button></p>
+      <p>© 2026 HC Labs. Alpha software: the interface and database schema may change, and we will say so in the <a href="/changelog">changelog</a>. <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · <button type="button" className="link-button" data-consent-open="">Your privacy choices</button></p>
       <button type="button" className="theme-toggle" data-theme-toggle="" aria-pressed="false" hidden><MoonIcon />Dark theme</button>
     </div>
   );
