@@ -89,9 +89,10 @@ test('done-for-you: links the switch page and names Business', () => {
   assert.equal(doneForYouFindings({ path: '/x', text: 'Included with Founding only.' }).length, 2);
 });
 
-test('retired claims: the Unlimited plan and the pre-GA uptime promise fail; "Unlimited conversations" and 99.9% pass', () => {
+test('retired claims: the Unlimited plan and a 99.9% number before the terms publish it fail; "Unlimited conversations" passes', () => {
   assert.deepEqual(retiredClaimFindings({ path: '/x', text: 'Unlimited conversations, no per-agent fees.' }), []);
   assert.equal(retiredClaimFindings({ path: '/x', text: 'Above 25, Unlimited is coming soon.' }).length, 1);
-  assert.deepEqual(retiredClaimFindings({ path: '/x', text: '99.9% uptime on every paid plan.' }), []);
-  assert.match(retiredClaimFindings({ path: '/x', text: 'Priority support; uptime commitment at general availability.' })[0], /99\.9%/);
+  assert.match(retiredClaimFindings({ path: '/x', text: 'A 99.9% uptime SLA.' })[0], /before the terms publish it/);
+  assert.match(retiredClaimFindings({ path: '/x', text: '99.9 % uptime' })[0], /before the terms publish it/);
+  assert.deepEqual(retiredClaimFindings({ path: '/x', text: 'A written uptime commitment is coming.' }), []);
 });

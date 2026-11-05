@@ -1,7 +1,7 @@
 import { faqPage, techArticle } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
 import { FOUNDING_ACTION, FOUNDING_LEAD, OUR_PLAN, OUR_PRICE } from '../../lib/cloud-price';
-import { AI_RESOLUTION, BUSINESS, BUSINESS_AGENTS, dollars, PRICE, SMALL, SWITCH_OFFER_BLOCK_MD, TEAM_25, UPTIME_LINE } from '../../lib/site';
+import { AI_RESOLUTION, BUSINESS, BUSINESS_AGENTS, dollars, PRICE, SMALL, SWITCH_OFFER_BLOCK_MD, TEAM_25 } from '../../lib/site';
 import { readOnLabel, rowsAt, usd, vsMarkdown, type VsPricing } from '../../lib/vs-pricing';
 import { collieFacts as c, statusTable } from './collie-status';
 
@@ -98,7 +98,6 @@ ${SWITCH_OFFER_BLOCK_MD}
 
 ## What Colliedesk does today
 
-${UPTIME_LINE}
 
 ${statusTable}
 

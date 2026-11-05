@@ -717,21 +717,12 @@ for (const file of files.filter((f) => f.endsWith('.html') && !/[\\/](changelog|
   if (m) fail(`${file.slice(outDir.length - 1)}: shows version "${m[0]}"; say generally available instead`);
 }
 
-// General availability: every paid Cloud plan has 99.9% monthly uptime, measured on the public status
-// page and set out in the terms. The footer and /pricing link the status page; /pricing and /vs/freshdesk
-// link the service level section of the terms, and that section's anchor exists.
+// General availability: the footer and /pricing link the public status page, the only source for uptime.
 {
   const STATUS_URL = 'https://status.colliedesk.com';
-  const SLA_ID = 'availability-and-service-level';
-  if (!read('terms.html').includes(`id="${SLA_ID}"`)) fail(`/terms: no section with id "${SLA_ID}"`);
   const legal = read('index.html').match(/<div class="wrap footer-legal">[\s\S]*?<\/p>/)?.[0] ?? '';
   if (!legal.includes(`href="${STATUS_URL}"`)) fail(`footer: does not link the status page ${STATUS_URL}`);
   if (!read('pricing.html').includes(`href="${STATUS_URL}"`)) fail(`/pricing: does not link the status page ${STATUS_URL}`);
-  for (const name of ['pricing', 'vs/freshdesk']) {
-    const html = read(`${name}.html`);
-    if (!html.includes(`href="/terms#${SLA_ID}"`)) fail(`/${name}: does not link the service level, /terms#${SLA_ID}`);
-    if (!/99\.9% uptime on every paid plan/.test(html)) fail(`/${name}: does not say "99.9% uptime on every paid plan"`);
-  }
 }
 
 // /compare is the hub of every comparison page: each /vs page is linked from it, the header

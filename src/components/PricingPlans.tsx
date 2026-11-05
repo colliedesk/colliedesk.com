@@ -40,7 +40,7 @@ export function BusinessCard() {
         <li>Custom domain for your help center</li>
         <li>MCP server for your AI agents</li>
         <li>Priority support</li>
-        <li>99.9% uptime commitment</li>
+        <li>Written uptime commitment coming</li>
       </ul>
       <div className="plan-cta">
         <a className="btn btn-primary" href={SWITCH_CALL_HREF} rel="noopener">Talk to us</a>

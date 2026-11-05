@@ -60,8 +60,8 @@ to use another checkout. `typecheck` works without it.
   (`GA_DOC` in `src/lib/site.ts`). Mark a feature `**Shipped**` or `**Not built yet**` in Markdown; the build turns
   it into a badge. Never call the product, a release or a feature alpha or beta: `pnpm check:content` fails on either
   word. The changelog is history, so its dated entries may still name the alpha releases.
-- Uptime: every paid Cloud plan has 99.9% monthly uptime, set out in the terms (`/terms#availability-and-service-level`)
-  and measured on https://status.colliedesk.com (`SLA_HREF`, `STATUS_PAGE`, `UPTIME_LINE` in `src/lib/site.ts`).
+- Uptime: measured on https://status.colliedesk.com, linked from the footer and /pricing (`STATUS_PAGE`, `STATUS_LINE` in
+  `src/lib/site.ts`). No uptime number appears on the site until the terms publish the commitment; `pnpm check` refuses "99.9%".
   `pnpm check` fails if the footer or /pricing stops linking the status page, or /pricing or /vs/freshdesk stops
   carrying the uptime line with its link to the terms.
 - Deploy: GitHub Pages from `.github/workflows/site.yml`, custom domain `colliedesk.com`, output directory `_site` (`_headers` keeps the Cloudflare Pages rules for `pnpm serve`).

@@ -43,12 +43,12 @@ export const TEAM_25_TRIAL_HREF = `${TRIAL_HREF}&plan=team25`;
 export const UPDATES_FORM_URL = 'https://app.colliedesk.com/api/v1/public/forms/hclabs';
 export const CONTACT_EMAIL = 'support@colliedesk.com';
 // Colliedesk is generally available since release 1.0.0. What that promises is written in the product
-// repository; the public status page is the only source for uptime; the terms hold the service level.
+// repository; the public status page is the only source for uptime. The written uptime commitment (a
+// number in the terms) is published separately, once the night-time outage call is in place.
 export const GA_DOC = `${REPO}/blob/main/docs/general-availability.md`;
 export const STATUS_PAGE = 'https://status.colliedesk.com';
-export const SLA_HREF = '/terms#availability-and-service-level';
-// One line on /pricing and /vs/freshdesk; `pnpm check` fails if either page drops it.
-export const UPTIME_LINE = `**99.9% uptime on every paid plan.** Live status is on [status.colliedesk.com](${STATUS_PAGE}); service credits and support response times are in the [terms](${SLA_HREF}).`;
+// One line on /pricing; `pnpm check` fails if it drops the status page link.
+export const STATUS_LINE = `**Live uptime** for Colliedesk Cloud, checked from several regions, is on [status.colliedesk.com](${STATUS_PAGE}).`;
 // The Colliedesk Cloud ladder: one flat price per workspace, never per agent; a year costs ten
 // months. Plans differ only in agents and attachment storage. Business, for 26 to 100 agents, is sold
 // through a call with the founder (salesOnly), never a self-serve checkout or trial; above 100 agents

@@ -1,6 +1,6 @@
 import {
   AI_EXTRA, AI_RESOLUTION, agentsLabel, BUSINESS, BUSINESS_AGENTS, CLOUD_PLANS, CONTACT_EMAIL, dollars, FOUNDING_CHECKOUT, FOUNDING_HREF, GA_DOC, LADDER_LINE, PRICE, REPO,
-  SMALL, SOLO, SWITCH_CALL_HREF, SWITCH_OFFER_BLOCK_MD, TEAM, TEAM_25, TEAM_25_AGENTS, TEAM_25_BELOW, TEAM_25_IMPORT, TEAM_25_WHO, TRIAL_HREF, UPTIME_LINE,
+  SMALL, SOLO, SWITCH_CALL_HREF, SWITCH_OFFER_BLOCK_MD, TEAM, TEAM_25, TEAM_25_AGENTS, TEAM_25_BELOW, TEAM_25_IMPORT, TEAM_25_WHO, TRIAL_HREF, STATUS_LINE,
 } from '../../lib/site';
 import { FOUNDING_SLOTS, foundingState } from '../../lib/founding';
 import { faqPage, softwareApplication } from '../../lib/schema';
@@ -109,7 +109,7 @@ Self-hosting is free. We sell two things: **Colliedesk Cloud** (we run it for yo
 
 Colliedesk is **generally available**: it runs on Colliedesk Cloud, and [what general availability means](${GA_DOC}) is written down in the open-source repository. Shipped today: the email channel, the Freshdesk and Help Scout importers with their reconcile reports, the knowledge base and public help center, starting a new conversation from the inbox, contact history, saved replies, Cc on replies, attachments, live updates, and AI reply drafts and triage suggestions (off until an admin turns them on). Not built yet: AI auto-answer. If you are planning your exit before your next Freshdesk renewal, [start the free trial](${TRIAL_HREF}) or take [the founding offer](${FOUNDING_HREF}).
 
-${UPTIME_LINE}
+${STATUS_LINE}
 
 ${aiSection}
 
@@ -151,7 +151,7 @@ const foundingFaq: Faq[] = [
 
 // Team 25 beside Founding: the plan for teams of 11 to 25 agents.
 export const team25Row = `| ${TEAM_25.name} | ${dollars(TEAM_25.monthly)} a month, or ${dollars(TEAM_25.yearly)} a year per workspace | ${agentsLabel(TEAM_25)}, ${TEAM_25.storage} of attachments. ${TEAM_25_WHO} ${TEAM_25_IMPORT} [Start free trial](${TRIAL_HREF}). |`;
-export const businessRow = `| ${BUSINESS.name} | ${dollars(BUSINESS.monthly)} a month, or ${dollars(BUSINESS.yearly)} a year per workspace | ${agentsLabel(BUSINESS)}, ${BUSINESS.storage} of attachments. ${BUSINESS.who} We migrate everything for you, help center with 301 redirects included. Custom domain, MCP server, priority support, 99.9% uptime. ${businessCta} |`;
+export const businessRow = `| ${BUSINESS.name} | ${dollars(BUSINESS.monthly)} a month, or ${dollars(BUSINESS.yearly)} a year per workspace | ${agentsLabel(BUSINESS)}, ${BUSINESS.storage} of attachments. ${BUSINESS.who} We migrate everything for you, help center with 301 redirects included. Custom domain, MCP server, priority support; a written uptime commitment is coming. ${businessCta} |`;
 
 const foundingPlansMd = `| Plan | Price | What you get |
 |---|---|---|
@@ -172,7 +172,7 @@ const foundingBody = `## Founding, while we are young
 
 Colliedesk is **generally available**: it runs on Colliedesk Cloud, and [what general availability means](${GA_DOC}) is written down in the open-source repository. Shipped today: the email channel, the Freshdesk and Help Scout importers with their reconcile reports, the knowledge base and public help center, starting a new conversation from the inbox, contact history, saved replies, Cc on replies, attachments, live updates, and AI reply drafts and triage suggestions (off until an admin turns them on). Not built yet: AI auto-answer. If you are planning your exit before your next Freshdesk renewal, [join as a founding customer](${FOUNDING_CHECKOUT}) and we refund you in full within 30 days if it is not right.
 
-${UPTIME_LINE}
+${STATUS_LINE}
 
 ## Who Founding is for
 

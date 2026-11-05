@@ -49,7 +49,7 @@ The full process, step by step: [Freshdesk migration, done for you](/migrate/fre
 
 ## Why you can trust Colliedesk with your support
 
-Colliedesk is generally available, and [what that guarantees](${GA_DOC}) is written down. The switch is still built to be safe. You run one queue next to Freshdesk, not your whole support desk on day one. We run the import, and the reconcile report shows what arrived. You pay nothing until your team answers real tickets in Colliedesk. Colliedesk Cloud copies every database change, encrypted, to another data centre in Germany within minutes, keeps nightly encrypted backups there too, and tests a restore every week. Paid plans carry [99.9% monthly uptime](/terms#availability-and-service-level). Colliedesk is open source under AGPL-3.0: the code and the data model are public, and you can [self-host it](/docs/self-host) if you ever leave our cloud.
+Colliedesk is generally available, and [what that guarantees](${GA_DOC}) is written down. The switch is still built to be safe. You run one queue next to Freshdesk, not your whole support desk on day one. We run the import, and the reconcile report shows what arrived. You pay nothing until your team answers real tickets in Colliedesk. Colliedesk Cloud copies every database change, encrypted, to another data centre in Germany within minutes, keeps nightly encrypted backups there too, and tests a restore every week. Colliedesk is open source under AGPL-3.0: the code and the data model are public, and you can [self-host it](/docs/self-host) if you ever leave our cloud.
 
 Freshdesk still does more in some areas, such as automations and reports. Read [Colliedesk vs Freshdesk](/vs/freshdesk) before you decide.
 
