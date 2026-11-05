@@ -7,7 +7,7 @@ import { FOUNDING_ACTION, OUR_CELL, OUR_PLAN, OUR_PRICE, foundingFirst, withFoun
 const faq: Faq[] = [
   {
     q: 'Is there a Zendesk alternative that is not priced per agent?',
-    a: `Yes. ${foundingFirst('Colliedesk Cloud is one flat price per workspace: Team is $69 a month for up to 10 agents, Team 25 $149 for up to 25.')} Self-hosting is free. Colliedesk is open source (AGPL-3.0) and in alpha today.`,
+    a: `Yes. ${foundingFirst('Colliedesk Cloud is one flat price per workspace: Team is $69 a month for up to 10 agents, Team 25 $149 for up to 25.')} Self-hosting is free. Colliedesk is open source (AGPL-3.0) and generally available.`,
   },
   {
     q: 'How does Zendesk charge for AI?',
@@ -26,7 +26,7 @@ const faq: Faq[] = [
 const body = `## The short answer
 
 - **Choose Zendesk** if you need the enterprise default: a huge app marketplace, many channels, and AI agents that are already in production.
-- **Choose Colliedesk** if you are a small team where per-agent seats and per-resolution AI fees make up most of the bill, and you want an open-source helpdesk you can self-host or rent for a flat price. Colliedesk is alpha; read the status table first.
+- **Choose Colliedesk** if you are a small team where per-agent seats and per-resolution AI fees make up most of the bill, and you want an open-source helpdesk you can self-host or rent for a flat price. Colliedesk is generally available; read the status table for what is not built yet.
 
 ## Price, side by side
 
@@ -36,7 +36,7 @@ Zendesk prices below are from the Zendesk pricing page in euros (our request for
 |---|---|---|
 | Plans (annual / monthly billing) | Support Team €19 / €25, Suite Team €55 / €69, Suite Professional €115 / €149; Enterprise on quote | ${c.price} |
 | AI drafting | Copilot €50 per agent per month, billed annually | ${c.ai} |
-| AI agent | Per automated resolution: €1.50 committed, €2.00 pay-as-you-go; some included per agent | Auto-answer with a human in the loop, ${AI_RESOLUTION} per resolution while alpha, only when no person is needed afterwards (not built yet) |
+| AI agent | Per automated resolution: €1.50 committed, €2.00 pay-as-you-go; some included per agent | Auto-answer with a human in the loop, ${AI_RESOLUTION} per resolution, only when no person is needed afterwards (not built yet) |
 | Free option | No free plan; 14-day trial | ${c.free} |
 | Source code | Proprietary | ${c.source} |
 

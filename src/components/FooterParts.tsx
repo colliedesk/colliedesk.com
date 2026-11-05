@@ -1,4 +1,4 @@
-import { FOOTER } from '../lib/site';
+import { FOOTER, STATUS_PAGE } from '../lib/site';
 import { MoonIcon } from './Icons';
 import { NavLink } from './NavLink';
 import { BrandLink } from './Wordmark';
@@ -29,7 +29,7 @@ export function FooterColumns() {
 export function FooterLegal() {
   return (
     <div className="wrap footer-legal">
-      <p>© 2026 HC Labs. Alpha software: the interface and database schema may change, and we will say so in the <a href="/changelog">changelog</a>. <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · <button type="button" className="link-button" data-consent-open="">Cookie settings</button></p>
+      <p>© 2026 HC Labs. <a href={STATUS_PAGE} rel="noopener">Service status</a> · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · <button type="button" className="link-button" data-consent-open="">Cookie settings</button></p>
       <button type="button" className="theme-toggle" data-theme-toggle="" aria-pressed="false" hidden><MoonIcon />Dark theme</button>
     </div>
   );

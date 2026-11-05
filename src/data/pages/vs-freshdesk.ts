@@ -1,7 +1,7 @@
 import { faqPage, techArticle } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
 import { FOUNDING_ACTION, FOUNDING_LEAD, OUR_PLAN, OUR_PRICE } from '../../lib/cloud-price';
-import { AI_RESOLUTION, dollars, PRICE, SMALL } from '../../lib/site';
+import { AI_RESOLUTION, dollars, PRICE, SMALL, UPTIME_LINE } from '../../lib/site';
 import { readOnLabel, rowsAt, usd, vsMarkdown, type VsPricing } from '../../lib/vs-pricing';
 import { collieFacts as c, statusTable } from './collie-status';
 
@@ -24,7 +24,7 @@ const pricing: VsPricing = {
   ],
   notForYou: [
     'You need live chat, phone, WhatsApp or a marketplace of apps today.',
-    'You need AI that answers tickets on its own today: auto-answer is not built yet (reply drafts and triage are), and Colliedesk as a whole is alpha, so the interface may change.',
+    'You need AI that answers tickets on its own today: auto-answer is not built yet (reply drafts and triage are shipped).',
     'You want the founding price and have more than 20 GiB of Freshdesk attachments: founding includes 20 GiB, imported files included.',
   ],
 };
@@ -35,7 +35,7 @@ const PRICES_READ = readOnLabel(pricing.readOn);
 const faq: Faq[] = [
   {
     q: 'What is the best open-source alternative to Freshdesk?',
-    a: `Colliedesk is an open-source (AGPL-3.0) helpdesk built for small teams leaving Freshdesk: one flat price per workspace (${OUR_PLAN} is ${OUR_PRICE} for up to 10 agents), AI reply drafts included, and a Freshdesk importer (available now). It is alpha today, so check the status table before you switch.`,
+    a: `Colliedesk is an open-source (AGPL-3.0) helpdesk built for small teams leaving Freshdesk: one flat price per workspace (${OUR_PLAN} is ${OUR_PRICE} for up to 10 agents), AI reply drafts included, and a Freshdesk importer (available now). It is generally available; check the status table for what is not built yet before you switch.`,
   },
   {
     q: 'How much does Freshdesk cost for 5 agents with AI?',
@@ -43,7 +43,7 @@ const faq: Faq[] = [
   },
   {
     q: 'Is Colliedesk ready to replace Freshdesk today?',
-    a: 'Not for most teams. Colliedesk is alpha: released and running on Colliedesk Cloud, with the email channel, Cc on replies, saved replies, attachments and the Freshdesk importer. A new conversation from the inbox, contact history and AI are not there yet, and the interface or schema may change. If your renewal is months away, the founding offer locks $99 every 3 months for life and includes the migration.',
+    a: 'For a small team that mostly answers email, yes. Colliedesk is generally available on Colliedesk Cloud, with the email channel, Cc on replies, saved replies, attachments, a new conversation from the inbox, contact history, AI reply drafts and the Freshdesk importer. Not built yet: AI auto-answer, automations, SLA, business hours, reports, live chat and phone. If you rely on those, stay on Freshdesk for now. If your renewal is months away, the founding offer locks $99 every 3 months for life and includes the migration.',
   },
   {
     q: 'Can I get my tickets out of Freshdesk with the full conversation?',
@@ -63,7 +63,7 @@ Freshdesk prices are per agent per month, as published on ${PRICES_READ}. The fi
 | Free option | No free plan on the pricing page; 14-day trial | ${c.free} |
 | Source code | Proprietary | ${c.source} |
 
-List prices before tax. On Colliedesk, AI reply drafts and triage are included with a monthly allowance; with your own key your provider bills you. Auto-answer, once it ships, is ${AI_RESOLUTION} per resolution while alpha.
+List prices before tax. On Colliedesk, AI reply drafts and triage are included with a monthly allowance; with your own key your provider bills you. Auto-answer, once it ships, is ${AI_RESOLUTION} per resolution.
 
 ## Leaving: what Freshdesk gives you
 
@@ -91,6 +91,8 @@ Freshdesk has had more than a decade to grow. If you need a row marked "Freshdes
 | Source code and self-hosting | Proprietary, cloud only | **Colliedesk**: AGPL-3.0, self-host free |
 
 ## What Colliedesk does today
+
+${UPTIME_LINE}
 
 ${statusTable}
 

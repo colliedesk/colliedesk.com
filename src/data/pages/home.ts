@@ -1,4 +1,4 @@
-import { AI_RESOLUTION, CONTACT_EMAIL, LADDER_LINE, POSITIONING, PRICE, PRICES_READ, REPO, TAGLINE, TEAM_25, TEAM_25_AGENTS, TEAM_25_HOME_LINE, TRIAL_HREF } from '../../lib/site';
+import { AI_RESOLUTION, CONTACT_EMAIL, GA_DOC, LADDER_LINE, POSITIONING, PRICE, PRICES_READ, REPO, TAGLINE, TEAM_25, TEAM_25_AGENTS, TEAM_25_HOME_LINE, TRIAL_HREF } from '../../lib/site';
 import { PER_WORKSPACE_FAQ } from './pricing';
 import { faqPage, organization, softwareApplication } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
@@ -26,7 +26,7 @@ export const HOME_FAQ: Faq[] = [
   },
   {
     q: 'Is Colliedesk ready to use?',
-    a: 'Colliedesk as a whole is alpha. It is released and runs on Colliedesk Cloud, with a 14-day free trial. Shipped today: the email channel (inbound and outbound, threading), the Freshdesk and Help Scout importers with their reconcile reports, the knowledge base and public help center, starting a new conversation from the inbox, contact history, saved replies, Cc on replies, attachments and live updates. Alpha means any release may change the interface or the database schema. AI reply drafts and triage suggestions are shipped and off until an admin turns them on; AI auto-answer is not built yet. See the [roadmap](/roadmap).',
+    a: `Yes, for small teams that mostly answer email. Colliedesk is generally available and runs on Colliedesk Cloud, with a 14-day free trial. Shipped today: the email channel (inbound and outbound, threading), the Freshdesk and Help Scout importers with their reconcile reports, the knowledge base and public help center, starting a new conversation from the inbox, contact history, saved replies, Cc on replies, attachments and live updates. AI reply drafts and triage suggestions are shipped and off until an admin turns them on; AI auto-answer is not built yet. [What general availability means](${GA_DOC}) is written down in the open-source repository; see the [roadmap](/roadmap) for what comes next.`,
   },
   PER_WORKSPACE_FAQ,
   {
@@ -41,11 +41,11 @@ export const HOME_FAQ: Faq[] = [
   },
   {
     q: 'How does AI pricing work?',
-    a: `AI reply drafts and triage suggestions are shipped in alpha and stay off until an admin turns them on. They are part of every plan, not an add-on, with a monthly allowance; with your own key you pay your provider and Colliedesk adds no fee. Auto-answer is not built yet; while Colliedesk is alpha it will cost ${AI_RESOLUTION} per resolution, charged only when the customer needs no person afterwards.`,
+    a: `AI reply drafts and triage suggestions are shipped and stay off until an admin turns them on. They are part of every plan, not an add-on, with a monthly allowance; with your own key you pay your provider and Colliedesk adds no fee. Auto-answer is not built yet; it will cost ${AI_RESOLUTION} per resolution, charged only when the customer needs no person afterwards.`,
   },
   {
     q: 'Can I move my Freshdesk tickets to Colliedesk?',
-    a: 'Yes, with the Freshdesk importer, shipped in alpha: tickets, replies, notes, attachments, tags and contacts, with a reconcile report. You can switch gradually: keep answering in Freshdesk, import your history, run the import again to catch up, and forward your support mail to Colliedesk only when your team is sure. Founding customers get the migration done for free. Read [how to switch gradually](/migrate/freshdesk#switch-gradually).',
+    a: 'Yes, with the Freshdesk importer, shipped today: tickets, replies, notes, attachments, tags and contacts, with a reconcile report. You can switch gradually: keep answering in Freshdesk, import your history, run the import again to catch up, and forward your support mail to Colliedesk only when your team is sure. Founding customers get the migration done for free. Read [how to switch gradually](/migrate/freshdesk#switch-gradually).',
   },
 ];
 
@@ -53,7 +53,7 @@ const md = `${TAGLINE} ${POSITIONING}
 
 ${HOME_H1} ${HOME_LEDE} The Freshdesk importer is shipped; reconcile report numbers shown on the site are an example.
 
-Status: Colliedesk as a whole is alpha, live on Colliedesk Cloud with a 14-day free trial. Self-host free: ${REPO}. Cloud: ${FOUNDING_OPEN ? `Founding, $99 every 3 months per workspace, locked for life, 10 places. ${TEAM_25_HOME_LINE}` : `${LADDER_LINE}.`}
+Status: Colliedesk is generally available, live on Colliedesk Cloud with a 14-day free trial. Self-host free: ${REPO}. Cloud: ${FOUNDING_OPEN ? `Founding, $99 every 3 months per workspace, locked for life, 10 places. ${TEAM_25_HOME_LINE}` : `${LADDER_LINE}.`}
 
 ${homeSectionsMd}
 

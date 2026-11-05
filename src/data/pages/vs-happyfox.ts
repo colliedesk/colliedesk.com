@@ -19,7 +19,7 @@ const faq: Faq[] = [
 const body = `## The short answer
 
 - **Choose HappyFox** if you need a mature, established helpdesk today and the per-agent price fits your budget.
-- **Choose Colliedesk** if you have 3 to 10 agents and want one flat price with AI drafts included. Colliedesk is alpha; read the status table first.
+- **Choose Colliedesk** if you have 3 to 10 agents and want one flat price with AI drafts included. Colliedesk is generally available; read the status table for what is not built yet.
 
 ## Price, side by side
 

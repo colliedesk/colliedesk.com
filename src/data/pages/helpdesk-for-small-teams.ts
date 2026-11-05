@@ -43,11 +43,11 @@ ${FOUNDING_LEAD ? `${FOUNDING_LEAD} The table shows the Cloud plans after that.
 | 5 | $115 | $505 | $69 (Team) |
 | 10 | $230 | $1,010 | $69 (Team) |
 
-AI reply drafts and triage are included in every plan with a monthly allowance; on your own key your provider bills you and Colliedesk adds no fee. Auto-answer is not built yet; while Colliedesk is alpha it will cost ${AI_RESOLUTION} per resolution. Full sources: [Colliedesk vs Freshdesk](/vs/freshdesk).
+AI reply drafts and triage are included in every plan with a monthly allowance; on your own key your provider bills you and Colliedesk adds no fee. Auto-answer is not built yet; it will cost ${AI_RESOLUTION} per resolution. Full sources: [Colliedesk vs Freshdesk](/vs/freshdesk).
 
 ## What Colliedesk does today
 
-Colliedesk is alpha. The shared inbox, email channel and Freshdesk importer are released and run on Colliedesk Cloud; the interface or schema may change between releases. Read the table before you plan a move.
+Colliedesk is generally available: the shared inbox, email channel and Freshdesk importer run on Colliedesk Cloud today. Read the table for what is not built yet before you plan a move.
 
 ${statusTable}
 

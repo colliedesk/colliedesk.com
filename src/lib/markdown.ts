@@ -29,8 +29,8 @@ export function renderMarkdown(md: string): string {
   if (typeof html !== 'string') throw new Error('marked returned a promise; async rendering is not supported');
   return (
     wrapTables(html)
-      // "**Shipped**" / "**Not built yet**" in Markdown become status badges in HTML. Colliedesk as a
-      // whole is alpha, so a feature is either shipped or not built yet; there is no other label.
+      // "**Shipped**" / "**Not built yet**" in Markdown become status badges in HTML. A feature is
+      // either shipped or not built yet; there is no other label (never alpha or beta).
       .replace(/<strong>(Not built yet)<\/strong>/g, '<span class="badge badge-coming">$1</span>')
       .replace(/<strong>(Shipped)<\/strong>/g, '<span class="badge badge-shipped">$1</span>')
       .replace(/<\/table>/g, '</table></div>')

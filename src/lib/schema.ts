@@ -21,7 +21,7 @@ export const softwareApplication = ({ plans = CLOUD_PLANS }: { plans?: readonly 
   applicationCategory: 'BusinessApplication',
   applicationSubCategory: 'Help desk software',
   operatingSystem: 'Linux, Docker; web browser',
-  softwareVersion: '0.0.1 (alpha)',
+  softwareVersion: '1.0.0',
   license: 'https://www.gnu.org/licenses/agpl-3.0.html',
   codeRepository: REPO,
   isAccessibleForFree: true,

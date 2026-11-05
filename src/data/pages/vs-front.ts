@@ -9,7 +9,7 @@ import { FOUNDING_ACTION, OUR_CELL, OUR_PLAN, OUR_PRICE, foundingFirst, withFoun
 const faq: Faq[] = [
   {
     q: 'What is a good Front alternative that is not priced per seat?',
-    a: `${foundingFirst('Colliedesk Cloud is one flat price per workspace: Team is $69 a month for up to 10 agents, Small $39 for up to 3.')} Self-hosting is free. Colliedesk is an open-source (AGPL-3.0) shared inbox and helpdesk. It is in alpha, and the email channel works today.`,
+    a: `${foundingFirst('Colliedesk Cloud is one flat price per workspace: Team is $69 a month for up to 10 agents, Small $39 for up to 3.')} Self-hosting is free. Colliedesk is an open-source (AGPL-3.0) shared inbox and helpdesk. It is generally available, and the email channel works today.`,
   },
   {
     q: 'How does Front charge for AI?',
@@ -28,7 +28,7 @@ const faq: Faq[] = [
 const body = `## The short answer
 
 - **Choose Front** if your team lives in email across many shared and personal inboxes, wants a Gmail-like workspace with comments on every thread, and needs many channels today. It is a mature product.
-- **Choose Colliedesk** if you want a shared inbox whose price does not grow with every seat, and data you can export or self-host without asking anyone. Colliedesk is alpha; read the status table first.
+- **Choose Colliedesk** if you want a shared inbox whose price does not grow with every seat, and data you can export or self-host without asking anyone. Colliedesk is generally available; read the status table for what is not built yet.
 
 ## Price, side by side
 

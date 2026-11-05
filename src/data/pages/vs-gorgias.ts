@@ -23,7 +23,7 @@ const faq: Faq[] = [
 const body = `## The short answer
 
 - **Choose Gorgias** if you run an e-commerce store and want store and order data next to every ticket, with order management automation. That is what it is built for.
-- **Choose Colliedesk** if your ticket volume is growing and you do not want the bill to grow with it, or you are not an e-commerce team. Colliedesk is alpha; read the status table first.
+- **Choose Colliedesk** if your ticket volume is growing and you do not want the bill to grow with it, or you are not an e-commerce team. Colliedesk is generally available; read the status table for what is not built yet.
 
 ## Price, side by side
 

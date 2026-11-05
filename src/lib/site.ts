@@ -42,6 +42,13 @@ export const TEAM_25_TRIAL_HREF = `${TRIAL_HREF}&plan=team25`;
 // signup lands there as a conversation tagged web-form.
 export const UPDATES_FORM_URL = 'https://app.colliedesk.com/api/v1/public/forms/hclabs';
 export const CONTACT_EMAIL = 'support@colliedesk.com';
+// Colliedesk is generally available since release 1.0.0. What that promises is written in the product
+// repository; the public status page is the only source for uptime; the terms hold the service level.
+export const GA_DOC = `${REPO}/blob/main/docs/general-availability.md`;
+export const STATUS_PAGE = 'https://status.colliedesk.com';
+export const SLA_HREF = '/terms#availability-and-service-level';
+// One line on /pricing and /vs/freshdesk; `pnpm check` fails if either page drops it.
+export const UPTIME_LINE = `**99.9% uptime on every paid plan.** Live status is on [status.colliedesk.com](${STATUS_PAGE}); service credits and support response times are in the [terms](${SLA_HREF}).`;
 // The Colliedesk Cloud ladder: one flat price per workspace, never per agent; a year costs ten
 // months. Plans differ only in agents and attachment storage. Unlimited is shown as coming soon,
 // with no checkout, until attachments run on object storage. There is no free Cloud plan.
@@ -90,7 +97,7 @@ export const TEAM_25_HOME_LINE = `Teams of ${TEAM_25_AGENTS} agents can buy [${T
 
 // AI on Colliedesk Cloud: reply drafts and triage are included in every plan with a monthly allowance;
 // auto-answer (not built yet) is charged per resolution, only when the customer needs no person
-// afterwards, at this price while Colliedesk is alpha; your own key adds no Colliedesk fee.
+// afterwards, at this price; your own key adds no Colliedesk fee.
 export const AI_RESOLUTION = '$0.50';
 
 export const PRICE = {
@@ -101,7 +108,7 @@ export const PRICE = {
   // "$19 to $149": the plans that can be bought today, cheapest to dearest.
   range: `${dollars(SOLO.monthly)} to ${dollars(TEAM_25.monthly)}`,
   founding: '$99 every 3 months ($396 a year), locked for life, with free Freshdesk migration',
-  ai: `reply drafts and triage included with a monthly allowance; auto-answer ${AI_RESOLUTION} per resolution while alpha, once it ships; your own key adds no fee`,
+  ai: `reply drafts and triage included with a monthly allowance; auto-answer ${AI_RESOLUTION} per resolution once it ships; your own key adds no fee`,
 } as const;
 // "+ AI ..." after a Colliedesk price in comparisons. Drafts and triage are included, so the only AI
 // that can add to the bill is auto-answer, which is not built yet.

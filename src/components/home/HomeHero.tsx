@@ -12,7 +12,7 @@ export function HeroCopy() {
   const open = foundingState().open;
   return (
     <div className="hero-copy">
-      <p className="eyebrow hero-eyebrow">Open source · AGPL-3.0 · Alpha (early version), live on Cloud</p>
+      <p className="eyebrow hero-eyebrow">Open source · AGPL-3.0 · Generally available on Cloud</p>
       <h1>{HOME_H1}</h1>
       <p className="lede">{HOME_LEDE}</p>
       <div className="cta-row">

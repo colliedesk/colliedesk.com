@@ -23,7 +23,7 @@ const faq: Faq[] = [
 const body = `## The short answer
 
 - **Choose Chatwoot** if most of your conversations come through chat and messaging apps and you want them in one inbox today. It is mature and widely used.
-- **Choose Colliedesk** if you run email support, you are leaving Freshdesk with years of tickets and attachments, and you want one flat price. Colliedesk is alpha; read the status table first.
+- **Choose Colliedesk** if you run email support, you are leaving Freshdesk with years of tickets and attachments, and you want one flat price. Colliedesk is generally available; read the status table for what is not built yet.
 
 ## Price, side by side
 

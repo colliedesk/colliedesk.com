@@ -1,6 +1,6 @@
 import {
-  AI_EXTRA, AI_RESOLUTION, agentsLabel, CLOUD_PLANS, CONTACT_EMAIL, dollars, FOUNDING_CHECKOUT, FOUNDING_HREF, LADDER_LINE, PRICE, REPO, SMALL, SOLO, TEAM, TEAM_25,
-  TEAM_25_AGENTS, TEAM_25_BELOW, TEAM_25_IMPORT, TEAM_25_WHO, TRIAL_HREF, UNLIMITED,
+  AI_EXTRA, AI_RESOLUTION, agentsLabel, CLOUD_PLANS, CONTACT_EMAIL, dollars, FOUNDING_CHECKOUT, FOUNDING_HREF, GA_DOC, LADDER_LINE, PRICE, REPO, SMALL, SOLO, TEAM, TEAM_25,
+  TEAM_25_AGENTS, TEAM_25_BELOW, TEAM_25_IMPORT, TEAM_25_WHO, TRIAL_HREF, UNLIMITED, UPTIME_LINE,
 } from '../../lib/site';
 import { FOUNDING_SLOTS, foundingState } from '../../lib/founding';
 import { faqPage, softwareApplication } from '../../lib/schema';
@@ -37,7 +37,7 @@ const ladderFaq: Faq[] = [
   },
   {
     q: 'How is AI priced?',
-    a: `Reply drafts and triage suggestions are included in every plan, with a monthly allowance. Auto-answer is not built yet. While Colliedesk is alpha it will cost ${AI_RESOLUTION} per resolution, charged only when the customer does not need a person afterwards. For comparison, Help Scout AI Answers costs $0.75 per resolution ([vs Help Scout](/vs/help-scout)). If you bring your own key, you pay your provider directly and Colliedesk adds no fee.`,
+    a: `Reply drafts and triage suggestions are included in every plan, with a monthly allowance. Auto-answer is not built yet. It will cost ${AI_RESOLUTION} per resolution, charged only when the customer does not need a person afterwards. For comparison, Help Scout AI Answers costs $0.75 per resolution ([vs Help Scout](/vs/help-scout)). If you bring your own key, you pay your provider directly and Colliedesk adds no fee.`,
   },
   {
     q: 'Is there a free trial?',
@@ -58,7 +58,7 @@ const ladderFaq: Faq[] = [
   },
   {
     q: 'When can I use Colliedesk Cloud?',
-    a: `Now. Colliedesk Cloud is live in alpha, and every workspace starts with a 14-day free trial, no card. [Start the free trial](${TRIAL_HREF}). See the [roadmap](/roadmap) for what comes next.`,
+    a: `Now. Colliedesk is generally available on Colliedesk Cloud, and every workspace starts with a 14-day free trial, no card. [Start the free trial](${TRIAL_HREF}). See the [roadmap](/roadmap) for what comes next.`,
   },
 ];
 
@@ -86,7 +86,7 @@ const aiSection = `## AI in every plan
 **Shipped**, off until an admin turns it on: reply drafts and triage suggestions; a person edits and sends every reply. **Not built yet**: auto-answer for repetitive tickets with a human in the loop. There is no AI seat licence.
 
 - **Reply drafts and triage:** included in every plan, with a monthly allowance. We do not publish a number of drafts or a dollar amount here. The amount is set per plan and shown to you on Cloud under Settings → Built-in AI → Usage, with what is used and what is left. Self-hosted servers have no allowance: they use your own key. It resets on the first day of each month (UTC). When it is used up, drafts and triage on our AI pause until then; your own key keeps working.
-- **Auto-answer:** ${AI_RESOLUTION} per resolution while Colliedesk is alpha, charged only when the customer does not need a person afterwards.
+- **Auto-answer:** ${AI_RESOLUTION} per resolution once it ships, charged only when the customer does not need a person afterwards.
 - **Bring your own key:** you pay your provider directly; Colliedesk adds no fee. Self-hosted installs use your own key.`;
 
 const body = `## What you pay for
@@ -97,7 +97,9 @@ Self-hosting is free. We sell two things: **Colliedesk Cloud** (we run it for yo
 
 ## Honest status
 
-Colliedesk as a whole is **alpha**: it is released and runs on Colliedesk Cloud, and any release may change the interface or the database schema. Shipped today: the email channel, the Freshdesk and Help Scout importers with their reconcile reports, the knowledge base and public help center, starting a new conversation from the inbox, contact history, saved replies, Cc on replies, attachments, live updates, and AI reply drafts and triage suggestions (off until an admin turns them on). Not built yet: AI auto-answer. If you are planning your exit before your next Freshdesk renewal, [start the free trial](${TRIAL_HREF}) or take [the founding offer](${FOUNDING_HREF}).
+Colliedesk is **generally available**: it runs on Colliedesk Cloud, and [what general availability means](${GA_DOC}) is written down in the open-source repository. Shipped today: the email channel, the Freshdesk and Help Scout importers with their reconcile reports, the knowledge base and public help center, starting a new conversation from the inbox, contact history, saved replies, Cc on replies, attachments, live updates, and AI reply drafts and triage suggestions (off until an admin turns them on). Not built yet: AI auto-answer. If you are planning your exit before your next Freshdesk renewal, [start the free trial](${TRIAL_HREF}) or take [the founding offer](${FOUNDING_HREF}).
+
+${UPTIME_LINE}
 
 ${aiSection}
 
@@ -153,7 +155,9 @@ const foundingBody = `## Founding, while we are young
 
 ## Honest status
 
-Colliedesk as a whole is **alpha**: it is released and runs on Colliedesk Cloud, and any release may change the interface or the database schema. Shipped today: the email channel, the Freshdesk and Help Scout importers with their reconcile reports, the knowledge base and public help center, starting a new conversation from the inbox, contact history, saved replies, Cc on replies, attachments, live updates, and AI reply drafts and triage suggestions (off until an admin turns them on). Not built yet: AI auto-answer. If you are planning your exit before your next Freshdesk renewal, [join as a founding customer](${FOUNDING_CHECKOUT}) and we refund you in full within 30 days if it is not right.
+Colliedesk is **generally available**: it runs on Colliedesk Cloud, and [what general availability means](${GA_DOC}) is written down in the open-source repository. Shipped today: the email channel, the Freshdesk and Help Scout importers with their reconcile reports, the knowledge base and public help center, starting a new conversation from the inbox, contact history, saved replies, Cc on replies, attachments, live updates, and AI reply drafts and triage suggestions (off until an admin turns them on). Not built yet: AI auto-answer. If you are planning your exit before your next Freshdesk renewal, [join as a founding customer](${FOUNDING_CHECKOUT}) and we refund you in full within 30 days if it is not right.
+
+${UPTIME_LINE}
 
 ## Who Founding is for
 
