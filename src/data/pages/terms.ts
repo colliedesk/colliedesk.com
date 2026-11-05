@@ -9,7 +9,7 @@ const body = `## The short version
 - When the trial or subscription ends, the workspace locks. You can still export everything.
 - Your data stays yours. You can export it and leave at any time.
 - Do not use Colliedesk to send spam or to break the law.
-- Colliedesk is alpha software. We work hard to keep it running and backed up, but we cannot promise it never fails.
+- Every paid Cloud plan comes with 99.9% monthly uptime, measured on [status.colliedesk.com](https://status.colliedesk.com), service credits if we miss it, and a first response within 2 hours, any hour, when your workspace is down. See [Availability and service level](#availability-and-service-level).
 
 ## Who you agree with
 
@@ -63,9 +63,49 @@ Do not use Colliedesk Cloud to:
 - We may suspend a workspace that breaks these terms or puts the service or other customers at risk. Where we can, we tell the admins first and give them a chance to fix the problem.
 - A workspace that stays locked for 12 months is deleted. We email the admins 30 days before.
 
-## Availability
+## Availability and service level
 
-Colliedesk is alpha. We back up every workspace daily and monitor the service around the clock, but we do not offer an uptime guarantee yet. Features change; we write each change in the [changelog](/changelog).
+This section is our service level agreement. It applies to every paid Colliedesk Cloud workspace.
+
+### Uptime
+
+- **99.9% uptime per calendar month**, about 43 minutes of downtime at most.
+- Uptime is measured on [status.colliedesk.com](https://status.colliedesk.com), which checks the service from several regions outside our servers. That page is the only source for the uptime figure and for any service credit.
+
+### What does not count as downtime
+
+- Maintenance we announce at least 48 hours ahead, on the status page and by email to workspace admins.
+- Trial and Free workspaces. This service level applies to paid plans only.
+- Problems outside our service, such as your own network or a third-party service you connected to your workspace.
+
+### Service credits
+
+If a month falls below 99.9%, a workspace admin can ask for a service credit. Email support@colliedesk.com within 30 days after that month ends. We check the month against the status page and apply the credit to your next invoice.
+
+| Monthly uptime | Credit |
+| --- | --- |
+| Below 99.9% (more than about 43 minutes down) | 10% of that month's fee |
+| Below 99.0% (more than about 7 hours down) | 25% of that month's fee |
+| Below 95.0% (more than about 36 hours down) | 50% of that month's fee |
+
+50% is the most we credit for one month. The fee is the monthly share of what you paid: a quarterly plan counts one third of the quarter, a yearly plan one twelfth of the year. Credits are not paid in cash. Credits and the right to leave below are the only remedies for missed uptime.
+
+### Right to leave
+
+If uptime is below 99.9% for 3 months in a row within any 12 months, you can cancel and get a pro-rata refund of what you prepaid.
+
+### Support response
+
+On every paid plan:
+
+- **Workspace down or unusable:** first response within 2 hours, any hour, any day.
+- **Everything else:** first response within 1 business day. Billing questions are support too.
+
+Write to support@colliedesk.com.
+
+### Backups
+
+Every Cloud database is copied continuously, encrypted, to a second location in the EU, so losing a server loses at most 5 minutes of data. A nightly encrypted backup of the database and the attachments is kept off-site in the EU as well. We test a restore at least every 30 days. Features change; we write each change in the [changelog](/changelog).
 
 ## Warranty and liability
 
@@ -92,8 +132,8 @@ const page: Page = {
   section: 'Product',
   title: 'Terms of service | Colliedesk',
   description:
-    'The terms for Colliedesk Cloud: free trial, plans and payment, your content, acceptable use, suspension, liability and the law that applies.',
-  summary: 'Terms for Colliedesk Cloud: trial rules, payment through Polar, your content, acceptable use, liability',
+    'The terms for Colliedesk Cloud: free trial, plans and payment, the 99.9% uptime commitment with service credits, support response times, your content, liability and the law that applies.',
+  summary: 'Terms for Colliedesk Cloud: trial rules, payment through Polar, 99.9% uptime with service credits, support response times, your content, liability',
   eyebrow: 'Legal',
   h1: 'Terms of service',
   lede: `Short and readable. Last updated ${LEGAL_UPDATED}.`,
