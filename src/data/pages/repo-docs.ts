@@ -149,8 +149,8 @@ export function roadmapPage(): Page {
     h1: 'Colliedesk roadmap',
     title: 'Colliedesk roadmap: what is live and what comes next',
     description:
-      'What Colliedesk has shipped on Colliedesk Cloud and what comes next: one-click Gmail and Microsoft 365 mailboxes, then AI, then automations, SLA and reports. Dates are targets.',
-    summary: 'Live now (email, Freshdesk and Help Scout importers, knowledge base, Cloud trial); next one-click mailboxes; then AI; later automations, SLA, reports',
+      'What Colliedesk has shipped on Colliedesk Cloud and what comes next: one-click Gmail and Microsoft 365 mailboxes, then AI, then simple rules, macros and per-agent reports. Dates are targets.',
+    summary: 'Live now (email, Freshdesk and Help Scout importers, knowledge base, Cloud trial); next one-click mailboxes; then AI; later simple rules, macros, per-agent reports',
   } satisfies Partial<Page>);
   page.jsonLd = [techArticle(page)];
   return page;

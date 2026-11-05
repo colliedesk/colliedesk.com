@@ -22,7 +22,9 @@ export const statusTable = `Colliedesk is generally available. Everything marked
 | Replies sent from your Microsoft 365 or Outlook.com mailbox (incoming mail still arrives by forwarding) | **Shipped** |
 | AI reply drafts and triage suggestions, off until an admin turns them on | **Shipped** |
 | AI auto-answer with a human in the loop | **Not built yet** |
-| Automations, macros, SLA, business hours, CSAT and reports | **Not built yet** |
+| Response targets (SLA) by priority, counted in business hours, with due-soon and overdue alerts | **Shipped** |
+| Results: your last 30 or 7 days in Freshdesk next to Colliedesk, every number linked to its conversations | **Shipped** |
+| Automations, macros and CSAT | **Not built yet** |
 | Zendesk importer, live chat widget | **Not built yet** |`;
 
 export const collieFacts: Readonly<Record<'price' | 'ai' | 'free' | 'source' | 'export', string>> = {
