@@ -7,6 +7,9 @@ import { join, relative, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { runInNewContext } from 'node:vm';
 import { homeFindings, onePlanFindings, pricingFindings } from './pricing-gate.mjs';
+import {
+  businessCardFindings, doneForYouFindings, offerFindings, retiredClaimFindings, SWITCH_PATH, switchPageFindings,
+} from './switch-offer-gate.mjs';
 
 const ORIGIN = 'https://colliedesk.com';
 const UPDATES_FORM_URL = 'https://app.colliedesk.com/api/v1/public/forms/hclabs';
@@ -20,6 +23,7 @@ const REQUIRED_PAGES = [
   '/self-hosted-helpdesk', '/migrate/freshdesk/done-for-you', '/helpdesk-for-small-teams',
   '/vs/zammad', '/vs/chatwoot', '/vs/freescout', '/vs/zoho-desk', '/vs/happyfox', '/vs/gorgias',
   '/vs/hubspot-service-hub', '/vs/groove', '/freshdesk-alternative', '/freshdesk-pricing-history', '/compare',
+  SWITCH_PATH,
 ];
 const AI_CRAWLERS = ['GPTBot', 'OAI-SearchBot', 'ChatGPT-User', 'ClaudeBot', 'PerplexityBot', 'Google-Extended'];
 
@@ -281,6 +285,29 @@ if (foundingOpen) {
     const text = read(name);
     for (const finding of homeFindings({ path: `/${name}`, text, open: true })) fail(finding);
     if (!text.includes('$396 a year') || !text.includes('$4,644')) fail(`/${name}: founding is open but the home page does not price Founding at $396 a year against Freshdesk's $5,040 ($4,644 kept)`);
+  }
+}
+
+// Business (26 to 100 agents, $499 a month, sold through a call) replaced Unlimited, and teams of 11 to
+// 100 agents on Freshdesk get the switch and invoice offers on Team 25 and Business. /pricing sells
+// Business in either Founding state; the switch page is where ads and emails land. The rules and their
+// tests are in scripts/switch-offer-gate.mjs.
+{
+  for (const name of ['pricing.html', `${SWITCH_PATH.slice(1)}.html`]) {
+    for (const finding of businessCardFindings({ path: `/${name}`, html: read(name) })) fail(finding);
+  }
+  for (const name of ['pricing.html', 'pricing.md', `${SWITCH_PATH.slice(1)}.html`, `${SWITCH_PATH.slice(1)}.md`, 'vs/freshdesk.html', 'vs/freshdesk.md']) {
+    for (const finding of offerFindings({ path: `/${name}`, text: read(name) })) fail(finding);
+  }
+  for (const finding of switchPageFindings({ path: SWITCH_PATH, html: read(`${SWITCH_PATH.slice(1)}.html`) })) fail(finding);
+  for (const name of ['migrate/freshdesk/done-for-you.html', 'migrate/freshdesk/done-for-you.md']) {
+    for (const finding of doneForYouFindings({ path: `/${name}`, text: read(name) })) fail(finding);
+  }
+  // /docs, /changelog and llms-full.txt come from the product repository.
+  const ownCopy = (f) => /\.(html|md|txt)$/.test(f) && !/[\\/]docs[\\/]|[\\/](docs|changelog|roadmap)\.(html|md)$/.test(f.slice(outDir.length - 1)) && !f.endsWith('llms-full.txt');
+  for (const file of files.filter(ownCopy)) {
+    const text = readFileSync(file, 'utf8').replace(/<script[^>]*>[\s\S]*?<\/script>/g, (m) => (m.includes('ld+json') ? m : ''));
+    for (const finding of retiredClaimFindings({ path: file.slice(outDir.length - 1), text })) fail(finding);
   }
 }
 
@@ -568,14 +595,14 @@ const PRICE_MAX_AGE_DAYS = 90;
   const ownCopy = (f) => /\.(html|md|txt)$/.test(f) && !/[\\/]docs[\\/]/.test(f.slice(outDir.length - 1)) && !f.endsWith('llms-full.txt');
   for (const file of files.filter(ownCopy)) {
     const m = readFileSync(file, 'utf8').match(stale);
-    if (m) fail(`${file.slice(outDir.length - 1)}: old Colliedesk price "${m[0]}"; the ladder is Solo $19, Small $39, Team $69, Team 25 $149, Unlimited $349`);
+    if (m) fail(`${file.slice(outDir.length - 1)}: old Colliedesk price "${m[0]}"; the ladder is Solo $19, Small $39, Team $69, Team 25 $149, Business $499`);
   }
 }
 
 // Cloud plan ladder (owner decision 20/10/2026), one flat price per workspace, a year = 10 months:
 // Solo $19 / $190, 1 agent, 10 GiB; Small $39 / $390, 3 agents, 30 GiB; Team $69 / $690, 10 agents,
-// 100 GiB; Team 25 $149 / $1,490, 25 agents, 250 GiB; Unlimited $349 a month billed annually only
-// ($3,490 a year), unlimited agents, 1 TB, coming soon with no checkout. No free Cloud plan.
+// 100 GiB; Team 25 $149 / $1,490, 25 agents, 250 GiB; Business $499 / $4,990, 26 to 100 agents, 1 TB,
+// sold through a call with no checkout (owner decision 03/11/2026, replacing Unlimited). No free Cloud plan.
 // Extra storage is not sold self-serve, so no add-on price may appear. Teams above the caps are
 // never sent to "contact us" for 10 agents: Team 25 covers up to 25.
 const LADDER = [
@@ -583,7 +610,7 @@ const LADDER = [
   { monthly: '$39', yearly: '$390', agents: 'Up to 3 agents', storage: '30 GiB' },
   { monthly: '$69', yearly: '$690', agents: 'Up to 10 agents', storage: '100 GiB' },
   { monthly: '$149', yearly: '$1,490', agents: 'Up to 25 agents', storage: '250 GiB' },
-  { monthly: '$349', yearly: '$3,490', agents: 'Unlimited agents', storage: '1 TB' },
+  { monthly: '$499', yearly: '$4,990', agents: '26 to 100 agents', storage: '1 TB' },
 ];
 // The ladder facts below hold once Founding closes; while it is open /pricing sells Founding and Team 25 only.
 if (!foundingOpen) {
@@ -593,7 +620,7 @@ if (!foundingOpen) {
     for (const { monthly, yearly, agents, storage } of LADDER) {
       for (const needle of [monthly, yearly, agents, `${storage} of attachments`]) if (!text.includes(needle)) fail(`/${name}: missing "${needle}"`);
     }
-    for (const needle of ['Coming soon', 'billed annually', 'Need more storage? Email us', supportMail, 'no card', 'No automatic charge', 'Cancel anytime', 'Limited to 10 workspaces']) {
+    for (const needle of ['Talk to us', 'Need more storage? Email us', supportMail, 'no card', 'No automatic charge', 'Cancel anytime', 'Limited to 10 workspaces']) {
       if (!text.includes(needle)) fail(`/${name}: missing "${needle}"`);
     }
     if (/\+\s?100 GB|\$10 (a|per) month/.test(text)) fail(`/${name}: shows an extra-storage price; it is not sold self-serve`);
@@ -603,7 +630,7 @@ if (!foundingOpen) {
   for (const [name, price] of [['Colliedesk Cloud Solo', '19'], ['Colliedesk Cloud Small', '39'], ['Colliedesk Cloud Team', '69'], ['Colliedesk Cloud Team 25', '149']]) {
     if (!ld.includes(`"name":"${name}","price":"${price}"`)) fail(`/pricing: JSON-LD has no ${name} offer at ${price}`);
   }
-  if (ld.includes('"name":"Colliedesk Cloud Unlimited"')) fail('/pricing: JSON-LD offers Unlimited, which cannot be bought yet');
+  if (ld.includes('"name":"Colliedesk Cloud Business"')) fail('/pricing: JSON-LD offers Business, which is sold through a call, not self-serve');
 } else if (!read('pricing.html').includes('"name":"Colliedesk Cloud Team 25","price":"149"')) {
   fail('/pricing: founding is open but the JSON-LD has no Team 25 offer at 149');
 }
@@ -619,8 +646,8 @@ if (!foundingOpen) {
 // Status honesty: the product is alpha and live on Colliedesk Cloud. No page may promise a
 // release that has already happened ("v0.2"), call the product pre-alpha or say checkout is
 // coming. The Team 25 card (and, once Founding closes, Solo, Small and Team) must start the free trial at the real signup
-// entry, every "Start free trial" button must go to the same place, and the Unlimited card (coming
-// soon) must offer no link at all. The trial link carries ?intent=trial so the app titles the page for a
+// entry, every "Start free trial" button must go to the same place; the Business card books a call
+// (scripts/switch-offer-gate.mjs). The trial link carries ?intent=trial so the app titles the page for a
 // new workspace; the bare sign-in page is only for "Log in".
 const SIGN_IN_URL = 'https://app.colliedesk.com/sign-in';
 const TRIAL_URL = `${SIGN_IN_URL}?intent=trial`;
@@ -648,9 +675,6 @@ const TEAM_25_TRIAL_URL = `${TRIAL_URL}&amp;plan=team25`;
       if (card && !card.includes(needle)) fail(`/pricing: Team 25 card lacks "${needle}"`);
     }
   }
-  const unlimited = cardOf('Unlimited');
-  if (foundingOpen) { /* only Team 25 sits beside Founding; the rest of the ladder is hidden */ } else if (!unlimited) fail('/pricing: Unlimited card missing');
-  else if (!unlimited.includes('Coming soon') || unlimited.includes('<a ')) fail('/pricing: Unlimited card must say Coming soon and offer no checkout or trial link');
   for (const file of pages) {
     for (const m of readFileSync(file, 'utf8').matchAll(/<a[^>]*href="([^"]*)"[^>]*>\s*Start free trial/g)) {
       if (m[1] !== TRIAL_URL && m[1] !== TEAM_25_TRIAL_URL) fail(`${urlPathOf(file)}: "Start free trial" links to ${m[1]}, not ${TRIAL_URL}`);

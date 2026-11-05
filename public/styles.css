@@ -370,7 +370,7 @@ td:first-child { font-weight: 500; color: var(--text-1); }
 .plans-ladder { grid-template-columns: repeat(auto-fit, minmax(10.5rem, 1fr)); gap: var(--space-4); }
 /* While Founding is open its card is in the hero; Self-host keeps the width of one hero column. */
 .plans-after-hero { padding-top: 0; }
-@media (min-width: 961px) { .plans-after-hero { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 961px) { .plans-after-hero { grid-template-columns: repeat(3, minmax(0, 1fr)); } .plans-switch { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .plans-ladder .plan { padding: var(--space-5); }
 .plans-ladder .plan-price { white-space: nowrap; }
 .plans-ladder .plan-price strong { font-size: 2.2rem; }
@@ -378,8 +378,6 @@ td:first-child { font-weight: 500; color: var(--text-1); }
 .plan-size strong { font-size: 1.15rem; }
 .plan-size span { color: var(--text-2); }
 .plan-who { color: var(--text-2); margin: 0 0 1.25rem; }
-.plan-soon { background: transparent; }
-.plan-soon-note { margin: auto 0 0; min-height: 40px; display: flex; align-items: center; font-weight: 600; color: var(--text-2); }
 .plans-reassure { margin-top: var(--space-6); padding-top: var(--space-5); border-top: 1px solid var(--line); display: grid; gap: var(--space-2); }
 .plans-reassure p { margin: 0; }
 .plans-reassure ul { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-6); margin: 0; padding: 0; list-style: none; color: var(--text-2); }
@@ -390,6 +388,14 @@ td:first-child { font-weight: 500; color: var(--text-1); }
 .plan-cta { margin-top: auto; display: grid; gap: var(--space-4); justify-items: start; }
 .plan-cta .btn { margin-top: 0; }
 .plan-guarantee { margin: 0; font-size: 13px; color: var(--text-3); }
+/* The switch and invoice offers under the plans: plain columns under a hairline, ink buttons. */
+.switch-offer { margin-top: var(--space-10); padding-top: var(--space-6); border-top: 1px solid var(--line); }
+.switch-offer h2 { margin: 0 0 var(--space-4); }
+.switch-offer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); gap: var(--space-4) var(--space-8); }
+.switch-offer-grid p { margin: 0; }
+.switch-offer-print { margin: var(--space-4) 0 0; padding-left: 1.1rem; color: var(--text-2); font-size: 14px; }
+p.switch-offer-print { padding-left: 0; }
+.switch-offer .cta-row { margin-top: var(--space-5); }
 .founding-meter { display: grid; gap: var(--space-2); }
 .founding-slots { display: flex; gap: 5px; list-style: none; margin: 0; padding: 0; }
 .founding-slot { width: 14px; height: 14px; border-radius: 3px; border: 1.5px solid var(--accent); background: var(--accent-soft); }

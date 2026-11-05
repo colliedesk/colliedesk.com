@@ -1,6 +1,6 @@
 import {
-  AI_EXTRA, AI_RESOLUTION, agentsLabel, CLOUD_PLANS, CONTACT_EMAIL, dollars, FOUNDING_CHECKOUT, FOUNDING_HREF, LADDER_LINE, PRICE, REPO, SMALL, SOLO, TEAM, TEAM_25,
-  TEAM_25_AGENTS, TEAM_25_BELOW, TEAM_25_IMPORT, TEAM_25_WHO, TRIAL_HREF, UNLIMITED,
+  AI_EXTRA, AI_RESOLUTION, agentsLabel, BUSINESS, BUSINESS_AGENTS, CLOUD_PLANS, CONTACT_EMAIL, dollars, FOUNDING_CHECKOUT, FOUNDING_HREF, LADDER_LINE, PRICE, REPO,
+  SMALL, SOLO, SWITCH_CALL_HREF, SWITCH_OFFER_BLOCK_MD, TEAM, TEAM_25, TEAM_25_AGENTS, TEAM_25_BELOW, TEAM_25_IMPORT, TEAM_25_WHO, TRIAL_HREF,
 } from '../../lib/site';
 import { FOUNDING_SLOTS, foundingState } from '../../lib/founding';
 import { faqPage, softwareApplication } from '../../lib/schema';
@@ -17,6 +17,12 @@ const SWITCH_FAQ: Faq = {
   a: 'No. Keep answering customers in Freshdesk and import your Freshdesk history: the import only reads Freshdesk, and in the app the tickets of the last 90 days come first, so your team can start while older ones follow. Run the import again to catch up; it never copies an imported ticket twice. When your team is sure, for example before your Freshdesk renewal, forward your support mail to Colliedesk and run one last catch-up. Founding customers get the migration done for them. [How to switch gradually](/migrate/freshdesk#switch-gradually).',
 };
 
+// Business replaced the Unlimited plan; it is sold through a call, not a checkout.
+const ABOVE_25_FAQ: Faq = {
+  q: 'What happens above 25 agents?',
+  a: `Team 25 covers up to 25 agents. Business covers ${BUSINESS_AGENTS} agents for ${dollars(BUSINESS.monthly)} a month or ${dollars(BUSINESS.yearly)} a year, with ${BUSINESS.storage} of attachments and the Freshdesk migration done for you. We sell it on a 30-minute call with the founder, not through a checkout: [talk to us](${SWITCH_CALL_HREF}). Above ${BUSINESS.agents} agents, ask us for a quote. Self-hosting has no agent limit.`,
+};
+
 const ladderFaq: Faq[] = [
   PER_WORKSPACE_FAQ,
   {
@@ -31,10 +37,7 @@ const ladderFaq: Faq[] = [
     q: 'How much storage is included?',
     a: `${CLOUD_PLANS.map((p) => `${p.name} ${p.storage}`).join(', ')} of attachments. Imported files count. We warn you at 80%. Customer email is always accepted, even over the cap, with its attachments; only your own uploads and new imports pause until you free space or move up. Need more storage? Email us at ${CONTACT_EMAIL}. We do not sell extra storage self-serve yet.`,
   },
-  {
-    q: 'What happens above 25 agents?',
-    a: `Team 25 covers up to 25 agents. Unlimited, for any number of agents and ${UNLIMITED.storage} of attachments, is coming soon at ${dollars(UNLIMITED.monthly)} a month billed annually (${dollars(UNLIMITED.yearly)} a year). Until it opens, email us at ${CONTACT_EMAIL} if you have more than 25 agents. Self-hosting has no agent limit.`,
-  },
+  ABOVE_25_FAQ,
   {
     q: 'How is AI priced?',
     a: `Reply drafts and triage suggestions are included in every plan, with a monthly allowance. Auto-answer is not built yet. While Colliedesk is alpha it will cost ${AI_RESOLUTION} per resolution, charged only when the customer does not need a person afterwards. For comparison, Help Scout AI Answers costs $0.75 per resolution ([vs Help Scout](/vs/help-scout)). If you bring your own key, you pay your provider directly and Colliedesk adds no fee.`,
@@ -62,13 +65,18 @@ const ladderFaq: Faq[] = [
   },
 ];
 
+// Business has no checkout: its row books the call.
+const businessCta = `[Talk to us](${SWITCH_CALL_HREF}): a 30-minute call with the founder.`;
 const cloudRow = (p: (typeof CLOUD_PLANS)[number]): string => {
-  const price = p.annualOnly
-    ? `${dollars(p.monthly)} per workspace per month, billed annually (${dollars(p.yearly)} per year). **Coming soon**`
-    : `${dollars(p.monthly)} per workspace per month, or ${dollars(p.yearly)} per year`;
-  const cta = p.comingSoon ? 'No checkout yet.' : `[Start free trial](${TRIAL_HREF}).`;
+  const price = `${dollars(p.monthly)} per workspace per month, or ${dollars(p.yearly)} per year`;
+  const cta = p.salesOnly ? businessCta : `[Start free trial](${TRIAL_HREF}).`;
   return `| ${p.name} | ${price} | ${agentsLabel(p)}, ${p.storage} of attachments. ${p.who} ${cta} |`;
 };
+
+// The switch and invoice offers, after the plan table in both Founding states.
+export const switchSection = `### Switching from Freshdesk with 11 to 100 agents?
+
+${SWITCH_OFFER_BLOCK_MD}`;
 
 const plansMd = `| Plan | Price | What you get |
 |---|---|---|
@@ -78,7 +86,9 @@ ${CLOUD_PLANS.map(cloudRow).join('\n')}
 
 Every plan has every feature, unlimited conversations and no per-agent fees. AI reply drafts and triage are included with a monthly allowance, or use your own key at no extra fee. 14-day free trial, no card. No automatic charge: when the trial ends, you pick a plan or export your data. Cancel anytime.
 
-Need more storage? Email us at ${CONTACT_EMAIL}. Customer email is always accepted, even over the cap; only agent uploads and new imports pause. We warn you at 80%.`;
+Need more storage? Email us at ${CONTACT_EMAIL}. Customer email is always accepted, even over the cap; only agent uploads and new imports pause. We warn you at 80%.
+
+${switchSection}`;
 
 // Shared by the founding and ladder pages.
 const aiSection = `## AI in every plan
@@ -93,7 +103,7 @@ const body = `## What you pay for
 
 Self-hosting is free. We sell two things: **Colliedesk Cloud** (we run it for you) and **migration** (we move your Freshdesk history and prove nothing was lost). That is the whole business. There is no "enterprise edition" with the good features held back.
 
-**Every feature on every plan.** Solo, Small, Team, Team 25, Unlimited and Founding differ only in the number of agents and the attachment storage. Self-hosting has every feature too.
+**Every feature on every plan.** Solo, Small, Team, Team 25, Business and Founding differ only in the number of agents and the attachment storage, and in how much of the move we do for you. Self-hosting has every feature too.
 
 ## Honest status
 
@@ -132,20 +142,25 @@ const foundingFaq: Faq[] = [
     a: `Yes. Every Cloud workspace starts with a 14-day free trial, no card, and there is no automatic charge. Or pay for Founding now: if it is not right within 30 days, we refund the full amount. [Start the free trial](${TRIAL_HREF}).`,
   },
   SWITCH_FAQ,
+  ABOVE_25_FAQ,
   AI_FAQ,
   SELF_HOST_FAQ,
 ];
 
 // Team 25 beside Founding: the plan for teams of 11 to 25 agents.
-const team25Row = `| ${TEAM_25.name} | ${dollars(TEAM_25.monthly)} a month, or ${dollars(TEAM_25.yearly)} a year per workspace | ${agentsLabel(TEAM_25)}, ${TEAM_25.storage} of attachments. ${TEAM_25_WHO} ${TEAM_25_IMPORT} [Start free trial](${TRIAL_HREF}). |`;
+export const team25Row = `| ${TEAM_25.name} | ${dollars(TEAM_25.monthly)} a month, or ${dollars(TEAM_25.yearly)} a year per workspace | ${agentsLabel(TEAM_25)}, ${TEAM_25.storage} of attachments. ${TEAM_25_WHO} ${TEAM_25_IMPORT} [Start free trial](${TRIAL_HREF}). |`;
+export const businessRow = `| ${BUSINESS.name} | ${dollars(BUSINESS.monthly)} a month, or ${dollars(BUSINESS.yearly)} a year per workspace | ${agentsLabel(BUSINESS)}, ${BUSINESS.storage} of attachments. ${BUSINESS.who} We migrate everything for you, help center with 301 redirects included. Custom domain, MCP server, priority support; uptime commitment at general availability. ${businessCta} |`;
 
 const foundingPlansMd = `| Plan | Price | What you get |
 |---|---|---|
 | Founding | $99 every 3 months per workspace ($396 a year, about $7.60 a week), locked for life; 30-day money-back guarantee | Limited to ${FOUNDING_SLOTS} workspaces. Freshdesk migration done for you, with a reconcile report. Up to 10 agents, no per-agent fees. 20 GiB of attachments, imported files included. A direct line to the founder, and a say in the roadmap. [Join for $99 every 3 months](${FOUNDING_CHECKOUT}). |
 ${team25Row}
+${businessRow}
 | Self-host | $0, forever | Every feature, no agent limit. AGPL-3.0. AI with your own model key. |
 
-Want to look first? Every Cloud workspace starts with a 14-day free trial, no card, no automatic charge.`;
+Want to look first? Every Cloud workspace starts with a 14-day free trial, no card, no automatic charge.
+
+${switchSection}`;
 
 const foundingBody = `## Founding, while we are young
 
@@ -165,7 +180,7 @@ A support team that matches all five:
 - You want it **hosted**: we run, update and back it up.
 - You need a shared inbox and tickets, not a PSA, RMM, client billing or SSO.
 
-**Not for you if** your team has 11 or more agents (Team 25 fits ${TEAM_25_AGENTS}) or a deeply customised setup, you need a PSA or RMM for an MSP, you use a helpdesk other than Freshdesk or Help Scout (we import both, but the free migration we do for you covers Freshdesk only), or you are looking for a free tool. For free, [self-host Colliedesk](/docs/self-host).
+**Not for you if** your team has 11 or more agents (Team 25 fits ${TEAM_25_AGENTS}, Business ${BUSINESS_AGENTS}) or a deeply customised setup, you need a PSA or RMM for an MSP, you use a helpdesk other than Freshdesk or Help Scout (we import both, but the free migration we do for you covers Freshdesk only), or you are looking for a free tool. For free, [self-host Colliedesk](/docs/self-host).
 
 ${aiSection}
 
@@ -179,7 +194,7 @@ const foundingPage = {
     `Founding is $99 every 3 months per workspace for up to 10 agents, locked for life, with Freshdesk migration done for you. Only ${FOUNDING_SLOTS} places, 30-day money-back guarantee. ${TEAM_25.name} is ${PRICE.team25Monthly} a month for up to ${TEAM_25.agents} agents. Self-hosting is free.`,
   summary: `Founding while it is open: $99 every 3 months per workspace, locked for life, up to 10 agents, Freshdesk migration done for you, ${FOUNDING_SLOTS} places, 30-day money-back guarantee; ${TEAM_25.name} ${PRICE.team25Monthly} a month for up to ${TEAM_25.agents} agents; 14-day free trial; self-host free`,
   h1: 'Founding: $99 every 3 months, locked for life.',
-  lede: `For ${FOUNDING_SLOTS} support teams of 3 to 10 agents who pay for Freshdesk and just got a price rise. $396 a year, about $7.60 a week for the whole team. If it is not right within 30 days, we refund you in full. ${TEAM_25_BELOW}`,
+  lede: `For ${FOUNDING_SLOTS} support teams of 3 to 10 agents who pay for Freshdesk and just got a price rise. $396 a year, about $7.60 a week for the whole team. If it is not right within 30 days, we refund you in full. ${TEAM_25_BELOW} Teams of ${BUSINESS_AGENTS} agents can talk to us about Business.`,
   preMd: foundingPlansMd,
   body: foundingBody,
   faq: foundingFaq,
@@ -191,7 +206,7 @@ const ladderPage = {
     `Colliedesk Cloud costs one flat price per workspace: Solo ${dollars(SOLO.monthly)} a month for 1 agent, Small ${dollars(SMALL.monthly)} for 3, Team ${PRICE.monthly} for 10, Team 25 ${PRICE.team25Monthly} for 25. No per-agent fees, 14-day free trial, no card. Self-hosting is free.`,
   summary: `14-day free trial, no card; ${LADDER_LINE}; a year costs ten months; no per-agent fees; founding offer limited to 10 workspaces; AI: ${PRICE.ai}; self-host free`,
   h1: 'Clear, fixed prices. No per-agent fees.',
-  lede: `Everyone on your team is included. Pick the plan by team size, from Solo at ${dollars(SOLO.monthly)} a month to Team 25 at ${PRICE.team25Monthly}. Try it free for 14 days, no card. Self-host for $0.`,
+  lede: `Everyone on your team is included. Pick the plan by team size, from Solo at ${dollars(SOLO.monthly)} a month to Team 25 at ${PRICE.team25Monthly}, or talk to us about Business for ${BUSINESS_AGENTS} agents. Try it free for 14 days, no card. Self-host for $0.`,
   preMd: plansMd,
   body,
   faq: ladderFaq,

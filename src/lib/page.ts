@@ -46,6 +46,8 @@ export interface Page {
   cta?: boolean;
   /** A Founding action between the hero buttons, shown only while Founding is open. */
   ctaFounding?: NavLink;
+  /** A call to book in place of the Self-host button, on pages that sell through a call. */
+  ctaCall?: NavLink;
   /** Markdown body. */
   body?: string;
   /** Markdown placed before the body in the twin (mirrors the HTML block before the body). */
@@ -57,8 +59,8 @@ export interface Page {
   jsonLd: JsonLd[];
   /** Custom main content instead of hero + prose. */
   view?: 'home';
-  /** Block rendered between the hero and the prose. */
-  pre?: 'pricing-plans';
+  /** Block rendered between the hero and the prose: the /pricing plans, or Team 25 and Business with the switch offer. */
+  pre?: 'pricing-plans' | 'switch-plans';
   /** Price-by-team-size chart and fit columns between the hero and the prose (/vs pages). */
   vs?: VsPricing;
   /** Side navigation for docs pages, one group per docs directory. */
