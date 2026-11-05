@@ -9,7 +9,7 @@ const body = `## The short version
 - When the trial or subscription ends, the workspace locks. You can still export everything.
 - Your data stays yours. You can export it and leave at any time.
 - Do not use Colliedesk to send spam or to break the law.
-- Colliedesk is alpha software. We work hard to keep it running and backed up, but we cannot promise it never fails.
+- Colliedesk Cloud is generally available. We watch it around the clock on [status.colliedesk.com](https://status.colliedesk.com) and copy every database change to a second data centre in the EU. See [Availability](#availability).
 
 ## Who you agree with
 
@@ -67,7 +67,7 @@ Do not use Colliedesk Cloud to:
 
 ## Availability
 
-Colliedesk is alpha. We back up every workspace daily and monitor the service around the clock, but we do not offer an uptime guarantee yet. Features change; we write each change in the [changelog](/changelog).
+Colliedesk Cloud is generally available; [what that guarantees](https://github.com/colliedesk/colliedesk/blob/main/docs/general-availability.md) is written down. We check the service around the clock from several regions and show the result on [status.colliedesk.com](https://status.colliedesk.com). Every change to a Cloud database (conversations, messages, contacts, the knowledge base, settings) is copied continuously, encrypted, to another data centre in the EU, so losing a server loses at most 5 minutes of those changes. Attachment files, and a second copy of the database, are backed up every night, encrypted, in another data centre in the EU. We test a restore every week. A written uptime commitment for paid plans will be added to these terms; we will note it in the [changelog](/changelog). Features change; we write each change in the changelog.
 
 ## Warranty and liability
 
@@ -94,8 +94,8 @@ const page: Page = {
   section: 'Product',
   title: 'Terms of service | Colliedesk',
   description:
-    'The terms for Colliedesk Cloud: free trial, plans and payment, your content, acceptable use, suspension, liability and the law that applies.',
-  summary: 'Terms for Colliedesk Cloud: trial rules, payment through Polar, your content, acceptable use, liability',
+    'The terms for Colliedesk Cloud: free trial, plans and payment, availability and backups, your content, acceptable use, liability and the law that applies.',
+  summary: 'Terms for Colliedesk Cloud: trial rules, payment through Polar, availability and backups, your content, acceptable use, liability',
   eyebrow: 'Legal',
   h1: 'Terms of service',
   lede: `Short and readable. Last updated ${LEGAL_UPDATED}.`,

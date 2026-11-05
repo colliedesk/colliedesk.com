@@ -55,8 +55,15 @@ to use another checkout. `typecheck` works without it.
   Markdown twin or llms file that names a monthly plan price before Founding. Build and check with
   `FOUNDING_STATE_FILE=<file>` to see the closed state.
 - AI prices are in `src/lib/site.ts` too (`AI_RESOLUTION`, `AI_EXTRA`, `PRICE.ai`). `pnpm check:content` fails on the retired "model cost +30%" wording anywhere on the site, llms.txt and JSON-LD included.
-- Colliedesk as a whole is alpha. Mark a feature `**Shipped**` or `**Not built yet**` in Markdown; the build turns
-  it into a badge. Never call anything beta: `pnpm check:content` fails on the word until HC Labs announces beta.
+- Colliedesk is generally available (release 1.0.0); what that promises is in the app repo's
+  [docs/general-availability.md](https://github.com/colliedesk/colliedesk/blob/main/docs/general-availability.md)
+  (`GA_DOC` in `src/lib/site.ts`). Mark a feature `**Shipped**` or `**Not built yet**` in Markdown; the build turns
+  it into a badge. Never call the product, a release or a feature alpha or beta: `pnpm check:content` fails on either
+  word. The changelog is history, so its dated entries may still name the alpha releases.
+- Uptime: measured on https://status.colliedesk.com, linked from the footer and /pricing (`STATUS_PAGE`, `STATUS_LINE` in
+  `src/lib/site.ts`). No uptime number appears on the site until the terms publish the commitment; `pnpm check` refuses "99.9%".
+  `pnpm check` fails if the footer or /pricing stops linking the status page, or /pricing or /vs/freshdesk stops
+  carrying the uptime line with its link to the terms.
 - Deploy: GitHub Pages from `.github/workflows/site.yml`, custom domain `colliedesk.com`, output directory `_site` (`_headers` keeps the Cloudflare Pages rules for `pnpm serve`).
 - Refactors that should not change the output: build `main` and the branch into two directories and
   run `node scripts/compare-site.mjs <main-build> <branch-build>`. Non-HTML files must be

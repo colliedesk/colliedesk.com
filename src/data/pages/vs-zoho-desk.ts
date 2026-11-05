@@ -24,7 +24,7 @@ const faq: Faq[] = [
 const body = `## The short answer
 
 - **Choose Zoho Desk** if you already run Zoho CRM or Zoho One, or you have one to three agents and the free plan is enough.
-- **Choose Colliedesk** if you have 4 to 10 agents, want AI without moving up a plan tier, and want your data in an open database you can self-host. Colliedesk is alpha; read the status table first.
+- **Choose Colliedesk** if you have 4 to 10 agents, want AI without moving up a plan tier, and want your data in an open database you can self-host. Colliedesk is generally available; read the status table for what is not built yet.
 
 ## Price, side by side
 

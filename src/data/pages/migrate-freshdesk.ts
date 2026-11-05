@@ -1,4 +1,4 @@
-import { FOUNDING_HREF, PRICES_READ } from '../../lib/site';
+import { FOUNDING_HREF, GA_DOC, PRICES_READ } from '../../lib/site';
 import { faqPage, techArticle } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
 
@@ -13,7 +13,7 @@ const faq: Faq[] = [
   },
   {
     q: 'Is the Colliedesk Freshdesk importer available now?',
-    a: `Yes, it is shipped, and Colliedesk as a whole is alpha. Run it in the app or from the command line; the [import guide](/docs/import-freshdesk) has both. Founding customers get their migration done for them, free. See [the founding offer](${FOUNDING_HREF}).`,
+    a: `Yes, it is shipped, and Colliedesk is generally available. Run it in the app or from the command line; the [import guide](/docs/import-freshdesk) has both. Founding customers get their migration done for them, free. See [the founding offer](${FOUNDING_HREF}).`,
   },
   {
     q: 'Can we keep Freshdesk running while we try Colliedesk?',
@@ -25,7 +25,7 @@ const faq: Faq[] = [
   },
 ];
 
-const body = `> **Status:** Colliedesk as a whole is alpha: the Freshdesk importer is shipped, and any release may change the interface or the database schema. This page explains the full process so you can plan, or do it yourself with the Freshdesk API. Founding customers get the migration done for them, free.
+const body = `> **Status:** Colliedesk is generally available, and the Freshdesk importer is shipped. [What general availability means](${GA_DOC}) is written down in the open-source repository. This page explains the full process so you can plan, or do it yourself with the Freshdesk API. Founding customers get the migration done for them, free.
 
 ## Switch gradually
 

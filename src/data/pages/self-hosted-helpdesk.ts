@@ -1,4 +1,4 @@
-import { REPO } from '../../lib/site';
+import { GA_DOC, REPO } from '../../lib/site';
 import { faqPage, techArticle } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
 import { statusTable } from './collie-status';
@@ -62,7 +62,7 @@ Self-hosting is free in money, not in time. You are responsible for:
 
 ## What Colliedesk does today
 
-Colliedesk is alpha: the interface or database schema may change between releases. Self-host it to try it; read the [roadmap](/roadmap) before a production move.
+Colliedesk is generally available. Before a production move, read [what general availability means](${GA_DOC}) and the [roadmap](/roadmap).
 
 ${statusTable}`;
 

@@ -16,7 +16,7 @@ const faq: Faq[] = [
   },
   {
     q: 'When can you start?',
-    a: 'The Freshdesk importer is available now in alpha, and Colliedesk Cloud is live. Migrations for founding customers can start now. Tell us your renewal date so we plan before it.',
+    a: 'The Freshdesk importer is available now, and Colliedesk Cloud is generally available. Migrations for founding customers can start now. Tell us your renewal date so we plan before it.',
   },
   {
     q: 'What if something does not arrive?',
@@ -24,7 +24,7 @@ const faq: Faq[] = [
   },
 ];
 
-const body = `> **Status:** the Freshdesk importer is available now, in alpha. Done-for-you migrations start now. Book to plan around your renewal date.
+const body = `> **Status:** the Freshdesk importer is available now. Done-for-you migrations start now. Book to plan around your renewal date.
 
 ## What we move
 

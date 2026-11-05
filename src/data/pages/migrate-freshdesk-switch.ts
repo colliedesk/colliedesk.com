@@ -4,7 +4,7 @@
 // done-for-you page; nothing here loads from another origin.
 import { faqPage, techArticle } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
-import { BUSINESS, BUSINESS_AGENTS, CONTACT_EMAIL, SWITCH_CALL_HREF, SWITCH_CALL_LABEL, TRIAL_HREF } from '../../lib/site';
+import { BUSINESS, BUSINESS_AGENTS, CONTACT_EMAIL, GA_DOC, SWITCH_CALL_HREF, SWITCH_CALL_LABEL, TRIAL_HREF } from '../../lib/site';
 import { businessRow, switchSection, team25Row } from './pricing';
 
 const faq: Faq[] = [
@@ -47,9 +47,9 @@ You get a **reconcile report**: the Freshdesk count and the Colliedesk count for
 
 The full process, step by step: [Freshdesk migration, done for you](/migrate/freshdesk/done-for-you).
 
-## Why you can trust an alpha with your support
+## Why you can trust Colliedesk with your support
 
-Colliedesk is alpha, and we say so: a release may change the interface. So the switch is built to be safe. You run one queue next to Freshdesk, not your whole support desk on day one. We run the import, and the reconcile report shows what arrived. You pay nothing until your team answers real tickets in Colliedesk. Colliedesk Cloud keeps nightly encrypted backups in Germany, and we have a tested restore. Colliedesk is open source under AGPL-3.0: the code and the data model are public, and you can [self-host it](/docs/self-host) if you ever leave our cloud.
+Colliedesk is generally available, and [what that guarantees](${GA_DOC}) is written down. The switch is still built to be safe. You run one queue next to Freshdesk, not your whole support desk on day one. We run the import, and the reconcile report shows what arrived. You pay nothing until your team answers real tickets in Colliedesk. Colliedesk Cloud copies every database change, encrypted, to another data centre in Germany within minutes, keeps nightly encrypted backups there too, and tests a restore every week. Colliedesk is open source under AGPL-3.0: the code and the data model are public, and you can [self-host it](/docs/self-host) if you ever leave our cloud.
 
 Freshdesk still does more in some areas, such as automations and reports. Read [Colliedesk vs Freshdesk](/vs/freshdesk) before you decide.
 

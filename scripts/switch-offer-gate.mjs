@@ -48,9 +48,9 @@ export function offerFindings({ path, text }) {
   return findings;
 }
 
-// What the done-for-you migration moves (the Freshdesk importer), and the reasons to trust an alpha.
+// What the done-for-you migration moves (the Freshdesk importer), and the reasons to trust Colliedesk.
 const WHAT_MOVES = ['archived', 'replies', 'private notes', 'attachments', 'tags', 'contacts', 'companies', 'time entries', 'reconcile report', 'SHA-256'];
-const TRUST = ['alpha', 'next to Freshdesk', 'We run the import', 'nightly', 'tested restore', 'open source'];
+const TRUST = ['generally available', 'next to Freshdesk', 'We run the import', 'nightly', 'restore', 'open source'];
 
 /** Findings for the switch page HTML. */
 export function switchPageFindings({ path, html }) {
@@ -81,8 +81,8 @@ export function doneForYouFindings({ path, text }) {
 
 // Business replaced Unlimited (owner decision 03/11/2026). "Unlimited conversations" is a feature.
 const UNLIMITED = /\bUnlimited\b(?! conversations)/;
-// No uptime number until general availability (colliedesk/colliedesk milestone "general
-// availability"); until then the Business card says the commitment comes at GA. Lift with GA.
+// No uptime number until the terms publish the commitment (owner decision 04/11/2026: only after the
+// night-time outage call, backups and the rebuild drill are proven). The SLA pull request lifts this.
 const UPTIME_NUMBER = /\b99\.9\s?%/;
 
 /** Findings for any page, Markdown twin or llms file this site writes. */
@@ -90,6 +90,6 @@ export function retiredClaimFindings({ path, text }) {
   const findings = [];
   const unlimited = text.match(UNLIMITED);
   if (unlimited) findings.push(`${path}: names the retired Unlimited plan ("${text.slice(Math.max(0, unlimited.index - 30), unlimited.index + 40).replace(/\s+/g, ' ')}"); Business replaced it`);
-  if (UPTIME_NUMBER.test(text)) findings.push(`${path}: states a 99.9% uptime number before general availability; say "uptime commitment at general availability"`);
+  if (UPTIME_NUMBER.test(text)) findings.push(`${path}: states a 99.9% uptime number before the terms publish it; say "a written uptime commitment is coming"`);
   return findings;
 }

@@ -22,7 +22,7 @@ const faq: Faq[] = [
 const body = `## The short answer
 
 - **Choose FreeScout** if you want a mature, self-hosted helpdesk in the style of Help Scout, you already run PHP, and you are fine buying modules for the knowledge base, live chat, tags or workflows.
-- **Choose Colliedesk** if you want every feature in the open-source code, an official hosted option at one flat price, and a Freshdesk importer that proves nothing was lost. Colliedesk is alpha; read the status table first.
+- **Choose Colliedesk** if you want every feature in the open-source code, an official hosted option at one flat price, and a Freshdesk importer that proves nothing was lost. Colliedesk is generally available; read the status table for what is not built yet.
 
 ## Side by side
 
@@ -67,7 +67,7 @@ const page: Page = {
   title: 'Colliedesk vs FreeScout: two AGPL helpdesks, paid modules vs every feature free',
   description:
     `Colliedesk vs FreeScout, both AGPL-3.0: FreeScout sells modules and has no official cloud; Colliedesk ships every feature free and offers flat-priced hosting (${OUR_PLAN} ${OUR_PRICE} for up to 10 agents). Freshdesk import compared.`,
-  summary: `FreeScout free core plus paid modules, no official cloud or Freshdesk importer vs Colliedesk every feature free, flat-priced Cloud (${OUR_PLAN} ${OUR_PRICE}), importer available now (alpha)`,
+  summary: `FreeScout free core plus paid modules, no official cloud or Freshdesk importer vs Colliedesk every feature free, flat-priced Cloud (${OUR_PLAN} ${OUR_PRICE}), importer available now`,
   eyebrow: 'Compare · Open source',
   h1: 'Colliedesk vs FreeScout',
   lede: withFoundingLead('Both are open source under AGPL-3.0. FreeScout is a lightweight PHP helpdesk with paid modules. Colliedesk keeps every feature in the free code. Here is the difference, with sources.'),

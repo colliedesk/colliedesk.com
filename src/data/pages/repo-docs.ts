@@ -112,7 +112,7 @@ function docPage(path: string, file: string, summaryFallback: string, withNav = 
     path,
     section: 'Docs',
     title: `${title} · Colliedesk docs`,
-    description: `${plain(lede || summaryFallback)} Colliedesk ${path.startsWith('/docs/self-host') ? 'self-host' : 'user'} guide (alpha).`,
+    description: `${plain(lede || summaryFallback)} Colliedesk ${path.startsWith('/docs/self-host') ? 'self-host' : 'user'} guide.`,
     summary: plain(lede || summaryFallback),
     eyebrow: 'Docs',
     h1: title,
@@ -147,10 +147,10 @@ export function roadmapPage(): Page {
     section: 'Product',
     eyebrow: 'Roadmap',
     h1: 'Colliedesk roadmap',
-    title: 'Colliedesk roadmap: what is live in alpha and what comes next',
+    title: 'Colliedesk roadmap: what is live and what comes next',
     description:
-      'What Colliedesk has shipped in alpha on Colliedesk Cloud and what comes next: one-click Gmail and Microsoft 365 mailboxes, then AI, then automations, SLA and reports. Dates are targets.',
-    summary: 'Now alpha (email, Freshdesk and Help Scout importers, knowledge base, Cloud trial); next one-click mailboxes; then AI; later automations, SLA, reports',
+      'What Colliedesk has shipped on Colliedesk Cloud and what comes next: one-click Gmail and Microsoft 365 mailboxes, then AI, then automations, SLA and reports. Dates are targets.',
+    summary: 'Live now (email, Freshdesk and Help Scout importers, knowledge base, Cloud trial); next one-click mailboxes; then AI; later automations, SLA, reports',
   } satisfies Partial<Page>);
   page.jsonLd = [techArticle(page)];
   return page;

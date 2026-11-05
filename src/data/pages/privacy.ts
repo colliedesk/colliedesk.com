@@ -3,7 +3,7 @@ import type { Page } from '../../lib/page';
 import { CONTACT_EMAIL } from '../../lib/site';
 
 // /terms reads LEGAL_UPDATED; privacy has its own date.
-export const LEGAL_UPDATED = '2026-10-28';
+export const LEGAL_UPDATED = '2026-11-05';
 export const PRIVACY_UPDATED = '2026-11-04';
 export { CONTACT_EMAIL };
 

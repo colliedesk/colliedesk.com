@@ -15,7 +15,7 @@ const OFFER = `We move your team from Freshdesk, and you pay when your team answ
 Don&#x27;t pay twice while you switch. Your first paid month is on us, up to the amount on that invoice.
 Team 25 and Business only. The 14-day free trial is unchanged and comes first. <a href="${SWITCH_CALL}">Talk to us</a>`;
 const MOVES = 'Tickets (archived ones included), replies, private notes, attachments, tags, contacts, companies and time entries. A reconcile report with counts and a SHA-256 checksum for every attachment.';
-const TRUST = 'Colliedesk is alpha. Run one queue next to Freshdesk. We run the import. Nightly encrypted backups with a tested restore. It is open source.';
+const TRUST = 'Colliedesk is generally available. Run one queue next to Freshdesk. We run the import. Nightly encrypted backups, and we test a restore every week. It is open source.';
 const CTAS = `<a class="btn btn-primary" href="https://app.colliedesk.com/sign-in?intent=trial">Start free trial</a> <a class="btn" href="${SWITCH_CALL}">Book a 30-min switch call</a>`;
 const SWITCH_PAGE = `<link rel="canonical" href="https://colliedesk.com${SWITCH_PATH}"><script src="/attribution.js" defer></script>${CTAS}${TEAM_25}${BUSINESS}${OFFER}${MOVES}${TRUST}`;
 
@@ -71,11 +71,11 @@ test('switch page: a third-party script, stylesheet, image or frame fails', () =
 });
 
 test('switch page: no call CTA, no Business card and no backup line fail', () => {
-  const html = SWITCH_PAGE.replace('Book a 30-min switch call', 'Book').replace('plan-name">Business', 'plan-name">Other').replace('tested restore', 'restore');
+  const html = SWITCH_PAGE.replace('Book a 30-min switch call', 'Book').replace('plan-name">Business', 'plan-name">Other').replace('test a restore', 'test a backup');
   assert.deepEqual(switchPageFindings({ path: SWITCH_PATH, html }), [
     `${SWITCH_PATH}: no "Book a 30-min switch call" link to ${SWITCH_CALL}`,
     `${SWITCH_PATH}: no Business card`,
-    `${SWITCH_PATH}: trust paragraph lacks "tested restore"`,
+    `${SWITCH_PATH}: trust paragraph lacks "restore"`,
   ]);
 });
 
@@ -89,9 +89,10 @@ test('done-for-you: links the switch page and names Business', () => {
   assert.equal(doneForYouFindings({ path: '/x', text: 'Included with Founding only.' }).length, 2);
 });
 
-test('retired claims: the Unlimited plan and a 99.9% uptime number fail; "Unlimited conversations" passes', () => {
+test('retired claims: the Unlimited plan and a 99.9% number before the terms publish it fail; "Unlimited conversations" passes', () => {
   assert.deepEqual(retiredClaimFindings({ path: '/x', text: 'Unlimited conversations, no per-agent fees.' }), []);
   assert.equal(retiredClaimFindings({ path: '/x', text: 'Above 25, Unlimited is coming soon.' }).length, 1);
-  assert.match(retiredClaimFindings({ path: '/x', text: 'A 99.9% uptime SLA.' })[0], /general availability/);
-  assert.match(retiredClaimFindings({ path: '/x', text: '99.9 % uptime' })[0], /general availability/);
+  assert.match(retiredClaimFindings({ path: '/x', text: 'A 99.9% uptime SLA.' })[0], /before the terms publish it/);
+  assert.match(retiredClaimFindings({ path: '/x', text: '99.9 % uptime' })[0], /before the terms publish it/);
+  assert.deepEqual(retiredClaimFindings({ path: '/x', text: 'A written uptime commitment is coming.' }), []);
 });
