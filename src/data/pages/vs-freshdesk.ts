@@ -43,7 +43,7 @@ const faq: Faq[] = [
   },
   {
     q: 'Is Colliedesk ready to replace Freshdesk today?',
-    a: 'For a small team that mostly answers email, yes. Colliedesk is generally available on Colliedesk Cloud, with the email channel, Cc on replies, saved replies, attachments, a new conversation from the inbox, contact history, AI reply drafts and the Freshdesk importer. Not built yet: AI auto-answer, automations, SLA, business hours, reports, live chat and phone. If you rely on those, stay on Freshdesk for now. If your renewal is months away, the founding offer locks $99 every 3 months for life and includes the migration.',
+    a: 'For a small team that mostly answers email, yes. Colliedesk is generally available on Colliedesk Cloud, with the email channel, Cc on replies, saved replies, attachments, a new conversation from the inbox, contact history, AI reply drafts and the Freshdesk importer. Response targets in business hours and a Results page that compares your last 30 days with Freshdesk are shipped too. Not built yet: AI auto-answer, automations, macros, CSAT, live chat (coming Q1 2027) and phone. If you rely on those, stay on Freshdesk for now. If your renewal is months away, the founding offer locks $99 every 3 months for life and includes the migration.',
   },
   {
     q: 'Can I get my tickets out of Freshdesk with the full conversation?',
@@ -80,9 +80,10 @@ Freshdesk has had more than a decade to grow. If you need a row marked "Freshdes
 
 | Feature | Freshdesk | Colliedesk |
 |---|---|---|
-| Automations, SLA and business hours | **Freshdesk**: yes | Not built yet |
-| Reports and dashboards | **Freshdesk**: yes | Not built yet |
-| Channels beyond email (chat, phone, social) | **Freshdesk**: yes | Live chat later; email today |
+| Automations, macros and CSAT | **Freshdesk**: yes | Not built yet |
+| Reports and dashboards | **Freshdesk**: custom reports and dashboards | Results only: your last 30 or 7 days next to Freshdesk |
+| SLA and business hours | Yes | Yes: response targets by priority, in business hours |
+| Channels beyond email (chat, phone, social) | **Freshdesk**: yes | Live chat in Q1 2027; email today |
 | App marketplace | **Freshdesk**: yes | No |
 | Shared inbox, Cc, private notes, saved replies | Yes | Yes, shipped |
 | Knowledge base and help center | Yes | Yes, shipped |
