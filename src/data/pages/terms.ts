@@ -105,7 +105,7 @@ Write to support@colliedesk.com.
 
 ### Backups
 
-Every Cloud database is copied continuously, encrypted, to a second location in the EU, so losing a server loses at most 5 minutes of data. A nightly encrypted backup of the database and the attachments is kept off-site in the EU as well. We test a restore at least every 30 days. Features change; we write each change in the [changelog](/changelog).
+Every change to a Cloud database (conversations, messages, contacts, the knowledge base, settings) is copied continuously, encrypted, to another data centre in the EU, so losing a server loses at most 5 minutes of those changes. Attachment files, and a second copy of the database, are backed up every night, encrypted, in another data centre in the EU. We test a restore at least every 30 days. Features change; we write each change in the [changelog](/changelog).
 
 ## Warranty and liability
 
