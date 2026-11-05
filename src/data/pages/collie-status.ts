@@ -25,7 +25,8 @@ export const statusTable = `Colliedesk is generally available. Everything marked
 | Response targets (SLA) by priority, counted in business hours, with due-soon and overdue alerts | **Shipped** |
 | Results: your last 30 or 7 days in Freshdesk next to Colliedesk, every number linked to its conversations | **Shipped** |
 | Automations, macros and CSAT | **Not built yet** |
-| Zendesk importer, live chat widget | **Not built yet** |`;
+| Live chat widget into the same inbox | **Coming Q1 2027** |
+| Zendesk importer | **Not built yet** |`;
 
 export const collieFacts: Readonly<Record<'price' | 'ai' | 'free' | 'source' | 'export', string>> = {
   price: FOUNDING_OPEN
