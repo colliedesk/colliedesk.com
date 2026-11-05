@@ -1,4 +1,4 @@
-import { AI_RESOLUTION, CONTACT_EMAIL, LADDER_LINE, POSITIONING, PRICE, PRICES_READ, REPO, TAGLINE, TEAM_25, TEAM_25_AGENTS, TEAM_25_HOME_LINE, TRIAL_HREF } from '../../lib/site';
+import { AI_ALLOWANCE, AI_RESOLUTION, CONTACT_EMAIL, LADDER_LINE, POSITIONING, PRICE, PRICES_READ, REPO, TAGLINE, TEAM_25, TEAM_25_AGENTS, TEAM_25_HOME_LINE, TRIAL_HREF } from '../../lib/site';
 import { PER_WORKSPACE_FAQ } from './pricing';
 import { faqPage, organization, softwareApplication } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
@@ -41,7 +41,7 @@ export const HOME_FAQ: Faq[] = [
   },
   {
     q: 'How does AI pricing work?',
-    a: `AI reply drafts and triage suggestions are shipped in alpha and stay off until an admin turns them on. They are part of every plan, not an add-on, with a monthly allowance; with your own key you pay your provider and Colliedesk adds no fee. Auto-answer is not built yet; while Colliedesk is alpha it will cost ${AI_RESOLUTION} per resolution, charged only when the customer needs no person afterwards.`,
+    a: `AI reply drafts and triage suggestions are shipped in alpha and stay off until an admin turns them on. They are part of every plan, not an add-on: ${AI_ALLOWANCE}, and you can buy more; with your own key you pay your provider and Colliedesk adds no fee. Auto-answer is not built yet; it will cost ${AI_RESOLUTION} per resolution, charged only when the customer needs no person afterwards.`,
   },
   {
     q: 'Can I move my Freshdesk tickets to Colliedesk?',

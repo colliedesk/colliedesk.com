@@ -88,10 +88,15 @@ export const TEAM_25_IMPORT = 'We run the Freshdesk import with you.';
 export const TEAM_25_BELOW = `Teams of ${TEAM_25_AGENTS} agents can buy Team 25 below.`;
 export const TEAM_25_HOME_LINE = `Teams of ${TEAM_25_AGENTS} agents can buy [${TEAM_25.name} for ${dollars(TEAM_25.monthly)} a month](/pricing).`;
 
-// AI on Colliedesk Cloud: reply drafts and triage are included in every plan with a monthly allowance;
-// auto-answer (not built yet) is charged per resolution, only when the customer needs no person
-// afterwards, at this price while Colliedesk is alpha; your own key adds no Colliedesk fee.
-export const AI_RESOLUTION = '$0.50';
+// AI on Colliedesk Cloud: reply drafts and triage are included in every plan as monthly AI credits
+// (one draft or one triage suggestion uses one credit); more can be bought; auto-answer (not built
+// yet) is charged per resolution, only when the customer needs no person afterwards. These prices are
+// final, not alpha prices, so a customer never sees them rise. Your own key adds no Colliedesk fee.
+export const AI_RESOLUTION = '$0.75';
+export const AI_CREDITS = '1,000';
+export const AI_TRIAL_CREDITS = '500';
+export const AI_TOP_UP = '$20';
+export const AI_ALLOWANCE = `${AI_CREDITS} AI credits a month`;
 
 export const PRICE = {
   monthly: dollars(TEAM.monthly),
@@ -101,7 +106,7 @@ export const PRICE = {
   // "$19 to $149": the plans that can be bought today, cheapest to dearest.
   range: `${dollars(SOLO.monthly)} to ${dollars(TEAM_25.monthly)}`,
   founding: '$99 every 3 months ($396 a year), locked for life, with free Freshdesk migration',
-  ai: `reply drafts and triage included with a monthly allowance; auto-answer ${AI_RESOLUTION} per resolution while alpha, once it ships; your own key adds no fee`,
+  ai: `reply drafts and triage included, ${AI_ALLOWANCE}; auto-answer ${AI_RESOLUTION} per resolution once it ships; your own key adds no fee`,
 } as const;
 // "+ AI ..." after a Colliedesk price in comparisons. Drafts and triage are included, so the only AI
 // that can add to the bill is auto-answer, which is not built yet.

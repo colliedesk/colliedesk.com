@@ -1,5 +1,5 @@
 import {
-  AI_EXTRA, AI_RESOLUTION, agentsLabel, CLOUD_PLANS, CONTACT_EMAIL, dollars, FOUNDING_CHECKOUT, FOUNDING_HREF, LADDER_LINE, PRICE, REPO, SMALL, SOLO, TEAM, TEAM_25,
+  AI_ALLOWANCE, AI_CREDITS, AI_EXTRA, AI_RESOLUTION, AI_TOP_UP, AI_TRIAL_CREDITS, agentsLabel, CLOUD_PLANS, CONTACT_EMAIL, dollars, FOUNDING_CHECKOUT, FOUNDING_HREF, LADDER_LINE, PRICE, REPO, SMALL, SOLO, TEAM, TEAM_25,
   TEAM_25_AGENTS, TEAM_25_BELOW, TEAM_25_IMPORT, TEAM_25_WHO, TRIAL_HREF, UNLIMITED,
 } from '../../lib/site';
 import { FOUNDING_SLOTS, foundingState } from '../../lib/founding';
@@ -37,7 +37,7 @@ const ladderFaq: Faq[] = [
   },
   {
     q: 'How is AI priced?',
-    a: `Reply drafts and triage suggestions are included in every plan, with a monthly allowance. Auto-answer is not built yet. While Colliedesk is alpha it will cost ${AI_RESOLUTION} per resolution, charged only when the customer does not need a person afterwards. For comparison, Help Scout AI Answers costs $0.75 per resolution ([vs Help Scout](/vs/help-scout)). If you bring your own key, you pay your provider directly and Colliedesk adds no fee.`,
+    a: `Reply drafts and triage suggestions are included in every plan: ${AI_ALLOWANCE}, ${AI_TRIAL_CREDITS} during the free trial. Auto-answer is not built yet. It will cost ${AI_RESOLUTION} per resolution, charged only when the customer does not need a person afterwards, the same as Help Scout AI Answers ([vs Help Scout](/vs/help-scout)). These are not alpha prices: they will not go up later. If you bring your own key, you pay your provider directly and Colliedesk adds no fee.`,
   },
   {
     q: 'Is there a free trial?',
@@ -85,8 +85,8 @@ const aiSection = `## AI in every plan
 
 **Shipped**, off until an admin turns it on: reply drafts and triage suggestions; a person edits and sends every reply. **Not built yet**: auto-answer for repetitive tickets with a human in the loop. There is no AI seat licence.
 
-- **Reply drafts and triage:** included in every plan, with a monthly allowance. We do not publish a number of drafts or a dollar amount here. The amount is set per plan and shown to you on Cloud under Settings → Built-in AI → Usage, with what is used and what is left. Self-hosted servers have no allowance: they use your own key. It resets on the first day of each month (UTC). When it is used up, drafts and triage on our AI pause until then; your own key keeps working.
-- **Auto-answer:** ${AI_RESOLUTION} per resolution while Colliedesk is alpha, charged only when the customer does not need a person afterwards.
+- **Reply drafts and triage:** included in every plan: ${AI_ALLOWANCE}, ${AI_TRIAL_CREDITS} during the free trial. One draft or one triage suggestion uses one credit. Cloud shows what is used and what is left under Settings → Built-in AI → Usage. Self-hosted servers have no allowance: they use your own key. It resets on the first day of each month (UTC). When it is used up, drafts and triage on our AI pause until then, and you are never billed for more by surprise. To keep going, add ${AI_CREDITS} credits for ${AI_TOP_UP} (coming soon; bought credits do not expire while you have a plan), or use your own key.
+- **Auto-answer:** ${AI_RESOLUTION} per resolution, charged only when the customer does not need a person afterwards.
 - **Bring your own key:** you pay your provider directly; Colliedesk adds no fee. Self-hosted installs use your own key.`;
 
 const body = `## What you pay for
