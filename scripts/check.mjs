@@ -616,9 +616,9 @@ if (!foundingOpen) {
   }
 }
 
-// Status honesty: the product is alpha and live on Colliedesk Cloud. No page may promise a
+// Status honesty: the product is generally available and live on Colliedesk Cloud. No page may promise a
 // release that has already happened ("v0.2"), call the product pre-alpha or say checkout is
-// coming. The Team 25 card (and, once Founding closes, Solo, Small and Team) must start the free trial at the real signup
+// coming (`pnpm check:content` fails any "alpha" or "beta"). The Team 25 card (and, once Founding closes, Solo, Small and Team) must start the free trial at the real signup
 // entry, every "Start free trial" button must go to the same place, and the Unlimited card (coming
 // soon) must offer no link at all. The trial link carries ?intent=trial so the app titles the page for a
 // new workspace; the bare sign-in page is only for "Log in".
@@ -677,7 +677,7 @@ const TEAM_25_TRIAL_URL = `${TRIAL_URL}&amp;plan=team25`;
   }
 }
 
-// A status cell holds its badge and nothing else: text beside a badge ("(alpha)") renders larger and
+// A status cell holds its badge and nothing else: text beside a badge ("(new)") renders larger and
 // lighter than the badge and wraps under it on a phone. A qualifier goes inside the badge.
 for (const file of files.filter((f) => f.endsWith('.html'))) {
   for (const m of readFileSync(file, 'utf8').matchAll(/<td>((?:(?!<\/td>)[\s\S])*?class="badge[\s\S]*?)<\/td>/g)) {
@@ -685,12 +685,29 @@ for (const file of files.filter((f) => f.endsWith('.html'))) {
   }
 }
 
-// Marketing pages say "alpha", never a version number ("0.0.x", "0.1.0"). Versions belong
+// Marketing pages say "generally available", never a version number ("0.0.x", "0.1.0"). Versions belong
 // to the changelog, the roadmap and the docs, which come from the product repo; JSON-LD is not shown.
 for (const file of files.filter((f) => f.endsWith('.html') && !/[\\/](changelog|roadmap)\.html$|[\\/]docs[\\/]|[\\/]docs\.html$/.test(f))) {
   const shown = readFileSync(file, 'utf8').replace(/<script[\s\S]*?<\/script>/g, '').replace(/<[^>]+>/g, ' ');
   const m = shown.match(/\b0\.\d+\.(?:x|\d+)\b/);
-  if (m) fail(`${file.slice(outDir.length - 1)}: shows version "${m[0]}"; say alpha instead`);
+  if (m) fail(`${file.slice(outDir.length - 1)}: shows version "${m[0]}"; say generally available instead`);
+}
+
+// General availability: every paid Cloud plan has 99.9% monthly uptime, measured on the public status
+// page and set out in the terms. The footer and /pricing link the status page; /pricing and /vs/freshdesk
+// link the service level section of the terms, and that section's anchor exists.
+{
+  const STATUS_URL = 'https://status.colliedesk.com';
+  const SLA_ID = 'availability-and-service-level';
+  if (!read('terms.html').includes(`id="${SLA_ID}"`)) fail(`/terms: no section with id "${SLA_ID}"`);
+  const legal = read('index.html').match(/<div class="wrap footer-legal">[\s\S]*?<\/p>/)?.[0] ?? '';
+  if (!legal.includes(`href="${STATUS_URL}"`)) fail(`footer: does not link the status page ${STATUS_URL}`);
+  if (!read('pricing.html').includes(`href="${STATUS_URL}"`)) fail(`/pricing: does not link the status page ${STATUS_URL}`);
+  for (const name of ['pricing', 'vs/freshdesk']) {
+    const html = read(`${name}.html`);
+    if (!html.includes(`href="/terms#${SLA_ID}"`)) fail(`/${name}: does not link the service level, /terms#${SLA_ID}`);
+    if (!/99\.9% uptime on every paid plan/.test(html)) fail(`/${name}: does not say "99.9% uptime on every paid plan"`);
+  }
 }
 
 // /compare is the hub of every comparison page: each /vs page is linked from it, the header

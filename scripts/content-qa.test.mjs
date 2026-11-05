@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { betaFindings, checkPage, foundingLeadFindings, oldAiPriceFindings, readingGrade } from './content-qa.mjs';
+import { alphaFindings, betaFindings, checkPage, foundingLeadFindings, oldAiPriceFindings, readingGrade } from './content-qa.mjs';
 
 // Plain sentences a 7th grader reads easily; links to pricing (CTA) and to a source.
 const CLEAN = `# Move off Freshdesk before your renewal
@@ -119,7 +119,7 @@ test('a link to the page itself or to the app is not an internal link', () => {
   assert.match(findings[0], /links 1 other page/);
 });
 
-// Colliedesk as a whole is alpha; nothing on the site may be called beta until HC Labs announces it.
+// Colliedesk is generally available; nothing on the site may call the product, a release or a feature beta.
 test('fails the word beta in any case, quoting where it appears', () => {
   for (const text of ['AI is coming after beta.', '| Gmail mailboxes | **Beta** |', 'Our BETA programme', 'Not there yet (beta).']) {
     const findings = betaFindings('/pricing', text);
@@ -132,12 +132,41 @@ test('reports every line that says beta, not only the first', () => {
   assert.equal(betaFindings('/', 'Beta next.\nAlpha now.\nAI after beta.').length, 2);
 });
 
-test('allows alpha copy and words that only contain the letters beta', () => {
-  assert.deepEqual(betaFindings('/', 'Colliedesk is alpha. Sorted alphabetically. A Betamax tape. The alphabet.'), []);
+test('allows words that only contain the letters beta', () => {
+  assert.deepEqual(betaFindings('/', 'Colliedesk is generally available. A Betamax tape. The alphabet.'), []);
 });
 
 test('allows beta inside a URL or a Markdown link target', () => {
   assert.deepEqual(betaFindings('/vs/x', 'Source: [their pricing](https://example.com/beta/pricing) and https://beta.example.com/plans'), []);
+});
+
+// Colliedesk is generally available since 1.0.0; no page may still describe it as alpha. Dated changelog
+// entries are history and are not checked (the caller skips /changelog).
+test('fails the word alpha in any case, quoting where it appears', () => {
+  for (const text of [
+    'Colliedesk as a whole is alpha.',
+    '| Freshdesk importer | Shipped (alpha) |',
+    'Alpha software: the interface may change.',
+    'Auto-answer is $0.50 per resolution while alpha.',
+    'Do not call it pre-alpha.',
+    'Colliedesk is in ALPHA today.',
+  ]) {
+    const findings = alphaFindings('/pricing', text);
+    assert.equal(findings.length, 1, text);
+    assert.match(findings[0], /^\/pricing: says "alpha"; Colliedesk is generally available/);
+  }
+});
+
+test('reports every line that says alpha, not only the first', () => {
+  assert.equal(alphaFindings('/', 'Alpha now.\nGenerally available.\nShipped in alpha.').length, 2);
+});
+
+test('allows general availability copy and words that only contain the letters alpha', () => {
+  assert.deepEqual(alphaFindings('/', 'Colliedesk is generally available. Sorted alphabetically. The alphabet. Alphanumeric codes.'), []);
+});
+
+test('allows alpha inside a URL or a Markdown link target', () => {
+  assert.deepEqual(alphaFindings('/vs/x', 'Source: [their notes](https://example.com/alpha/notes) and https://alpha.example.com/plans'), []);
 });
 
 // AI is priced per resolution and by allowance now; the old "model cost plus 30%" price must not come back.
@@ -159,7 +188,7 @@ test('fails the retired AI price in any of its wordings, quoting where it appear
 
 test('allows the current AI price and unrelated percentages', () => {
   const ok = [
-    'Auto-answer costs $0.50 per resolution while Colliedesk is alpha.',
+    'Auto-answer costs $0.50 per resolution.',
     'Reply drafts and triage are included in every plan, with a monthly allowance.',
     'Bring your own key: Colliedesk adds no fee.',
     'We warn you at 80%. Freshdesk raised prices by 30% in 2024.',

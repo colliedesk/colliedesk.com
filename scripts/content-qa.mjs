@@ -142,24 +142,35 @@ export function checkPage({ path, md, title, description }, debt = {}) {
   return findings;
 }
 
-// Colliedesk as a whole is alpha. Until HC Labs announces beta, nothing this site writes calls the
-// product, a release or a feature beta: a feature is shipped or not built yet. Link targets and bare
-// URLs are not copy. /docs and /roadmap bodies come from the product repository, which has the same
-// rule for its own text; their titles and descriptions are written here and are checked.
+// Colliedesk is generally available (release 1.0.0). No page describes the product, a release or a
+// feature as alpha or beta any more: a feature is shipped or not built yet. Link targets and bare URLs
+// are not copy. /docs and /roadmap bodies come from the product repository, which has the same rule for
+// its own text; their titles and descriptions are written here and are checked. The changelog is
+// history: its dated entries may still name the alpha releases, so the caller skips /changelog for alpha.
 const BETA_RE = /\bbeta\b/i;
+const ALPHA_RE = /\balpha\b/i;
 const URL_RE = /\]\([^)\s]*\)|https?:\/\/[^\s)"'<>]+/g;
 const PRODUCT_DOCS = [/^\/docs(\/|$)/, /^\/roadmap$/];
+const CHANGELOG = /^\/changelog$/;
 
-/** One finding per line of text that says "beta" outside a URL. */
-export function betaFindings(path, text) {
-  return text.split('\n').flatMap((raw) => {
+/** One finding per line of text that matches `re` outside a URL, quoting where it appears. */
+const wordFindings = (re, message) => (path, text) =>
+  text.split('\n').flatMap((raw) => {
     const line = raw.replace(URL_RE, '');
-    const at = line.search(BETA_RE);
+    const at = line.search(re);
     if (at < 0) return [];
     const quote = line.slice(Math.max(0, at - 50), at + 40).replace(/\s+/g, ' ').trim();
-    return [`${path}: says "beta"; Colliedesk is alpha as a whole, so say shipped or not built yet: "${quote}"`];
+    return [`${path}: ${message}: "${quote}"`];
   });
-}
+
+/** One finding per line of text that says "beta" outside a URL. */
+export const betaFindings = wordFindings(BETA_RE, 'says "beta"; Colliedesk is generally available, so say shipped or not built yet');
+
+/** One finding per line of text that says "alpha" outside a URL. */
+export const alphaFindings = wordFindings(
+  ALPHA_RE,
+  'says "alpha"; Colliedesk is generally available, so say that and mark a feature shipped or not built yet',
+);
 
 // AI on Colliedesk Cloud is no longer sold at the model provider's cost plus a margin: reply drafts and
 // triage are included with a monthly allowance, auto-answer is priced per resolution, and your own key
@@ -257,7 +268,10 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
       for (const f of betaFindings(path, `${title}\n${description}`)) sitewide.add(f);
       if (!fromProduct) for (const f of betaFindings(path, visibleText(html))) sitewide.add(f);
       // JSON-LD included: search engines quote it.
-      for (const f of oldAiPriceFindings(path, fromProduct ? `${title}\n${description}` : decode(html.replace(/<style[\s\S]*?<\/style>/g, '').replace(/<[^>]+>/g, ' ')))) sitewide.add(f);
+      const withJsonLd = decode(html.replace(/<style[\s\S]*?<\/style>/g, '').replace(/<[^>]+>/g, ' '));
+      const head = `${title}\n${description}`;
+      if (!CHANGELOG.test(path)) for (const f of alphaFindings(path, fromProduct ? head : `${head}\n${withJsonLd}`)) sitewide.add(f);
+      for (const f of oldAiPriceFindings(path, fromProduct ? head : withJsonLd)) sitewide.add(f);
       if (!fromProduct) {
         for (const text of [title, description, visibleText(html.replace(/<head>[\s\S]*?<\/head>/, ''))]) {
           for (const f of foundingLeadFindings(path, text, foundingOpen)) sitewide.add(f);
@@ -265,12 +279,13 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
       }
     } else if (file.endsWith('.md') && !fromProduct) {
       for (const f of betaFindings(path, readFileSync(file, 'utf8'))) sitewide.add(f);
+      if (!CHANGELOG.test(path)) for (const f of alphaFindings(`${path}.md`, readFileSync(file, 'utf8'))) sitewide.add(f);
       for (const f of oldAiPriceFindings(path, readFileSync(file, 'utf8'))) sitewide.add(f);
       for (const f of foundingLeadFindings(`${path}.md`, readFileSync(file, 'utf8'), foundingOpen)) sitewide.add(f);
     } else if (/llms(-full)?\.txt$/.test(file)) {
       const text = readFileSync(file, 'utf8');
       const name = `/${relative(outDir, file)}`;
-      if (file.endsWith('/llms.txt')) for (const f of betaFindings(name, text)) sitewide.add(f);
+      if (file.endsWith('/llms.txt')) for (const f of [...betaFindings(name, text), ...alphaFindings(name, text)]) sitewide.add(f);
       for (const f of oldAiPriceFindings(name, text)) sitewide.add(f);
       // llms.txt: one line per page; llms-full.txt: one section per page, split by "---".
       const units = file.endsWith('/llms.txt') ? text.split('\n') : text.split(/\n---\n/);
