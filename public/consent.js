@@ -70,6 +70,7 @@
     fbq.queue = [];
     fbq('init', META_PIXEL_ID);
     fbq('track', 'PageView');
+    trackFunnel(fbq);
     // fbevents.js is about 90 KB: fetch it only after the page has loaded, so it never slows the
     // first screen. Calls made before then wait in fbq.queue and are sent when it arrives.
     afterLoad(function () {
@@ -78,6 +79,34 @@
       s.src = 'https://connect.facebook.net/en_US/fbevents.js';
       document.head.appendChild(s);
     });
+  }
+
+  // The switch funnel, for judging and optimizing ads on steps that happen far more often than a
+  // trial (scripts/ad-events.test.mjs): the switch page seen (ViewContent), read to 75%
+  // (SwitchScroll75), a trial link clicked (InitiateCheckout) and the switch call clicked (Contact).
+  // It runs only where the pixel runs, and sends no personal data, only the event name.
+  var SWITCH_PATH = '/migrate/freshdesk/switch';
+  function trackFunnel(fbq) {
+    var onSwitch = (location.pathname || '').replace(/\/$/, '') === SWITCH_PATH;
+    if (onSwitch) {
+      fbq('track', 'ViewContent', { content_name: 'switch' });
+      var read = false;
+      window.addEventListener('scroll', function () {
+        var seen = (window.scrollY + window.innerHeight) / document.documentElement.scrollHeight;
+        if (!read && seen >= 0.75) { read = true; fbq('trackCustom', 'SwitchScroll75'); }
+      }, { passive: true });
+    }
+    document.addEventListener('click', function (event) {
+      var link = event.target.closest && event.target.closest('a[href]');
+      if (!link) return;
+      var url;
+      try { url = new URL(link.href); } catch (e) { return; }
+      if (url.origin === 'https://app.colliedesk.com' && url.pathname === '/sign-in' && url.searchParams.get('intent') === 'trial') {
+        fbq('track', 'InitiateCheckout', { content_name: onSwitch ? 'switch' : location.pathname });
+      } else if (url.origin === 'https://cal.com' && url.pathname.indexOf('/chinh/colliedesk-switch') === 0) {
+        fbq('track', 'Contact', { content_name: 'switch call' });
+      }
+    }, true);
   }
 
   function afterLoad(fn) {
