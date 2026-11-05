@@ -33,12 +33,14 @@ These terms are an agreement between you and **HC Labs Co., Ltd.** (CÔNG TY TNH
 - Prices are on the [pricing page](/pricing). Payment is handled by Polar, our merchant of record, which also charges the applicable tax.
 - Plans are paid in advance, monthly, quarterly (the Founding plan) or yearly, and renew automatically until you cancel.
 - You can cancel at any time. The plan stays active until the end of the period you paid for, then the workspace locks.
+- **Switch offer** (Team 25 and Business): we migrate your Freshdesk data and take the first payment only after your team answers its first real ticket in Colliedesk. **Invoice offer** (Team 25 and Business): send an invoice from Zendesk, Freshdesk, Help Scout or Intercom dated in the last 3 months. On a monthly plan your first paid month is free, up to the amount on that invoice; on a yearly plan you get 13 months for the price of one year. Once per workspace. The 14-day free trial is unchanged.
 - A price change applies from your next renewal, never to a period you already paid for, and we email workspace admins before it applies. The Founding price stays locked for as long as you keep the subscription.
 
 ## Refunds
 
 - **Founding 30-day money-back guarantee.** If Colliedesk is not right for you, email support@colliedesk.com within 30 days of your first Founding payment and we refund it in full. No questions asked, and a free Freshdesk migration we already did does not reduce the refund.
-- The guarantee covers the first Founding payment, not renewals.
+- **Switch offer 30-day money-back.** If we migrated your team to Team 25 or Business through the [switch offer](/migrate/freshdesk/switch), email support@colliedesk.com within 30 days of your first payment and we refund it in full.
+- The guarantees cover the first payment, not renewals.
 - We refund through Polar to the card you paid with. Your bank may take 5 to 10 business days to show it.
 - When we refund, the Founding subscription ends and the workspace locks. You can still sign in and export everything.
 

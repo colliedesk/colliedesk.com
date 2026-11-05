@@ -1,7 +1,7 @@
 // Price-by-team-size comparison for /vs pages: one competitor's per-agent plans against the flat
 // Colliedesk Cloud plan that covers the team. The HTML chart and the Markdown twin both render from this.
 import { AFTER_FOUNDING, FOUNDING_OPEN } from './cloud-price';
-import { AI_RESOLUTION, CONTACT_EMAIL, dollars, LADDER_LINE, SMALL, SOLO, TEAM, TEAM_25, type CloudPlan, UNLIMITED } from './site';
+import { AI_RESOLUTION, BUSINESS, BUSINESS_AGENTS, CONTACT_EMAIL, dollars, LADDER_LINE, SMALL, SOLO, TEAM, TEAM_25, type CloudPlan } from './site';
 
 export interface VsPlan {
   name: string;
@@ -45,8 +45,8 @@ export const DEFAULT_TEAM_SIZE = 5;
 /** Cloud plans that can be bought today, smallest first: a team pays for the first one that covers it. */
 const LADDER: readonly CloudPlan[] = [SOLO, SMALL, TEAM, TEAM_25];
 /** The largest team a Cloud plan covers today for one flat price. */
-export const MAX_AGENTS = TEAM_25.agents ?? 25;
-export const oursFor = (agents: number): CloudPlan => LADDER.find((p) => p.agents !== null && agents <= p.agents) ?? TEAM_25;
+export const MAX_AGENTS = TEAM_25.agents;
+export const oursFor = (agents: number): CloudPlan => LADDER.find((p) => agents <= p.agents) ?? TEAM_25;
 
 export const usd = (n: number): string =>
   `$${n.toLocaleString('en-US', { minimumFractionDigits: Number.isInteger(n) ? 0 : 2, maximumFractionDigits: 2 })}`;
@@ -120,7 +120,7 @@ export const chartCaption = (p: VsPricing): string =>
 export function notForYouLines(p: VsPricing): string[] {
   const from = cheaperFrom(p);
   const price = from !== undefined && from > 1 ? [`Your team has ${belowLabel(from)}: ${cheapestName(p)} costs about the same or less.`] : [];
-  const above = `Your team has more than ${MAX_AGENTS} agents: Unlimited (${dollars(UNLIMITED.monthly)} a month, billed annually) is coming soon; until then email ${CONTACT_EMAIL} for a quote, or self-host with no agent limit.`;
+  const above = `Your team has more than ${MAX_AGENTS} agents and wants to buy without a call: Business (${dollars(BUSINESS.monthly)} a month for ${BUSINESS_AGENTS} agents) is sold on a call with the founder, and above ${BUSINESS.agents} agents email ${CONTACT_EMAIL} for a quote. Or self-host with no agent limit.`;
   return [...price, above, ...p.notForYou];
 }
 

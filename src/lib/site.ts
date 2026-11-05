@@ -50,27 +50,29 @@ export const SLA_HREF = '/terms#availability-and-service-level';
 // One line on /pricing and /vs/freshdesk; `pnpm check` fails if either page drops it.
 export const UPTIME_LINE = `**99.9% uptime on every paid plan.** Live status is on [status.colliedesk.com](${STATUS_PAGE}); service credits and support response times are in the [terms](${SLA_HREF}).`;
 // The Colliedesk Cloud ladder: one flat price per workspace, never per agent; a year costs ten
-// months. Plans differ only in agents and attachment storage. Unlimited is shown as coming soon,
-// with no checkout, until attachments run on object storage. There is no free Cloud plan.
+// months. Plans differ only in agents and attachment storage. Business, for 26 to 100 agents, is sold
+// through a call with the founder (salesOnly), never a self-serve checkout or trial; above 100 agents
+// we quote. There is no free Cloud plan.
 export interface CloudPlan {
-  name: 'Solo' | 'Small' | 'Team' | 'Team 25' | 'Unlimited';
-  /** USD per workspace per month. Unlimited is billed annually only. */
+  name: 'Solo' | 'Small' | 'Team' | 'Team 25' | 'Business';
+  /** USD per workspace per month. */
   monthly: number;
   /** USD per workspace per year. */
   yearly: number;
-  /** Agent limit; null means unlimited. */
-  agents: number | null;
+  /** Agent limit. */
+  agents: number;
+  /** Smallest team the plan is sold to, when it starts above the plan below it. */
+  agentsFrom?: number;
   storage: string;
   who: string;
-  annualOnly?: boolean;
-  comingSoon?: boolean;
+  salesOnly?: boolean;
 }
 export const CLOUD_PLANS: readonly CloudPlan[] = [
   { name: 'Solo', monthly: 19, yearly: 190, agents: 1, storage: '10 GiB', who: 'For one person answering customers.' },
   { name: 'Small', monthly: 39, yearly: 390, agents: 3, storage: '30 GiB', who: 'For a small team sharing one inbox.' },
   { name: 'Team', monthly: 69, yearly: 690, agents: 10, storage: '100 GiB', who: 'For support teams leaving Freshdesk.' },
   { name: 'Team 25', monthly: 149, yearly: 1490, agents: 25, storage: '250 GiB', who: 'For a mid-size support department.' },
-  { name: 'Unlimited', monthly: 349, yearly: 3490, agents: null, storage: '1 TB', who: 'For larger companies.', annualOnly: true, comingSoon: true },
+  { name: 'Business', monthly: 499, yearly: 4990, agents: 100, agentsFrom: 26, storage: '1 TB', who: 'For support departments of 26 to 100 agents.', salesOnly: true },
 ];
 const planNamed = (name: CloudPlan['name']): CloudPlan => {
   const plan = CLOUD_PLANS.find((p) => p.name === name);
@@ -81,10 +83,10 @@ export const SOLO = planNamed('Solo');
 export const SMALL = planNamed('Small');
 export const TEAM = planNamed('Team');
 export const TEAM_25 = planNamed('Team 25');
-export const UNLIMITED = planNamed('Unlimited');
+export const BUSINESS = planNamed('Business');
 export const dollars = (n: number): string => `$${n.toLocaleString('en-US')}`;
 export const agentsLabel = (plan: CloudPlan): string =>
-  plan.agents === null ? 'Unlimited agents' : plan.agents === 1 ? '1 agent' : `Up to ${plan.agents} agents`;
+  plan.agentsFrom ? `${plan.agentsFrom} to ${plan.agents} agents` : plan.agents === 1 ? '1 agent' : `Up to ${plan.agents} agents`;
 
 // While Founding is open, Team 25 is also on sale, for the teams Founding does not fit: 11 to 25 agents.
 // The /pricing card, its Markdown twin and the home page share these lines.
@@ -93,6 +95,7 @@ export const TEAM_25_AGENTS = '11 to 25';
 export const TEAM_25_WHO = `For support teams of ${TEAM_25_AGENTS} agents.`;
 export const TEAM_25_IMPORT = 'We run the Freshdesk import with you.';
 export const TEAM_25_BELOW = `Teams of ${TEAM_25_AGENTS} agents can buy Team 25 below.`;
+export const BUSINESS_AGENTS = `${BUSINESS.agentsFrom} to ${BUSINESS.agents}`;
 export const TEAM_25_HOME_LINE = `Teams of ${TEAM_25_AGENTS} agents can buy [${TEAM_25.name} for ${dollars(TEAM_25.monthly)} a month](/pricing).`;
 
 // AI on Colliedesk Cloud: reply drafts and triage are included in every plan with a monthly allowance;
@@ -114,7 +117,31 @@ export const PRICE = {
 // that can add to the bill is auto-answer, which is not built yet.
 export const AI_EXTRA = `${AI_RESOLUTION} per AI resolution once auto-answer ships`;
 // One line naming every plan, for page copy and the Markdown twins.
-export const LADDER_LINE = `Solo ${dollars(SOLO.monthly)} a month for 1 agent, Small ${dollars(SMALL.monthly)} for up to 3, Team ${dollars(TEAM.monthly)} for up to 10, Team 25 ${dollars(TEAM_25.monthly)} for up to 25; Unlimited ${dollars(UNLIMITED.monthly)} a month billed annually is coming soon`;
+export const LADDER_LINE = `Solo ${dollars(SOLO.monthly)} a month for 1 agent, Small ${dollars(SMALL.monthly)} for up to 3, Team ${dollars(TEAM.monthly)} for up to 10, Team 25 ${dollars(TEAM_25.monthly)} for up to 25; Business ${dollars(BUSINESS.monthly)} a month for ${BUSINESS_AGENTS} agents, through a call with the founder`;
+
+// The switch offer, for teams of 11 to 100 agents on Freshdesk who buy Team 25 or Business (owner
+// decision 03/11/2026): we migrate them, and they pay once their team answers its first real ticket
+// in Colliedesk; the last invoice of their old helpdesk buys their first month, capped at that
+// invoice. The 14-day trial is unchanged. /pricing, /vs/freshdesk and the switch page share these lines.
+export const SWITCH_HREF = '/migrate/freshdesk/switch';
+// A 30-minute call with the founder on Cal.com; the Business card and the switch offer book it.
+export const SWITCH_CALL_HREF = 'https://cal.com/chinh/colliedesk-switch';
+export const SWITCH_CALL_LABEL = 'Book a 30-min switch call';
+export const SWITCH_OFFER_MD = '**We move your team for you.** We migrate you from Freshdesk, and you pay when your team answers its first real ticket in Colliedesk, not before. After your first payment you still have 30 days to ask for your money back.';
+export const INVOICE_OFFER_MD = "**Don't pay twice while you switch.** Send us your latest Zendesk, Freshdesk, Help Scout or Intercom invoice from the last 3 months. Your first paid month of Colliedesk is on us, up to the amount on that invoice. Paying yearly? You get 13 months for the price of one year.";
+export const OFFER_SMALL_PRINT: readonly string[] = [
+  'Team 25 and Business only. The 14-day free trial is unchanged and comes first.',
+  'We use the invoice only to check the amount and the team size.',
+  'Keep your current helpdesk running while you test. There is nothing to cancel until you are ready.',
+];
+/** The two offers and their small print as Markdown, for the twins. */
+export const SWITCH_OFFER_BLOCK_MD = `${SWITCH_OFFER_MD}
+
+${INVOICE_OFFER_MD}
+
+${OFFER_SMALL_PRINT.map((line) => `- ${line}`).join('\n')}
+
+[${SWITCH_CALL_LABEL}](${SWITCH_CALL_HREF}) with the founder, or read [how the switch works](${SWITCH_HREF}).`;
 
 // Primary navigation; order is the order shown.
 export const NAV: readonly NavLink[] = [
@@ -151,6 +178,7 @@ export const FOOTER: readonly FooterColumn[] = [
     title: 'Switch',
     links: [
       { href: '/migrate/freshdesk/done-for-you', label: 'Freshdesk migration, done for you' },
+      { href: SWITCH_HREF, label: 'Switch offer for 11 to 100 agents' },
       { href: '/migrate/freshdesk/export', label: 'Export Freshdesk tickets' },
       { href: '/migrate/zendesk/export', label: 'Export Zendesk tickets' },
       { href: '/compare', label: 'All comparisons' },

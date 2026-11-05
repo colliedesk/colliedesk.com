@@ -1,7 +1,7 @@
 import { faqPage, techArticle } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
 import { FOUNDING_ACTION, FOUNDING_LEAD, OUR_PLAN, OUR_PRICE } from '../../lib/cloud-price';
-import { AI_RESOLUTION, dollars, PRICE, SMALL, UPTIME_LINE } from '../../lib/site';
+import { AI_RESOLUTION, BUSINESS, BUSINESS_AGENTS, dollars, PRICE, SMALL, SWITCH_OFFER_BLOCK_MD, TEAM_25, UPTIME_LINE } from '../../lib/site';
 import { readOnLabel, rowsAt, usd, vsMarkdown, type VsPricing } from '../../lib/vs-pricing';
 import { collieFacts as c, statusTable } from './collie-status';
 
@@ -89,6 +89,12 @@ Freshdesk has had more than a decade to grow. If you need a row marked "Freshdes
 | Price as the team grows | Per agent, AI per agent on top | **Colliedesk**: one price per workspace |
 | Full export with conversations | Account export or API; the ticket export has fields only | **Colliedesk**: whole workspace as a ZIP, any time |
 | Source code and self-hosting | Proprietary, cloud only | **Colliedesk**: AGPL-3.0, self-host free |
+
+## Switching with 11 to 100 agents
+
+${TEAM_25.name} (${dollars(TEAM_25.monthly)} a month for up to ${TEAM_25.agents} agents) and ${BUSINESS.name} (${dollars(BUSINESS.monthly)} a month for ${BUSINESS_AGENTS} agents) come with two offers for teams leaving Freshdesk.
+
+${SWITCH_OFFER_BLOCK_MD}
 
 ## What Colliedesk does today
 

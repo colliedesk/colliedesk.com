@@ -1,5 +1,5 @@
 import { FOUNDING_SLOTS, foundingState } from '../../lib/founding';
-import { FOUNDING_CHECKOUT } from '../../lib/site';
+import { BUSINESS, FOUNDING_CHECKOUT, SWITCH_HREF } from '../../lib/site';
 import { faqPage, techArticle } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
 
@@ -12,7 +12,7 @@ const faq: Faq[] = [
   },
   {
     q: 'What does a done-for-you Freshdesk migration cost?',
-    a: 'Nothing extra. It is part of the founding plan ($99 every 3 months per workspace) and is not sold separately. When founding places close, the offer closes with them; the importer stays free to run yourself.',
+    a: `Nothing extra, and it is not sold on its own. It is part of the founding plan ($99 every 3 months per workspace) for teams of 3 to 10 agents, and of the [switch offer](${SWITCH_HREF}) on Team 25 and Business for teams of 11 to ${BUSINESS.agents} agents. The importer stays free to run yourself.`,
   },
   {
     q: 'When can you start?',
@@ -44,9 +44,10 @@ Tickets (archived ones included), replies, private notes, attachments, tags, con
 | You are | Migration price |
 |---|---|
 | A founding customer ($99 every 3 months per workspace, locked for life) | **Included.** Done-for-you migration is a founding benefit and is not sold separately. |
+| A team of 11 to ${BUSINESS.agents} agents on Team 25 or Business | **Included** in the [switch offer](${SWITCH_HREF}): we migrate you, and you pay when your team answers its first real ticket in Colliedesk. |
 | Self-hosting | Free: run the same importer yourself with the [import guide](/docs/import-freshdesk) |
 
-When founding places close, the done-for-you offer closes with them.
+When founding places close, the founding offer closes with them. The switch offer for Team 25 and Business stays.
 
 ${foundingOpen ? `[Become a founding customer, $99 every 3 months](${FOUNDING_CHECKOUT}). 30-day money-back guarantee: if it is not right for you, we refund the full $99, even after the migration ([terms](/terms#refunds)).` : `**Founding is closed: all ${FOUNDING_SLOTS} places are taken.** New teams can run the importer themselves with the [import guide](/docs/import-freshdesk).`}
 
@@ -66,7 +67,7 @@ const page: Page = {
   title: 'Freshdesk migration done for you, with a reconcile report',
   description:
     'We move your Freshdesk tickets, replies, notes and attachments into Colliedesk and prove nothing was lost with a reconcile report. Included with the founding plan.',
-  summary: 'Done-for-you Freshdesk migration: included with the founding plan, not sold separately; reconcile report before you switch; available now',
+  summary: 'Done-for-you Freshdesk migration: included with the founding plan, and with Team 25 and Business through the switch offer; not sold separately; reconcile report before you switch; available now',
   eyebrow: 'Migrate · Done for you',
   h1: 'We move your Freshdesk data for you',
   lede: 'Hand us a Freshdesk API key. We import everything, prove it with a reconcile report, and you switch only when every number matches.',

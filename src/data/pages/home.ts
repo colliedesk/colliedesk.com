@@ -1,4 +1,4 @@
-import { AI_RESOLUTION, CONTACT_EMAIL, GA_DOC, LADDER_LINE, POSITIONING, PRICE, PRICES_READ, REPO, TAGLINE, TEAM_25, TEAM_25_AGENTS, TEAM_25_HOME_LINE, TRIAL_HREF } from '../../lib/site';
+import { AI_RESOLUTION, BUSINESS, CONTACT_EMAIL, dollars, GA_DOC, LADDER_LINE, POSITIONING, PRICE, PRICES_READ, REPO, TAGLINE, TEAM_25, TEAM_25_AGENTS, TEAM_25_HOME_LINE, TRIAL_HREF } from '../../lib/site';
 import { PER_WORKSPACE_FAQ } from './pricing';
 import { faqPage, organization, softwareApplication } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
@@ -32,8 +32,8 @@ export const HOME_FAQ: Faq[] = [
   {
     q: 'What happens over the limit?',
     a: FOUNDING_OPEN
-      ? `Founding covers up to 10 agents and 20 GiB of attachments, imported files included. With ${TEAM_25_AGENTS} agents, buy ${TEAM_25.name} instead: ${PRICE.team25Monthly} a month, up to ${TEAM_25.agents} agents and ${TEAM_25.storage} of attachments. Above ${TEAM_25.agents} agents, self-host with no agent limit, or write to ${CONTACT_EMAIL}. Storage: we warn you at 80%. Over the cap, customer email keeps arriving with its attachments; only your own uploads and new imports pause. Nothing is deleted. See [pricing](/pricing).`
-      : `Agents: each plan has a limit: Solo 1 agent, Small 3, Team 10, Team 25 up to 25. Pass it and you move up one plan; at 11 agents that is Team 25, ${PRICE.team25Monthly} a month. Above 25, Unlimited is coming soon; until then email us at ${CONTACT_EMAIL}, or self-host with no agent limit. Storage: we warn you at 80%. Over the cap, customer email keeps arriving with its attachments; only your own uploads and new imports pause until you free space or move up. Nothing is deleted. See [pricing](/pricing).`,
+      ? `Founding covers up to 10 agents and 20 GiB of attachments, imported files included. With ${TEAM_25_AGENTS} agents, buy ${TEAM_25.name} instead: ${PRICE.team25Monthly} a month, up to ${TEAM_25.agents} agents and ${TEAM_25.storage} of attachments. Above ${TEAM_25.agents} agents, [Business](/pricing) covers up to ${BUSINESS.agents}, sold on a call with the founder; or self-host with no agent limit. Storage: we warn you at 80%. Over the cap, customer email keeps arriving with its attachments; only your own uploads and new imports pause. Nothing is deleted. See [pricing](/pricing).`
+      : `Agents: each plan has a limit: Solo 1 agent, Small 3, Team 10, Team 25 up to 25. Pass it and you move up one plan; at 11 agents that is Team 25, ${PRICE.team25Monthly} a month. Above 25, Business covers up to ${BUSINESS.agents} agents for ${dollars(BUSINESS.monthly)} a month, sold on a call with the founder; or self-host with no agent limit. Storage: we warn you at 80%. Over the cap, customer email keeps arriving with its attachments; only your own uploads and new imports pause until you free space or move up. Nothing is deleted. See [pricing](/pricing).`,
   },
   {
     q: 'Who is behind Colliedesk?',

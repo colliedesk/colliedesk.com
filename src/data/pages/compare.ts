@@ -2,7 +2,7 @@
 // new comparison appears here once it is added below (pnpm check fails if one is missing).
 import { techArticle } from '../../lib/schema';
 import type { Page } from '../../lib/page';
-import { dollars, UNLIMITED } from '../../lib/site';
+import { BUSINESS, BUSINESS_AGENTS, dollars, SWITCH_HREF } from '../../lib/site';
 import { MAX_AGENTS, oursFor, TEAM_SIZES, teamLabel } from '../../lib/vs-pricing';
 import freshdeskAlternative from './freshdesk-alternative';
 import freshdeskPricingHistory from './freshdesk-pricing-history';
@@ -37,7 +37,7 @@ ${AFTER_FOUNDING}Colliedesk Cloud is one price per workspace, billed monthly. Ev
 |---|---|
 ${TEAM_SIZES.map((n) => `| ${teamLabel(n)} | ${oursAt(n)} |`).join('\n')}
 
-Above ${MAX_AGENTS} agents, Unlimited is coming soon at ${dollars(UNLIMITED.monthly)} a month, billed annually. Until then, self-host with no agent limit or email us. Self-hosting is free with every feature.
+Above ${MAX_AGENTS} agents, Business covers ${BUSINESS_AGENTS} agents at ${dollars(BUSINESS.monthly)} a month, sold on a call with the founder, with the [Freshdesk migration done for you](${SWITCH_HREF}). Self-hosting is free with every feature and has no agent limit.
 
 ## Pick the tool you use today
 
