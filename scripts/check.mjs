@@ -430,7 +430,8 @@ else {
   const source = readFileSync(consent, 'utf8');
   if (!source.includes(GA_MEASUREMENT_ID)) fail(`consent.js: must load Google Analytics ${GA_MEASUREMENT_ID}`);
   if (!/function loadAnalytics\(\)[\s\S]*googletagmanager\.com\/gtag\/js/.test(source)) fail('consent.js: gtag.js must load only inside loadAnalytics()');
-  if (!/if \(choice === 'granted'\) loadAnalytics\(\)/.test(source)) fail("consent.js: loadAnalytics() must run only when the stored choice is 'granted'");
+  if (!/if \(choice === 'granted' \|\| byDefault\) loadAnalytics\(\)/.test(source)) fail("consent.js: loadAnalytics() must run only on a stored Accept, or by default in an opt-out place (scripts/consent.test.mjs)");
+  if (!/var byDefault = choice === null && optOut && navigator\.globalPrivacyControl !== true/.test(source)) fail('consent.js: cookies may load by default only in an opt-out place, with no choice and no Global Privacy Control');
   if (!/function choose\(value\)[\s\S]*?setPostHogConsent\(value\)/.test(source)) fail('consent.js: a choice in the banner must reach PostHog');
   if (!/posthog\.opt_in_capturing\(/.test(source) || !/posthog\.opt_out_capturing\(/.test(source)) fail('consent.js: setPostHogConsent must opt PostHog in on Accept and out on Decline');
   if (!/indexOf\('ph_'\) === 0/.test(source)) fail('consent.js: declining must delete the PostHog cookies');
@@ -458,7 +459,9 @@ else {
       addEventListener: () => {},
     };
     const localStorage = { getItem: (key) => (key === 'colliedesk-consent' ? choice : null), setItem: () => {} };
-    runInNewContext(source, { window, document, localStorage, location: { hostname: 'colliedesk.com' }, navigator: {} });
+    // An opt-in time zone: these checks are about the banner path (opt-out places: consent.test.mjs).
+    const Intl = { DateTimeFormat: () => ({ resolvedOptions: () => ({ timeZone: 'Europe/Berlin' }) }) };
+    runInNewContext(source, { window, document, localStorage, Intl, location: { hostname: 'colliedesk.com' }, navigator: {} });
     if (fireLoad) onLoad.forEach((fn) => fn());
     for (const args of window.fbq?.queue ?? []) fbqCalls.push(Array.from(args));
     return { loaded, fbqCalls };

@@ -5,7 +5,7 @@
 //   - in the light or the dark theme a button or link's text is below 4.5:1 against what is behind it
 //     (19/10/2026 the closing band's "Start free trial" was dark text on a transparent button on ink);
 //   - with the cookie banner open (it shows only on colliedesk.com, so it is opened here through the
-//     "Cookie settings" button), it covers a button or link-button that starts in the first view of a
+//     "Your privacy choices" button), it covers a button or link-button that starts in the first view of a
 //     1280x800 desktop or a 390x844 phone, or takes more than 15% of that screen (30/10/2026 it hid half of
 //     "Join for $99 every 3 months" on /pricing and a quarter of every phone screen).
 // No dependencies: Chrome DevTools Protocol over Node's built-in WebSocket.
@@ -173,7 +173,7 @@ try {
       await loaded;
       const { result } = await c.send('Runtime.evaluate', { returnByValue: true, awaitPromise: true, expression: bannerCover }, sessionId);
       const at = `${screen.width}x${screen.height}`;
-      if (!result.value.opened) { failures.push(`${path}: the "Cookie settings" button did not open the cookie banner at ${at}`); continue; }
+      if (!result.value.opened) { failures.push(`${path}: the "Your privacy choices" button did not open the cookie banner at ${at}`); continue; }
       for (const label of result.value.covered) failures.push(`${path}: the cookie banner covers "${label}" at ${at}`);
       if (result.value.share > MAX_BANNER_SHARE) failures.push(`${path}: the cookie banner takes ${Math.round(result.value.share * 100)}% of the ${at} screen, max ${MAX_BANNER_SHARE * 100}%`);
     }
