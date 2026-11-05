@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 import { runInNewContext } from 'node:vm';
 import { homeFindings, onePlanFindings, pricingFindings } from './pricing-gate.mjs';
 import {
-  businessCardFindings, doneForYouFindings, offerFindings, retiredClaimFindings, SWITCH_PATH, switchPageFindings,
+  businessCardFindings, doneForYouFindings, offerFindings, retiredClaimFindings, SWITCH_CALL, SWITCH_PATH, switchPageFindings,
 } from './switch-offer-gate.mjs';
 
 const ORIGIN = 'https://colliedesk.com';
@@ -279,12 +279,12 @@ for (const file of files.filter((f) => /\.(html|md|txt)$/.test(f) && !/[\\/]docs
 }
 // The home page follows /pricing: while Founding is open it quotes Founding and Team 25, never the rest of the ladder.
 // Hand-worked: Founding is 4 x $99 = $396 a year; a year of Freshdesk Pro + Copilot for five agents is
-// $5,040; $5,040 - $396 = $4,644.
+// 5 x ($55 + $29) x 12 = $5,040, the first state of the bill by team size.
 if (foundingOpen) {
   for (const name of ['index.html', 'index.md']) {
     const text = read(name);
     for (const finding of homeFindings({ path: `/${name}`, text, open: true })) fail(finding);
-    if (!text.includes('$396 a year') || !text.includes('$4,644')) fail(`/${name}: founding is open but the home page does not price Founding at $396 a year against Freshdesk's $5,040 ($4,644 kept)`);
+    if (!text.includes('$396 a year') || !text.includes('$5,040')) fail(`/${name}: founding is open but the home page does not price Founding at $396 a year against Freshdesk's $5,040 for five agents`);
   }
 }
 
@@ -755,10 +755,10 @@ for (const file of files.filter((f) => f.endsWith('.html') && !/[\\/](changelog|
 }
 
 // Home hero: the h1 names why our buyer stays on Freshdesk (leaving is hard) and that we made
-// leaving easy; the lede carries the buyer, the proof (a reconcile report) and the price as evidence:
-// our yearly price against what five agents pay Freshdesk in a year, cheapest to dearest plan, worked
-// by hand: Growth 5 x $19 x 12 = $1,140 to Pro + Copilot 5 x ($55 + $29) x 12 = $5,040. No "% cheaper"
-// claim: the top of that range includes AI that Colliedesk prices separately.
+// leaving easy; the lede names the category (a helpdesk) and the proof (a reconcile report); the price
+// line under the actions gives the yearly price for 3 to 10 agents and where teams of 11 to 100 go,
+// with the risk reversal. No "% cheaper" claim: Freshdesk's dearest plan includes AI that Colliedesk
+// prices separately.
 {
   const home = read('index.html');
   const h1 = home.match(/<h1[\s\S]*?<\/h1>/)?.[0] ?? '';
@@ -767,20 +767,20 @@ for (const file of files.filter((f) => f.endsWith('.html') && !/[\\/](changelog|
   if (!/leaving is hard/.test(h1) || !/made leaving easy/.test(h1)) fail('/: h1 must say leaving Freshdesk is hard and that we made it easy');
   if (/h1-rotate/.test(h1)) fail('/: h1 is one static sentence, no rotating words');
   const lede = home.match(/<p class="lede">([\s\S]*?)<\/p>/)?.[1] ?? '';
-  if (!lede.includes('3 to 10 agents') || !lede.includes('pay for Freshdesk')) fail('/: hero lede must name the buyer: 3 to 10 agents who pay for Freshdesk');
+  if (!/\bhelpdesk\b/.test(lede)) fail('/: hero lede must name the category: a helpdesk');
   if (!lede.includes('proves nothing was lost')) fail('/: hero lede must promise the reconcile report');
-  for (const claim of [`${foundingOpen ? '$396' : '$690'} a year for your whole team`, '$1,140–5,040']) {
-    if (!lede.includes(claim)) fail(`/: hero lede lacks "${claim}"`);
+  const note = home.match(/<p class="hero-note">([\s\S]*?)<\/p>/)?.[1] ?? '';
+  for (const claim of [`3–10 agents: ${foundingOpen ? '$396' : '$690'} a year`, 'Team 25, $149 a month', 'Business, through a call', '14-day free trial, no card', 'money-back guarantee']) {
+    if (!note.includes(claim)) fail(`/: hero price line lacks "${claim}"`);
   }
   if (/% cheaper/.test(h1) || /% cheaper/.test(lede) || /% cheaper/.test(read('index.md'))) fail('/: hero must state prices, not a "% cheaper" claim');
-  if (!/locked for life/.test(home.match(/<p class="hero-note">[\s\S]*?<\/p>/)?.[0] ?? '')) fail('/: hero note must say the founding price is locked for life');
-  // Closing block: a year of Freshdesk bills for five agents against Colliedesk Team billed yearly.
-  // 12 x $420 = $5,040; $5,040 - $690 = $4,350.
-  if (!home.includes('Keep the difference')) fail('/: closing block "Keep the difference" missing');
-  // While Founding is open: $5,040 - $396 = $4,644.
-  if (!home.includes('$5,040') || !home.includes(foundingOpen ? '$4,644' : '$4,350')) fail(`/: closing block must show $5,040 a year and the ${foundingOpen ? '$4,644' : '$4,350'} difference`);
+  if (foundingOpen && !/locked for life/i.test(home.match(/<section[^>]*id="founding"[\s\S]*?<\/section>/)?.[0] ?? '')) fail('/: the founding offer must say its price is locked for life');
+  // Closing row: the hero's promise again, the trial with its risk reversal, and the call for 11 to 100 agents.
+  const closing = home.match(/<section[^>]*aria-labelledby="closing"[\s\S]*?<\/section>/)?.[0] ?? '';
+  if (!closing.includes('Keep the difference')) fail('/: closing block "Keep the difference" missing');
+  if (!closing.includes('no card') || !closing.includes(SWITCH_CALL)) fail('/: closing block must offer the trial (no card) and the 30-minute call for 11 to 100 agents');
   for (const [name, needles] of [
-    ['index.html', ['Why per workspace, not per agent?', 'Who is behind Colliedesk?', 'What happens over the limit?']],
+    ['index.html', ['Will we lose any tickets or attachments?', 'Do our old help-center links keep working?', 'Do you train AI on our tickets?', 'Who is behind Colliedesk?']],
     ['pricing.html', foundingOpen ? ['Why only 10 Founding places?', 'Limited to 10 workspaces', 'no card'] : ['Why per workspace, not per agent?', 'Every feature on every plan']],
     ['vs/freshdesk.html', ['Where Freshdesk does more']],
   ]) {
@@ -799,7 +799,7 @@ for (const file of files.filter((f) => f.endsWith('.html') && !/[\\/](changelog|
   if (!section) fail('/: AI agent section (aria-labelledby="agents") missing');
   else {
     if (!section.includes(heading)) fail(`/: AI agent section lacks the heading "${heading}"`);
-    for (const needle of ['https://app.colliedesk.com/mcp', 'href="/docs/mcp"', 'href="/docs/roles-and-permissions"', 'Follow a role', 'Pick permissions', 'never more than you']) {
+    for (const needle of ['https://app.colliedesk.com/mcp', 'href="/docs/mcp"', 'href="/docs/roles-and-permissions"', 'colliedesk_reply_draft', 'no send permission', 'never trains AI models', 'never more than you']) {
       if (!section.toLowerCase().includes(needle.toLowerCase())) fail(`/: AI agent section lacks "${needle}"`);
     }
     for (const stale of ['href="/docs/agent-requests"', 'approves or rejects', 'wait for your yes']) {

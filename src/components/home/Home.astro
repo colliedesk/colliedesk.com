@@ -1,33 +1,34 @@
 ---
-import { HOME_FAQ } from '../../data/pages/home';
-import { HERO_JPEG_SRCSET, HERO_SIZES, heroSrcset } from '../../lib/hero-image';
+import { HERO_JPEG_SRCSET, HERO_MOBILE_MEDIA, HERO_MOBILE_SIZES, HERO_SIZES, heroMobileSrcset, heroSrcset } from '../../lib/hero-image';
 import { html } from '../../lib/render-react';
-import Faq from '../Faq.astro';
 import { AgentSection } from './AgentSection';
 import { ClosingCta, ClosingSections } from './ClosingSections';
-import { Facts, InboxFeature, MigrationFeature } from './FeatureSections';
+import { Facts, MigrationSection } from './FeatureSections';
 import { HeroCopy } from './HomeHero';
 import { ReconcileProof } from './ReconcileProof';
 import { SellingSections } from './SellingSections';
 import { StatusSection } from './StatusSection';
 
-// Hero: the promise, then the real product in a window with the migration proof over its corner, so
-// the first screen shows both the inbox and the "nothing lost" check. Then one idea per section, each
-// with a piece of the real product.
+// One sheet under a hairline, one idea per row (Paper "L1-b Landing"). The hero picture is the inbox
+// with an owned ticket, a private note and a reply draft waiting for a person, with the migration proof
+// over its corner; phones get three crops of it instead (art direction), so the text stays readable.
+// The picture comes from the app design for now (owner 06/11); `pnpm shot:product` replaces the 2x
+// screenshot with an app capture once those screens ship.
 ---
-<section class="home-hero"><div class="wrap">
+<div class="wrap home-wrap"><div class="sheet">
+<section class="sheet-row home-hero" aria-labelledby="hero-title">
   <Fragment set:html={html(HeroCopy, {})} />
-  <div class="hero-stage">
-    <figure class="hero-shot"><div class="window-bar" aria-hidden="true"><i></i><i></i><i></i><span>app.colliedesk.com</span></div><picture><source type="image/avif" srcset={heroSrcset('avif')} sizes={HERO_SIZES}><source type="image/webp" srcset={heroSrcset('webp')} sizes={HERO_SIZES}><img src="/product-inbox.jpg" srcset={HERO_JPEG_SRCSET} sizes={HERO_SIZES} width="1440" height="900" alt="The Colliedesk inbox: customer conversations with status, priority and tags; an open conversation with the customer's email, a private note by Tom Okoye via Claude Code, and the reply Claude Code drafted and Tom sent, marked Sent; the conversation properties and tags." fetchpriority="high"></picture></figure>
-    <Fragment set:html={html(ReconcileProof, {})} />
-  </div>
-</div></section>
+</section>
+<div class="sheet-row stage hero-stage">
+  <figure class="hero-shot"><picture><source media={HERO_MOBILE_MEDIA} type="image/avif" srcset={heroMobileSrcset("avif")} sizes={HERO_MOBILE_SIZES} width="700" height="1036"><source media={HERO_MOBILE_MEDIA} type="image/webp" srcset={heroMobileSrcset("webp")} sizes={HERO_MOBILE_SIZES} width="700" height="1036"><source type="image/avif" srcset={heroSrcset('avif')} sizes={HERO_SIZES}><source type="image/webp" srcset={heroSrcset('webp')} sizes={HERO_SIZES}><img src="/product-inbox.jpg" srcset={HERO_JPEG_SRCSET} sizes={HERO_SIZES} width="1440" height="900" alt="The Colliedesk inbox: a refund ticket from Hana Sato, open, urgent and assigned to Hoàng Tú, with a private note from Hoàng Tú and a reply drafted through Claude's agent token, marked Not sent, waiting for a person to send it." fetchpriority="high"></picture></figure>
+  <Fragment set:html={html(ReconcileProof, {})} />
+</div>
+<p class="sheet-row hero-caption"><span>The Colliedesk inbox: a ticket with its owner, a private note, and a reply your AI agent drafted for a person to send.</span> <span class="soon-text">Chat widget: coming Q1 2027</span></p>
 <Fragment set:html={html(Facts, {})} />
-<Fragment set:html={html(InboxFeature, {})} />
+<Fragment set:html={html(MigrationSection, {})} />
 <Fragment set:html={html(AgentSection, {})} />
-<Fragment set:html={html(MigrationFeature, {})} />
 <Fragment set:html={html(SellingSections, {})} />
 <Fragment set:html={html(StatusSection, {})} />
 <Fragment set:html={html(ClosingSections, {})} />
-<section class="section section-faq"><div class="wrap"><div class="prose"><Faq faq={HOME_FAQ} /></div></div></section>
 <Fragment set:html={html(ClosingCta, {})} />
+</div></div>

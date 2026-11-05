@@ -1,88 +1,80 @@
-import type { ReactElement } from 'react';
-import { BAR_MAX as MAX, BARS, BORING } from '../../data/pages/home-sections';
-import { PRICES_READ } from '../../lib/site';
-import { FlowPause, FlowTile } from './FlowTile';
+import { BILL_LEDE, DAILY, FOUNDING_OPEN } from '../../data/pages/home-sections';
+import { BILL_SIZES, barWidth, billAt, DEFAULT_BILL_SIZE } from '../../lib/team-bill';
+import { SWITCH_CALL_HREF } from '../../lib/site';
+import { SectionIntro } from './SectionIntro';
 
+const usd = (n: number): string => `$${n.toLocaleString('en-US')}`;
+
+// The bill by team size. The picker is four radios and every size's bars are in the page, so it works
+// without JavaScript: styles.css shows the bars of the checked size with :has(). Browsers without
+// :has() see the 10-agent bars and no picker.
 function Bill() {
   return (
-    <section className="section" aria-labelledby="bill">
-      <div className="wrap split">
-        <div>
-          <p className="eyebrow">The bill for five agents</p>
-          <h2 id="bill">Per-agent pricing, then per-agent AI</h2>
-          <p className="section-lede">
-            {`Freshdesk list prices per year, billed annually, read on ${PRICES_READ}. `}
-            <a href="/vs/freshdesk">Details</a>.
-          </p>
-        </div>
-        <ul className="bars" aria-label="Yearly cost for five agents">
-          {BARS.map((b) => (
-            <li key={b.href} className={b.ours ? 'bar bar-ours' : 'bar'}>
-              <div className="bar-label"><a href={b.href}>{b.name}</a><span className="bar-math">{b.math}</span></div>
-              <div className="bar-track">
-                <span className="bar-fill" style={{ width: `${Math.max((b.usd / MAX) * 100, 1.5).toFixed(1)}%` }}></span>
-                <strong>{`$${b.usd.toLocaleString('en-US')}`}<small>/yr</small></strong>
-              </div>
-            </li>
-          ))}
-        </ul>
+    <section className="bill" aria-labelledby="bill">
+      <SectionIntro id="bill" eyebrow="Your bill, by team size" title="Freshdesk charges per agent, then again for AI." lede={BILL_LEDE}>
+        <fieldset className="bill-picker">
+          <legend>Agents</legend>
+          <div className="segmented">
+            {BILL_SIZES.map((n) => (
+              <label key={n}><input type="radio" name="bill-size" value={n} defaultChecked={n === DEFAULT_BILL_SIZE} />{n}</label>
+            ))}
+          </div>
+        </fieldset>
+      </SectionIntro>
+      <div className="sheet-row bill-states">
+        {BILL_SIZES.map((n) => {
+          const bars = billAt(n, FOUNDING_OPEN);
+          const max = Math.max(...bars.map((b) => b.usd));
+          return (
+            <ol key={n} className="bill-bars" data-size={n} aria-label={`Yearly cost for ${n} agents`}>
+              {bars.map((b) => (
+                <li key={b.name} className={b.ours ? 'bill-bar bill-ours' : 'bill-bar'}>
+                  <p className="bill-label"><b>{b.name}</b><span>{b.math}</span></p>
+                  <p className="bill-track">
+                    <span className="bill-fill" style={{ width: barWidth(b.usd, max) }} />
+                    <b>{usd(b.usd)}<span>/yr</span></b>
+                    {b.call && <a className="btn btn-sm" href={SWITCH_CALL_HREF} rel="noopener">Book a 30-minute call</a>}
+                  </p>
+                </li>
+              ))}
+            </ol>
+          );
+        })}
       </div>
     </section>
   );
 }
 
-// Small pictures of shipped behaviour for three of the boring parts (Threading plays FlowTile). Their chips stamp in as
-// the card scrolls into view, where the browser supports it. Decorative: the card text says the same thing, so screen
-// readers skip them.
-const MINI: Readonly<Record<string, ReactElement>> = {
-  'Mail that lands': (
-    <div className="mini mini-chips">
-      {['DKIM', 'SPF', 'DMARC'].map((k) => <span key={k} className="mini-pass">{`${k} pass`}</span>)}
-    </div>
-  ),
-  'Mail you can trust': (
-    <div className="mini">
-      <p className="mini-row"><span>billing@yourbank.example</span><span className="mini-stop">Stopped</span></p>
-      <p className="mini-sub">Sender failed DMARC. No ticket created.</p>
-    </div>
-  ),
-  'Your data out, any time': (
-    <div className="mini">
-      <p className="mini-row"><span className="mini-file">workspace-export.zip</span><span className="mini-pass">Ready</span></p>
-    </div>
-  ),
-};
-
-function Boring() {
+// What a team uses every day, each with a crop of the product. On a phone two crops stay (the owner and
+// the help center); the other four items keep their words.
+function Daily() {
   return (
-    <section className="section" aria-labelledby="boring">
-      <div className="wrap">
-        <div className="section-head">
-          <p className="eyebrow">The boring parts</p>
-          <h2 id="boring">A helpdesk is more than an inbox. These parts already work.</h2>
-          <p className="section-lede">What a team of three to ten uses every day. HC Labs runs its own support on it.</p>
-        </div>
-        <ul className="bento">
-          {BORING.map(([k, , short]) => (
-            <li key={k} className={k === 'Threading' ? 'bento-card bento-wide loop' : MINI[k] ? 'bento-card bento-wide' : 'bento-card'}>
-              {MINI[k] && <div aria-hidden="true">{MINI[k]}</div>}
-              {k === 'Threading' && <><FlowTile /><FlowPause /></>}
-              <h3>{k}</h3>
-              <p>{short}</p>
-            </li>
-          ))}
-        </ul>
-      </div>
+    <section aria-labelledby="daily">
+      <SectionIntro
+        id="daily"
+        eyebrow="Every day"
+        title="What your team uses every day already works."
+        lede={<>HC Labs answers its own customers in it. Not built yet: automations and macros. Freshdesk still does more there: <a href="/vs/freshdesk">read Colliedesk vs Freshdesk before you decide <span aria-hidden="true">→</span></a></>}
+      />
+      <ul className="sheet-row cells cells-grid daily">
+        {DAILY.map(([title, text, image, alt]) => (
+          <li key={title} className={`cell daily-${image}`}>
+            <img src={`/daily-${image}.webp`} width="335" height="160" alt={alt} loading="lazy" decoding="async" />
+            <h3>{title}</h3>
+            <p>{text}</p>
+          </li>
+        ))}
+      </ul>
     </section>
   );
 }
 
-// The five-agent bill and the boring parts, after the product sections.
+// The bill by team size, then the everyday basics, after the AI agent section.
 export function SellingSections() {
   return (
     <>
       <Bill />
-      <Boring />
+      <Daily />
     </>
   );
 }

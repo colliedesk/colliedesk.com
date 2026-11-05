@@ -1,4 +1,4 @@
-import { APP_SIGN_IN, TRIAL_HREF, NAV, REPO } from '../lib/site';
+import { APP_SIGN_IN, TRIAL_HREF, NAV, REPO, STATUS_PAGE } from '../lib/site';
 import { NavLink } from './NavLink';
 import { BrandLink } from './Wordmark';
 
@@ -8,6 +8,7 @@ function NavItems({ path }: { path: string }) {
       {NAV.map((n) => (
         <li key={n.href}><NavLink link={n} current={path} /></li>
       ))}
+      <li><NavLink link={{ href: STATUS_PAGE, label: 'Status' }} current={path} /></li>
       <li><NavLink link={{ href: REPO, label: 'GitHub' }} current={path} /></li>
       <li><a href={APP_SIGN_IN}>Log in</a></li>
     </ul>

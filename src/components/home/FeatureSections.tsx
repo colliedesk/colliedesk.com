@@ -1,53 +1,65 @@
-import { OURS_YEAR } from '../../data/pages/home-sections';
-import { Badge } from '../Badge';
-import { INBOX_LIST, INCOMING, ProductCrop } from './ProductCrop';
+import {
+  DONE_FOR_YOU, FACTS, MIGRATE_LEDE, MIGRATE_REPORT_HREF, NOT_MOVED, REPORT_NOT_IMPORTED, REPORT_ROWS, STEPS, SWITCH_STEPS_HREF,
+} from '../../data/pages/home-sections';
+import { SectionIntro } from './SectionIntro';
 
-// Three facts under the hero, each one checkable on this site: the price, the import proof, the licence.
+// Three facts under the hero, each a number with its unit and a link to its proof: cost, data safety
+// and reliability, the three things a lead repeats to the person who approves the switch.
 export function Facts() {
   return (
-    <section className="facts" aria-label="Colliedesk in three facts">
-      <div className="wrap facts-row">
-        <a href="/pricing"><b>${OURS_YEAR} a year</b><span>for up to 10 agents, not per agent</span></a>
-        <a href="/migrate/freshdesk#5-check-the-reconcile-report"><b>0 lost</b><span>a reconcile report on every import</span></a>
-        <a href="/docs/self-host"><b>AGPL-3.0</b><span>self-host free with one command</span></a>
-      </div>
+    <section className="sheet-row cells facts" aria-label="Colliedesk in three facts">
+      {FACTS.map(([fact, line, link, href]) => (
+        <p key={fact} className="cell">
+          <b className="fact">{fact}</b>
+          <span>{line} · <a href={href}>{link} <span aria-hidden="true">→</span></a></span>
+        </p>
+      ))}
     </section>
   );
 }
 
-// One idea per section, with the part of the real product that shows it (helpdesk sites measured
-// on 19/10/2026 show 5–28 product pictures per home page; this page showed one).
-export function InboxFeature() {
+// The sample reconcile report: every record type counted on both sides, then what was left out.
+function ReconcileReport() {
   return (
-    <section className="section feature" aria-labelledby="inbox">
-      <div className="wrap feature-row">
-        <div className="feature-copy">
-          <p className="eyebrow">Shared inbox</p>
-          <h2 id="inbox">Every customer email, one calm inbox</h2>
-          <p className="section-lede">Status, priority, owner and tags on every conversation. Search, filters and bulk actions for a team of three to ten.</p>
-          <p><Badge kind="shipped">Shipped</Badge> <a href="/docs/inbox">How the inbox works</a></p>
-        </div>
-        <div className="panel">
-          <ProductCrop region={INBOX_LIST} maxWidth={430} label="The Colliedesk inbox list: open conversations with their status, priority, tags and time, under Today." />
-        </div>
+    <figure className="report" aria-labelledby="report-title">
+      <div className="report-head">
+        <figcaption><b id="report-title">Import done · reconcile report</b><span>Example account, acme.freshdesk.com</span></figcaption>
+        <span className="ok-text">0 missing</span>
       </div>
-    </section>
+      <table>
+        <thead><tr><th scope="col">record</th><th scope="col">Freshdesk</th><th scope="col">Colliedesk</th></tr></thead>
+        <tbody>
+          {REPORT_ROWS.map(([record, count]) => <tr key={record}><td>{record}</td><td>{count}</td><td>{count}</td></tr>)}
+        </tbody>
+      </table>
+      <p className="report-foot">{REPORT_NOT_IMPORTED}</p>
+    </figure>
   );
 }
 
-export function MigrationFeature() {
+// "Leave Freshdesk": what moves, a sample report, the four steps, then who does it and what stays behind.
+export function MigrationSection() {
   return (
-    <section className="section feature" aria-labelledby="migrate">
-      <div className="wrap feature-row">
-        <div className="feature-copy">
-          <p className="eyebrow">Leave Freshdesk</p>
-          <h2 id="migrate">Bring every ticket. Prove nothing was lost.</h2>
-          <p className="section-lede">Freshdesk's export leaves the conversations out. Our importer brings tickets, replies, notes, attachments, tags and contacts, then counts both sides.</p>
-          <p>No need to switch in a day: keep answering in Freshdesk, import, run the import again to catch up, and move your mail forwarding last, when your team is sure.</p>
-          <p><Badge kind="shipped">Shipped</Badge> <a href="/migrate/freshdesk#switch-gradually">How to switch gradually</a></p>
+    <section aria-labelledby="migrate">
+      <SectionIntro id="migrate" eyebrow="Leave Freshdesk" title="Switch at your pace. Prove nothing was lost." lede={MIGRATE_LEDE} />
+      <div className="sheet-row stage stage-center"><ReconcileReport /></div>
+      <ol className="sheet-row cells steps">
+        {STEPS.map(([title, text], i) => (
+          <li key={title} className="cell">
+            <span className="mono-label">{String(i + 1).padStart(2, '0')}</span>
+            <h3>{title}</h3>
+            <p>{text}</p>
+          </li>
+        ))}
+      </ol>
+      <div className="sheet-row band">
+        <div className="band-copy">
+          <p className="band-title">{DONE_FOR_YOU}</p>
+          <p>{NOT_MOVED}</p>
         </div>
-        <div className="panel">
-          <ProductCrop region={INCOMING} maxWidth={620} label="An imported conversation in Colliedesk: the customer's original email with its attachment, and the conversation's status and priority." />
+        <div className="band-actions">
+          <a className="btn btn-sm" href={MIGRATE_REPORT_HREF}>What the report checks</a>
+          <a className="text-link text-small" href={SWITCH_STEPS_HREF}>How the switch works, step by step <span aria-hidden="true">→</span></a>
         </div>
       </div>
     </section>

@@ -89,6 +89,18 @@ test('hero variants: AVIF and WebP at five widths, 16:10, named by width', async
   assert.equal(heroSrcset('webp'), '/product-inbox-720.webp 720w, /product-inbox-1152.webp 1152w, /product-inbox-1440.webp 1440w, /product-inbox-2304.webp 2304w, /product-inbox-2880.webp 2880w');
 });
 
+// Phones get their own picture: three crops stacked in a 700 × 1036 frame (the conversation 600 px, the
+// owner 88 px, the draft 300 px, 24 px between them), served at 350 and 700 px wide.
+test('mobile hero variants: AVIF and WebP at 350 and 700 px, from the stacked 2x crops', async () => {
+  const { heroMobileVariants, heroMobileSrcset, HERO_MOBILE_SOURCE } = await import('../src/lib/hero-image.ts');
+  assert.deepEqual(heroMobileVariants().map((v) => `${v.file} ${v.width}x${v.height}`), [
+    'product-inbox-mobile-350.avif 350x518', 'product-inbox-mobile-700.avif 700x1036',
+    'product-inbox-mobile-350.webp 350x518', 'product-inbox-mobile-700.webp 700x1036',
+  ]);
+  assert.equal(heroMobileSrcset('avif'), '/product-inbox-mobile-350.avif 350w, /product-inbox-mobile-700.avif 700w');
+  assert.equal(HERO_MOBILE_SOURCE, 'product-inbox-mobile@2x.jpg');
+});
+
 test('variants script encodes each file from the 2x screenshot at its exact size', async () => {
   const { ffmpegArgs } = await import('./product-shot/variants.mjs');
   const args = ffmpegArgs({ file: 'product-inbox-720.avif', width: 720, height: 450, format: 'avif' }, '/p/product-inbox@2x.jpg', '/p/product-inbox-720.avif');

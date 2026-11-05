@@ -1,13 +1,14 @@
 #!/usr/bin/env node
 // Writes the AVIF and WebP copies of the product screenshot that the home hero serves by width
-// (src/lib/hero-image.ts), each scaled from public/product-inbox@2x.jpg. The pixels are the capture's;
+// (src/lib/hero-image.ts), each scaled from public/product-inbox@2x.jpg, and the phone picture's copies
+// from public/product-inbox-mobile@2x.jpg. The pixels are the capture's;
 // only the size and the encoding change. Needs ffmpeg with libaom-av1 and libwebp.
 //
 //   node scripts/product-shot/variants.mjs     (pnpm shot:product runs it after a retake)
 import { spawnSync } from 'node:child_process';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { heroVariants } from '../../src/lib/hero-image.ts';
+import { HERO_MOBILE_SOURCE, heroMobileVariants, heroVariants } from '../../src/lib/hero-image.ts';
 
 const PUBLIC = fileURLToPath(new URL('../../public/', import.meta.url));
 
@@ -23,12 +24,15 @@ export function ffmpegArgs(variant, source, out) {
 }
 
 export function writeVariants({ dir = PUBLIC, ffmpeg = process.env.FFMPEG_BIN || 'ffmpeg' } = {}) {
-  const source = join(dir, 'product-inbox@2x.jpg');
-  for (const variant of heroVariants()) {
+  const plan = [
+    ...heroVariants().map((variant) => ({ variant, source: join(dir, 'product-inbox@2x.jpg') })),
+    ...heroMobileVariants().map((variant) => ({ variant, source: join(dir, HERO_MOBILE_SOURCE) })),
+  ];
+  for (const { variant, source } of plan) {
     const result = spawnSync(ffmpeg, ffmpegArgs(variant, source, join(dir, variant.file)), { stdio: 'inherit' });
     if (result.status !== 0) throw new Error(`ffmpeg failed on ${variant.file} (exit ${result.status ?? result.error?.message})`);
   }
-  return heroVariants().map((v) => v.file);
+  return plan.map(({ variant }) => variant.file);
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {

@@ -1,4 +1,4 @@
-import { FOOTER, STATUS_PAGE } from '../lib/site';
+import { CONTACT_EMAIL, FOOTER, GA_BACKUPS, GA_DOC, STATUS_PAGE } from '../lib/site';
 import { MoonIcon } from './Icons';
 import { NavLink } from './NavLink';
 import { BrandLink } from './Wordmark';
@@ -29,7 +29,7 @@ export function FooterColumns() {
 export function FooterLegal() {
   return (
     <div className="wrap footer-legal">
-      <p>© 2026 HC Labs. <a href={STATUS_PAGE} rel="noopener">Service status</a> · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · <button type="button" className="link-button" data-consent-open="">Your privacy choices</button></p>
+      <p>© 2026 HC Labs · <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a> · <a href={STATUS_PAGE} rel="noopener">Service status</a> · <a href={GA_DOC} rel="noopener">GA guarantees</a> · <a href={GA_BACKUPS} rel="noopener">Security and backups</a> · <a href="/changelog">Changelog</a> · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · <button type="button" className="link-button" data-consent-open="">Your privacy choices</button></p>
       <button type="button" className="theme-toggle" data-theme-toggle="" aria-pressed="false" hidden><MoonIcon />Dark theme</button>
     </div>
   );
