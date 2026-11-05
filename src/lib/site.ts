@@ -47,6 +47,8 @@ export const CONTACT_EMAIL = 'support@colliedesk.com';
 // number in the terms) is published separately, once the night-time outage call is in place.
 export const GA_DOC = `${REPO}/blob/main/docs/general-availability.md`;
 export const STATUS_PAGE = 'https://status.colliedesk.com';
+// Where the GA guarantees describe Cloud backups: copies within minutes, nightly backups, a weekly restore test.
+export const GA_BACKUPS = `${GA_DOC}#colliedesk-cloud-backups`;
 // One line on /pricing; `pnpm check` fails if it drops the status page link.
 export const STATUS_LINE = `**Live uptime** for Colliedesk Cloud, checked from several regions, is on [status.colliedesk.com](${STATUS_PAGE}).`;
 // The Colliedesk Cloud ladder: one flat price per workspace, never per agent; a year costs ten
@@ -96,7 +98,6 @@ export const TEAM_25_WHO = `For support teams of ${TEAM_25_AGENTS} agents.`;
 export const TEAM_25_IMPORT = 'We run the Freshdesk import with you.';
 export const TEAM_25_BELOW = `Teams of ${TEAM_25_AGENTS} agents can buy Team 25 below.`;
 export const BUSINESS_AGENTS = `${BUSINESS.agentsFrom} to ${BUSINESS.agents}`;
-export const TEAM_25_HOME_LINE = `Teams of ${TEAM_25_AGENTS} agents can buy [${TEAM_25.name} for ${dollars(TEAM_25.monthly)} a month](/pricing).`;
 
 // AI on Colliedesk Cloud: reply drafts and triage are included in every plan with a monthly allowance;
 // auto-answer (not built yet) is charged per resolution, only when the customer needs no person

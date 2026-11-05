@@ -1,136 +1,102 @@
-// Home page facts shared by the HTML sections (src/components/home/*) and the Markdown twin.
-import { FOUNDING_SLOTS, foundingState } from '../../lib/founding';
-import { AI_EXTRA, LADDER_LINE, PRICE, PRICES_READ, TEAM } from '../../lib/site';
+// Home page copy shared by the HTML sections (src/components/home/*) and the Markdown twin (home.ts).
+// The layout and words follow the Paper design "L1-b Landing" (page 50 Landing); facts come from
+// src/lib/site.ts and the product docs, and win where the design disagrees.
+import { foundingState } from '../../lib/founding';
+import { GA_BACKUPS, PRICES_READ, REPO, STATUS_PAGE, SWITCH_HREF, TEAM } from '../../lib/site';
+import { billAt } from '../../lib/team-bill';
 
 // While Founding is open it leads the plans we sell, so the home page prices Founding; once the
 // places are taken (the site rebuilds on that change) it prices Cloud Team.
 export const FOUNDING_OPEN = foundingState().open;
 export const OURS_NAME = FOUNDING_OPEN ? 'Colliedesk Founding' : 'Colliedesk Cloud Team';
 
-export interface PriceBar {
-  name: string;
-  /** List price per year for five agents, billed annually, USD. */
-  usd: number;
-  math: string;
-  href: string;
-  ours?: boolean;
-}
-
-// 5 agents, list price per year, billed annually on every bar so the billing periods match.
-// Freshdesk only: it is the one tool our buyer pays for.
-export const BARS: readonly PriceBar[] = [
-  { name: 'Freshdesk Pro + Freddy AI Copilot', usd: 5040, math: '5 × ($55 + $29) × 12', href: '/vs/freshdesk' },
-  { name: 'Freshdesk Growth, no AI', usd: 1140, math: '5 × $19 × 12', href: '/vs/freshdesk' },
-  FOUNDING_OPEN
-    ? { name: OURS_NAME, usd: 4 * 99, math: `4 × $99, one workspace, up to 10 agents, locked for life, only ${FOUNDING_SLOTS} places, + ${AI_EXTRA}`, href: '/pricing', ours: true }
-    : { name: OURS_NAME, usd: TEAM.yearly, math: `one workspace, up to 10 agents, + ${AI_EXTRA}`, href: '/pricing', ours: true },
-];
-export const BAR_MAX = Math.max(...BARS.map((b) => b.usd));
-const OURS = BARS.find((b) => b.ours)?.usd;
-if (OURS === undefined) throw new Error('BARS needs one entry with ours: true');
-
-// The hero names Freshdesk with what five agents pay it in a year, from the
-// cheapest plan to the dearest. The top of each range includes AI that Colliedesk does not ship
-// yet, so the hero states prices instead of a "% cheaper" claim.
+// The hero, the title and the description name what five agents pay Freshdesk in a year, from the
+// cheapest plan (Growth, no AI) to the dearest (Pro + Copilot), against our yearly price.
+const [FIVE_PRO, FIVE_GROWTH, FIVE_OURS] = billAt(5, FOUNDING_OPEN);
 export interface HeroRange { name: string; currency: '$' | '€'; low: number; high: number }
-// Freshdesk Growth 5 × $19 × 12 to Pro + Copilot.
-export const FRESHDESK_RANGE: HeroRange = { name: 'Freshdesk', currency: '$', low: 5 * 19 * 12, high: BAR_MAX };
+export const FRESHDESK_RANGE: HeroRange = { name: 'Freshdesk', currency: '$', low: FIVE_GROWTH?.usd ?? 0, high: FIVE_PRO?.usd ?? 0 };
 export const rangeLabel = (r: HeroRange): string =>
   `${r.currency}${r.low.toLocaleString('en-US')}–${r.high.toLocaleString('en-US')}`;
-// A year of Freshdesk Pro + Copilot for five agents, billed annually, against Cloud Team billed yearly.
-export const FRESHDESK_YEAR = BAR_MAX;
-export const FRESHDESK_MONTH = BAR_MAX / 12;
-export const OURS_YEAR = OURS;
+export const OURS_YEAR = FIVE_OURS?.usd ?? TEAM.yearly;
 
-// Answers "you can't just build a helpdesk over a weekend": the unglamorous parts, each already on
-// main and running on Colliedesk Cloud. Only list what shipped; anything else belongs in the status table.
-// `short` is the line on the home page; the Markdown twin keeps the full text.
-export const BORING: readonly (readonly [title: string, text: string, short: string])[] = [
-  ['Mail that lands', 'Replies leave signed with DKIM and pass SPF and DMARC. Tested against real Gmail inboxes, in the customer\'s thread.', 'Signed with DKIM, passing SPF and DMARC.'],
-  ['Mail you can trust', 'Inbound mail is checked on arrival. Spoofed senders and auto-reply loops are stopped before they become tickets.', 'Spoofed senders and auto-reply loops never become tickets.'],
-  ['Threading', 'A customer\'s reply joins its conversation, so one problem stays one ticket.', 'A reply joins its conversation. One problem, one ticket.'],
-  ['Nothing lost on import', 'The reconcile report counts tickets, replies, notes, tags and contacts on both sides, and checks every attachment by SHA-256.', 'Every count compared, every attachment checked by SHA-256.'],
-  ['Your data out, any time', 'Export the whole workspace as a ZIP, even after a trial ends or a plan lapses.', 'The whole workspace as a ZIP, even after a plan lapses.'],
-  ['Workspaces kept apart', 'PostgreSQL row-level security keeps each workspace\'s rows apart. Passwordless sign-in, revocable sessions.', 'Row-level security in PostgreSQL. Passwordless sign-in.'],
-  ['A supply chain you can check', 'Signed container images with provenance and SBOM. CodeQL and an OSV gate on every pull request, the email parser fuzzed.', 'Signed images with provenance and SBOM, checked on every pull request.'],
-  ['Nothing to stitch together', 'Self-hosted, it is one server and PostgreSQL. Bring an SMTP account for outgoing mail and a forwarder, such as Cloudflare Email Routing, for incoming mail. That is the list.', 'Self-hosted, it is one server and PostgreSQL.'],
+export const MIGRATE_REPORT_HREF = '/migrate/freshdesk#5-check-the-reconcile-report';
+
+/** Three facts under the hero: cost, data safety, reliability; each links to its proof. */
+export const FACTS: readonly (readonly [fact: string, line: string, link: string, href: string])[] = [
+  [`$${OURS_YEAR} a year`, 'for 3 to 10 agents, not per agent', 'see pricing', '/pricing'],
+  ['0 missing', 'records, counted on both sides', 'what it checks', MIGRATE_REPORT_HREF],
+  ['1 restore test a week', 'backups in another EU data centre', 'how we test', GA_BACKUPS],
 ];
 
-// "Your AI agent can do this too": the MCP server, roles and permissions and agent tokens, as shipped in
-// colliedesk (docs/user/mcp.md, docs/user/roles-and-permissions.md, docs/user/sessions.md#agent-tokens).
-// Only state what those guides say.
+export const MIGRATE_LEDE =
+  "Freshdesk's CSV export leaves the conversations out. Our importer brings tickets, replies, notes, attachments, tags, time entries, contacts, companies, saved replies and your help center, then counts both sides.";
+/** The sample reconcile report: illustrative counts, labelled as an example account. */
+export const REPORT_ROWS: readonly (readonly [record: string, count: string])[] = [
+  ['Tickets, archived ones included', '18,422'],
+  ['Messages: replies, notes, forwards', '96,310'],
+  ['Attachments, each SHA-256 checked', '6,031'],
+  ['Contacts', '3,902'],
+  ['Companies', '216'],
+  ['Time entries', '1,240'],
+  ['Saved replies', '64'],
+  ['Help-center articles', '214'],
+];
+export const REPORT_NOT_IMPORTED = 'Not imported, listed by Freshdesk id: 3 custom fields, 12 canned responses in personal folders.';
+// The import time is the app's own estimate (web/src/features/settings/import-estimate.ts), not a measured run.
+export const STEPS: readonly (readonly [title: string, text: string])[] = [
+  ['We import it for you', 'You send an API key. The page estimates the time first: 10,000 tickets on Freshdesk Growth take about 5 to 9 hours, and the newest tickets arrive within the first minute.'],
+  ['Run both', 'One queue answers in Colliedesk. Freshdesk keeps the rest until your team is sure.'],
+  ['Catch up', 'Run the import again before you switch. It never copies a ticket twice.'],
+  ['Move mail and help center', 'Point your support address and help-center domain here. Published articles keep their old links with a 301.'],
+];
+export const DONE_FOR_YOU = 'The migration is free and done by us, on Founding, Team 25 and Business.';
+export const NOT_MOVED =
+  'What does not move: custom fields (listed), custom statuses (they become Pending), canned responses in personal folders unless you ask, and files attached to canned responses. The report lists each one by Freshdesk id. If one count does not match, the migration failed and you keep Freshdesk.';
+export const SWITCH_STEPS_HREF = SWITCH_HREF;
+
+// "Your AI agent can do this too", as shipped in colliedesk (docs/user/mcp.md, roles-and-permissions.md).
 export const MCP_URL = 'https://app.colliedesk.com/mcp';
 export const AGENT_HEADING = 'Everything you see here, your AI agent can do too';
-// The home page's shorter lede; the Markdown twin keeps AGENT_LEDE.
-export const AGENT_LEDE_SHORT =
-  'Give Claude Code, Codex or Cursor one URL and an agent token. It does what you allow, never more than you can.';
-export const AGENT_LEDE =
-  'Colliedesk has an MCP server. Give an MCP client, such as Claude Code, Codex, Cursor or Claude Desktop, one URL and an agent token, and it works the same inbox your team does, with the permissions you gave the token and never more than you hold.';
-export const AGENT_ACCESS: readonly (readonly [title: string, text: string, short: string])[] = [
-  ['Roles', 'A role is a set of permissions, such as messages:send or workspace:export. Admin and Agent are built in; make your own, and give a person several.', 'Admin, Agent, or roles you make. A person can hold several.'],
-  ['Follow a role', 'A token can follow any role whose permissions you hold, such as Agent for an admin: change the role and the token changes with it. Lose a permission of the role and the token stops.', 'The token follows a role as it changes.'],
-  ['Pick permissions', 'Or tick the permissions the token gets, out of the ones you hold. The list is fixed when you create it.', 'Or a fixed list, out of the permissions you hold.'],
-  ['Never more than you', 'A token never does more than its person can do right now. Lose a permission and every token of yours loses it too.', 'Lose a permission and every token of yours loses it too.'],
+export const AGENT_LEDE = 'Give Claude Code, Codex or Cursor one URL and an agent token. It does what you allow, never more than you can.';
+/** The terminal: [tool call, its result]; the last line is the outcome. */
+export const AGENT_PROMPT = 'Triage open refund questions, draft replies, fix the refund article';
+export const AGENT_CALLS: readonly string[] = [
+  'colliedesk_inbox_search status=open "refund" → 14',
+  'colliedesk_conversation_update #4821 assignee=Tom status=pending',
+  'colliedesk_note_add #4821 → "Same cause as #4790"',
+  'colliedesk_reply_draft #4821 → waiting for a person to send',
+  'colliedesk_kb_article_update "Refunds" → new version, history kept',
 ];
-export const AGENT_POINTS: readonly (readonly [title: string, text: string, short: string])[] = [
-  ['Every action, not a subset', 'Each action in the web app has an API route and an MCP tool. A test in the product repository fails the build when one is missing.', "Every action in the web app has an MCP tool. A test keeps it that way."],
-  ['It acts, or says what is missing', 'A token with the permission acts at once; nothing waits in a queue. A call without it is refused with the permission it lacks and how to get it.', 'With the permission it acts at once. Without it, it is told which permission is missing.'],
-  ['Some things stay with you', 'Only a person creates tokens. Connecting Gmail, Microsoft 365 or GitHub, and paying, happen in your browser: the agent gets the address and you finish it. A reply the agent may not send waits as a draft you edit, send or discard.', 'Only a person creates tokens. A reply it may not send waits as a draft.'],
-  ['Saved replies keep their history', 'Every edit, by a person or an agent, is a version you can restore, and a deleted reply stays in the trash for 30 days.', "Every edit is a version you can restore."],
+export const AGENT_OUTCOME = '3 drafts ready. Nothing was sent: this token has no send permission.';
+export const AGENT_POINTS: readonly (readonly [title: string, text: string])[] = [
+  ['Never more than you', 'A token follows your role. Lose a permission and every token of yours loses it too.'],
+  ['Most actions are MCP tools', "Inbox, help-center and settings work are MCP tools. A call outside the token's permissions is refused and names the permission it needs."],
+  ['Some things stay with you', 'Only a person creates tokens. A reply it may not send waits as a draft. Your workspace content never trains AI models.'],
 ];
-const agentSectionMd = `## ${AGENT_HEADING}
 
-${AGENT_LEDE} MCP endpoint on Colliedesk Cloud: \`${MCP_URL}\`, with the agent token as a bearer token. [Connect an AI agent](/docs/mcp).
+export const BILL_LEDE = `Pick your team size. Freshdesk list prices per year, billed annually, read on ${PRICES_READ}. Colliedesk is one flat price for the workspace${FOUNDING_OPEN ? ', and Founding is locked for life' : ''}.`;
 
-${AGENT_ACCESS.map(([t, v]) => `- **${t}.** ${v}`).join('\n')}
+/** What a team uses every day, each with a crop of the product (public/daily-*.webp). */
+export const DAILY: readonly (readonly [title: string, text: string, image: string, alt: string])[] = [
+  ['One owner per conversation', 'Assign, mark pending or resolved. Nobody answers the same customer twice.', 'owner', 'Conversation properties: status Open, priority Urgent, an assignee, tags and the due time.'],
+  ['Saved replies', 'Your Freshdesk canned responses arrive as saved replies. Insert one with Ctrl+/ while you type.', 'saved-replies', 'The saved-reply picker searching "refund" with three matching replies.'],
+  ['Private notes', 'Talk about a ticket next to it. The customer never sees a note.', 'notes', 'A private note from a teammate inside a conversation.'],
+  ['Help center', 'Your Freshdesk articles and translations, on your own domain.', 'help-center', 'A help-center article about how long a refund takes, under Home and Billing.'],
+  ['Response targets', 'First response and resolution targets, counted in your business hours.', 'targets', 'Response targets by priority: urgent, high, normal and low.'],
+  ['Results', 'Your last 30 days in Freshdesk next to Colliedesk. Every number opens its tickets.', 'results', 'Results: first reply time in Freshdesk before the move next to Colliedesk now.'],
+];
 
-${AGENT_POINTS.map(([k, v]) => `- **${k}.** ${v}`).join('\n')}
-
-Who can do what: [Roles and permissions](/docs/roles-and-permissions).`;
-
-const cloudLine = FOUNDING_OPEN
-  ? `Founding: $99 every 3 months per workspace for up to 10 agents, locked for life, for ${FOUNDING_SLOTS} teams. [Who it is for](/pricing#who-founding-is-for).`
-  : `One flat price per workspace, never per agent: ${LADDER_LINE}. Team is ${PRICE.monthly} a month or ${PRICE.yearly} a year.`;
-const flatLine = FOUNDING_OPEN
-  ? 'Founding is $99 every 3 months per workspace for up to 10 agents, no per-agent fees. Self-host for $0.'
-  : `Team is ${PRICE.monthly} per workspace per month for up to 10 agents, no per-agent fees. Self-host for $0.`;
-const foundingTail = FOUNDING_OPEN ? '' : ` Cloud plans: ${LADDER_LINE}.`;
-
-export const homeSectionsMd = `## Wait, what are you selling me?
-
-Self-hosting is free, forever, with every feature. We sell two things:
-
-1. **Colliedesk Cloud**: we run it for you. ${cloudLine}
-2. **Migration**: we move your Freshdesk history (tickets, replies, attachments, tags) and give you a reconcile report that proves nothing was lost.
-
-## Why teams switch
-
-- **Leave Freshdesk with all your data** (importer shipped): tickets, replies, notes, checksummed attachments, tags and contacts, with a reconcile report. Switch gradually: keep answering in Freshdesk, import, run the import again to catch up, and move your mail forwarding last. [Migration guide](/migrate/freshdesk).
-- **AI drafts and triage, included** (shipped, off until an admin turns them on; auto-answer not built yet). Included in every plan with a monthly allowance, or your own key at no extra fee.
-- **Flat price**: ${flatLine}
-
-## The bill for five agents
-
-Freshdesk list prices per year, billed annually, read on ${PRICES_READ} ([details](/vs/freshdesk)).
-
-${BARS.map((b) => `- ${b.name}: $${b.usd.toLocaleString('en-US')} (${b.math})`).join('\n')}
-
-## The boring parts already work
-
-We are not rebuilding every Freshdesk feature. We build what a team of three to ten uses every day, and we label the rest. HC Labs runs its own support on Colliedesk Cloud.
-
-${BORING.map(([k, v]) => `- **${k}.** ${v}`).join('\n')}
-
-${agentSectionMd}
-
-## Why a collie?
-
-A collie does not own the flock. It brings every sheep back to the pen and the shepherd decides what happens next. That is the job of Colliedesk's AI once it is built: sort, draft and chase every ticket so none is lost, while a person on your team approves what goes out.
-
-## If you don't like something, fork it
-
-Colliedesk is AGPL-3.0. The code, your data and the export format are yours. [How the license and the business fit together](/open-source).
-
-## Founding offer
-
-$99 every 3 months per workspace, locked for life, with free Freshdesk migration and a reconcile report. Only 10 workspaces get it. Up to 10 agents, no per-agent fees, 20 GiB of attachments including imported files.${foundingTail} AI reply drafts and triage included with a monthly allowance, or your own key. Colliedesk Cloud is live; every workspace starts with a 14-day free trial.`;
+export const RELIABILITY_LEDE = 'Since 5 November 2026. What is guaranteed is written down, and what is still coming is listed below with its state.';
+export const GUARANTEES: readonly (readonly [title: string, text: string])[] = [
+  ['Copied within minutes', 'Every database change goes, encrypted, to a second data centre in Germany.'],
+  ['Restore tested every week', 'Nightly encrypted backups, and a weekly test that we can bring them back.'],
+  ['Your data, any time', 'Export the whole workspace as a ZIP. Open source, so you can also self-host it.'],
+];
+export const STATUS_NOTE = `Live from ${new URL(STATUS_PAGE).host}, checked from several regions. The written uptime commitment appears here only once it is published.`;
+/** Roadmap items still to come, with their state on the roadmap and their issue. */
+export const STILL_COMING: readonly { title: string; text: string; state: string; issue: number; soon?: boolean }[] = [
+  { title: 'Live chat widget', text: 'Chats from your site land in the same inbox as email.', state: 'Coming Q1 2027', issue: 124, soon: true },
+  { title: 'Zendesk importer', text: 'Move from Zendesk with the same reconcile report.', state: 'Later', issue: 122 },
+  { title: 'Auto-answer where drafts proved right', text: 'Only for topics where drafts were accurate, with a person in the loop.', state: 'Planned', issue: 281 },
+];
+export const issueHref = (n: number): string => `${REPO}/issues/${n}`;

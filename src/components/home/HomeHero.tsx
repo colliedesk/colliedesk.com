@@ -1,34 +1,27 @@
-import { HOME_H1, HOME_LEDE } from '../../data/pages/home';
+import { HOME_EYEBROW, HOME_H1_LINES, HOME_LEDE, HOME_PRICE_LEAD, HOME_PRICE_REST, HOME_RISK_LINE } from '../../data/pages/home';
+import { FOUNDING_ACTION } from '../../lib/cloud-price';
 import { foundingState } from '../../lib/founding';
-import { renderInline } from '../../lib/markdown';
-import { dollars, FOUNDING_CHECKOUT, MONEY_BACK, SOLO, TEAM_25_HOME_LINE, TRIAL_HREF } from '../../lib/site';
+import { SWITCH_CALL_HREF, TRIAL_HREF } from '../../lib/site';
 
-// Hero copy: centred promise and two actions. While Founding is open the second action buys it, with
-// the refund promise beside it, and the migration guide moves into the note under the buttons. A second
-// line under the note tells teams of 11 to 25 agents, whom Founding does not fit, that Team 25 exists.
-// Home.astro places the product screenshot and the reconcile proof under it; the <img> stays out of
-// React, whose renderer would add an image preload.
+// Hero copy: the category, the promise and one primary action. The second link leads somewhere else:
+// the Founding plan while it is open, the migration guide once it closes; teams of 11 to 100 agents
+// get a call. The price line names what each team size pays. Home.astro places the product picture
+// under it; the <img> stays out of React, whose renderer would add an image preload.
 export function HeroCopy() {
   const open = foundingState().open;
   return (
     <div className="hero-copy">
-      <p className="eyebrow hero-eyebrow">Open source · AGPL-3.0 · Generally available on Cloud</p>
-      <h1>{HOME_H1}</h1>
+      <p className="mono-label">{HOME_EYEBROW}</p>
+      <h1 id="hero-title">{HOME_H1_LINES.map((line, i) => <span key={line}>{i > 0 && ' '}{line}</span>)}</h1>
       <p className="lede">{HOME_LEDE}</p>
-      <div className="cta-row">
-        <a className="btn btn-primary btn-lg" href={TRIAL_HREF}>Start free trial <span aria-hidden="true">→</span></a>{' '}
+      <div className="hero-actions">
+        <a className="btn btn-primary" href={TRIAL_HREF}>Start free trial</a>{' '}
         {open
-          ? <a className="btn btn-lg" href={FOUNDING_CHECKOUT} rel="noopener">Join the Founding plan, $99 every 3 months</a>
-          : <a className="btn btn-lg" href="/migrate/freshdesk">Read the migration guide</a>}
+          ? <a className="text-link" href={FOUNDING_ACTION.href}>{FOUNDING_ACTION.label} <span aria-hidden="true">→</span></a>
+          : <a className="text-link" href="/migrate/freshdesk">Read the migration guide <span aria-hidden="true">→</span></a>}{' '}
+        <a className="text-link" href={SWITCH_CALL_HREF} rel="noopener">11–100 agents? Book a 30-minute call</a>
       </div>
-      {open ? (
-        <>
-          <p className="hero-note">14-day free trial, no card · Founding price locked for life, <a href="/terms#refunds">{MONEY_BACK}</a> · <a href="/migrate/freshdesk">Read the migration guide</a></p>
-          <p className="hero-note hero-team-25" dangerouslySetInnerHTML={{ __html: renderInline(TEAM_25_HOME_LINE) }} />
-        </>
-      ) : (
-        <p className="hero-note">14-day free trial, no card · Plans from <b>{dollars(SOLO.monthly)}</b> a month · Founding price locked for life · <a href="#bill">See the five-agent bill</a></p>
-      )}
+      <p className="hero-note"><strong>{HOME_PRICE_LEAD}</strong> {HOME_PRICE_REST}<br />{HOME_RISK_LINE}</p>
     </div>
   );
 }

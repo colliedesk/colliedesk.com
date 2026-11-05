@@ -86,17 +86,22 @@ repo checks contrast for every pair and fails when a grey, a text token or the p
   when `styles.css` uses the accent token more than its budget.
 - Layout (from a full-page teardown of nine helpdesk sites): one page background, no tinted bands; one
   idea per section with a crop of the real product on a soft panel (`--panel`); three checkable facts
-  under the hero; a dark closing band. Text sits in plain columns under a hairline; code and tables sit
-  on a 1px shadow ring (`--ring`).
+  under the hero. Text sits in plain columns under a hairline; code and tables sit on a 1px shadow ring
+  (`--ring`). The home page follows the Paper design "L1-b Landing" (page 50 Landing of the app design
+  file): one 1200px sheet, rows split by hairlines, product pictures on grey stage rows, headlines in Plex
+  Sans 600 under a 12px mono label, the bill by team size as CSS-only radios (`src/lib/team-bill.ts`).
 - Scrollbars are styled site-wide (thin, palette grey: `--line-control`, `--line-strong` on hover); never the OS
   default. `pnpm check` fails if `scrollbar-width`/`scrollbar-color` appear outside the Firefox `@supports` block.
 - Type: self-hosted IBM Plex Sans and Mono; IBM Plex Serif 500 for h1 and h2. Sentence case everywhere,
   mono only for code.
-- Product pictures: `public/product-inbox.jpg` (and `@2x`) is a screenshot of the app with demo data
-  (Northwind Help). The hero serves it as AVIF and WebP by width (`product-inbox-<width>.avif|webp`,
-  `src/lib/hero-image.ts`), scaled from `@2x` by `node scripts/product-shot/variants.mjs` (ffmpeg); `pnpm check` fails
-  if a size the hero names is missing. Retake it when the app's look changes (see below); `src/components/home/ProductCrop.tsx`
-  holds the crop regions.
+- Product pictures: `public/product-inbox.jpg` (and `@2x`) is a picture of the inbox with demo data
+  (Northwind Help). Until the app ships the screens it shows, it is exported at 2x from the app design (Paper,
+  page 15 Inbox, "I8-a"; owner decision 06/11/2026), and so are the phone picture
+  `public/product-inbox-mobile@2x.jpg` (three crops of "M-I2", 700 × 1036) and the six `public/daily-*.webp`
+  crops of the "Every day" section. The hero serves both pictures as AVIF and WebP by width
+  (`product-inbox-<width>.avif|webp`, `product-inbox-mobile-<width>.avif|webp`, `src/lib/hero-image.ts`), scaled by
+  `node scripts/product-shot/variants.mjs` (ffmpeg); `pnpm check` fails if a size the hero names is missing. Retake the
+  screenshot with `pnpm shot:product` once those screens ship (see below).
 - Light is the default; the footer **Dark theme** button sets `data-theme="dark"` and saves it in
   `localStorage` for this site only (`public/theme.js`). Spacing is a 4 px grid (`--space-*`); buttons
   are at least 44 px tall on touch (`--touch`).
@@ -139,5 +144,4 @@ working in the same data. Re-running resets the data and captures again.
   `sha-…@sha256:…` image to match production).
 - `SHOT_PORT` changes the port; `CHROME_BIN` changes the browser.
 
-After a retake, look at the image and check the crop regions in `ProductCrop.tsx` and the hero `alt`
-text in `src/components/home/Home.astro`.
+After a retake, look at the image and check the hero `alt` text and caption in `src/components/home/Home.astro`.
