@@ -12,7 +12,7 @@ const { decorate } = sandbox.module.exports;
 // Objects from the sandbox have its prototypes; the tests compare their plain copies.
 const plain = (value) => JSON.parse(JSON.stringify(value));
 const fromSearch = (search) => plain(sandbox.module.exports.fromSearch(search));
-const remember = (search, storage, now) => plain(sandbox.module.exports.remember(search, storage, now));
+const remember = (search, storage, now, pathname) => plain(sandbox.module.exports.remember(search, storage, now, pathname));
 
 function memoryStorage() {
   const data = new Map();
@@ -71,4 +71,39 @@ test('remember works without storage (blocked or private mode)', () => {
   const blocked = { getItem() { throw new Error('blocked'); }, setItem() { throw new Error('blocked'); } };
   assert.deepEqual(remember('?fbclid=IwAR_x', blocked, 0), { fbclid: 'IwAR_x' });
   assert.deepEqual(remember('', blocked, 0), {});
+});
+
+// landing_path: the first colliedesk.com page of the visit, so a trial can be traced to the page
+// that brought it (colliedesk/colliedesk#452). It comes from the page path, never from the query.
+test('remember keeps the first page of the visit as landing_path, for the next pages too', () => {
+  const storage = memoryStorage();
+  const t0 = Date.UTC(2026, 10, 4, 3, 0);
+  assert.deepEqual(remember('', storage, t0, '/vs/zendesk'), { landing_path: '/vs/zendesk' });
+  assert.deepEqual(remember('', storage, t0 + 60_000, '/pricing'), { landing_path: '/vs/zendesk' });
+});
+
+test('an ad link keeps its keys and its own page as landing_path', () => {
+  const storage = memoryStorage();
+  const t0 = Date.UTC(2026, 10, 4, 3, 0);
+  remember('', storage, t0, '/blog/freshdesk-export');
+  assert.deepEqual(remember('?utm_source=meta', storage, t0 + 60_000, '/'), { utm_source: 'meta', landing_path: '/' });
+});
+
+test('landing_path is taken only from a plain path, never from the query', () => {
+  assert.deepEqual(remember('?landing_path=/evil', memoryStorage(), 0, '/vs/<script>'), {});
+  assert.deepEqual(remember('', memoryStorage(), 0, '/' + 'a'.repeat(201)), {});
+  assert.deepEqual(remember('', memoryStorage(), 0, '/Docs/Setup'), {});
+});
+
+test('decorate adds landing_path to the app sign-up links', () => {
+  assert.equal(
+    decorate('https://app.colliedesk.com/sign-in?intent=trial', { landing_path: '/vs/zendesk' }),
+    'https://app.colliedesk.com/sign-in?intent=trial&landing_path=%2Fvs%2Fzendesk',
+  );
+});
+
+test('a stored landing_path that is not a plain path is dropped', () => {
+  const storage = memoryStorage();
+  storage.setItem('colliedesk.site-attribution', JSON.stringify({ keys: { landing_path: 'https://evil.example' }, at: 0 }));
+  assert.deepEqual(remember('', storage, 1000, '/pricing'), {});
 });

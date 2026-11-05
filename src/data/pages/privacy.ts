@@ -72,6 +72,10 @@ We never send your email, name, company, workspace name or anything from your wo
 
 A self-hosted Colliedesk server never sends anything to Meta, and has no setting to turn it on.
 
+## The page you started from
+
+When you follow a sign-up link on this website, it adds the path of the first page you opened on colliedesk.com in that tab (for example \`/vs/zendesk\`) to the link, as \`landing_path\`. It keeps that path in the browser tab for at most a day, the same way as the click ID above, and sets no cookie for it. If you start a Colliedesk Cloud trial, we keep the path with your sign-up so we can count which pages lead to trials. It is only a page of this website, never a page of another site, and it is not sent to Meta or any other ad network.
+
 ## Google user data
 
 Colliedesk's use and transfer of information received from Google APIs adheres to the [Google API Services User Data Policy](https://developers.google.com/terms/api-services-user-data-policy), including the Limited Use requirements.
