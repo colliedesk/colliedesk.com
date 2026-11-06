@@ -66,6 +66,7 @@ We advertise Colliedesk on Facebook and Instagram. When you click one of these a
 - that the click led to a trial, and later, if your team subscribes, to a paid plan with its price,
 - the click ID and the time of the click,
 - the IP address and browser name of the sign-up,
+- if you accepted cookies on this website, the random browser ID the Meta pixel stored in the \`_fbp\` cookie, which your browser sends with the sign-up,
 - a random ID of the workspace, so that the same sign-up is never counted twice.
 
 We never send your email, name, company, workspace name or anything from your workspace. Meta uses this to measure which ads work and to show them to people like those who signed up. Nothing is sent if you did not come from one of our ads. If the cookies on this website are on, it also loads the Meta pixel (see "Cookies"); if they are off, it loads nothing from Meta and the report above goes only from our server, after a sign-up.
