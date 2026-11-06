@@ -151,7 +151,7 @@ const foundingFaq: Faq[] = [
 
 // Team 25 beside Founding: the plan for teams of 11 to 25 agents.
 export const team25Row = `| ${TEAM_25.name} | ${dollars(TEAM_25.monthly)} a month, or ${dollars(TEAM_25.yearly)} a year per workspace | ${agentsLabel(TEAM_25)}, ${TEAM_25.storage} of attachments. ${TEAM_25_WHO} ${TEAM_25_IMPORT} [Start free trial](${TRIAL_HREF}). |`;
-export const businessRow = `| ${BUSINESS.name} | ${dollars(BUSINESS.monthly)} a month, or ${dollars(BUSINESS.yearly)} a year per workspace | ${agentsLabel(BUSINESS)}, ${BUSINESS.storage} of attachments. ${BUSINESS.who} We migrate everything for you, help center with 301 redirects included. Custom domain, MCP server, priority support; a written uptime commitment is coming. ${businessCta} |`;
+export const businessRow = `| ${BUSINESS.name} | ${dollars(BUSINESS.monthly)} a month, or ${dollars(BUSINESS.yearly)} a year per workspace | ${agentsLabel(BUSINESS)}, ${BUSINESS.storage} of attachments. ${BUSINESS.who} We migrate everything for you, help center with 301 redirects included. Custom domain, MCP server, priority support. [99.9% uptime with service credits](/terms#availability), like every paid plan. ${businessCta} |`;
 
 const foundingPlansMd = `| Plan | Price | What you get |
 |---|---|---|

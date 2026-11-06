@@ -81,15 +81,15 @@ export function doneForYouFindings({ path, text }) {
 
 // Business replaced Unlimited (owner decision 03/11/2026). "Unlimited conversations" is a feature.
 const UNLIMITED = /\bUnlimited\b(?! conversations)/;
-// No uptime number until the terms publish the commitment (owner decision 04/11/2026: only after the
-// night-time outage call, backups and the rebuild drill are proven). The SLA pull request lifts this.
-const UPTIME_NUMBER = /\b99\.9\s?%/;
+// The terms publish the 99.9% uptime commitment (owner 06/11/2026: "công khai SLA đi"), so a page that
+// still says the commitment is coming, or that no number is stated, is out of date.
+const UPTIME_PENDING = /uptime commitment (?:is )?coming|no uptime number|commitment appears here only once/i;
 
 /** Findings for any page, Markdown twin or llms file this site writes. */
 export function retiredClaimFindings({ path, text }) {
   const findings = [];
   const unlimited = text.match(UNLIMITED);
   if (unlimited) findings.push(`${path}: names the retired Unlimited plan ("${text.slice(Math.max(0, unlimited.index - 30), unlimited.index + 40).replace(/\s+/g, ' ')}"); Business replaced it`);
-  if (UPTIME_NUMBER.test(text)) findings.push(`${path}: states a 99.9% uptime number before the terms publish it; say "a written uptime commitment is coming"`);
+  if (UPTIME_PENDING.test(text)) findings.push(`${path}: says the uptime commitment is still coming; it is published in /terms#availability (99.9% a month)`);
   return findings;
 }

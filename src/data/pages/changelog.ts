@@ -4,6 +4,16 @@ import type { ChangelogEntry, Page } from '../../lib/page';
 // Newest first. Each entry also feeds /changelog.xml.
 export const ENTRIES: readonly ChangelogEntry[] = [
   {
+    version: 'terms-2026-11-06',
+    date: '2026-11-06',
+    title: 'Terms: 99.9% uptime, service credits and support response times',
+    md: `The [Availability section of the terms](/terms#availability) now holds a written commitment for paid Cloud workspaces:
+
+- **99.9% uptime per calendar month**, measured on [status.colliedesk.com](https://status.colliedesk.com).
+- **Service credits** when we miss it: 10% below 99.9%, 25% below 99.0%, 50% below 95.0% of that month's fee, on request within 30 days. Miss it 3 months in a row and you can leave with a refund of the unused prepaid part.
+- **Support:** a first reply within 2 hours, any hour, when your workspace is down; within 1 business day for everything else.`,
+  },
+  {
     version: 'v1.0.0',
     date: '2026-11-05',
     title: 'v1.0.0: generally available',
