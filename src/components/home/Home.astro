@@ -1,5 +1,6 @@
 ---
 import { HERO_JPEG_SRCSET, HERO_MOBILE_MEDIA, HERO_MOBILE_SIZES, HERO_SIZES, heroMobileSrcset, heroSrcset } from '../../lib/hero-image';
+import { HOME_DEMO } from '../../lib/home-demo';
 import { html } from '../../lib/render-react';
 import { AgentSection } from './AgentSection';
 import { ClosingCta, ClosingSections } from './ClosingSections';
@@ -13,7 +14,8 @@ import { StatusSection } from './StatusSection';
 // with an owned ticket, a private note and a reply draft waiting for a person, with the migration proof
 // over its corner; phones get three crops of it instead (art direction), so the text stays readable.
 // The picture comes from the app design for now (owner 06/11); `pnpm shot:product` replaces the 2x
-// screenshot with an app capture once those screens ship.
+// screenshot with an app capture once those screens ship. Under it, a silent demo video of the real app
+// (src/lib/home-demo.ts) lets a visitor see the product without signing up.
 ---
 <div class="wrap home-wrap"><div class="sheet">
 <section class="sheet-row home-hero" aria-labelledby="hero-title">
@@ -24,6 +26,12 @@ import { StatusSection } from './StatusSection';
   <Fragment set:html={html(ReconcileProof, {})} />
 </div>
 <p class="sheet-row hero-caption"><span>The Colliedesk inbox: a ticket with its owner, a private note, and a reply your AI agent drafted for a person to send.</span> <span class="soon-text">Chat widget: coming Q1 2027</span></p>
+<div class="sheet-row stage hero-demo">
+  <figure class="hero-video">
+    <video controls muted playsinline preload="none" poster={HOME_DEMO.poster} width={HOME_DEMO.width} height={HOME_DEMO.height} aria-label={HOME_DEMO.label}><source src={HOME_DEMO.mp4} type="video/mp4"><source src={HOME_DEMO.webm} type="video/webm">Your browser cannot play this video. <a href={HOME_DEMO.mp4}>Download the MP4</a>.</video>
+    <figcaption>{HOME_DEMO.caption}</figcaption>
+  </figure>
+</div>
 <Fragment set:html={html(Facts, {})} />
 <Fragment set:html={html(MigrationSection, {})} />
 <Fragment set:html={html(AgentSection, {})} />
