@@ -92,7 +92,7 @@ export const GUARANTEES: readonly (readonly [title: string, text: string])[] = [
   ['Restore tested every week', 'Nightly encrypted backups, and a weekly test that we can bring them back.'],
   ['Your data, any time', 'Export the whole workspace as a ZIP. Open source, so you can also self-host it.'],
 ];
-export const STATUS_NOTE = `Live from ${new URL(STATUS_PAGE).host}, checked from several regions. The written uptime commitment appears here only once it is published.`;
+export const STATUS_NOTE = `Live from ${new URL(STATUS_PAGE).host}, checked from several regions. Paid plans: 99.9% uptime a month, with service credits.`;
 /** Roadmap items still to come, with their state on the roadmap and their issue. */
 export const STILL_COMING: readonly { title: string; text: string; state: string; issue: number; soon?: boolean }[] = [
   { title: 'Live chat widget', text: 'Chats from your site land in the same inbox as email.', state: 'Coming Q1 2027', issue: 124, soon: true },

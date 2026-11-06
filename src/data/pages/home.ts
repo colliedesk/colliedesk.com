@@ -92,7 +92,7 @@ ${DAILY.map(([t, v]) => `- **${t}.** ${v}`).join('\n')}
 
 ## Generally available. Here is what that means.
 
-${RELIABILITY_LEDE} [What general availability guarantees](${GA_DOC}). Live status: [status.colliedesk.com](${STATUS_PAGE}); no uptime number is stated until the written commitment is published.
+${RELIABILITY_LEDE} [What general availability guarantees](${GA_DOC}). Live status: [status.colliedesk.com](${STATUS_PAGE}); paid plans have [99.9% uptime a month with service credits](/terms#availability).
 
 ${GUARANTEES.map(([t, v]) => `- **${t}.** ${v}`).join('\n')}
 

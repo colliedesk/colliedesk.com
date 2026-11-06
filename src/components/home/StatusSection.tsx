@@ -4,8 +4,8 @@ import { SectionIntro } from './SectionIntro';
 
 // Reliability: what general availability guarantees in writing, the live status, and what is still
 // coming with its roadmap state and issue. The status is the status page's own badge in an iframe, so it
-// is live without a script of ours and never shows a state we typed; one badge per theme, the other hidden. No uptime number until the written
-// commitment is published (`pnpm check` refuses one).
+// is live without a script of ours and never shows a state we typed; one badge per theme, the other hidden. The 99.9% commitment
+// itself lives in /terms#availability.
 export function StatusSection() {
   return (
     <section aria-labelledby="reliability">

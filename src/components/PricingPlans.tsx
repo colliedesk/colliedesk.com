@@ -26,7 +26,7 @@ function CloudCard({ plan }: { plan: CloudPlan }) {
 }
 
 // Business, for 26 to 100 agents: sold through a call with the founder, so the card books the call
-// instead of opening a checkout or a trial. The uptime number waits for general availability.
+// instead of opening a checkout or a trial.
 export function BusinessCard() {
   return (
     <article className="plan">
@@ -40,7 +40,7 @@ export function BusinessCard() {
         <li>Custom domain for your help center</li>
         <li>MCP server for your AI agents</li>
         <li>Priority support</li>
-        <li>Written uptime commitment coming</li>
+        <li><a href="/terms#availability">99.9% uptime, with service credits</a></li>
       </ul>
       <div className="plan-cta">
         <a className="btn btn-primary" href={SWITCH_CALL_HREF} rel="noopener">Talk to us</a>

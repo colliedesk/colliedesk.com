@@ -9,7 +9,7 @@ const body = `## The short version
 - When the trial or subscription ends, the workspace locks. You can still export everything.
 - Your data stays yours. You can export it and leave at any time.
 - Do not use Colliedesk to send spam or to break the law.
-- Colliedesk Cloud is generally available. We watch it around the clock on [status.colliedesk.com](https://status.colliedesk.com) and copy every database change to a second data centre in the EU. See [Availability](#availability).
+- Colliedesk Cloud is generally available. Paid workspaces get **99.9% uptime a month**, measured on [status.colliedesk.com](https://status.colliedesk.com), with a service credit if we miss it, and a first reply within 2 hours, any hour, when the workspace is down. See [Availability](#availability).
 
 ## Who you agree with
 
@@ -67,7 +67,38 @@ Do not use Colliedesk Cloud to:
 
 ## Availability
 
-Colliedesk Cloud is generally available; [what that guarantees](https://github.com/colliedesk/colliedesk/blob/main/docs/general-availability.md) is written down. We check the service around the clock from several regions and show the result on [status.colliedesk.com](https://status.colliedesk.com). Every change to a Cloud database (conversations, messages, contacts, the knowledge base, settings) is copied continuously, encrypted, to another data centre in the EU, so losing a server loses at most 5 minutes of those changes. Attachment files, and a second copy of the database, are backed up every night, encrypted, in another data centre in the EU. We test a restore every week. A written uptime commitment for paid plans will be added to these terms; we will note it in the [changelog](/changelog). Features change; we write each change in the changelog.
+Colliedesk Cloud is generally available; [what that guarantees](https://github.com/colliedesk/colliedesk/blob/main/docs/general-availability.md) is written down. These commitments apply to paid Cloud workspaces. Free trials are not covered.
+
+### Uptime: 99.9% a month
+
+- We commit to **99.9% uptime per calendar month**: no more than about 43 minutes down in a 30-day month.
+- [status.colliedesk.com](https://status.colliedesk.com) is the only measure. It checks the app and API, help centers, incoming email and outgoing email from several regions outside our servers, around the clock.
+- Downtime means a part on the status page is down. Not counted: maintenance we announce at least 48 hours ahead on the status page and by email to workspace admins, and problems outside our service, such as your own network or a third-party service you connected.
+
+### Service credit
+
+If we miss the target in a month, a workspace admin emails support@colliedesk.com within 30 days after that month ends. We check it against the status page and take the credit off your next invoice.
+
+| Uptime in the month | Credit |
+|---|---|
+| Below 99.9% | 10% of that month's fee |
+| Below 99.0% | 25% of that month's fee |
+| Below 95.0% | 50% of that month's fee |
+
+- The fee is the monthly share of what you paid: one third of a quarterly payment, one twelfth of a yearly one. The credit for one month is at most 50% of that fee.
+- Credits are not paid out in cash.
+- **Right to leave:** if we miss the target 3 months in a row within any 12 months, you can cancel and we refund the unused part of what you prepaid.
+- Credits and the right to leave are the only remedies for missed uptime.
+
+### Support response
+
+- **Workspace down or unusable:** a first reply within **2 hours, any hour, any day**, on every paid plan.
+- **Everything else**, billing included: within 1 business day.
+- Write to support@colliedesk.com. We post incidents and updates on the status page.
+
+### Backups
+
+Every change to a Cloud database (conversations, messages, contacts, the knowledge base, settings) is copied continuously, encrypted, to another data centre in the EU, so losing a server loses at most 5 minutes of those changes. Attachment files, and a second copy of the database, are backed up every night, encrypted, in another data centre in the EU. We test a restore every week. Features change; we write each change in the [changelog](/changelog).
 
 ## Warranty and liability
 
@@ -94,8 +125,8 @@ const page: Page = {
   section: 'Product',
   title: 'Terms of service | Colliedesk',
   description:
-    'The terms for Colliedesk Cloud: free trial, plans and payment, availability and backups, your content, acceptable use, liability and the law that applies.',
-  summary: 'Terms for Colliedesk Cloud: trial rules, payment through Polar, availability and backups, your content, acceptable use, liability',
+    'The terms for Colliedesk Cloud: free trial, plans and payment, 99.9% uptime with service credits, support response times, backups, your content, acceptable use, liability and the law that applies.',
+  summary: 'Terms for Colliedesk Cloud: trial rules, payment through Polar, 99.9% uptime with service credits, 2-hour support for outages, backups, your content, acceptable use, liability',
   eyebrow: 'Legal',
   h1: 'Terms of service',
   lede: `Short and readable. Last updated ${LEGAL_UPDATED}.`,
