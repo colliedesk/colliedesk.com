@@ -409,6 +409,9 @@ a.mono-label:hover { text-decoration: underline; }
 .proof-card td { padding: 0; border: 0; font-size: 13px; line-height: 20px; color: var(--text-1); }
 .proof-card td:last-child { white-space: nowrap; }
 .proof-card td:last-child { font-family: var(--font-mono); }
+.hero-video { width: min(1000px, 100%); margin: 0 auto; }
+.hero-video video { display: block; width: 100%; height: auto; aspect-ratio: 1280 / 702; background: var(--surface-1); border: 1px solid var(--line); border-radius: var(--radius-lg); }
+.hero-video figcaption { padding-top: var(--space-3); font-size: 13px; line-height: 20px; color: var(--text-3); }
 .hero-caption { display: flex; justify-content: space-between; gap: var(--space-4); padding-block: var(--space-3); background: var(--surface-2); font-size: 13px; line-height: 20px; }
 .facts .cell { gap: var(--space-1); padding-block: var(--space-6); font-size: 13px; line-height: 20px; color: var(--text-3); }
 .fact { font: 600 24px/32px var(--font-sans); letter-spacing: -0.01em; color: var(--text-1); }
@@ -540,7 +543,7 @@ a.mono-label:hover { text-decoration: underline; }
   .hero-actions { flex-direction: column; align-items: stretch; gap: var(--space-3); width: 100%; }
   .hero-actions .btn, .founding-buy .btn, .final-actions .btn { width: 100%; height: var(--touch); font-size: 15px; }
   .hero-actions .text-link { display: inline-flex; align-items: center; min-height: var(--touch); }
-  .hero-shot img { border: 0; border-radius: 0; }
+  .hero-shot img, .hero-video video { border: 0; border-radius: 0; }
   .facts .cell { padding-block: var(--space-4); }
   /* Two crops stay on a phone: the owner and the help center. */
   .daily li:not(.daily-owner):not(.daily-help-center) img { display: none; }
