@@ -72,3 +72,28 @@ test('remember works without storage (blocked or private mode)', () => {
   assert.deepEqual(remember('?fbclid=IwAR_x', blocked, 0), { fbclid: 'IwAR_x' });
   assert.deepEqual(remember('', blocked, 0), {});
 });
+
+test('fromSearch turns a partner link ?via= into utm_source (lower-cased) and utm_medium=partner', () => {
+  assert.deepEqual(fromSearch('?via=Acme_Blog'), { utm_source: 'acme_blog', utm_medium: 'partner' });
+});
+
+test('fromSearch lets explicit utm_source and utm_medium win over via', () => {
+  assert.deepEqual(fromSearch('?via=acme&utm_source=newsletter'), { utm_source: 'newsletter', utm_medium: 'partner' });
+  assert.deepEqual(fromSearch('?via=acme&utm_medium=email'), { utm_source: 'acme', utm_medium: 'email' });
+  assert.deepEqual(fromSearch('?via=acme&utm_source=newsletter&utm_medium=email'), { utm_source: 'newsletter', utm_medium: 'email' });
+});
+
+test('fromSearch ignores a via that is not plain', () => {
+  assert.deepEqual(fromSearch('?via=a%20b'), {});
+  assert.deepEqual(fromSearch('?via=<x>'), {});
+  assert.deepEqual(fromSearch('?via='), {});
+});
+
+test('a via link is remembered on later pages and decorated onto the sign-in link only', () => {
+  const storage = memoryStorage();
+  remember('?via=Acme_Blog', storage, 1000);
+  const keys = remember('', storage, 2000);
+  assert.deepEqual(keys, { utm_source: 'acme_blog', utm_medium: 'partner' });
+  assert.equal(decorate('https://app.colliedesk.com/sign-in', keys), 'https://app.colliedesk.com/sign-in?utm_source=acme_blog&utm_medium=partner');
+  assert.equal(decorate('https://example.com/sign-in', keys), 'https://example.com/sign-in');
+});

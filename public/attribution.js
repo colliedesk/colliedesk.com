@@ -5,6 +5,8 @@
 // Only listed keys with plain values pass, the same filter the app applies. The keys are kept in
 // sessionStorage for the rest of the visit, at most a day, so a visitor who reads another page
 // first still signs up with them. No cookie is set and nothing is sent anywhere by this script.
+// A partner link, /?via=<slug>, counts as utm_source=<slug> (lower-cased) with utm_medium=partner,
+// so the app needs no change; an explicit utm_source or utm_medium on the same link wins.
 (function (root) {
   var KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'ttclid', 'fbclid'];
   var PLAIN = /^[A-Za-z0-9._-]{1,300}$/;
@@ -20,6 +22,11 @@
       var value = params.get(key);
       if (value !== null && PLAIN.test(value)) out[key] = value;
     });
+    var via = params.get('via');
+    if (via !== null && PLAIN.test(via)) {
+      if (!out.utm_source) out.utm_source = via.toLowerCase();
+      if (!out.utm_medium) out.utm_medium = 'partner';
+    }
     return out;
   }
 
