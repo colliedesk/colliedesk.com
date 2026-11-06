@@ -12,6 +12,7 @@ import migrateFreshdeskExport from './migrate-freshdesk-export';
 import migrateFreshdeskSwitch from './migrate-freshdesk-switch';
 import migrateZendeskExport from './migrate-zendesk-export';
 import openSource from './open-source';
+import partners from './partners';
 import pricing from './pricing';
 import privacy from './privacy';
 import { docsPages, roadmapPage } from './repo-docs';
@@ -39,7 +40,7 @@ export function allPages(): readonly Page[] {
     home, pricing, migrateFreshdesk, migrateFreshdeskDoneForYou, migrateFreshdeskSwitch, migrateFreshdeskExport, migrateZendeskExport,
     compare, vsFreshdesk, vsZendesk, vsHelpScout, vsFront, vsZammad, vsChatwoot, vsFreescout,
     vsZohoDesk, vsHappyfox, vsGorgias, vsHubspotServiceHub, vsGroove, freshdeskAlternative, freshdeskPricingHistory, selfHostedHelpdesk, helpdeskForSmallTeams, openSource, roadmapPage(), changelog,
-    privacy, terms, ...docsPages(),
+    partners, privacy, terms, ...docsPages(),
   ];
   return cache;
 }
