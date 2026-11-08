@@ -1,5 +1,6 @@
 // Every page of the site, in llms.txt and sitemap order.
 import type { Page } from '../../lib/page';
+import audit from './audit';
 import changelog from './changelog';
 import compare from './compare';
 import freshdeskAlternative from './freshdesk-alternative';
@@ -36,7 +37,7 @@ let cache: readonly Page[] | undefined;
 // only a build needs; astro check and the config load must work without it.
 export function allPages(): readonly Page[] {
   cache ??= [
-    home, pricing, migrateFreshdesk, migrateFreshdeskDoneForYou, migrateFreshdeskSwitch, migrateFreshdeskExport, migrateZendeskExport,
+    home, pricing, migrateFreshdesk, migrateFreshdeskDoneForYou, migrateFreshdeskSwitch, migrateFreshdeskExport, migrateZendeskExport, audit,
     compare, vsFreshdesk, vsZendesk, vsHelpScout, vsFront, vsZammad, vsChatwoot, vsFreescout,
     vsZohoDesk, vsHappyfox, vsGorgias, vsHubspotServiceHub, vsGroove, freshdeskAlternative, freshdeskPricingHistory, selfHostedHelpdesk, helpdeskForSmallTeams, openSource, roadmapPage(), changelog,
     privacy, terms, ...docsPages(),

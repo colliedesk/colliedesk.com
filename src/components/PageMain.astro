@@ -2,8 +2,10 @@
 // Main content of a standard page: hero (with the Founding card beside it on /pricing), optional block
 // (pricing plans, or the /vs price chart and fit columns), then the prose, with the docs navigation
 // beside it on docs pages.
+import { createElement } from 'react';
 import type { Page } from '../lib/page';
 import { html } from '../lib/render-react';
+import { AuditForm } from './AuditForm';
 import { DocsNav } from './DocsNav';
 import { Hero } from './Hero';
 import { PricingHero, PricingPlans, SwitchPlans } from './PricingPlans';
@@ -15,8 +17,9 @@ interface Props {
 }
 
 const { page } = Astro.props;
+const auditAside = page.pre === 'audit-form' ? createElement(AuditForm) : undefined;
 ---
-{page.pre === 'pricing-plans' ? <Fragment set:html={html(PricingHero, { page })} /> : <Fragment set:html={html(Hero, { page })} />}
+{page.pre === 'pricing-plans' ? <Fragment set:html={html(PricingHero, { page })} /> : <Fragment set:html={html(Hero, { page, aside: auditAside })} />}
 {page.pre === 'pricing-plans' && <Fragment set:html={html(PricingPlans, {})} />}
 {page.pre === 'switch-plans' && <Fragment set:html={html(SwitchPlans, {})} />}
 {page.vs && (

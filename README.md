@@ -2,7 +2,7 @@
 
 Static marketing and docs site, built with [Astro](https://astro.build), React and TypeScript.
 React renders at build time only: the browser gets HTML, CSS and small vanilla scripts
-(`public/theme.js`, `public/updates.js`, `public/attribution.js` that carries an ad link's `utm_*`, `ttclid` and `fbclid` to the app's sign-up links; on Docs pages `public/docs-copy.js`, the "Copy for AI" button that
+(`public/theme.js`, `public/updates.js`, `public/audit.js` on /audit only, `public/attribution.js` that carries an ad link's `utm_*`, `ttclid` and `fbclid` to the app's sign-up links; on Docs pages `public/docs-copy.js`, the "Copy for AI" button that
 copies the page's Markdown twin) plus PostHog web analytics (`public/analytics.js`:
 cookieless until the visitor accepts cookies in the banner of `public/consent.js`, then cookie
 and masked session replay; JavaScript errors always; no person profiles, IP discarded; `pnpm check` fails if that changes), no framework runtime.
@@ -37,12 +37,13 @@ to use another checkout. `typecheck` works without it.
   `_headers` is written after the build by `src/integrations/cloudflare-headers.ts`.
 - `public/`: files served as they are (fonts, icons, images, CSS, the scripts).
 - `src/integrations/no-bundled-client-js.ts` fails the build if any script other than
-  `theme.js`, `updates.js`, `analytics.js`, `consent.js`, `attribution.js`, `docs-copy.js` and JSON-LD would ship (a bundled or inlined `<script>`). A `client:*`
+  `theme.js`, `updates.js`, `audit.js`, `analytics.js`, `consent.js`, `attribution.js`, `docs-copy.js` and JSON-LD would ship (a bundled or inlined `<script>`). A `client:*`
   directive on a React component fails earlier: without a React renderer Astro cannot hydrate it.
 
 ## Content
 
 - `/docs` and `/roadmap` render `docs/user/*.md` and `ROADMAP.md` from [colliedesk/colliedesk](https://github.com/colliedesk/colliedesk). Edit those files there, not here. Every 15 minutes CI compares those docs on `main` with `/product-docs-version.txt` on the live site (`scripts/product-docs-version.sh`) and rebuilds when they differ. GitHub runs scheduled workflows late and sometimes skips them, so a docs change can take hours to appear; to publish one at once, run `gh workflow run Site -R colliedesk/colliedesk.com` (no `product_ref`), which builds from `main` and deploys. Any merge to this repo's `main` also rebuilds the docs from the app's `main`. To preview unmerged docs, run the Site workflow with `product_ref` set to a branch of colliedesk/colliedesk: it builds, checks and uploads the site as an artifact without deploying. Pull requests there that touch the docs build this site too, so a broken link fails before merge.
+- `/audit` is the lead page for ads: a free help center audit. `AuditForm.tsx` (hero aside) is posted by `public/audit.js` as JSON to `UPDATES_FORM_URL` with `source: 'site:audit'`, so each request lands as a conversation in our own workspace. Only after a 202 it calls `fbq('track', 'Lead')` and `posthog.capture('audit_requested')`, when `public/consent.js` has loaded them (`scripts/audit-form.test.mjs`).
 - SEO: an agent researches, writes and audits pages as described in [docs/seo](docs/seo/README.md); `pnpm check:content` checks the copy and a person approves every SEO page (required check `content-approval`).
 - Shared facts (prices, positioning, repo URL) are in `src/lib/site.ts`. Competitor prices carry their source and read date on each `/vs` page.
 - While Founding is open it leads, and Team 25 is on sale beside it, on /pricing and the home page, for teams of 11 to 25
