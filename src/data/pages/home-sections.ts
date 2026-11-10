@@ -56,6 +56,8 @@ export const SWITCH_STEPS_HREF = SWITCH_HREF;
 
 // "Your AI agent can do this too", as shipped in colliedesk (docs/user/mcp.md, roles-and-permissions.md).
 export const MCP_URL = 'https://app.colliedesk.com/mcp';
+/** The community connector listing (published 10/11/2026); Claude users connect from here with OAuth, no token. */
+export const CLAUDE_DIRECTORY_URL = 'https://claude.ai/directory/connectors/colliedesk';
 export const AGENT_HEADING = 'Everything you see here, your AI agent can do too';
 export const AGENT_LEDE = 'Give Claude Code, Codex or Cursor one URL and an agent token. It does what you allow, never more than you can.';
 /** The terminal: [tool call, its result]; the last line is the outcome. */
