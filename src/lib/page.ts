@@ -59,8 +59,8 @@ export interface Page {
   jsonLd: JsonLd[];
   /** Custom main content instead of hero + prose. */
   view?: 'home';
-  /** Block rendered between the hero and the prose: the /pricing plans, or Team 25 and Business with the switch offer. */
-  pre?: 'pricing-plans' | 'switch-plans';
+  /** Block rendered between the hero and the prose: the /pricing plans, Team 25 and Business with the switch offer, or (beside the hero copy) the /audit request form. */
+  pre?: 'pricing-plans' | 'switch-plans' | 'audit-form';
   /** Price-by-team-size chart and fit columns between the hero and the prose (/vs pages). */
   vs?: VsPricing;
   /** Side navigation for docs pages, one group per docs directory. */

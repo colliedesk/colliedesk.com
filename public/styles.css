@@ -561,3 +561,21 @@ a.mono-label:hover { text-decoration: underline; }
   .status-badge { max-width: 100%; }
 }
 @media (pointer: coarse) { .sheet .btn { min-height: var(--touch); } }
+
+/* /audit: the request form beside the hero copy. Stacks under it on phones, with tight spacing so the
+   button is in the first screen at 390 x 844. */
+.audit-form { display: grid; gap: var(--space-1); padding: var(--space-5); background: var(--surface-1); border-radius: 12px; box-shadow: var(--ring), var(--shadow-2); max-width: 32rem; }
+.audit-form label { font: 500 14px/1.4 var(--font-sans); color: var(--text-1); }
+.audit-form input:not(.updates-trap), .audit-form select { width: 100%; height: 44px; margin-bottom: var(--space-2); padding: 0 var(--space-3); border: 1px solid var(--line-control); border-radius: var(--radius); background: var(--surface-1); color: var(--text-1); font: 400 16px var(--font-sans); }
+.audit-form select { appearance: none; padding-right: var(--space-8); background-image: var(--select-chevron); background-repeat: no-repeat; background-position: right var(--space-3) center; }
+.audit-form input:focus-visible, .audit-form select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.audit-form .btn { width: 100%; margin-top: var(--space-1); }
+.audit-status { min-height: 1.5em; margin: var(--space-2) 0 0; color: var(--text-2); }
+.audit-status[data-state="error"] { color: var(--danger); }
+.audit-note { margin: 0; font-size: var(--fs-small); color: var(--text-3); }
+@media (max-width: 640px) {
+  .page-hero-split:has(.audit-form) { padding-top: var(--space-6); padding-bottom: var(--space-6); }
+  .page-hero-split:has(.audit-form) .page-hero-grid { gap: var(--space-5); }
+  .page-hero-split:has(.audit-form) .lede { font-size: 1.05rem; margin: 0; }
+  .page-hero-split:has(.audit-form) .eyebrow { margin-bottom: var(--space-2); }
+}
