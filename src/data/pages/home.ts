@@ -7,7 +7,7 @@ import { faqMarkdown } from '../../lib/twin';
 import { statusTable } from './collie-status';
 import {
   AGENT_CALLS, AGENT_HEADING, AGENT_LEDE, AGENT_OUTCOME, AGENT_POINTS, BILL_LEDE, DAILY, DONE_FOR_YOU, FACTS, FOUNDING_OPEN, FRESHDESK_RANGE,
-  GUARANTEES, issueHref, MCP_URL, MIGRATE_LEDE, NOT_MOVED, OURS_YEAR, rangeLabel, RELIABILITY_LEDE, REPORT_NOT_IMPORTED, REPORT_ROWS, STEPS, STILL_COMING,
+  CLAUDE_DIRECTORY_URL, GUARANTEES, issueHref, MCP_URL, MIGRATE_LEDE, NOT_MOVED, OURS_YEAR, rangeLabel, RELIABILITY_LEDE, REPORT_NOT_IMPORTED, REPORT_ROWS, STEPS, STILL_COMING,
 } from './home-sections';
 
 // Headline: why our buyer stays on Freshdesk (leaving is hard) and what we changed. The lede names the
@@ -71,7 +71,7 @@ ${DONE_FOR_YOU} ${NOT_MOVED} [Migration guide](/migrate/freshdesk).
 
 ## ${AGENT_HEADING}
 
-${AGENT_LEDE} MCP endpoint on Colliedesk Cloud: \`${MCP_URL}\`, with the agent token as a bearer token. [Connect an AI agent](/docs/mcp); who can do what: [Roles and permissions](/docs/roles-and-permissions). An example session with a token that may not send:
+${AGENT_LEDE} MCP endpoint on Colliedesk Cloud: \`${MCP_URL}\`, with the agent token as a bearer token. In Claude, connect from the [Claude directory](${CLAUDE_DIRECTORY_URL}) without a token. [Connect an AI agent](/docs/mcp); who can do what: [Roles and permissions](/docs/roles-and-permissions). An example session with a token that may not send:
 
 ${AGENT_CALLS.map((c) => `- \`${c}\``).join('\n')}
 - ${AGENT_OUTCOME}

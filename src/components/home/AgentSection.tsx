@@ -1,4 +1,4 @@
-import { AGENT_CALLS, AGENT_HEADING, AGENT_LEDE, AGENT_OUTCOME, AGENT_POINTS, AGENT_PROMPT, MCP_URL } from '../../data/pages/home-sections';
+import { AGENT_CALLS, AGENT_HEADING, AGENT_LEDE, AGENT_OUTCOME, AGENT_POINTS, AGENT_PROMPT, CLAUDE_DIRECTORY_URL, MCP_URL } from '../../data/pages/home-sections';
 import { SectionIntro } from './SectionIntro';
 
 // "Your AI agent can do this too": one session of an agent whose token may not send, next to the command
@@ -25,6 +25,9 @@ export function AgentSection() {
           <p className="command-links">
             <a className="text-link" href="/docs/mcp">See every MCP tool <span aria-hidden="true">→</span></a>{' '}
             <a className="text-link text-small" href="/docs/roles-and-permissions">Roles and permissions</a>
+          </p>
+          <p className="command-links">
+            <a className="text-link text-small" href={CLAUDE_DIRECTORY_URL}>In Claude, connect from the Claude directory</a>
           </p>
         </div>
       </div>
