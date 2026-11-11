@@ -49,6 +49,7 @@ It does **not** cover a Colliedesk server that you run yourself. A self-hosted s
 | Usage counts: active agents, replies sent | To understand how Colliedesk is used, without names or content | The Colliedesk server |
 | Your email address, if you subscribe to release notes | To send one email per release | You |
 | The Meta ad click ID (\`fbclid\`) in the link you followed, if you came from one of our ads | To tell Meta which ad led to a trial or a paid plan | The link of the ad you clicked |
+| The name of the website that linked you to the sign-in page (for example \`claude.ai\`, never the page address), and the campaign names in that link (\`utm_*\`) | To know which sites and posts bring new trials | Your browser, kept in that tab for at most a day |
 
 **About the sign-up fingerprint.** We store an HMAC (a one-way hash made with a secret key) of your verified email address and of your IP address. With it we can answer one question: "did this email already have a trial?" Nobody can read your email address from it. We keep it for as long as Colliedesk Cloud runs, because deleting it would allow a new trial.
 
