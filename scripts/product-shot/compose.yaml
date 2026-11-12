@@ -36,7 +36,8 @@ services:
     image: ${COLLIEDESK_IMAGE:-ghcr.io/colliedesk/colliedesk:edge}
     environment:
       <<: *database
-      APP_ORIGIN: http://localhost:${SHOT_PORT:-55480}
+      # SHOT_ORIGIN serves the stack under a public URL (a quick tunnel), e.g. for a Claude connector.
+      APP_ORIGIN: ${SHOT_ORIGIN:-http://localhost:${SHOT_PORT:-55480}}
       LISTEN_ADDR: :8080
       # Replies go to the Mailpit sink below; nothing leaves this machine.
       SMTP_HOST: mailpit
