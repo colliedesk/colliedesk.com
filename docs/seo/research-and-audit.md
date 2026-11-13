@@ -3,6 +3,12 @@
 Run once a week, research first. Each run opens issues from `.github/ISSUE_TEMPLATE/seo-task.yml`;
 it does not write pages. Credits: stay within the owner's DataForSEO budget (OpenSEO shows the cost).
 
+**What runs by itself.** A scheduled job on the team's agent host runs every Monday at 08:30
+Vietnam time. It does step 1 as far as the data allows, the Search Console rules of step 3.2, and
+step 5. It opens at most 5 `seo:improve` issues a run and never opens a second issue for the same
+page and rule while one is open. It lists research candidates in the digest but files no `seo:new`
+issue. Step 2, steps 3.3–3.5 and step 4 stay with an agent and the owner, starting from that digest.
+
 ## 1. Conversions (start here)
 
 1. In PostHog (Colliedesk project), list the landing pages (`$entry_pathname`, `$host = colliedesk.com`)
@@ -10,6 +16,10 @@ it does not write pages. Credits: stay within the owner's DataForSEO budget (Ope
 2. Note the page types that convert (vs page, migration guide, pricing history, article). Weight
    step 2 and step 3 toward those types. With no conversions yet, weight toward migration and
    price-increase intent: that is where the reader is close to buying.
+
+Limit today: `trial_started` is sent by the server and is not joined to the visitor's pageviews, so
+PostHog cannot name the landing page of a trial. Until it can, use the `source` the admin picks at
+sign-up, plus AI-assistant visits by referrer or `utm_source`. Founding purchases are not in PostHog.
 
 ## 2. Research: new pages (`seo:new`, at most 2 a week)
 
@@ -29,8 +39,8 @@ it does not write pages. Credits: stay within the owner's DataForSEO budget (Ope
 1. Search Console, last 28 days vs the 28 days before, `dimensions: ['page']` and `['query','page']`.
 2. Open an issue for each page that:
    - has queries at position 5–20 with ≥ 50 impressions (`minPosition: 5, maxPosition: 20`);
-   - lost more than 30% of clicks or impressions;
-   - has CTR under 1% at position ≤ 10 (title and description do not match the query);
+   - lost more than 30% of clicks (from ≥ 10) or impressions (from ≥ 100);
+   - has CTR under 1% at position ≤ 10 with ≥ 100 impressions (title and description do not match the query);
    - gets search traffic but no sign-ups while similar pages convert.
 3. `run_site_audit` monthly: open issues for crawl, speed or markup errors.
 4. `KNOWN_DEBT` in `scripts/content-qa.mjs` has one open `seo:improve` issue per rule, listing its pages.
@@ -43,6 +53,7 @@ Each issue names its page type (a field in the template), so the writer reads th
 
 ## 5. Digest
 
-Comment on the pinned issue #68 `SEO weekly digest`: pages shipped, Search Console clicks and
-impressions (this 28 days vs last), sign-ups by landing page, issues opened, credits spent.
-Five lines or fewer. No numbers without their source.
+The weekly job comments on the pinned issue #68 `SEO weekly digest`: pages shipped, Search Console
+clicks and impressions (this 28 days vs last), AI-assistant visits, trials by stated source, issues
+opened, credits spent, research candidates. Five lines or fewer. No numbers without their source.
+An agent that runs step 2 or steps 3.3–3.5 adds one comment on #68 with what it opened.
