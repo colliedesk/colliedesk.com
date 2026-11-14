@@ -52,7 +52,8 @@ to use another checkout. `typecheck` works without it.
   renders from it. Change a competitor price in its file and every page that names it follows.
   `pnpm check` (`scripts/vs-facts-gate.mjs`) fails a missing fact or feature key, a fact whose source
   is not in the file, a read date older than 90 days, and a `/vs` page module that writes a figure
-  (any digit) into its own text instead of taking it from data.
+  (any digit) into its own text instead of taking it from data. On the 15-minute scheduled run an old read
+  date only warns, so it cannot stop founding-state and docs deploys; pull requests and pushes still fail.
 - While Founding is open it leads, and Team 25 is on sale beside it, on /pricing and the home page, for teams of 11 to 25
   agents (`TEAM_25_*` in `src/lib/site.ts`). Business (26 to 100 agents, $499 a month) is sold through a call with the founder in
   both states, never a checkout, with the switch and invoice offers for Team 25 and Business (`SWITCH_*` in `src/lib/site.ts`);

@@ -7,7 +7,7 @@ import { join, relative, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { runInNewContext } from 'node:vm';
 import { homeFindings, onePlanFindings, pricingFindings } from './pricing-gate.mjs';
-import { vsFactsFindings } from './vs-facts-gate.mjs';
+import { splitForEvent, vsFactsFindings } from './vs-facts-gate.mjs';
 import {
   businessCardFindings, doneForYouFindings, offerFindings, retiredClaimFindings, SWITCH_CALL, SWITCH_PATH, switchPageFindings,
 } from './switch-offer-gate.mjs';
@@ -888,7 +888,9 @@ for (const file of [...pages, join(outDir, '404.html')].filter(existsSync)) {
 // read date at most 90 days old; the rules and their tests are in scripts/vs-facts-gate.mjs.
 {
   const { findings, unread } = await vsFactsFindings();
-  for (const finding of findings) fail(finding);
+  const { fail: failing, warn } = splitForEvent(findings, process.env.GITHUB_EVENT_NAME);
+  for (const finding of failing) fail(finding);
+  for (const finding of warn) console.log(`WARN ${finding}`);
   if (unread.length) console.log(`note: ${unread.length} competitor feature values are 'unread' (no source read yet); no page may render one`);
 }
 

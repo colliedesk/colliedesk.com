@@ -1,6 +1,42 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { competitorFindings, pageTextFindings, unsourcedDebtFindings } from './vs-facts-gate.mjs';
+import { competitorFindings, KNOWN_UNSOURCED, pageTextFindings, splitForEvent, unsourcedDebtFindings } from './vs-facts-gate.mjs';
+
+test('a stale read date fails a pull request but only warns on the scheduled deploy', () => {
+  const findings = ['acme: read on 2026-08-16, 91 days ago; read the sources again (limit 90 days)', 'acme: fact ai has no source'];
+  assert.deepEqual(splitForEvent(findings, 'pull_request'), { fail: findings, warn: [] });
+  // The 15-minute run publishes founding places and product docs; an old read date must not stop it.
+  assert.deepEqual(splitForEvent(findings, 'schedule'), { fail: [findings[1]], warn: [findings[0]] });
+});
+
+test('the known-unsourced list only shrinks: adding an entry means changing this test in review', () => {
+  assert.deepEqual(KNOWN_UNSOURCED, ['zendesk.facts.usThirdParty']);
+});
+
+test('fails numbers slipped into page text through a template slot, a cast or another formatter', () => {
+  const file = 'src/data/pages/vs-acme.ts';
+  const cases = [
+    ['`From $${66} per agent.`', 'price "66" in a template slot'],
+    ['`${eurCents(2)} each`', 'price "2" passed to eurCents()'],
+    ['`${num(30000)} tickets`', 'price "30000" passed to num()'],
+    ['`${usd(66 as number)}`', 'price "66 as number" passed to usd()'],
+  ];
+  for (const [expr, what] of cases) {
+    const findings = pageTextFindings(file, `const body = ${expr};\n`);
+    assert.equal(findings.length, 1, `${expr}: ${findings.join(' | ')}`);
+    assert.ok(findings[0].includes(what), findings[0]);
+  }
+  // Team sizes from page code stay allowed.
+  assert.deepEqual(pageTextFindings(file, 'const FIVE = 5;\nconst body = `${FIVE} agents pay ${usd(FIVE * a.price)}`;\n'), []);
+});
+
+test('exempts path and updated only when they hold a URL path and an ISO date', () => {
+  const file = 'src/data/pages/vs-acme.ts';
+  assert.deepEqual(pageTextFindings(file, "const p = { path: '/vs/acme', updated: '2026-10-16' };\n"), []);
+  assert.deepEqual(pageTextFindings(file, "const p = { path: 'Acme costs 66' };\n"), [
+    `${file}:1: figure "Acme costs 66" in page text; state it in the competitor data file`,
+  ]);
+});
 
 // Fixtures are written by hand from the rule in issue #136: every competitor fact has a source the
 // file lists, every feature key has a value, and no source was read more than 90 days ago.
@@ -129,6 +165,19 @@ test('fails a price passed to a money formatter as a number in the page', () => 
   assert.deepEqual(pageTextFindings('src/data/pages/vs-acme.ts', page), [
     'src/data/pages/vs-acme.ts:3: price "10 * 5" passed to usd() in page code; take it from the competitor data file',
   ]);
+});
+
+test('fails a source key that only matches a built-in object property', () => {
+  const c = competitor();
+  const findings = check({ ...c, facts: { ...c.facts, ai: { text: 'No AI', source: 'constructor' } } });
+  assert.deepEqual(findings, ['acme: fact ai cites source "constructor", which is not in sources']);
+});
+
+test('fails a read date in the future or not in YYYY-MM-DD form, for the file and a source', () => {
+  assert.deepEqual(check(competitor({ readOn: '2099-01-01' })), ['acme: read on 2099-01-01, a date in the future']);
+  const c = competitor();
+  const findings = check({ ...c, sources: { pricing: { ...c.sources.pricing, readOn: '2025-1-1' } } });
+  assert.deepEqual(findings, ['acme: source pricing has a read date that is not YYYY-MM-DD: 2025-1-1']);
 });
 
 test('ignores comments, import paths, the page path and the updated date', () => {

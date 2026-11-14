@@ -12,6 +12,8 @@ export const price = {
   resolutionCommitted: 1.5,
   resolutionPayg: 2,
 };
+/** US prices third-party sites list for the same three plans, per agent per month, billed annually. */
+const usThirdParty = { supportTeam: 19, suiteTeam: 55, suitePro: 115 };
 /** Incremental Export API: tickets per page and requests per minute. */
 export const api = { perPage: 1000, perMinute: 10 };
 const trialDays = 14;
@@ -37,7 +39,7 @@ export const zendesk: Competitor = {
     // No source we hold: see KNOWN_UNSOURCED in scripts/vs-facts-gate.mjs.
     usThirdParty: {
       source: '',
-      text: `Third-party sites list US prices of ${usd(price.supportTeam.annual)}, ${usd(price.suiteTeam.annual)} and ${usd(price.suitePro.annual)} for the same three plans; we could not confirm them on Zendesk's own site.`,
+      text: `Third-party sites list US prices of ${usd(usThirdParty.supportTeam)}, ${usd(usThirdParty.suiteTeam)} and ${usd(usThirdParty.suitePro)} for the same three plans; we could not confirm them on Zendesk's own site.`,
     },
   },
   export: [

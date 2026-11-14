@@ -13,9 +13,10 @@ import ts from 'typescript';
 
 export const READ_MAX_DAYS = 90;
 const REQUIRED_FACTS = ['plans', 'ai', 'free', 'license'];
-const MONEY_FORMATTERS = new Set(['usd', 'eur', 'dollars', 'money']);
-// Page metadata that is not a competitor fact.
-const META_PROPS = new Set(['path', 'updated']);
+const MONEY_FORMATTERS = new Set(['usd', 'eur', 'eurCents', 'dollars', 'num', 'money']);
+// Page metadata that is not a competitor fact, and the only shape each may take.
+const META_PROPS = { path: /^\/[a-z0-9/-]*$/, updated: /^\d{4}-\d{2}-\d{2}$/ };
+const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
 const DAY_MS = 86_400_000;
 
 const daysSince = (iso, today) => Math.round((today.getTime() - Date.parse(`${iso}T00:00:00Z`)) / DAY_MS);
@@ -29,23 +30,30 @@ export function competitorFindings(c, { today, featureKeys, own = false, unsourc
   const findings = [];
   const id = c.slug;
   const sources = c.sources ?? {};
+  // A read date must be a real past day; older than READ_MAX_DAYS asks for a new read.
+  const age = (what, iso, again) => {
+    const days = daysSince(iso, today);
+    if (Number.isNaN(days)) return `${id}: ${what} has a read date that is not YYYY-MM-DD: ${iso}`;
+    if (days < 0) return `${id}: ${what === 'file' ? '' : `${what} `}read on ${iso}, a date in the future`;
+    if (days > READ_MAX_DAYS) return `${id}: ${what === 'file' ? '' : `${what} `}read on ${iso}, ${days} days ago; ${again} (limit ${READ_MAX_DAYS} days)`;
+    return undefined;
+  };
   for (const [key, s] of Object.entries(sources)) {
     if (!/^https:\/\//.test(s.url ?? '')) findings.push(`${id}: source ${key} has no https URL`);
-    if (!own && s.readOn) {
-      const days = daysSince(s.readOn, today);
-      if (days > READ_MAX_DAYS) findings.push(`${id}: source ${key} read on ${s.readOn}, ${days} days ago; read it again (limit ${READ_MAX_DAYS} days)`);
-    }
+    if (own || s.readOn === undefined) continue;
+    const finding = ISO_DATE.test(s.readOn) ? age(`source ${key}`, s.readOn, 'read it again') : `${id}: source ${key} has a read date that is not YYYY-MM-DD: ${s.readOn}`;
+    if (finding) findings.push(finding);
   }
   if (!own) {
-    if (!/^\d{4}-\d{2}-\d{2}$/.test(c.readOn ?? '')) findings.push(`${id}: no read date (readOn, YYYY-MM-DD)`);
+    if (!ISO_DATE.test(c.readOn ?? '')) findings.push(`${id}: no read date (readOn, YYYY-MM-DD)`);
     else {
-      const days = daysSince(c.readOn, today);
-      if (days > READ_MAX_DAYS) findings.push(`${id}: read on ${c.readOn}, ${days} days ago; read the sources again (limit ${READ_MAX_DAYS} days)`);
+      const finding = age('file', c.readOn, 'read the sources again');
+      if (finding) findings.push(finding);
     }
   }
   const cite = (what, entry) => {
     if (!entry?.source) findings.push(`${id}: ${what} has no source`);
-    else if (!(entry.source in sources)) findings.push(`${id}: ${what} cites source "${entry.source}", which is not in sources`);
+    else if (!Object.hasOwn(sources, entry.source)) findings.push(`${id}: ${what} cites source "${entry.source}", which is not in sources`);
   };
   if (!own) for (const key of REQUIRED_FACTS) if (!c.facts?.[key]) findings.push(`${id}: fact ${key} is missing`);
   for (const [key, fact] of Object.entries(c.facts ?? {})) {
@@ -74,14 +82,23 @@ export function unsourcedDebtFindings(competitors, unsourced = KNOWN_UNSOURCED) 
   });
 }
 
+// The scheduled run publishes founding places and product docs every 15 minutes. An old read date
+// fails pull requests and pushes, and only warns there, so it cannot freeze the live site.
+const STALE = /, \d+ days ago; /;
+/** Findings that fail the run and findings that only warn, for a GitHub event name. */
+export function splitForEvent(findings, event) {
+  if (event !== 'schedule') return { fail: findings, warn: [] };
+  return { fail: findings.filter((f) => !STALE.test(f)), warn: findings.filter((f) => STALE.test(f)) };
+}
+
 const isTextLiteral = (node) =>
   ts.isStringLiteral(node) || ts.isNoSubstitutionTemplateLiteral(node) || ts.isTemplateHead(node)
   || ts.isTemplateMiddle(node) || ts.isTemplateTail(node);
 
-// True for an expression built from number literals only, such as 66 or 5 * 66.
+// True for an expression built from number literals only, such as 66, 5 * 66 or 66 as number.
 const numbersOnly = (node) => {
   if (ts.isNumericLiteral(node)) return true;
-  if (ts.isParenthesizedExpression(node)) return numbersOnly(node.expression);
+  if (ts.isParenthesizedExpression(node) || ts.isAsExpression(node) || ts.isSatisfiesExpression(node)) return numbersOnly(node.expression);
   if (ts.isPrefixUnaryExpression(node)) return numbersOnly(node.operand);
   if (ts.isBinaryExpression(node)) return numbersOnly(node.left) && numbersOnly(node.right);
   return false;
@@ -94,7 +111,11 @@ export function pageTextFindings(file, source) {
   const lineOf = (pos) => sf.getLineAndCharacterOfPosition(pos).line + 1;
   const visit = (node) => {
     if (ts.isImportDeclaration(node) || ts.isExportDeclaration(node)) return;
-    if (ts.isPropertyAssignment(node) && ts.isIdentifier(node.name) && META_PROPS.has(node.name.text) && isTextLiteral(node.initializer)) return;
+    if (ts.isPropertyAssignment(node) && ts.isIdentifier(node.name) && Object.hasOwn(META_PROPS, node.name.text)
+      && isTextLiteral(node.initializer) && META_PROPS[node.name.text].test(node.initializer.text)) return;
+    if (ts.isTemplateSpan(node) && numbersOnly(node.expression)) {
+      findings.push(`${file}:${lineOf(node.expression.getStart(sf))}: price "${node.expression.getText(sf)}" in a template slot in page code; take it from the competitor data file`);
+    }
     if (isTextLiteral(node)) {
       // The raw text keeps escapes, so the offset maps to the right line of the file.
       const raw = node.rawText ?? node.getText(sf).slice(1, -1);
@@ -108,10 +129,13 @@ export function pageTextFindings(file, source) {
       }
       return;
     }
-    if (ts.isCallExpression(node) && ts.isIdentifier(node.expression) && MONEY_FORMATTERS.has(node.expression.text)) {
+    // usd(66) and lib.usd(66) alike.
+    const callee = ts.isCallExpression(node) && (ts.isIdentifier(node.expression) ? node.expression.text
+      : ts.isPropertyAccessExpression(node.expression) ? node.expression.name.text : undefined);
+    if (callee && MONEY_FORMATTERS.has(callee)) {
       for (const arg of node.arguments) {
         if (numbersOnly(arg)) {
-          findings.push(`${file}:${lineOf(arg.getStart(sf))}: price "${arg.getText(sf)}" passed to ${node.expression.text}() in page code; take it from the competitor data file`);
+          findings.push(`${file}:${lineOf(arg.getStart(sf))}: price "${arg.getText(sf)}" passed to ${callee}() in page code; take it from the competitor data file`);
         }
       }
     }
