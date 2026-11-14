@@ -1,13 +1,20 @@
-const PRICES_READ = '16 October 2026';
 import { faqPage, techArticle } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
+import { readOnLabel, sourcesMd } from '../../lib/competitor';
 import { collieFacts as c, statusTable } from './collie-status';
+import { TEAM } from '../../lib/site';
+import { OURS } from '../competitors/colliedesk';
+import { freescout as fs } from '../competitors/freescout';
 import { FOUNDING_ACTION, OUR_PLAN, OUR_PRICE, withFoundingLead } from '../../lib/cloud-price';
+
+const PRICES_READ = readOnLabel(fs.readOn);
+const fact = (key: string): string => fs.facts[key]?.text ?? '';
+const licence = fs.facts.license.text;
 
 const faq: Faq[] = [
   {
     q: 'Is FreeScout really free?',
-    a: 'The core is free under AGPL-3.0, with unlimited agents, tickets and mailboxes. Features such as the knowledge base, live chat, tags and workflows are paid modules, sold as lifetime licences per instance. There is no official FreeScout cloud; third-party hosts run it for you.',
+    a: `The core is free under ${licence}, with unlimited agents, tickets and mailboxes. Features such as the knowledge base, live chat, tags and workflows are paid modules, sold as lifetime licences per instance. There is no official FreeScout cloud; third-party hosts run it for you.`,
   },
   {
     q: 'Can FreeScout import from Freshdesk?',
@@ -28,21 +35,21 @@ const body = `## The short answer
 
 | Topic | FreeScout | Colliedesk |
 |---|---|---|
-| Licence | AGPL-3.0 | ${c.source} |
-| Self-host | Free core, unlimited agents; paid modules with lifetime licences per instance | ${c.free} |
-| Official hosting | None; the FreeScout wiki lists third-party hosts | ${c.price} |
-| Stack | PHP 8.2+ (Laravel) with MySQL, MariaDB or PostgreSQL; runs on shared hosting | One container plus PostgreSQL 16+ |
-| Knowledge base, live chat, tags, workflows | Paid modules | Tags and knowledge base shipped; automations and live chat later, all in the free code |
-| AI | Free AI Integration module | ${c.ai} |
+| Licence | ${licence} | ${c.source} |
+| Self-host | ${fs.facts.free.text} | ${c.free} |
+| Official hosting | ${fact('hosting')} | ${c.price} |
+| Stack | ${fact('stack')} | One container plus ${OURS.postgres} |
+| Knowledge base, live chat, tags, workflows | ${fact('modules')} | Tags and knowledge base shipped; automations and live chat later, all in the free code |
+| AI | ${fs.facts.ai.text} | ${c.ai} |
 
 ## Moving from Freshdesk
 
 | Import | FreeScout | Colliedesk (**Shipped**) |
 |---|---|---|
-| Importer | No official one. Third-party paid service, or a community module "not guaranteed" by the FreeScout team | Official importer, free on every install |
-| Attachments | Depends on the tool | Downloaded and checksummed (SHA-256) |
-| Proof that nothing was lost | Not described | Reconcile report |
-| Done for you | Through the third-party service, priced by them | [Free for founding customers](/migrate/freshdesk/done-for-you) |
+| Importer | ${fact('importer')} | Official importer, free on every install |
+| Attachments | ${fact('importAttachments')} | Downloaded and checksummed (${OURS.checksum}) |
+| Proof that nothing was lost | ${fact('importProof')} | Reconcile report |
+| Done for you | ${fact('importDoneForYou')} | [Free for founding customers](/migrate/freshdesk/done-for-you) |
 
 ## What Colliedesk does today
 
@@ -52,25 +59,20 @@ ${statusTable}
 
 Read on ${PRICES_READ}.
 
-- FreeScout: [freescout.net](https://freescout.net)
-- Modules and licence terms: [freescout.net/modules](https://freescout.net/modules/)
-- Hosting options: [FreeScout wiki, one-click installs](https://github.com/freescout-help-desk/freescout/wiki/One-Click-Installs)
-- Migration: [FreeScout wiki, migrate to FreeScout](https://github.com/freescout-help-desk/freescout/wiki/Migrate-to-FreeScout)
-- Community modules: [FreeScout wiki, community modules](https://github.com/freescout-help-desk/freescout/wiki/Community-Modules)
-- Requirements: [FreeScout installation guide](https://github.com/freescout-help-desk/freescout/wiki/Installation-Guide)`;
+${sourcesMd(fs)}`;
 
 const page: Page = {
   jsonLd: [],
   path: '/vs/freescout',
   updated: '2026-10-16',
   section: 'Compare',
-  title: 'Colliedesk vs FreeScout: two AGPL helpdesks, paid modules vs every feature free',
+  title: `Colliedesk vs FreeScout: two AGPL helpdesks, paid modules vs every feature free`,
   description:
-    `Colliedesk vs FreeScout, both AGPL-3.0: FreeScout sells modules and has no official cloud; Colliedesk ships every feature free and offers flat-priced hosting (${OUR_PLAN} ${OUR_PRICE} for up to 10 agents). Freshdesk import compared.`,
+    `Colliedesk vs FreeScout, both ${licence}: FreeScout sells modules and has no official cloud; Colliedesk ships every feature free and offers flat-priced hosting (${OUR_PLAN} ${OUR_PRICE} for up to ${TEAM.agents} agents). Freshdesk import compared.`,
   summary: `FreeScout free core plus paid modules, no official cloud or Freshdesk importer vs Colliedesk every feature free, flat-priced Cloud (${OUR_PLAN} ${OUR_PRICE}), importer available now`,
   eyebrow: 'Compare · Open source',
   h1: 'Colliedesk vs FreeScout',
-  lede: withFoundingLead('Both are open source under AGPL-3.0. FreeScout is a lightweight PHP helpdesk with paid modules. Colliedesk keeps every feature in the free code. Here is the difference, with sources.'),
+  lede: withFoundingLead(`Both are open source under ${licence}. FreeScout is a lightweight PHP helpdesk with paid modules. Colliedesk keeps every feature in the free code. Here is the difference, with sources.`),
   cta: true,
   ctaFounding: FOUNDING_ACTION,
   body,

@@ -1,23 +1,27 @@
-// Front's pricing and export pages were read a day after the other comparison pages.
-const PRICES_READ = '15 October 2026';
 import { faqPage, techArticle } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
+import { exportMd, readOnLabel, sourcesMd, usd } from '../../lib/competitor';
 import { collieFacts as c, statusTable } from './collie-status';
-import { AI_EXTRA } from '../../lib/site';
+import { AI_EXTRA, dollars, SMALL, TEAM } from '../../lib/site';
+import { OURS } from '../competitors/colliedesk';
+import { exportAckHours, front as f, price } from '../competitors/front';
 import { FOUNDING_ACTION, OUR_CELL, OUR_PLAN, OUR_PRICE, foundingFirst, withFoundingLead } from '../../lib/cloud-price';
+
+const PRICES_READ = readOnLabel(f.readOn);
+const FIVE = 5;
 
 const faq: Faq[] = [
   {
     q: 'What is a good Front alternative that is not priced per seat?',
-    a: `${foundingFirst('Colliedesk Cloud is one flat price per workspace: Team is $69 a month for up to 10 agents, Small $39 for up to 3.')} Self-hosting is free. Colliedesk is an open-source (AGPL-3.0) shared inbox and helpdesk. It is generally available, and the email channel works today.`,
+    a: `${foundingFirst(`Colliedesk Cloud is one flat price per workspace: Team is ${dollars(TEAM.monthly)} a month for up to ${TEAM.agents} agents, Small ${dollars(SMALL.monthly)} for up to ${SMALL.agents}.`)} Self-hosting is free. Colliedesk is an open-source (${OURS.license}) shared inbox and helpdesk. It is generally available, and the email channel works today.`,
   },
   {
     q: 'How does Front charge for AI?',
-    a: `On the Front pricing page read on ${PRICES_READ}: Copilot is $20 per seat per month as an add-on on Starter and Professional, and included on Enterprise. Autopilot starts at $0.05 per conversation.`,
+    a: `On the Front pricing page read on ${PRICES_READ}: Copilot is ${usd(price.copilot)} per seat per month as an add-on on Starter and Professional, and included on Enterprise. Autopilot starts at ${usd(price.autopilot)} per conversation.`,
   },
   {
     q: 'Can I export my conversations from Front?',
-    a: 'Not by yourself. A company admin asks Front Support for an account data export. It covers shared inboxes only, and leaves out contacts, message templates, tags and individual inboxes. Front acknowledges the request within 72 hours.',
+    a: `Not by yourself. A company admin asks Front Support for an account data export. It covers shared inboxes only, and leaves out contacts, message templates, tags and individual inboxes. Front acknowledges the request within ${exportAckHours} hours.`,
   },
   {
     q: 'Does Colliedesk import from Front?',
@@ -36,24 +40,21 @@ Front prices below are from the Front pricing page, per seat per month billed an
 
 | Topic | Front | Colliedesk |
 |---|---|---|
-| Plans | Starter $25 (up to 10 seats), Professional $65 (up to 50 seats), Enterprise $105 | ${c.price} |
-| AI drafting | Copilot $20 per seat per month on Starter and Professional; included on Enterprise | ${c.ai} |
-| AI agent | Autopilot from $0.05 per conversation | Auto-answer with a human in the loop, same AI pricing (not built yet) |
-| Free option | No free plan; 14-day trial | ${c.free} |
-| Source code | Proprietary | ${c.source} |
+| Plans | ${f.facts.plans.text} | ${c.price} |
+| AI drafting | ${f.facts.ai.text} | ${c.ai} |
+| AI agent | ${f.facts.aiAgent?.text} | Auto-answer with a human in the loop, same AI pricing (not built yet) |
+| Free option | ${f.facts.free.text} | ${c.free} |
+| Source code | ${f.facts.license.text} | ${c.source} |
 
 ### What five agents pay
 
 | Team | Front Professional + Copilot (annual) | Colliedesk Cloud |
 |---|---|---|
-| 5 agents | 5 × ($65 + $20) = **$425 per month** | ${OUR_CELL} + ${AI_EXTRA} |
+| ${FIVE} agents | ${FIVE} × (${usd(price.professional)} + ${usd(price.copilot)}) = **${usd(FIVE * (price.professional + price.copilot))} per month** | ${OUR_CELL} + ${AI_EXTRA} |
 
 ## Leaving: what Front gives you
 
-- There is **no self-serve export** of conversations. A company admin asks Front Support for an account data export.
-- The export covers **shared inboxes**: conversations, messages, discussions, comments, and attachments as EML.
-- It **leaves out** individual inboxes, contact data, message templates and tags.
-- Front acknowledges the request within **72 hours**, then sends the files when they are ready.
+${exportMd(f)}
 
 ${c.export}
 
@@ -65,8 +66,7 @@ ${statusTable}
 
 Read on ${PRICES_READ}. Prices change; check the vendor page before you decide.
 
-- Front pricing: [front.com/pricing](https://front.com/pricing)
-- Account data export: [help.front.com](https://help.front.com/t/182vg7)`;
+${sourcesMd(f)}`;
 
 const page: Page = {
   jsonLd: [],
@@ -75,8 +75,8 @@ const page: Page = {
   section: 'Compare',
   title: 'Colliedesk vs Front: an open-source Front alternative with flat pricing',
   description:
-    'Colliedesk vs Front for small support teams: per-seat plans and a $20 Copilot add-on vs one flat workspace price. Sourced prices, export limits and honest status.',
-  summary: `Front $25–105 per seat plus $20 Copilot vs Colliedesk ${OUR_PLAN} at a flat ${OUR_PRICE} per workspace; export only through Front Support`,
+    `Colliedesk vs Front for small support teams: per-seat plans and a ${usd(price.copilot)} Copilot add-on vs one flat workspace price. Sourced prices, export limits and honest status.`,
+  summary: `Front ${usd(price.starter)}–${price.enterprise} per seat plus ${usd(price.copilot)} Copilot vs Colliedesk ${OUR_PLAN} at a flat ${OUR_PRICE} per workspace; export only through Front Support`,
   eyebrow: 'Compare · Front alternative',
   h1: 'Colliedesk vs Front',
   lede: withFoundingLead('Front is a polished shared inbox. For a team of five, the seat count and the AI add-on decide the bill. Here are the numbers, with sources.'),

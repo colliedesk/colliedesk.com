@@ -44,7 +44,8 @@ sign-up, plus AI-assistant visits by referrer or `utm_source`. Founding purchase
    - gets search traffic but no sign-ups while similar pages convert.
 3. `run_site_audit` monthly: open issues for crawl, speed or markup errors.
 4. `KNOWN_DEBT` in `scripts/content-qa.mjs` has one open `seo:improve` issue per rule, listing its pages.
-5. A competitor changed a price (read the source on a `/vs` page older than 90 days) → issue to update it.
+5. A competitor changed a price, or a source in `src/data/competitors/` was read more than 90 days ago
+   (`pnpm check` fails then) → read it again and update that one file.
 
 ## 4. Patterns: every quarter (January, April, July, October)
 

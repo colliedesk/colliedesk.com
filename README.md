@@ -45,7 +45,14 @@ to use another checkout. `typecheck` works without it.
 - `/docs` and `/roadmap` render `docs/user/*.md` and `ROADMAP.md` from [colliedesk/colliedesk](https://github.com/colliedesk/colliedesk). Edit those files there, not here. Every 15 minutes CI compares those docs on `main` with `/product-docs-version.txt` on the live site (`scripts/product-docs-version.sh`) and rebuilds when they differ. GitHub runs scheduled workflows late and sometimes skips them, so a docs change can take hours to appear; to publish one at once, run `gh workflow run Site -R colliedesk/colliedesk.com` (no `product_ref`), which builds from `main` and deploys. Any merge to this repo's `main` also rebuilds the docs from the app's `main`. To preview unmerged docs, run the Site workflow with `product_ref` set to a branch of colliedesk/colliedesk: it builds, checks and uploads the site as an artifact without deploying. Pull requests there that touch the docs build this site too, so a broken link fails before merge.
 - `/audit` is the lead page for ads: a free help center audit. `AuditForm.tsx` (hero aside) is posted by `public/audit.js` as JSON to `UPDATES_FORM_URL` with `source: 'site:audit'`, so each request lands as a conversation in our own workspace. Only after a 202 it calls `fbq('track', 'Lead')` and `posthog.capture('audit_requested')`, when `public/consent.js` has loaded them (`scripts/audit-form.test.mjs`).
 - SEO: an agent researches, writes and audits pages as described in [docs/seo](docs/seo/README.md); `pnpm check:content` checks the copy and a person approves every SEO page (required check `content-approval`).
-- Shared facts (prices, positioning, repo URL) are in `src/lib/site.ts`. Competitor prices carry their source and read date on each `/vs` page.
+- Shared facts (prices, positioning, repo URL) are in `src/lib/site.ts`. Competitor facts for the `/vs` pages are in `src/data/competitors/<slug>.ts`, one file per
+  competitor: prices as numbers, each fact with its source and the file's read date, and a value for
+  every key of the feature dictionary `features.ts` (`'unread'` until someone reads it from a source; a
+  page cannot render an unread value). `colliedesk.ts` is our side in the same shape; the status table
+  renders from it. Change a competitor price in its file and every page that names it follows.
+  `pnpm check` (`scripts/vs-facts-gate.mjs`) fails a missing fact or feature key, a fact whose source
+  is not in the file, a read date older than 90 days, and a `/vs` page module that writes a figure
+  (any digit) into its own text instead of taking it from data.
 - While Founding is open it leads, and Team 25 is on sale beside it, on /pricing and the home page, for teams of 11 to 25
   agents (`TEAM_25_*` in `src/lib/site.ts`). Business (26 to 100 agents, $499 a month) is sold through a call with the founder in
   both states, never a checkout, with the switch and invoice offers for Team 25 and Business (`SWITCH_*` in `src/lib/site.ts`);

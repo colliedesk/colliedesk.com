@@ -1,9 +1,16 @@
-const PRICES_READ = '16 October 2026';
 import { faqPage, techArticle } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
+import { num, readOnLabel, sourcesMd, usd } from '../../lib/competitor';
 import { collieFacts as c, statusTable } from './collie-status';
-import { AI_EXTRA } from '../../lib/site';
+import { AI_EXTRA, TEAM } from '../../lib/site';
+import { OURS } from '../competitors/colliedesk';
+import { aiCredits, chatwoot as cw, freshdeskApiCap, price } from '../competitors/chatwoot';
 import { FOUNDING_ACTION, OUR_CELL, OUR_PLAN, OUR_PRICE, withFoundingLead } from '../../lib/cloud-price';
+
+const PRICES_READ = readOnLabel(cw.readOn);
+const [FIVE, TEN] = [5, 10];
+const perAgentRange = `${usd(price.startups)}–${price.enterprise}`;
+const fact = (key: string): string => cw.facts[key]?.text ?? '';
 
 const faq: Faq[] = [
   {
@@ -12,11 +19,11 @@ const faq: Faq[] = [
   },
   {
     q: 'Does Chatwoot import attachments from Freshdesk?',
-    a: 'No. Chatwoot\'s Freshdesk importer, on paid plans only, brings contacts and conversations as resolved history. Its guide says attachments, agents, groups, SLAs and automations are not imported, and the Freshdesk API limit of 30,000 tickets applies. The Colliedesk importer (available now) downloads and checksums every attachment.',
+    a: `No. Chatwoot's Freshdesk importer, on paid plans only, brings contacts and conversations as resolved history. Its guide says attachments, agents, groups, SLAs and automations are not imported, and the Freshdesk API limit of ${num(freshdeskApiCap)} tickets applies. The Colliedesk importer (available now) downloads and checksums every attachment.`,
   },
   {
-    q: 'How much is Chatwoot Cloud for 5 agents?',
-    a: `On the Chatwoot pricing page read on ${PRICES_READ}: Startups is $19 per agent per month and Business $39. Five agents: $95 or $195 per month. Extra AI credits are $20 per 1,000.`,
+    q: `How much is Chatwoot Cloud for ${FIVE} agents?`,
+    a: `On the Chatwoot pricing page read on ${PRICES_READ}: Startups is ${usd(price.startups)} per agent per month and Business ${usd(price.business)}. Five agents: ${usd(FIVE * price.startups)} or ${usd(FIVE * price.business)} per month. Extra AI credits are ${usd(aiCredits.extraPrice)} per ${num(aiCredits.extraBlock)}.`,
   },
 ];
 
@@ -31,17 +38,16 @@ Chatwoot Cloud prices are per agent per month, as shown on the Chatwoot pricing 
 
 | Topic | Chatwoot | Colliedesk |
 |---|---|---|
-| Cloud plans | Hacker $0 (up to 2 agents, live chat only), Startups $19, Business $39, Enterprise $99 per agent per month | ${c.price} |
-| AI | Captain AI credits included (300, 500 or 800 by plan; none on Hacker); more at $20 per 1,000 | ${c.ai} |
-| Self-host | Community Edition free; Premium $19 and Enterprise $99 per agent per month | ${c.free} |
-| Licence | MIT, except the \`enterprise/\` directory under its own licence | ${c.source} |
+| Cloud plans | ${cw.facts.plans.text} | ${c.price} |
+| AI | ${cw.facts.ai.text} | ${c.ai} |
+| Self-host | ${cw.facts.free.text} | ${c.free} |
+| Licence | ${cw.facts.license.text} | ${c.source} |
 
 ### What five agents pay
 
 | Team | Chatwoot Business | Colliedesk Cloud |
 |---|---|---|
-| 5 agents | 5 × $39 = **$195 per month** | ${OUR_CELL} + ${AI_EXTRA} |
-| 10 agents | 10 × $39 = **$390 per month** | ${OUR_CELL} + ${AI_EXTRA} |
+${[FIVE, TEN].map((n) => `| ${n} agents | ${n} × ${usd(price.business)} = **${usd(n * price.business)} per month** | ${OUR_CELL} + ${AI_EXTRA} |`).join('\n')}
 
 Business is the Chatwoot plan with automation rules and teams.
 
@@ -49,12 +55,12 @@ Business is the Chatwoot plan with automation rules and teams.
 
 | Import | Chatwoot importer | Colliedesk importer (**Shipped**) |
 |---|---|---|
-| Availability | Paid plans only | Every install, free; done for you for founding customers |
-| Conversations, replies, private notes | Yes, as resolved history | Yes |
-| Attachments | Not imported | Downloaded and checksummed (SHA-256) |
-| Agents | Not imported | Matched by email to your Colliedesk agents |
-| Ticket count | Freshdesk API cap of 30,000 tickets | Archived tickets included; totals checked against what Freshdesk reports |
-| Proof that nothing was lost | Not described | Reconcile report |
+| Availability | ${fact('importAvailability')} | Every install, free; done for you for founding customers |
+| Conversations, replies, private notes | ${fact('importConversations')} | Yes |
+| Attachments | ${fact('importAttachments')} | Downloaded and checksummed (${OURS.checksum}) |
+| Agents | ${fact('importAgents')} | Matched by email to your Colliedesk agents |
+| Ticket count | ${fact('importCount')} | Archived tickets included; totals checked against what Freshdesk reports |
+| Proof that nothing was lost | ${fact('importProof')} | Reconcile report |
 
 ## What Colliedesk does today
 
@@ -64,10 +70,7 @@ ${statusTable}
 
 Read on ${PRICES_READ}. Prices change; check the vendor page before you decide.
 
-- Chatwoot Cloud pricing: [chatwoot.com/pricing](https://www.chatwoot.com/pricing)
-- Self-hosted plans: [chatwoot.com/pricing/self-hosted-plans](https://www.chatwoot.com/pricing/self-hosted-plans)
-- Freshdesk migration guide: [chatwoot.com help center](https://www.chatwoot.com/hc/user-guide/articles/1696159781-how-to-migrate-from-freshdesk-to-chatwoot)
-- Licence: [github.com/chatwoot/chatwoot](https://github.com/chatwoot/chatwoot)`;
+${sourcesMd(cw)}`;
 
 const page: Page = {
   jsonLd: [],
@@ -76,8 +79,8 @@ const page: Page = {
   section: 'Compare',
   title: 'Colliedesk vs Chatwoot: email helpdesk with flat pricing vs omnichannel inbox',
   description:
-    `Chatwoot costs $19–99 per agent; Colliedesk ${OUR_PLAN} is a flat ${OUR_PRICE} for up to 10 agents. What each Freshdesk importer brings over, with sources.`,
-  summary: `Chatwoot $19–99 per agent, Freshdesk import without attachments on paid plans vs Colliedesk ${OUR_PLAN} at a flat ${OUR_PRICE}, importer with attachments and reconcile report (available now)`,
+    `Chatwoot costs ${perAgentRange} per agent; Colliedesk ${OUR_PLAN} is a flat ${OUR_PRICE} for up to ${TEAM.agents} agents. What each Freshdesk importer brings over, with sources.`,
+  summary: `Chatwoot ${perAgentRange} per agent, Freshdesk import without attachments on paid plans vs Colliedesk ${OUR_PLAN} at a flat ${OUR_PRICE}, importer with attachments and reconcile report (available now)`,
   eyebrow: 'Compare · Open source',
   h1: 'Colliedesk vs Chatwoot',
   lede: withFoundingLead('Chatwoot is an open-source inbox built around chat and messaging. Colliedesk is an open-source helpdesk built for teams leaving Freshdesk. Here is the difference, with sources.'),

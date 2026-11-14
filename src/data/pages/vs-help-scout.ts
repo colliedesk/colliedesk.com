@@ -1,13 +1,20 @@
-import { AI_EXTRA, PRICES_READ } from '../../lib/site';
+import { AI_EXTRA, dollars, SMALL, TEAM } from '../../lib/site';
+import { exportMd, readOnLabel, sourcesMd, usd } from '../../lib/competitor';
 import { faqPage, techArticle } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
+import { OURS } from '../competitors/colliedesk';
+import { helpScout as h, price } from '../competitors/help-scout';
 import { collieFacts as c, statusTable } from './collie-status';
 import { FOUNDING_ACTION, OUR_CELL, OUR_PLAN, OUR_PRICE, foundingFirst, withFoundingLead } from '../../lib/cloud-price';
+
+const PRICES_READ = readOnLabel(h.readOn);
+const FIVE = 5;
+const perResolution = `${usd(price.aiAnswers)} per AI resolution`;
 
 const faq: Faq[] = [
   {
     q: 'What is a good Help Scout alternative with flat pricing?',
-    a: `${foundingFirst('Colliedesk Cloud is one flat price per workspace with no per-user fees (Team is $69 a month for up to 10 agents, Small $39 for up to 3).')} The open-source code (AGPL-3.0) is free to self-host. Colliedesk is generally available, and the email channel works today.`,
+    a: `${foundingFirst(`Colliedesk Cloud is one flat price per workspace with no per-user fees (Team is ${dollars(TEAM.monthly)} a month for up to ${TEAM.agents} agents, Small ${dollars(SMALL.monthly)} for up to ${SMALL.agents}).`)} The open-source code (${OURS.license}) is free to self-host. Colliedesk is generally available, and the email channel works today.`,
   },
   {
     q: 'Can I export my Help Scout conversations?',
@@ -15,7 +22,7 @@ const faq: Faq[] = [
   },
   {
     q: 'How does Help Scout charge for AI?',
-    a: `On the pricing page read on ${PRICES_READ}: AI Answers costs $0.75 per resolution on paid plans. AI Assist, Drafts and Summarize are listed as included.`,
+    a: `On the pricing page read on ${PRICES_READ}: AI Answers costs ${usd(price.aiAnswers)} per resolution on paid plans. AI Assist, Drafts and Summarize are listed as included.`,
   },
   {
     q: 'Does Colliedesk import from Help Scout?',
@@ -34,26 +41,24 @@ Help Scout prices are per user per month as shown on the pricing page on ${PRICE
 
 | Topic | Help Scout | Colliedesk |
 |---|---|---|
-| Plans | Free $0 (5 users, 1 inbox, 100 contacts per month), Standard $25, Plus $45, Pro $75 (minimum 10 users) | ${c.price} |
-| AI | AI Answers $0.75 per resolution; AI Assist, Drafts and Summarize included | ${c.ai} |
-| API | Not on the Free plan | Same API on every install (OpenAPI contract in the repo) |
-| Source code | Proprietary | ${c.source} |
+| Plans | ${h.facts.plans.text} | ${c.price} |
+| AI | ${h.facts.ai.text} | ${c.ai} |
+| API | ${h.facts.api?.text} | Same API on every install (OpenAPI contract in the repo) |
+| Source code | ${h.facts.license.text} | ${c.source} |
 
 ### What five agents pay
 
 | Team | Help Scout Standard | Help Scout Plus | Colliedesk Cloud |
 |---|---|---|---|
-| 5 agents | 5 × $25 = **$125 per month** + $0.75 per AI resolution | 5 × $45 = **$225 per month** + $0.75 per AI resolution | ${OUR_CELL} + ${AI_EXTRA} |
+| ${FIVE} agents | ${FIVE} × ${usd(price.standard)} = **${usd(FIVE * price.standard)} per month** + ${perResolution} | ${FIVE} × ${usd(price.plus)} = **${usd(FIVE * price.plus)} per month** + ${perResolution} | ${OUR_CELL} + ${AI_EXTRA} |
 
 ## Trust and pricing changes
 
-In 2025 Help Scout moved to contact-based pricing and then reversed it after customer pushback ([Michael Tsai, 30 April 2025](https://mjtsai.com/blog/2025/04/30/whither-help-scout)). We publish our pricing in the open and the code is AGPL-3.0: if we ever change course in a way you dislike, you can self-host the same software or fork it.
+${h.facts.pricingChange?.text} We publish our pricing in the open and the code is ${OURS.license}: if we ever change course in a way you dislike, you can self-host the same software or fork it.
 
 ## Leaving: what Help Scout gives you
 
-- **No bulk export button.** Reports export without conversation threads.
-- The account owner can request a **CSV of customer names and emails**, without history.
-- The **Mailbox API** returns conversations with threads (pass \`status=all\`; the default is active only). The Free plan has **no API**.
+${exportMd(h)}
 
 ${c.export} The [Help Scout importer](/docs/import-helpscout) copies one inbox at a time through that API, with a reconcile report.
 
@@ -65,10 +70,7 @@ ${statusTable}
 
 Read on ${PRICES_READ}. Prices change; check the vendor page before you decide.
 
-- Help Scout pricing: [helpscout.com/pricing](https://www.helpscout.com/pricing/)
-- Data export: [docs.helpscout.com article 466](https://docs.helpscout.com/article/466-data-export)
-- Mailbox API and plan access: [docs.helpscout.com article 1140](https://docs.helpscout.com/article/1140-mailbox-api)
-- 2025 pricing change: [mjtsai.com](https://mjtsai.com/blog/2025/04/30/whither-help-scout) (third-party account)`;
+${sourcesMd(h)}`;
 
 const page: Page = {
   jsonLd: [],
@@ -76,8 +78,8 @@ const page: Page = {
   section: 'Compare',
   title: 'Colliedesk vs Help Scout: open-source, flat-priced Help Scout alternative',
   description:
-    'Colliedesk vs Help Scout: per-user plans and $0.75 AI resolutions vs one flat workspace price, plus what Help Scout lets you export. Prices read 14 October 2026.',
-  summary: `Help Scout $25–75 per user and $0.75 per AI resolution vs Colliedesk ${OUR_PLAN} at a flat ${OUR_PRICE} per workspace; no bulk export in Help Scout`,
+    `Colliedesk vs Help Scout: per-user plans and ${usd(price.aiAnswers)} AI resolutions vs one flat workspace price, plus what Help Scout lets you export. Prices read ${PRICES_READ}.`,
+  summary: `Help Scout ${usd(price.standard)}–${price.pro} per user and ${perResolution} vs Colliedesk ${OUR_PLAN} at a flat ${OUR_PRICE} per workspace; no bulk export in Help Scout`,
   eyebrow: 'Compare · Help Scout alternative',
   h1: 'Colliedesk vs Help Scout',
   lede: withFoundingLead('Help Scout has some of the best email UX in the category. Colliedesk is younger, open source and flat-priced. Here is where each one fits, with sources.'),

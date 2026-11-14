@@ -7,6 +7,7 @@ import { join, relative, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { runInNewContext } from 'node:vm';
 import { homeFindings, onePlanFindings, pricingFindings } from './pricing-gate.mjs';
+import { vsFactsFindings } from './vs-facts-gate.mjs';
 import {
   businessCardFindings, doneForYouFindings, offerFindings, retiredClaimFindings, SWITCH_CALL, SWITCH_PATH, switchPageFindings,
 } from './switch-offer-gate.mjs';
@@ -881,6 +882,14 @@ for (const file of [...pages, join(outDir, '404.html')].filter(existsSync)) {
     const hash = createHash('sha256').update(readFileSync(asset)).digest('hex').slice(0, 10);
     if (version !== hash) fail(`${urlPathOf(file)}: icon link ${href} must be ${path}?v=${hash} so browsers drop the old icon`);
   }
+}
+
+// Every competitor fact on a /vs page comes from src/data/competitors/<slug>.ts with a source and a
+// read date at most 90 days old; the rules and their tests are in scripts/vs-facts-gate.mjs.
+{
+  const { findings, unread } = await vsFactsFindings();
+  for (const finding of findings) fail(finding);
+  if (unread.length) console.log(`note: ${unread.length} competitor feature values are 'unread' (no source read yet); no page may render one`);
 }
 
 if (jsBytes > JS_BUDGET_BYTES) fail(`JavaScript budget exceeded: ${jsBytes} bytes > ${JS_BUDGET_BYTES}`);
