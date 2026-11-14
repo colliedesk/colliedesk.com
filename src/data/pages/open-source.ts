@@ -70,7 +70,7 @@ Colliedesk is written from its own public specification. Nobody working on it ma
 
 A Go server with PostgreSQL serves a JSON API under \`/api/v1\` (described by one OpenAPI contract) and an embedded React + TypeScript web app.
 
-## Compare open source helpdesks
+## Self-hosting and open source comparisons
 
 - [A self-hosted helpdesk with nothing held back](/self-hosted-helpdesk)
 - [Colliedesk vs Zammad](/vs/zammad)

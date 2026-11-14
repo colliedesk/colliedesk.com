@@ -48,7 +48,7 @@ const body = `## The short answer
 
 ${statusTable}
 
-## Related comparisons
+## Related pages
 
 - [Colliedesk vs Zammad](/vs/zammad)
 - [Colliedesk vs Chatwoot](/vs/chatwoot)

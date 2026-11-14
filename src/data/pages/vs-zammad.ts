@@ -61,7 +61,7 @@ Zammad is ahead here, and we say so.
 
 ${statusTable}
 
-## Related comparisons
+## Related pages
 
 - [Colliedesk vs FreeScout](/vs/freescout)
 - [Colliedesk vs Chatwoot](/vs/chatwoot)

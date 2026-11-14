@@ -60,7 +60,7 @@ Business is the Chatwoot plan with automation rules and teams.
 
 ${statusTable}
 
-## Related comparisons
+## Related pages
 
 - [Colliedesk vs Zammad](/vs/zammad)
 - [Colliedesk vs FreeScout](/vs/freescout)
