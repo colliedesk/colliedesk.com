@@ -48,6 +48,18 @@ export interface Own {
   features: Readonly<Record<FeatureKey, FeatureValue>>;
 }
 
+/**
+ * The text of a fact a page shows. A fact the file no longer has (an unsourced one that was deleted)
+ * stops the build, naming what to delete with it, instead of printing "undefined" on the live page.
+ */
+export function factText(c: { slug: string; facts: Readonly<Record<string, Fact>> }, key: string): string {
+  const fact = c.facts[key];
+  if (!fact) {
+    throw new Error(`${c.slug}: a page uses fact ${key}, which src/data/competitors/${c.slug}.ts does not have; delete the sentence or row that shows it, or add the fact with a source`);
+  }
+  return fact.text;
+}
+
 const amount = (n: number, cents = false): string =>
   n.toLocaleString('en-US', { minimumFractionDigits: cents || !Number.isInteger(n) ? 2 : 0, maximumFractionDigits: 2 });
 export const usd = (n: number): string => `$${amount(n)}`;

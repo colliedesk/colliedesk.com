@@ -1,6 +1,6 @@
 import { faqPage, techArticle } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
-import { exportMd, readOnLabel, sourcesMd, usd } from '../../lib/competitor';
+import { exportMd, factText, readOnLabel, sourcesMd, usd } from '../../lib/competitor';
 import { collieFacts as c, statusTable } from './collie-status';
 import { AI_EXTRA, dollars, SMALL, TEAM } from '../../lib/site';
 import { OURS } from '../competitors/colliedesk';
@@ -42,7 +42,7 @@ Front prices below are from the Front pricing page, per seat per month billed an
 |---|---|---|
 | Plans | ${f.facts.plans.text} | ${c.price} |
 | AI drafting | ${f.facts.ai.text} | ${c.ai} |
-| AI agent | ${f.facts.aiAgent?.text} | Auto-answer with a human in the loop, same AI pricing (not built yet) |
+| AI agent | ${factText(f, 'aiAgent')} | Auto-answer with a human in the loop, same AI pricing (not built yet) |
 | Free option | ${f.facts.free.text} | ${c.free} |
 | Source code | ${f.facts.license.text} | ${c.source} |
 

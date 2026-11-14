@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { alphaFindings, betaFindings, checkPage, foundingLeadFindings, oldAiPriceFindings, readingGrade } from './content-qa.mjs';
+import { alphaFindings, betaFindings, checkPage, foundingLeadFindings, oldAiPriceFindings, readingGrade, undefinedFindings } from './content-qa.mjs';
 
 // Plain sentences a 7th grader reads easily; links to pricing (CTA) and to a source.
 const CLEAN = `# Move off Freshdesk before your renewal
@@ -228,4 +228,16 @@ test('ignores competitor plans and prices that are not Colliedesk Cloud plans', 
     'Five agents pay $1,140–5,040 on Freshdesk; a small team of three pays $303.',
   ].join('\n');
   assert.deepEqual(foundingLeadFindings('/vs/x', competitors, true), []);
+});
+
+// A page that renders a missing value prints the word "undefined"; no page of ours says it on purpose.
+test('reports every line of page text that shows undefined', () => {
+  assert.deepEqual(undefinedFindings('/vs/zendesk.md', '## Pricing\n\nundefined\n\n| AI agent | undefined | Yes |'), [
+    '/vs/zendesk.md: shows "undefined", a value the page could not find: "undefined"',
+    '/vs/zendesk.md: shows "undefined", a value the page could not find: "| AI agent | undefined | Yes |"',
+  ]);
+});
+
+test('allows text without the word undefined, and the word inside a URL', () => {
+  assert.deepEqual(undefinedFindings('/vs/x', 'Undefined terms are defined below. See https://example.com/undefined and [docs](https://example.com/undefined).'), []);
 });

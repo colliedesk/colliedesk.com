@@ -1,6 +1,6 @@
 import { faqPage, techArticle } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
-import { readOnLabel, sourcesMd, usd } from '../../lib/competitor';
+import { factText, readOnLabel, sourcesMd, usd } from '../../lib/competitor';
 import { collieFacts as c, statusTable } from './collie-status';
 import { AI_EXTRA, dollars, FOUNDING_AGENTS, TEAM } from '../../lib/site';
 import { OURS } from '../competitors/colliedesk';
@@ -18,7 +18,7 @@ const faq: Faq[] = [
   },
   {
     q: 'Is AI included in HappyFox?',
-    a: `No. HappyFox sells its AI as separate products with their own pricing. Its Autopilot page says ${h.facts.autopilotQuote?.text}.`,
+    a: `No. HappyFox sells its AI as separate products with their own pricing. Its Autopilot page says ${factText(h, 'autopilotQuote')}.`,
   },
 ];
 
@@ -34,7 +34,7 @@ HappyFox prices are per agent per month, read on ${PRICES_READ}.
 | Topic | HappyFox | Colliedesk |
 |---|---|---|
 | Plans (billed annually) | ${h.facts.plans.text} | ${c.price} |
-| Billed monthly | ${h.facts.monthly?.text} | ${FOUNDING_OPEN ? `Colliedesk Founding ${OURS.foundingPrice} for up to ${OURS.foundingAgents} agents; after the ${OURS.foundingPlaces} Founding places, ` : ''}Colliedesk Team ${dollars(TEAM.monthly)} per month for up to ${TEAM.agents} agents, or ${dollars(TEAM.yearly)} per year |
+| Billed monthly | ${factText(h, 'monthly')} | ${FOUNDING_OPEN ? `Colliedesk Founding ${OURS.foundingPrice} for up to ${OURS.foundingAgents} agents; after the ${OURS.foundingPlaces} Founding places, ` : ''}Colliedesk Team ${dollars(TEAM.monthly)} per month for up to ${TEAM.agents} agents, or ${dollars(TEAM.yearly)} per year |
 | AI | ${h.facts.ai.text} | ${c.ai} |
 | Free option | ${h.facts.free.text} | ${c.free} |
 | Source code | ${h.facts.license.text} | ${c.source} |

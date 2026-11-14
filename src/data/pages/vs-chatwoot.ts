@@ -1,6 +1,6 @@
 import { faqPage, techArticle } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
-import { num, readOnLabel, sourcesMd, usd } from '../../lib/competitor';
+import { factText, num, readOnLabel, sourcesMd, usd } from '../../lib/competitor';
 import { collieFacts as c, statusTable } from './collie-status';
 import { AI_EXTRA, TEAM } from '../../lib/site';
 import { OURS } from '../competitors/colliedesk';
@@ -10,7 +10,7 @@ import { FOUNDING_ACTION, OUR_CELL, OUR_PLAN, OUR_PRICE, withFoundingLead } from
 const PRICES_READ = readOnLabel(cw.readOn);
 const [FIVE, TEN] = [5, 10];
 const perAgentRange = `${usd(price.startups)}–${price.enterprise}`;
-const fact = (key: string): string => cw.facts[key]?.text ?? '';
+const fact = (key: string): string => factText(cw, key);
 
 const faq: Faq[] = [
   {
