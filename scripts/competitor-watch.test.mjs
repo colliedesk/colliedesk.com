@@ -1,9 +1,47 @@
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
 import { test } from 'node:test';
 import { hashText, markersFrom, normalizeText, watchCompetitors } from './competitor-watch.mjs';
 
-const fixture = (name) => readFileSync(new URL(`./fixtures/competitor-watch/${name}`, import.meta.url), 'utf8');
+/** Competitor pages: before, after a copy and style change, after a price change. */
+const PAGES = {
+  'pricing-before.html': `<!doctype html>
+<html><head><title>Acme pricing</title>
+<style>.plan { color: red; }</style>
+<script>window.__nonce = "a1b2c3"; var prices = [1, 2, 3];</script>
+</head>
+<body>
+<nav>Product &amp; pricing</nav>
+<h1>Plans for every team</h1>
+<div class="plan"><h2>Growth</h2><p>$23 per agent per month, billed monthly</p></div>
+<div class="plan"><h2>Pro</h2><p>$66 per agent per month, billed monthly</p></div>
+<p>Start a 14-day free trial. No card needed.</p>
+</body></html>
+`,
+  'pricing-after-cosmetic.html': `<!doctype html>
+<html><head><title>Acme pricing</title>
+<style>.plan { color: blue; }</style>
+<script>window.__nonce = "z9y8x7"; var prices = [4, 5, 6];</script>
+</head>
+<body>
+<nav>Product &amp; pricing</nav>
+<h1>Plans that grow with your team</h1>
+<div class="plan"><h2>Growth</h2><p>$23 per agent per month, billed monthly</p></div>
+<div class="plan"><h2>Pro</h2><p>$66 per agent per month, billed monthly</p></div>
+<p>Start a 14-day free trial. No card needed.</p>
+</body></html>
+`,
+  'pricing-after-price.html': `<!doctype html>
+<html><head><title>Acme pricing</title></head>
+<body>
+<nav>Product &amp; pricing</nav>
+<h1>Plans for every team</h1>
+<div class="plan"><h2>Growth</h2><p>$23 per agent per month, billed monthly</p></div>
+<div class="plan"><h2>Pro</h2><p>$70 per agent per month, billed monthly</p></div>
+<p>Start a 14-day free trial. No card needed.</p>
+</body></html>
+`,
+};
+const fixture = (name) => PAGES[name];
 const BEFORE = fixture('pricing-before.html');
 const PRICING_URL = 'https://acme.example/pricing';
 const TODAY = new Date('2026-11-15T00:00:00Z');
