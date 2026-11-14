@@ -2,7 +2,7 @@ import { faqPage, techArticle } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
 import { FOUNDING_ACTION, FOUNDING_LEAD, OUR_PLAN, OUR_PRICE } from '../../lib/cloud-price';
 import { AI_RESOLUTION, BUSINESS, BUSINESS_AGENTS, dollars, PRICE, SMALL, SWITCH_OFFER_BLOCK_MD, TEAM, TEAM_25 } from '../../lib/site';
-import { exportMd, featureTable, sourcesMd, type FeatureRow } from '../../lib/competitor';
+import { exportMd, factText, featureTable, sourcesMd, type FeatureRow } from '../../lib/competitor';
 import { readOnLabel, rowsAt, usd, vsMarkdown, type VsPricing } from '../../lib/vs-pricing';
 import { colliedesk, OURS } from '../competitors/colliedesk';
 import { chartPlans, copilotRange, freshdesk as fd, perAgentRange, price } from '../competitors/freshdesk';
@@ -67,7 +67,7 @@ Freshdesk prices are per agent per month, as published on ${PRICES_READ}. The fi
 |---|---|---|
 | Plans | ${fd.facts.plans.text} | ${c.price} |
 | AI drafting | ${fd.facts.ai.text} | ${c.ai} |
-| AI agent | ${fd.facts.aiAgent?.text} | Auto-answer with a human in the loop, same AI pricing (not built yet) |
+| AI agent | ${factText(fd, 'aiAgent')} | Auto-answer with a human in the loop, same AI pricing (not built yet) |
 | Free option | ${fd.facts.free.text} | ${c.free} |
 | Source code | ${fd.facts.license.text} | ${c.source} |
 

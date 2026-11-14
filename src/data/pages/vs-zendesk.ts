@@ -1,5 +1,5 @@
 import { AI_EXTRA, AI_RESOLUTION, dollars, TEAM, TEAM_25 } from '../../lib/site';
-import { eur, eurCents, exportMd, readOnLabel, sourcesMd } from '../../lib/competitor';
+import { eur, eurCents, exportMd, factText, readOnLabel, sourcesMd } from '../../lib/competitor';
 import { faqPage, techArticle } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
 import { OURS } from '../competitors/colliedesk';
@@ -42,11 +42,11 @@ Zendesk prices below are from the Zendesk pricing page in euros (our request for
 |---|---|---|
 | Plans (annual / monthly billing) | ${z.facts.plans.text} | ${c.price} |
 | AI drafting | ${z.facts.ai.text} | ${c.ai} |
-| AI agent | ${z.facts.aiAgent?.text} | Auto-answer with a human in the loop, ${AI_RESOLUTION} per resolution, only when no person is needed afterwards (not built yet) |
+| AI agent | ${factText(z, 'aiAgent')} | Auto-answer with a human in the loop, ${AI_RESOLUTION} per resolution, only when no person is needed afterwards (not built yet) |
 | Free option | ${z.facts.free.text} | ${c.free} |
 | Source code | ${z.facts.license.text} | ${c.source} |
 
-${z.facts.usThirdParty?.text}
+${factText(z, 'usThirdParty')}
 
 ### What five agents pay
 

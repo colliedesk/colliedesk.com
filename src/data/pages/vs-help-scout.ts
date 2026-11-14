@@ -1,5 +1,5 @@
 import { AI_EXTRA, dollars, SMALL, TEAM } from '../../lib/site';
-import { exportMd, readOnLabel, sourcesMd, usd } from '../../lib/competitor';
+import { exportMd, factText, readOnLabel, sourcesMd, usd } from '../../lib/competitor';
 import { faqPage, techArticle } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
 import { OURS } from '../competitors/colliedesk';
@@ -43,7 +43,7 @@ Help Scout prices are per user per month as shown on the pricing page on ${PRICE
 |---|---|---|
 | Plans | ${h.facts.plans.text} | ${c.price} |
 | AI | ${h.facts.ai.text} | ${c.ai} |
-| API | ${h.facts.api?.text} | Same API on every install (OpenAPI contract in the repo) |
+| API | ${factText(h, 'api')} | Same API on every install (OpenAPI contract in the repo) |
 | Source code | ${h.facts.license.text} | ${c.source} |
 
 ### What five agents pay
@@ -54,7 +54,7 @@ Help Scout prices are per user per month as shown on the pricing page on ${PRICE
 
 ## Trust and pricing changes
 
-${h.facts.pricingChange?.text} We publish our pricing in the open and the code is ${OURS.license}: if we ever change course in a way you dislike, you can self-host the same software or fork it.
+${factText(h, 'pricingChange')} We publish our pricing in the open and the code is ${OURS.license}: if we ever change course in a way you dislike, you can self-host the same software or fork it.
 
 ## Leaving: what Help Scout gives you
 

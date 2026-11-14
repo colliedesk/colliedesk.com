@@ -30,6 +30,40 @@ test('fails numbers slipped into page text through a template slot, a cast or an
   assert.deepEqual(pageTextFindings(file, 'const FIVE = 5;\nconst body = `${FIVE} agents pay ${usd(FIVE * a.price)}`;\n'), []);
 });
 
+test('fails a price written as a number anywhere in page code, not only in text or a formatter', () => {
+  // Each shape kept a hand-typed price in the page while the gate stayed green.
+  const file = 'src/data/pages/vs-acme.ts';
+  const cases = [
+    ['const PRO = 66;\nconst body = `Pro is ${usd(PRO)} a seat.`;', '66'],
+    ['const SEATS = 5;\nconst body = `${usd(SEATS * a.price.pro)}`;', '5'],
+    ['const body = `${perSeat(66)}`;', '66'],
+    ['const body = `${(66).toString()}`;', '66'],
+    ["const body = `${66 + ''}`;", '66'],
+    ['const plan = { price: 66 };', '66'],
+    ['const FIVE = 66;', '66'],
+    ['const [FIVE, TEN] = [5, 66];', '66'],
+    ['const big = 66n;', '66n'],
+  ];
+  for (const [code, number] of cases) {
+    const findings = pageTextFindings(file, `${code}\n`);
+    assert.equal(findings.length, 1, `${code}: ${findings.join(' | ')}`);
+    assert.ok(findings[0].includes(`number ${number} in page code`), findings[0]);
+  }
+});
+
+test('allows 0, 1 and the named team sizes in page code', () => {
+  const file = 'src/data/pages/vs-acme.ts';
+  const page = [
+    'const FIVE = 5;',
+    'const [FOUR, SIX, TEN] = [4, 6, 10];',
+    'const MONTHS = 12;',
+    'const MILLION = 1_000_000;',
+    'const row = rows.at(-1);',
+    'const body = `${a.limits.free + 1} agents, ${usd(row?.usd ?? 0)}, ${a.records / MILLION}`;',
+  ].join('\n');
+  assert.deepEqual(pageTextFindings(file, `${page}\n`), []);
+});
+
 test('exempts path and updated only when they hold a URL path and an ISO date', () => {
   const file = 'src/data/pages/vs-acme.ts';
   assert.deepEqual(pageTextFindings(file, "const p = { path: '/vs/acme', updated: '2026-10-16' };\n"), []);
@@ -143,8 +177,9 @@ test('our own file is checked for feature keys and sources, not for a read date 
 });
 
 const PAGE = `import { acme as a } from '../competitors/acme';
+const FIVE = 5;
 const faq = [{ q: 'How much is Acme?', a: \`On \${a.readOnLabel}: \${a.facts.plans.text}.\` }];
-const page = { path: '/vs/acme', updated: '2026-10-16', title: 'Colliedesk vs Acme', body: \`Five agents pay \${usd(a.price.basic * 5)}.\` };
+const page = { path: '/vs/acme', updated: '2026-10-16', title: 'Colliedesk vs Acme', body: \`Five agents pay \${usd(a.price.basic * FIVE)}.\` };
 `;
 
 test('a page whose figures all come from data passes', () => {
@@ -154,16 +189,16 @@ test('a page whose figures all come from data passes', () => {
 test('fails a figure written into page text, in a string or a template', () => {
   const page = PAGE.replace('How much is Acme?', 'Is Acme $10 per agent?').replace('Five agents pay', 'Five agents pay 5 × $10 =');
   assert.deepEqual(pageTextFindings('src/data/pages/vs-acme.ts', page), [
-    'src/data/pages/vs-acme.ts:2: figure "Is Acme $10 per agent?" in page text; state it in the competitor data file',
-    'src/data/pages/vs-acme.ts:3: figure "Five agents pay 5 × $10 =" in page text; state it in the competitor data file',
+    'src/data/pages/vs-acme.ts:3: figure "Is Acme $10 per agent?" in page text; state it in the competitor data file',
+    'src/data/pages/vs-acme.ts:4: figure "Five agents pay 5 × $10 =" in page text; state it in the competitor data file',
   ]);
 });
 
 test('fails a price passed to a money formatter as a number in the page', () => {
   // A team size times a price from data is page arithmetic; a price made of numbers only is not.
-  const page = PAGE.replace('usd(a.price.basic * 5)', 'usd(10 * 5)');
+  const page = PAGE.replace('usd(a.price.basic * FIVE)', 'usd(10 * 5)');
   assert.deepEqual(pageTextFindings('src/data/pages/vs-acme.ts', page), [
-    'src/data/pages/vs-acme.ts:3: price "10 * 5" passed to usd() in page code; take it from the competitor data file',
+    'src/data/pages/vs-acme.ts:4: price "10 * 5" passed to usd() in page code; take it from the competitor data file',
   ]);
 });
 

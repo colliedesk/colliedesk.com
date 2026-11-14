@@ -1,6 +1,6 @@
 import { faqPage, techArticle } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
-import { readOnLabel, sourcesMd } from '../../lib/competitor';
+import { factText, readOnLabel, sourcesMd } from '../../lib/competitor';
 import { collieFacts as c, statusTable } from './collie-status';
 import { TEAM } from '../../lib/site';
 import { OURS } from '../competitors/colliedesk';
@@ -8,7 +8,7 @@ import { freescout as fs } from '../competitors/freescout';
 import { FOUNDING_ACTION, OUR_PLAN, OUR_PRICE, withFoundingLead } from '../../lib/cloud-price';
 
 const PRICES_READ = readOnLabel(fs.readOn);
-const fact = (key: string): string => fs.facts[key]?.text ?? '';
+const fact = (key: string): string => factText(fs, key);
 const licence = fs.facts.license.text;
 
 const faq: Faq[] = [

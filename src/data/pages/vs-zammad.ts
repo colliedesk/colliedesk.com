@@ -1,6 +1,6 @@
 import { faqPage, techArticle } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
-import { eur, readOnLabel, sourcesMd } from '../../lib/competitor';
+import { eur, factText, readOnLabel, sourcesMd } from '../../lib/competitor';
 import { collieFacts as c, statusTable } from './collie-status';
 import { AI_EXTRA, FOUNDING_AGENTS, TEAM } from '../../lib/site';
 import { OURS } from '../competitors/colliedesk';
@@ -11,7 +11,8 @@ const PRICES_READ = readOnLabel(z.readOn);
 const perAgentRange = `${eur(price.starter.low)}–${price.plus.high}`;
 const perCall = `${eur(price.aiCall)} per AI call`;
 const pro = price.professional;
-const fact = (key: string): string => z.facts[key]?.text ?? '';
+const fact = (key: string): string => factText(z, key);
+const [FIVE, TEN] = [5, 10];
 
 const faq: Faq[] = [
   {
@@ -48,7 +49,7 @@ Zammad hosted prices are in euros, per agent per month, excluding VAT, as publis
 
 | Team | Zammad Professional (hosted) | Colliedesk Cloud |
 |---|---|---|
-${[5, 10].map((n) => `| ${n} agents | ${n} × ${range(pro)} = **${eur(n * pro.low)}–${n * pro.high} per month** + ${perCall} | ${OUR_CELL} + ${AI_EXTRA} |`).join('\n')}
+${[FIVE, TEN].map((n) => `| ${n} agents | ${n} × ${range(pro)} = **${eur(n * pro.low)}–${n * pro.high} per month** + ${perCall} | ${OUR_CELL} + ${AI_EXTRA} |`).join('\n')}
 
 ## Moving from Freshdesk
 

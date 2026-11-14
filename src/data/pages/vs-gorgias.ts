@@ -1,6 +1,6 @@
 import { faqPage, techArticle } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
-import { andList, num, readOnLabel, sourcesMd, usd } from '../../lib/competitor';
+import { andList, factText, num, readOnLabel, sourcesMd, usd } from '../../lib/competitor';
 import { collieFacts as c, statusTable } from './collie-status';
 import { AI_EXTRA, dollars, SMALL, TEAM } from '../../lib/site';
 import { OURS } from '../competitors/colliedesk';
@@ -40,7 +40,7 @@ Gorgias prices are per month for the whole account, by tickets included, read on
 | Topic | Gorgias | Colliedesk |
 |---|---|---|
 | Plans (billed annually) | ${g.facts.plans.text} | ${c.price} |
-| Billed monthly | ${g.facts.monthly?.text} | ${FOUNDING_OPEN ? `Founding ${OURS.foundingPrice} for up to ${OURS.foundingAgents} agents; after the ${OURS.foundingPlaces} Founding places, ` : ''}Team ${dollars(TEAM.monthly)} per month for up to ${TEAM.agents} agents, or ${dollars(TEAM.yearly)} per year |
+| Billed monthly | ${factText(g, 'monthly')} | ${FOUNDING_OPEN ? `Founding ${OURS.foundingPrice} for up to ${OURS.foundingAgents} agents; after the ${OURS.foundingPlaces} Founding places, ` : ''}Team ${dollars(TEAM.monthly)} per month for up to ${TEAM.agents} agents, or ${dollars(TEAM.yearly)} per year |
 | AI | ${g.facts.ai.text} | ${c.ai} |
 | Free option | ${g.facts.free.text} | ${c.free} |
 | Source code | ${g.facts.license.text} | ${c.source} |
