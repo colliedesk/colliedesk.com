@@ -60,6 +60,14 @@ Business is the Chatwoot plan with automation rules and teams.
 
 ${statusTable}
 
+## Related comparisons
+
+- [Colliedesk vs Zammad](/vs/zammad)
+- [Colliedesk vs FreeScout](/vs/freescout)
+- [Colliedesk open source, license and self-hosting](/open-source)
+- [Freshdesk pricing history](/freshdesk-pricing-history)
+- [Every Colliedesk comparison](/compare)
+
 ## Sources
 
 Read on ${PRICES_READ}. Prices change; check the vendor page before you decide.

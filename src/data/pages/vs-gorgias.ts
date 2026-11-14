@@ -49,6 +49,13 @@ Gorgias prices are per month for the whole account, by tickets included, read on
 
 ${statusTable}
 
+## Related comparisons
+
+- [Colliedesk vs Zendesk](/vs/zendesk)
+- [Colliedesk vs Help Scout](/vs/help-scout)
+- [Colliedesk vs Front](/vs/front)
+- [Every Colliedesk comparison](/compare)
+
 ## Sources
 
 Read on ${PRICES_READ}. Prices change; check the vendor page before you decide.

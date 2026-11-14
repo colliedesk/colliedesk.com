@@ -48,6 +48,14 @@ const body = `## The short answer
 
 ${statusTable}
 
+## Related comparisons
+
+- [Colliedesk vs Zammad](/vs/zammad)
+- [Colliedesk vs Chatwoot](/vs/chatwoot)
+- [A self-hosted helpdesk with nothing held back](/self-hosted-helpdesk)
+- [Export your tickets from Freshdesk](/migrate/freshdesk/export)
+- [Every Colliedesk comparison](/compare)
+
 ## Sources
 
 Read on ${PRICES_READ}.

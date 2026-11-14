@@ -49,6 +49,13 @@ ${c.export}
 
 ${statusTable}
 
+## Related comparisons
+
+- [Colliedesk vs Help Scout](/vs/help-scout)
+- [Colliedesk vs Front](/vs/front)
+- [Colliedesk vs HappyFox](/vs/happyfox)
+- [Every Colliedesk comparison](/compare)
+
 ## Sources
 
 Read on ${PRICES_READ}. Prices change; check the vendor page before you decide.

@@ -61,6 +61,14 @@ Zammad is ahead here, and we say so.
 
 ${statusTable}
 
+## Related comparisons
+
+- [Colliedesk vs FreeScout](/vs/freescout)
+- [Colliedesk vs Chatwoot](/vs/chatwoot)
+- [Colliedesk open source, license and self-hosting](/open-source)
+- [Freshdesk pricing history](/freshdesk-pricing-history)
+- [Every Colliedesk comparison](/compare)
+
 ## Sources
 
 Read on ${PRICES_READ}. Prices change; check the vendor page before you decide.
