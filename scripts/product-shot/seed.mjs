@@ -9,9 +9,12 @@ import { collie, sql } from './stack.mjs';
 const AUTHSERV_ID = 'mx.shot.invalid'; // EMAIL_TRUSTED_AUTHSERV_ID in compose.yaml
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
 
-export async function seed(origin, now = new Date()) {
+// host runs the CLI and SQL: the local stack by default, or another server (staging) with its own
+// trusted authserv-id; mail that names no trusted authserv-id keeps its Authentication-Results unread.
+export async function seed(origin, now = new Date(), host = { collie, sql, authservId: AUTHSERV_ID }) {
   const { timeZone, conversations: times } = sceneTimes(now);
-  const link = collie('create-workspace', '--name', SCENE.workspace, '--admin-email', SCENE.admin.email);
+  const { collie: cli, authservId } = host;
+  const link = cli('create-workspace', '--name', SCENE.workspace, '--admin-email', SCENE.admin.email);
   const tom = rest(origin, await redeem(origin, tokenFromLink(link), 'bearer'));
   const slug = (await tom('GET', '/auth/me')).workspace.slug;
 
@@ -28,14 +31,14 @@ export async function seed(origin, now = new Date()) {
   for (const [index, conversation] of [...SCENE.conversations.entries()].reverse()) {
     const attachment = conversation.attachment
       ? { filename: conversation.attachment, contentType: 'image/png', data: demoPng(640, 400) } : undefined;
-    const raw = inboundEmail({ ...conversation, to: SCENE.supportAddress, date: times[index].times.incoming, authservId: AUTHSERV_ID, attachment });
+    const raw = inboundEmail({ ...conversation, to: SCENE.supportAddress, date: times[index].times.incoming, authservId, attachment });
     const result = await inbound(channel.inbound_url, channel.inbound_secret, raw);
     if (result.status !== 'created') throw new Error(`inbound mail was ${result.status}: ${result.reason}`);
     ids.set(index, { conversation: result.conversation_id, incoming: result.message_id });
   }
 
   // The agent (a token labelled "Claude Code" that follows Tom's Admin role) triages over MCP and drafts the reply.
-  const agent = mcp(origin, collie('token', 'create', '--workspace', slug, '--email', SCENE.admin.email, '--role', 'Admin', '--label', SCENE.tokenLabel));
+  const agent = mcp(origin, cli('token', 'create', '--workspace', slug, '--email', SCENE.admin.email, '--role', 'Admin', '--label', SCENE.tokenLabel));
   await agent('colliedesk_workspace_settings_update', { timezone: timeZone });
   let draft;
   for (const [index, conversation] of SCENE.conversations.entries()) {
@@ -54,7 +57,7 @@ export async function seed(origin, now = new Date()) {
   replied.draft = draft.id;
   replied.reply = await waitForSentReply(tom, replied.conversation);
 
-  retime(SCENE.conversations.map((_, index) => ({ ids: ids.get(index), times: times[index].times })));
+  retime(SCENE.conversations.map((_, index) => ({ ids: ids.get(index), times: times[index].times })), host.sql);
   return { slug, timeZone, selected: ids.get(0).conversation };
 }
 
@@ -71,7 +74,7 @@ async function waitForSentReply(tom, conversation) {
 
 // retime moves each step to its scene time. The product has no API to backdate messages (rightly), so
 // this is the one direct database write. Every id comes from an API answer and is checked as a UUID.
-function retime(rows) {
+function retime(rows, run) {
   const literal = (value) => {
     if (value instanceof Date) return `'${value.toISOString()}'::timestamptz`;
     if (!UUID.test(value)) throw new Error(`not a UUID: ${value}`);
@@ -100,5 +103,5 @@ function retime(rows) {
       );
     }
   }
-  sql(statements.join('\n'));
+  run(statements.join('\n'));
 }
