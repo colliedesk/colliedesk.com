@@ -83,11 +83,11 @@ Colliedesk's importer does the API route for you, from **Settings → Data → I
 - **Contacts** (matched by email), **companies** (as the contact's organization) and **agents** (matched by email to your Colliedesk agents).
 - **Time entries**, shown on the conversation timeline.
 - **Canned responses**, as shared saved replies.
-- **The knowledge base**: categories, folders and articles. While your Colliedesk help center is on, old Freshdesk help center addresses lead to the imported articles.
+- **The knowledge base**: categories, folders and articles. While your Colliedesk help center is on, old Freshdesk help center paths (\`/support/solutions/...\`) work on its address and on your custom domain once it points at Colliedesk. Published articles open directly.
 
 ## What the import leaves out
 
-The importer does not bring everything. Each report ends with this list, under **Not imported by design**:
+The importer does not bring everything. Each report ends with the full list, under **Not imported by design**. The main items:
 
 - Custom ticket fields and custom contact fields.
 - A ticket's group, product, watchers, and parent/child and merge links.
@@ -106,11 +106,11 @@ Every import ends with a reconcile report, as Markdown for people and JSON for t
 
 - **OK**: every count matches and the totals were verified.
 - **FAILED**: something is missing. A table lists each missing item with its Freshdesk id and ticket id.
-- **UNVERIFIED**: nothing failed, but completeness could not be proven. This happens, for example, when your Freshdesk plan does not let the importer read archived tickets.
+- **UNVERIFIED**: nothing failed, but completeness could not be proven. This happens, for example, when Freshdesk refuses the importer access to archived tickets.
 
 The report has a **Counts** table with three numbers for each kind of data: in Freshdesk, in Colliedesk and failed. It covers contacts, tickets, messages, attachments, inline images, time entries, saved replies and the knowledge base. It also gives the attachment bytes in Freshdesk and in storage, and how many files had their SHA-256 checksum read again from storage.
 
-Freshdesk's ticket list leaves out archived, trashed and spam tickets. So the importer also checks every ticket number from 1, and the report says how each total was verified. Do not close the Freshdesk account until the last report says **OK**. The [import guide](/docs/import-freshdesk) has the command, the flags and every section of the report.
+Freshdesk's ticket list leaves out trashed and spam tickets by default, and archived tickets come from a separate endpoint. So the importer also checks every ticket number from 1, and the report says how each total was verified. Do not close the Freshdesk account until the last report says **OK**. The [import guide](/docs/import-freshdesk) has the command, the flags and every section of the report.
 
 Founding customers get the migration done for them, free. The full exit plan is in [Migrate from Freshdesk](/migrate/freshdesk).
 
