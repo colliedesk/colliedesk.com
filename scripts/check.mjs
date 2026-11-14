@@ -871,6 +871,34 @@ if (accentUses > ACCENT_BUDGET) fail(`styles.css uses var(--accent…) ${accentU
   }
 }
 
+// The home page shows the product in a silent demo video, so a visitor sees it without signing up. It is a
+// plain <video> (the build allows no client JavaScript): controls, no autoplay, nothing downloaded before
+// Play but the poster, a size that keeps the layout still, and every file it names built and small.
+{
+  const VIDEO_MAX_BYTES = 6 * 1024 * 1024;
+  const home = read('index.html') ?? '';
+  const figure = home.match(/<figure class="hero-video">[\s\S]*?<\/figure>/)?.[0] ?? '';
+  const video = figure.match(/<video\b[^>]*>/)?.[0] ?? '';
+  if (!video) fail('/: the home page has no demo <video> in <figure class="hero-video">');
+  else {
+    for (const attr of ['controls', 'muted', 'playsinline']) if (!new RegExp(`\\s${attr}(?=[\\s>=])`).test(video)) fail(`/: demo video lacks ${attr}`);
+    if (/\sautoplay[\s>=]/.test(video)) fail('/: demo video must not autoplay');
+    if (!/preload="none"/.test(video)) fail('/: demo video must have preload="none" so only the poster loads before Play');
+    if (!/\swidth="\d+"/.test(video) || !/\sheight="\d+"/.test(video)) fail('/: demo video needs width and height so the page does not shift');
+    if (!/aria-label="[^"]{20,}"/.test(video)) fail('/: demo video needs an aria-label that says what it shows');
+    if (!/<figcaption>[^<]{20,}/.test(figure)) fail('/: demo video needs a visible caption');
+    const sources = [...figure.matchAll(/<source\b[^>]*\ssrc="([^"]+)"[^>]*\stype="video\/(mp4|webm)"/g)];
+    for (const type of ['mp4', 'webm']) if (!sources.some((m) => m[2] === type)) fail(`/: demo video has no ${type} source`);
+    const files = [...sources.map((m) => m[1]), video.match(/poster="([^"]+)"/)?.[1]];
+    if (!files.every(Boolean)) fail('/: demo video has no poster');
+    for (const url of files.filter(Boolean)) {
+      const file = join(outDir, url);
+      if (!existsSync(file)) fail(`/: demo video file ${url} is not built`);
+      else if (statSync(file).size > VIDEO_MAX_BYTES) fail(`/: demo video file ${url} is ${statSync(file).size} bytes > ${VIDEO_MAX_BYTES}`);
+    }
+  }
+}
+
 // Browsers keep a favicon per URL for days and ignore Cache-Control, so a new icon file is only
 // seen when its URL changes. Every icon link must carry ?v=<hash of the file it points to>.
 for (const file of [...pages, join(outDir, '404.html')].filter(existsSync)) {

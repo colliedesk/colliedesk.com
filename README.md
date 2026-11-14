@@ -103,6 +103,7 @@ repo checks contrast for every pair and fails when a grey, a text token or the p
   (`product-inbox-<width>.avif|webp`, `product-inbox-mobile-<width>.avif|webp`, `src/lib/hero-image.ts`), scaled by
   `node scripts/product-shot/variants.mjs` (ffmpeg); `pnpm check` fails if a size the hero names is missing. Retake the
   screenshot with `pnpm shot:product` once those screens ship (see below).
+- Demo video: the home page shows a silent 64 s screen recording of the real app (staging, workspace "Northwind Outdoor", made-up customers) under the hero picture: `public/home-demo.mp4` (H.264), `public/home-demo.webm` (VP9) and `public/home-demo-poster.jpg`, 1280 px wide, no audio track, each under 1 MB. It is a plain `<video controls muted playsinline preload="none">` (`src/lib/home-demo.ts`, `Home.astro`); `pnpm check` fails if the controls, the poster, the sizes or a built file are missing, or a file is over 6 MB. Re-record it when the screens change: record the app window with `tooling/scripts/browser-walkthrough.py`, crop off the browser bar, and encode with ffmpeg (`-an`, `libx264 -crf 27`, `libvpx-vp9 -crf 36`).
 - Light is the default; the footer **Dark theme** button sets `data-theme="dark"` and saves it in
   `localStorage` for this site only (`public/theme.js`). Spacing is a 4 px grid (`--space-*`); buttons
   are at least 44 px tall on touch (`--touch`).
