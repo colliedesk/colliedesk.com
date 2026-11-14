@@ -57,9 +57,9 @@ const page: Page = {
   path: '/freshdesk-alternative',
   updated: '2026-10-16',
   section: 'Compare',
-  title: 'Freshdesk alternatives in 2026: 12 helpdesks compared by price and import',
+  title: '12 Freshdesk alternatives in 2026, by price and import',
   description:
-    'Freshdesk alternatives compared: open-source (Colliedesk, Zammad, Chatwoot, FreeScout) and SaaS (Zendesk, Help Scout, Front, Zoho Desk, HappyFox, Gorgias, HubSpot, Groove). Prices for 5 agents and Freshdesk import, with sources.',
+    'Freshdesk alternatives: 4 open-source (Colliedesk, Zammad, Chatwoot, FreeScout) and 8 SaaS helpdesks, with the price for 5 agents and Freshdesk import.',
   summary: 'Freshdesk alternatives compared: 4 open-source and 8 SaaS helpdesks, 5-agent price, pricing model and Freshdesk import; how to choose',
   eyebrow: 'Compare · Freshdesk alternatives',
   h1: 'Freshdesk alternatives, compared honestly',

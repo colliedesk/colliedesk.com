@@ -73,9 +73,9 @@ const page: Page = {
   jsonLd: [],
   path: '/vs/zendesk',
   section: 'Compare',
-  title: 'Colliedesk vs Zendesk: a flat-priced, open-source Zendesk alternative',
+  title: 'Colliedesk vs Zendesk: flat-priced, open-source alternative',
   description:
-    'Colliedesk vs Zendesk for small support teams: per-agent seats and per-resolution AI fees vs one flat workspace price. Sourced prices, export limits and honest status.',
+    'Colliedesk vs Zendesk for small support teams: per-agent seats and per-resolution AI fees vs one flat workspace price. Sourced prices and export limits.',
   summary: `Zendesk per-agent seats, €50 Copilot and per-resolution AI vs Colliedesk ${OUR_PLAN} at a flat ${OUR_PRICE} per workspace; export off by default`,
   eyebrow: 'Compare · Zendesk alternative',
   h1: 'Colliedesk vs Zendesk',

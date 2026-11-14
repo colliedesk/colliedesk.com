@@ -74,9 +74,9 @@ const page: Page = {
   jsonLd: [],
   path: '/vs/help-scout',
   section: 'Compare',
-  title: 'Colliedesk vs Help Scout: open-source, flat-priced Help Scout alternative',
+  title: 'Colliedesk vs Help Scout: open source, one flat price',
   description:
-    'Colliedesk vs Help Scout: per-user plans and $0.75 AI resolutions vs one flat workspace price, plus what Help Scout lets you export. Prices read 14 October 2026.',
+    'Colliedesk vs Help Scout: per-user plans and $0.75 AI resolutions vs one flat workspace price, and what Help Scout lets you export. Prices read 14 October 2026.',
   summary: `Help Scout $25–75 per user and $0.75 per AI resolution vs Colliedesk ${OUR_PLAN} at a flat ${OUR_PRICE} per workspace; no bulk export in Help Scout`,
   eyebrow: 'Compare · Help Scout alternative',
   h1: 'Colliedesk vs Help Scout',

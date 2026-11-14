@@ -74,7 +74,7 @@ const page: Page = {
   path: '/vs/chatwoot',
   updated: '2026-10-16',
   section: 'Compare',
-  title: 'Colliedesk vs Chatwoot: email helpdesk with flat pricing vs omnichannel inbox',
+  title: 'Colliedesk vs Chatwoot: email helpdesk vs omnichannel inbox',
   description:
     `Chatwoot costs $19–99 per agent; Colliedesk ${OUR_PLAN} is a flat ${OUR_PRICE} for up to 10 agents. What each Freshdesk importer brings over, with sources.`,
   summary: `Chatwoot $19–99 per agent, Freshdesk import without attachments on paid plans vs Colliedesk ${OUR_PLAN} at a flat ${OUR_PRICE}, importer with attachments and reconcile report (available now)`,
