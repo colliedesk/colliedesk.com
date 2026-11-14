@@ -75,6 +75,11 @@ function fakeFetch(pages) {
   return { fetch, calls };
 }
 
+/** A pull request the workflow opened, as gh pr list --json body,author,headRefName,isCrossRepository gives it. */
+const watchPr = (body) => ({
+  body, author: { login: 'app/github-actions', is_bot: true }, headRefName: 'competitor-watch/acme-pricing-2026-11-15', isCrossRepository: false,
+});
+
 const stateWith = (html) => {
   const text = normalizeText(html);
   return { version: 1, sources: { [PRICING_URL]: { hash: hashText(text), text, checkedOn: '2026-11-14', changedOn: '2026-11-01' } } };
@@ -175,9 +180,9 @@ test('a URL two competitor files share is fetched once', async () => {
 
 test('reads the markers of earlier watch pull requests from their bodies, open or closed', () => {
   const prs = [
-    { body: 'evidence\n\n<!-- competitor-watch:acme:pricing:0123456789ab -->' },
-    { body: 'a person wrote this one' },
-    { body: null },
+    watchPr('evidence\n\n<!-- competitor-watch:acme:pricing:0123456789ab -->'),
+    watchPr('a person wrote this one'),
+    watchPr(null),
   ];
   assert.deepEqual([...markersFrom(prs)], ['<!-- competitor-watch:acme:pricing:0123456789ab -->']);
 });
@@ -207,6 +212,78 @@ test('page text quoted in a pull request cannot mention a GitHub user or forge a
   const pr = run.proposals[0];
   for (const text of [pr.body, pr.files[0].content]) {
     assert.ok(!/@octocat/.test(text), text);
-    assert.deepEqual([...markersFrom([{ body: text }])], text === pr.body ? [pr.marker] : []);
+    assert.deepEqual([...markersFrom([watchPr(text)])], text === pr.body ? [pr.marker] : []);
+  }
+});
+
+test('trusts markers only from watch pull requests the workflow opened, not from anyone else', () => {
+  // The repo is public: anyone can open a pull request, from a fork or a branch, whose body carries a
+  // marker for a change they want the watch to swallow.
+  const marker = (h) => `<!-- competitor-watch:acme:pricing:${h} -->`;
+  const prs = [
+    watchPr(`evidence\n\n${marker('0123456789ab')}`),
+    { ...watchPr(marker('111111111111')), author: { login: 'mallory', is_bot: false } },
+    { ...watchPr(marker('222222222222')), headRefName: 'feature/x' },
+    { ...watchPr(marker('333333333333')), isCrossRepository: true },
+    { ...watchPr(marker('444444444444')), author: null },
+  ];
+  assert.deepEqual([...markersFrom(prs)], [marker('0123456789ab')]);
+});
+
+const CHALLENGE = `<!doctype html><html><head><title>Just a moment...</title></head><body>
+<div><h1>acme.example</h1><p>Just a moment...</p><p>Enable JavaScript and cookies to continue</p>
+<p>Ray ID: 8c2f1a3b4d5e6f70 · Performance &amp; security by Cloudflare</p></div></body></html>`;
+
+test('a bot challenge page served with HTTP 200 is unreachable: no proposal, the stored text kept', async () => {
+  const state = stateWith(BEFORE);
+  const run = await watchCompetitors([acme], { fetch: fakeFetch({ [PRICING_URL]: CHALLENGE }).fetch, state, today: TODAY });
+  assert.equal(run.results[0].status, 'unreachable');
+  assert.match(run.results[0].error, /challenge/);
+  assert.deepEqual(run.proposals, []);
+  assert.deepEqual(run.state.sources[PRICING_URL], state.sources[PRICING_URL]);
+  // Read first, it must not become the baseline either: the real page the next day would look new.
+  const first = await watchCompetitors([acme], { fetch: fakeFetch({ [PRICING_URL]: CHALLENGE }).fetch, state: { version: 1, sources: {} }, today: TODAY });
+  assert.equal(first.results[0].status, 'unreachable');
+  assert.deepEqual(first.state.sources, {});
+});
+
+test('a page whose text collapsed to a fraction of what was read last time is unreachable, not a change', async () => {
+  const filler = '<p>Every plan includes email, chat and reports for your whole team.</p>\n'.repeat(20);
+  const long = BEFORE.replace('<p>Start a', `${filler}<p>Start a`);
+  const state = stateWith(long);
+  const stub = '<html><body><p>Sorry, something went wrong. Please try again later.</p></body></html>';
+  const run = await watchCompetitors([acme], { fetch: fakeFetch({ [PRICING_URL]: stub }).fetch, state, today: TODAY });
+  assert.equal(run.results[0].status, 'unreachable');
+  assert.match(run.results[0].error, /text shrank/);
+  assert.deepEqual(run.proposals, []);
+  assert.deepEqual(run.state.sources[PRICING_URL], state.sources[PRICING_URL]);
+});
+
+test('a page that does not answer in time is unreachable, so one slow host cannot stall the run', async () => {
+  const seen = [];
+  // Answers only when aborted, like a host that accepts the connection and never sends headers.
+  const hang = (url, options) => {
+    seen.push(options?.signal);
+    return new Promise((resolve, reject) => options?.signal?.addEventListener('abort', () => reject(options.signal.reason)));
+  };
+  const state = stateWith(BEFORE);
+  const run = await watchCompetitors([acme], { fetch: hang, state, today: TODAY, timeoutMs: 20 });
+  assert.ok(seen[0] instanceof AbortSignal, 'fetch got no signal');
+  assert.equal(run.results[0].status, 'unreachable');
+  assert.match(run.results[0].error, /TimeoutError/);
+  assert.deepEqual(run.state.sources[PRICING_URL], state.sources[PRICING_URL]);
+});
+
+test('page text quoted in a pull request cannot link, embed an image or reference an issue', async () => {
+  const hostile = fixture('pricing-after-price.html').replace('Start a 14-day',
+    '![x](https://evil.test/p.png) [Merge now](https://evil.test/go) see #1, GH-2 and colliedesk/colliedesk#3 at www.evil.test. Start a 14-day');
+  const run = await watchCompetitors([acme], { fetch: fakeFetch({ [PRICING_URL]: hostile }).fetch, state: stateWith(BEFORE), today: TODAY });
+  const pr = run.proposals[0];
+  for (const text of [pr.body, pr.files[0].content]) {
+    const quoted = text.split('\n').filter((l) => l.startsWith('>')).join('\n');
+    assert.ok(quoted.includes('Merge now'), quoted);
+    assert.ok(!/\]\(|(^|[^\\])\[/.test(quoted), `a Markdown link or image survives:\n${quoted}`);
+    assert.ok(!/https?:\/\/evil|www\.evil/.test(quoted), `a bare link survives:\n${quoted}`);
+    assert.ok(!/#\d|GH-\d/.test(quoted), `an issue reference survives:\n${quoted}`);
   }
 });

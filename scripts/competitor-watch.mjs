@@ -4,8 +4,9 @@
 //   - a figure our file cites from that source is gone from the page, or a price appeared → changed:
 //     prepare a correction pull request with the evidence (URL, quote, what our file says);
 //   - anything else (copy, layout, a nonce) → cosmetic: remember the new text, raise nothing.
-// A page read for the first time is a baseline. An unreachable page, or one with no text in its HTML
-// (rendered in the browser), keeps the text read last time. Each result lists the figures our file
+// A page read for the first time is a baseline. An unreachable page (an error, no answer within
+// TIMEOUT_MS, a bot challenge served with HTTP 200, or text that collapsed to a fraction of the last
+// read), or one with no text in its HTML (rendered in the browser), keeps the text read last time. Each result lists the figures our file
 // cites that the page text does not show (unseen): the watch cannot see those change.
 // The pull request carries an evidence file only: a person edits the data file and its read date,
 // so the watch never changes a figure, and never touches Colliedesk's own side, by itself.
@@ -17,6 +18,11 @@ const BLOCK = /<\/?(p|div|section|article|header|footer|main|nav|aside|h[1-6]|li
 const ENTITIES = { amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", nbsp: ' ', euro: '€', pound: '£', ndash: '–', mdash: '—' };
 const MAX_LINES = 8;
 const MAX_QUOTE = 300;
+export const TIMEOUT_MS = 20_000;
+// Interstitials a bot wall serves with HTTP 200 instead of the page (Cloudflare, Akamai, Imperva, ...).
+const CHALLENGE = /just a moment|enable javascript and cookies|checking (?:if the site connection is secure|your browser)|verify (?:that )?you are (?:a )?human|attention required|are you a robot|pardon our interruption|request unsuccessful|access denied|captcha/i;
+// A page whose text is less than this share of the text read last time is not the same page.
+const MIN_TEXT_SHARE = 0.25;
 
 const decode = (s) => s.replace(/&(#x[0-9a-f]+|#\d+|[a-z]+);/gi, (m, e) =>
   e[0] === '#' ? String.fromCodePoint(e[1].toLowerCase() === 'x' ? parseInt(e.slice(2), 16) : Number(e.slice(1))) : ENTITIES[e.toLowerCase()] ?? m);
@@ -31,8 +37,16 @@ export const hashText = (text) => createHash('sha256').update(text).digest('hex'
 
 const MARKER = /<!-- competitor-watch:[a-z0-9-]+:[A-Za-z0-9_-]+:[0-9a-f]{12} -->/g;
 
-/** Markers of earlier watch pull requests ({ body } each, open or closed): a change is raised once. */
-export const markersFrom = (prs) => new Set(prs.flatMap((pr) => pr.body?.match(MARKER) ?? []));
+// Only pull requests the workflow opened count: the repo is public, and a marker in anyone else's pull
+// request (a fork, another branch) would make the watch skip a real change.
+const fromWatch = (pr) => pr.author?.login === 'app/github-actions' && pr.isCrossRepository === false
+  && typeof pr.headRefName === 'string' && pr.headRefName.startsWith('competitor-watch/');
+
+/**
+ * Markers of earlier watch pull requests, open or closed, so a change is raised once. Each pull request
+ * is { body, author, headRefName, isCrossRepository } as gh pr list --json gives it.
+ */
+export const markersFrom = (prs) => new Set(prs.filter(fromWatch).flatMap((pr) => pr.body?.match(MARKER) ?? []));
 
 /** "30,000" and "2.00" compare as 30000 and 2. */
 const figure = (raw) => String(Number(raw.replace(/,/g, '')));
@@ -48,14 +62,25 @@ export function citing(c, key) {
   return lines;
 }
 
-async function read(fetch, url) {
+async function read(fetch, url, timeoutMs) {
   try {
-    const res = await fetch(url, { redirect: 'follow', headers: { 'user-agent': 'colliedesk-competitor-watch (+https://colliedesk.com)' } });
+    const res = await fetch(url, { redirect: 'follow', signal: AbortSignal.timeout(timeoutMs), headers: { 'user-agent': 'colliedesk-competitor-watch (+https://colliedesk.com)' } });
     if (!res.ok) return { error: `HTTP ${res.status}` };
     return { text: normalizeText(await res.text()) };
   } catch (err) {
     return { error: `${err.name}: ${err.cause?.message ?? err.message}` };
   }
+}
+
+/** Why a page answered with HTTP 200 but is not the page we read before, or undefined when it is. */
+function notThePage(text, previous, cited) {
+  const shown = figures(text);
+  const citesNone = ![...figures(cited.join('\n'))].some((f) => shown.has(f));
+  if (citesNone && CHALLENGE.test(text)) return 'a bot challenge page instead of the page (HTTP 200)';
+  if (previous?.text && text.length < previous.text.length * MIN_TEXT_SHARE) {
+    return `text shrank from ${previous.text.length} to ${text.length} characters; not the page read last time`;
+  }
+  return undefined;
 }
 
 /** What changed between two texts of one page, for the figures our file cites from it. */
@@ -75,8 +100,18 @@ function compare(before, after, cited) {
   };
 }
 
-// Page text is untrusted: "@name" would notify a GitHub user and "<!--" could forge a watch marker.
-const inert = (l) => l.replace(/</g, '&lt;').replace(/@/g, '@\u200b');
+// Page text is untrusted: "@name" would notify a GitHub user, "<!--" could forge a watch marker,
+// [text](url) and ![](url) would render a link or an image, a bare URL would autolink, and #12 or GH-12
+// would reference an issue of this public repo. A zero-width space or a backslash keeps each one text.
+const inert = (l) => l
+  .replace(/\\/g, '\\\\')
+  .replace(/[[\]()]/g, '\\$&')
+  .replace(/</g, '&lt;')
+  .replace(/@/g, '@\u200b')
+  .replace(/:\/\//g, ':\u200b//')
+  .replace(/\bwww\./gi, (m) => `${m.slice(0, 3)}\u200b.`)
+  .replace(/#(?=\d)/g, '#\u200b')
+  .replace(/\bGH-(?=\d)/gi, (m) => `${m.slice(0, 2)}\u200b-`);
 const quote = (lines) => lines.slice(0, MAX_LINES).map((l) => `> ${inert(l.length > MAX_QUOTE ? `${l.slice(0, MAX_QUOTE)}…` : l)}`).join('\n>\n') || '> (nothing)';
 const codes = (list) => list.map((f) => `\`${f}\``).join(', ') || 'none';
 
@@ -131,7 +166,7 @@ export function proposalFor(c, result, day) {
  * Returns { results, proposals, state }; the given state is not modified.
  * knownMarkers: markers of pull requests already opened, open or closed, so a change is raised once.
  */
-export async function watchCompetitors(competitors, { fetch, state, today, knownMarkers = new Set() }) {
+export async function watchCompetitors(competitors, { fetch, state, today, knownMarkers = new Set(), timeoutMs = TIMEOUT_MS }) {
   const day = today.toISOString().slice(0, 10);
   const sources = { ...(state?.sources ?? {}) };
   const reads = new Map();
@@ -141,7 +176,7 @@ export async function watchCompetitors(competitors, { fetch, state, today, known
     for (const [key, source] of Object.entries(c.sources)) {
       const { url } = source;
       const previous = state?.sources?.[url];
-      if (!reads.has(url)) reads.set(url, read(fetch, url));
+      if (!reads.has(url)) reads.set(url, read(fetch, url, timeoutMs));
       const page = await reads.get(url);
       const base = { slug: c.slug, source: key, url };
       if (page.error) {
@@ -152,8 +187,13 @@ export async function watchCompetitors(competitors, { fetch, state, today, known
         results.push({ ...base, status: 'no-text' });
         continue;
       }
-      const hash = hashText(page.text);
       const cited = citing(c, key);
+      const blocked = notThePage(page.text, previous, cited);
+      if (blocked) {
+        results.push({ ...base, status: 'unreachable', error: blocked });
+        continue;
+      }
+      const hash = hashText(page.text);
       const shown = figures(page.text);
       // Figures we cite that this page's text does not show: the watch cannot see them change.
       const unseen = [...figures(cited.join('\n'))].filter((f) => !shown.has(f));

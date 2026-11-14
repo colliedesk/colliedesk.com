@@ -31,9 +31,11 @@ const gh = (...args) => execFileSync(ghBin, args, { encoding: 'utf8', stdio: ['i
 
 const { COMPETITORS } = await import(pathToFileURL(join(process.cwd(), 'src/data/competitors/index.ts')).href);
 const state = existsSync(opts.state) ? JSON.parse(readFileSync(opts.state, 'utf8')) : { version: 1, sources: {} };
-// Closed pull requests count too: a change a person closed as not mattering is not raised again.
+// Closed pull requests count too: a change a person closed as not mattering is not raised again. Only
+// the workflow's own pull requests are asked for; markersFrom drops any other that slips through.
 const knownMarkers = opts['open-prs']
-  ? markersFrom(JSON.parse(gh('pr', 'list', '-R', repo, '--state', 'all', '--limit', '1000', '--json', 'body')))
+  ? markersFrom(JSON.parse(gh('pr', 'list', '-R', repo, '--state', 'all', '--author', 'app/github-actions', '--limit', '1000',
+    '--json', 'body,author,headRefName,isCrossRepository')))
   : new Set();
 
 const run = await watchCompetitors(COMPETITORS, { fetch: globalThis.fetch, state, today: new Date(), knownMarkers });
