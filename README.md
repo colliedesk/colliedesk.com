@@ -54,6 +54,34 @@ to use another checkout. `typecheck` works without it.
   is not in the file, a read date older than 90 days, and a `/vs` page module that writes a figure
   (any digit) into its own text instead of taking it from data. On the 15-minute scheduled run an old read
   date only warns, so it cannot stop founding-state and docs deploys; pull requests and pushes still fail.
+- **Competitor watch** (`.github/workflows/competitor-watch.yml`, `scripts/competitor-watch.mjs`): once a
+  day it reads every source URL in the competitor files and keeps a hash of each page's visible text. Most
+  days nothing changed and it stops there. When a page drops a figure its competitor file cites from it, or
+  shows a price it did not show before, it opens a draft pull request with the evidence: the URL, the
+  lines that changed, and what our file says. Other changes are remembered and not raised; a change raised
+  once is not raised again, even after its pull request is closed. The pull request holds an evidence file
+  in `docs/competitor-watch/` only: a person edits the competitor file and its read date, then merges or
+  closes it. A pull request the watch opens does not start CI until a person pushes to it. The run also
+  lists the figures each page does not show in its HTML (prices behind a script, a page rendered in the
+  browser): the watch cannot see those change, so read them by hand when the read date comes due.
+  It is free (plain HTTP GETs on a public-repo runner) and **off** until the owner turns it on:
+
+  1. Let GitHub Actions open pull requests in this repository (one time):
+
+     ```
+     gh api -X PUT repos/colliedesk/colliedesk.com/actions/permissions/workflow -f default_workflow_permissions=read -F can_approve_pull_request_reviews=true
+     ```
+
+  2. Turn on the daily run (the switch; `off` or deleting the variable turns it off):
+
+     ```
+     gh variable set COMPETITOR_WATCH --body on -R colliedesk/colliedesk.com
+     ```
+
+  The first run after that records a baseline and opens nothing. To see what it would do first, run
+  `gh workflow run "Competitor watch" -R colliedesk/colliedesk.com` (a dry run: it prints the result
+  in the run summary and saves nothing), or locally `node scripts/competitor-watch-run.mjs` (Node 24, or
+  22.18 and later), which writes the prepared pull requests under `.competitor-watch/proposals/`.
 - While Founding is open it leads, and Team 25 is on sale beside it, on /pricing and the home page, for teams of 11 to 25
   agents (`TEAM_25_*` in `src/lib/site.ts`). Business (26 to 100 agents, $499 a month) is sold through a call with the founder in
   both states, never a checkout, with the switch and invoice offers for Team 25 and Business (`SWITCH_*` in `src/lib/site.ts`);

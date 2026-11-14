@@ -45,7 +45,9 @@ sign-up, plus AI-assistant visits by referrer or `utm_source`. Founding purchase
 3. `run_site_audit` monthly: open issues for crawl, speed or markup errors.
 4. `KNOWN_DEBT` in `scripts/content-qa.mjs` has one open `seo:improve` issue per rule, listing its pages.
 5. A competitor changed a price, or a source in `src/data/competitors/` was read more than 90 days ago
-   (`pnpm check` fails then) → read it again and update that one file.
+   (`pnpm check` fails then) → read it again and update that one file. Once it is on, the competitor
+   watch opens a draft pull request with the evidence when a source page changes a figure we cite
+   (README, "Competitor watch"); the person reviewing it makes this edit.
 
 ## 4. Patterns: every quarter (January, April, July, October)
 
