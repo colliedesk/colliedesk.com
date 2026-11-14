@@ -76,7 +76,7 @@ From Freshdesk's API documentation, read on ${PRICES_READ}:
 
 ## 4. Run the import
 
-The importer reads your Freshdesk account through its API with an API key from your Freshdesk profile. It moves tickets (including archived ones), replies, private notes, attachments, tags, contacts, companies and time entries into one Colliedesk workspace. The command and flags are in the [import guide](/docs/import-freshdesk).
+The importer reads your Freshdesk account through its API with an API key from your Freshdesk profile. It moves tickets (including archived ones), replies, private notes, attachments, tags, contacts, companies and time entries into one Colliedesk workspace, with your canned responses and knowledge base. Custom fields and some other data stay behind: see [what the import leaves out](/migrate/freshdesk/export#what-the-import-leaves-out). The command and flags are in the [import guide](/docs/import-freshdesk).
 
 ## 5. Check the reconcile report
 
