@@ -13,7 +13,7 @@ const faq: Faq[] = [
   },
   {
     q: 'Can I export Freshdesk attachments?',
-    a: 'Not from the ticket list export. The account export and the API give download links for attachments. The links are temporary, so download the files soon after the export finishes and check that each file opened.',
+    a: 'Not from the ticket list export. The API returns a download link for each attachment on a ticket or reply, so a tool can download every file and check that it opens. Freshdesk\'s help articles on the account export do not say whether it includes attachment files, so check yours before you cancel.',
   },
   {
     q: 'Can I export Freshdesk tickets on the free plan?',
@@ -28,7 +28,7 @@ const body = `There are three ways to get your tickets out of Freshdesk. They do
 | Ticket fields (subject, status, priority, dates) | Yes, fields you choose | Yes | Yes |
 | Replies and private notes | No | Yes | Yes, extra call per ticket |
 | Archived tickets | No | Yes | Separate endpoint |
-| Attachments | No | Temporary download links | Temporary download links |
+| Attachments | No | Not documented by Freshdesk | Temporary download links |
 | Contacts and companies | No | Yes | Yes |
 | Who can run it | Admin or Supervisor | Account admin | API key with access to the tickets |
 | Good for | A spreadsheet or a report | A full backup | A migration you can check |
@@ -52,10 +52,10 @@ Use this before you cancel, even if you migrate with a tool.
 
 1. Sign in with an account admin.
 2. Go to **Admin > Account > Account Details**.
-3. Hover over **Export data**, then select **Export**.
-4. Wait for the email, then download the zip file. It has one XML file per kind of record: tickets with their conversations, contacts, companies and more.
-5. Download the attachments from the links in the export **the same day**. The links expire.
-6. Open a few tickets in the XML and compare them with Freshdesk before you trust the backup.
+3. Under **Export data**, select the **Export** button.
+4. Wait for the email to the account administrator, then download the XML file. You can also download it later from **Admin > Account exports**.
+5. If the file does not open, extract it with an archive tool such as WinRAR or WinZip, then open it in an XML editor.
+6. Open a few tickets in the XML and compare them with Freshdesk before you trust the backup. Check that your attachments are there too.
 
 XML is a backup format, not something another helpdesk imports directly. To move to a new helpdesk you still need an importer.
 
@@ -78,7 +78,7 @@ Founding customers get the migration done for them, free. The full exit plan is 
 ## Sources
 
 - Ticket export: [support.freshdesk.com article 225158](https://support.freshdesk.com/support/solutions/articles/225158)
-- Account export (XML): [support.freshdesk.com article 237405](https://support.freshdesk.com/support/solutions/articles/237405)
+- Account export (XML): [support.freshdesk.com article 237405](https://support.freshdesk.com/support/solutions/articles/237405), [article 225487](https://support.freshdesk.com/support/solutions/articles/225487) and [article 225488](https://support.freshdesk.com/support/solutions/articles/225488)
 - API: [developers.freshdesk.com/api](https://developers.freshdesk.com/api/)`;
 
 const page: Page = {

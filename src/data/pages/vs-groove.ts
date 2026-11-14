@@ -11,7 +11,7 @@ const faq: Faq[] = [
   },
   {
     q: 'How does Helply charge?',
-    a: 'By plan, each with a cap on human agents and a monthly block of AI credits. Plans start at $99 per month billed yearly (Starter: up to 2 agents and 2,500 credits); paying yearly saves 15%. Summarizing a conversation uses 1 credit, drafting a reply 2, and resolving a conversation end to end 10.',
+    a: 'By plan. Each plan includes a number of human agents and a monthly block of AI credits. Plans start at $99 per month billed yearly (Starter: up to 2 agents and 2,500 credits). From Team up you can add agents at $49 a month each on annual billing, and paying yearly saves 15%. Summarizing a conversation uses 1 credit, drafting a reply 2, and resolving a conversation end to end 10.',
   },
   {
     q: 'How do I export my Groove conversations?',
