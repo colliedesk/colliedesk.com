@@ -9,6 +9,7 @@ import { FOUNDING_ACTION, OUR_CELL, OUR_PLAN, OUR_PRICE, foundingFirst, withFoun
 
 const PRICES_READ = readOnLabel(z.readOn);
 const [FOUR, FIVE, SIX, TEN] = [4, 5, 6, 10];
+const MILLION = 1_000_000;
 const perUserRange = `${eur(price.express)}–${price.enterprise}`;
 
 const faq: Faq[] = [
@@ -22,7 +23,7 @@ const faq: Faq[] = [
   },
   {
     q: 'Can I export everything from Zoho Desk?',
-    a: `Zoho Desk backups are a ZIP of CSV files per module, up to ${backup.records / 1_000_000} million records, created and downloaded only by the primary contact. Attachments are not in the file: it holds secure download links, so you fetch the files separately. The backup file is available for ${backup.availableDays} days.`,
+    a: `Zoho Desk backups are a ZIP of CSV files per module, up to ${backup.records / MILLION} million records, created and downloaded only by the primary contact. Attachments are not in the file: it holds secure download links, so you fetch the files separately. The backup file is available for ${backup.availableDays} days.`,
   },
 ];
 

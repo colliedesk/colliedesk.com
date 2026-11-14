@@ -2,8 +2,9 @@
 // competitor, with a source for every fact and a read date (issue #136). This gate fails when
 //   - a competitor file lacks a required fact or a feature key, or cites a source it does not list;
 //   - a competitor file, or one of its sources, was read more than READ_MAX_DAYS ago;
-//   - a /vs page module writes a figure (any digit) into its own text, or passes a price made of
-//     numbers to a money formatter, instead of taking it from the data file.
+//   - a /vs page module writes a figure (any digit) into its own text, or a number other than 0, 1
+//     and the named team sizes in PAGE_NUMBERS anywhere in its code, instead of taking it from the
+//     data file.
 // The figure rule is the part a machine can check: prices, limits and dates all carry digits. A
 // claim without a number ("no free plan") is checked by review; the tables render it from data.
 import { readdirSync, readFileSync } from 'node:fs';
@@ -104,17 +105,44 @@ const numbersOnly = (node) => {
   return false;
 };
 
+// The numbers page code may write: 0 and 1 (fallbacks, "one more than the cap", .at(-1)), and these
+// constants, each only with the value its name says. A price in a constant (const PRO = 66) fails.
+export const PAGE_NUMBERS = { FOUR: 4, FIVE: 5, SIX: 6, TEN: 10, MONTHS: 12, MILLION: 1_000_000 };
+const numberValue = (node) => Number(node.text.replace(/_/g, '').replace(/n$/, ''));
+
+// True when the literal initialises a constant named in PAGE_NUMBERS with that constant's value:
+// const FIVE = 5, or const [FIVE, TEN] = [5, 10].
+const namedNumber = (node) => {
+  const value = numberValue(node);
+  const named = (name) => ts.isIdentifier(name) && Object.hasOwn(PAGE_NUMBERS, name.text) && PAGE_NUMBERS[name.text] === value;
+  const parent = node.parent;
+  if (ts.isVariableDeclaration(parent) && parent.initializer === node) return named(parent.name);
+  if (ts.isArrayLiteralExpression(parent) && ts.isVariableDeclaration(parent.parent) && parent.parent.initializer === parent
+    && ts.isArrayBindingPattern(parent.parent.name)) {
+    const element = parent.parent.name.elements[parent.elements.indexOf(node)];
+    return Boolean(element && ts.isBindingElement(element) && !element.initializer && named(element.name));
+  }
+  return false;
+};
+
 /** Findings for the source of one /vs page module; [] means every figure comes from data. */
 export function pageTextFindings(file, source) {
   const sf = ts.createSourceFile(file, source, ts.ScriptTarget.Latest, true, ts.ScriptKind.TS);
   const findings = [];
   const lineOf = (pos) => sf.getLineAndCharacterOfPosition(pos).line + 1;
+  // Expressions already reported as a price, so a number inside them is not reported twice.
+  const reported = [];
+  const report = (node, finding) => { reported.push([node.getStart(sf), node.getEnd()]); findings.push(finding); };
   const visit = (node) => {
     if (ts.isImportDeclaration(node) || ts.isExportDeclaration(node)) return;
     if (ts.isPropertyAssignment(node) && ts.isIdentifier(node.name) && Object.hasOwn(META_PROPS, node.name.text)
       && isTextLiteral(node.initializer) && META_PROPS[node.name.text].test(node.initializer.text)) return;
+    if ((ts.isNumericLiteral(node) || ts.isBigIntLiteral(node)) && ![0, 1].includes(numberValue(node)) && !namedNumber(node)
+      && !reported.some(([start, end]) => node.getStart(sf) >= start && node.getEnd() <= end)) {
+      findings.push(`${file}:${lineOf(node.getStart(sf))}: number ${node.text} in page code; take the figure from the competitor data file (team sizes: the constants in PAGE_NUMBERS)`);
+    }
     if (ts.isTemplateSpan(node) && numbersOnly(node.expression)) {
-      findings.push(`${file}:${lineOf(node.expression.getStart(sf))}: price "${node.expression.getText(sf)}" in a template slot in page code; take it from the competitor data file`);
+      report(node.expression, `${file}:${lineOf(node.expression.getStart(sf))}: price "${node.expression.getText(sf)}" in a template slot in page code; take it from the competitor data file`);
     }
     if (isTextLiteral(node)) {
       // The raw text keeps escapes, so the offset maps to the right line of the file.
@@ -135,7 +163,7 @@ export function pageTextFindings(file, source) {
     if (callee && MONEY_FORMATTERS.has(callee)) {
       for (const arg of node.arguments) {
         if (numbersOnly(arg)) {
-          findings.push(`${file}:${lineOf(arg.getStart(sf))}: price "${arg.getText(sf)}" passed to ${callee}() in page code; take it from the competitor data file`);
+          report(arg,`${file}:${lineOf(arg.getStart(sf))}: price "${arg.getText(sf)}" passed to ${callee}() in page code; take it from the competitor data file`);
         }
       }
     }
