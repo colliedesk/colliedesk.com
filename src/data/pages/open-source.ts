@@ -21,7 +21,7 @@ const body = `## Wait, what are you selling me?
 
 Self-hosting Colliedesk is free, forever, with every feature. We sell two things:
 
-1. **Colliedesk Cloud**: we run it for you. One flat price per workspace, not per agent.
+1. **Colliedesk Cloud**: we run it for you. One flat price per workspace, not per agent. The plans on sale today are on [Colliedesk pricing](/pricing).
 2. **Migration**: we move your Freshdesk history (tickets, replies, attachments, tags) and give you a reconcile report that proves nothing was lost.
 
 AI features work with your own model key on self-hosted installs. On the cloud, reply drafts and triage are included with a monthly allowance, or you bring your own key at no extra fee.

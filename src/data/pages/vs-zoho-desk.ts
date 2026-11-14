@@ -44,6 +44,8 @@ Zoho showed us prices in euros, per user per month, billed annually, on ${PRICES
 | 5 agents | 5 × €23 = **€115 per month** | ${OUR_CELL} + ${AI_EXTRA} |
 | 10 agents | 10 × €23 = **€230 per month** | ${OUR_CELL} + ${AI_EXTRA} |
 
+On Colliedesk, AI reply drafts come with every plan. [Colliedesk pricing](/pricing) has the plans on sale today and the 14-day free trial, no card.
+
 ## Leaving: what Zoho Desk gives you
 
 - Only the **primary contact** can create and download a backup.

@@ -48,6 +48,8 @@ Front prices below are from the Front pricing page, per seat per month billed an
 |---|---|---|
 | 5 agents | 5 × ($65 + $20) = **$425 per month** | ${OUR_CELL} + ${AI_EXTRA} |
 
+The Colliedesk price is per workspace, not per seat. [Colliedesk pricing](/pricing) has the plans on sale today and the 14-day free trial, no card.
+
 ## Leaving: what Front gives you
 
 - There is **no self-serve export** of conversations. A company admin asks Front Support for an account data export.

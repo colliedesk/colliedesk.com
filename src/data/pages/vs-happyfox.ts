@@ -43,6 +43,8 @@ HappyFox prices are per agent per month, read on ${PRICES_READ}.
 
 AI is extra on HappyFox.
 
+On Colliedesk, AI reply drafts come with every plan. [Colliedesk pricing](/pricing) has the plans on sale today and the 14-day free trial, no card.
+
 ## What Colliedesk does today
 
 ${statusTable}

@@ -55,10 +55,6 @@ const RULE_FINDING = {
   description: 'meta description is', links: 'other page',
 };
 export const KNOWN_DEBT = {
-  cta: [
-    '/migrate/zendesk/export', '/open-source', '/vs/chatwoot', '/vs/front', '/vs/gorgias', '/vs/groove',
-    '/vs/happyfox', '/vs/help-scout', '/vs/hubspot-service-hub', '/vs/zoho-desk',
-  ],
   title: [
     '/', '/compare', '/freshdesk-alternative', '/freshdesk-pricing-history', '/migrate/freshdesk',
     '/migrate/freshdesk/export', '/migrate/zendesk/export', '/open-source', '/pricing', '/self-hosted-helpdesk',
@@ -72,8 +68,8 @@ export const KNOWN_DEBT = {
     '/vs/happyfox', '/vs/help-scout', '/vs/hubspot-service-hub', '/vs/zammad', '/vs/zendesk', '/vs/zoho-desk',
   ],
   links: [
-    '/open-source', '/vs/chatwoot', '/vs/freescout', '/vs/front', '/vs/gorgias', '/vs/groove', '/vs/happyfox',
-    '/vs/help-scout', '/vs/hubspot-service-hub', '/vs/zammad', '/vs/zoho-desk',
+    '/vs/chatwoot', '/vs/freescout', '/vs/front', '/vs/gorgias', '/vs/groove', '/vs/happyfox',
+    '/vs/hubspot-service-hub', '/vs/zammad', '/vs/zoho-desk',
   ],
 };
 

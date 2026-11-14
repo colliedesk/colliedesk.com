@@ -43,6 +43,8 @@ HubSpot prices are in USD per seat per month, from the HubSpot product and servi
 | 5 agents | 5 × $100 = **$500 per month** + credits beyond the plan | ${OUR_CELL} + ${AI_EXTRA} |
 | 10 agents | 10 × $100 = **$1,000 per month** + credits beyond the plan | ${OUR_CELL} + ${AI_EXTRA} |
 
+The Colliedesk price is per workspace, not per seat. [Colliedesk pricing](/pricing) has the plans on sale today and the 14-day free trial, no card.
+
 ## Leaving: what HubSpot gives you
 
 - Tickets export from **CRM > Tickets** as **CSV, XLS or XLSX**; you need export permissions.

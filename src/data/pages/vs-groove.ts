@@ -37,6 +37,8 @@ Read on ${PRICES_READ}.
 
 Helply's $49 is a credit budget for AI work. Colliedesk ${OUR_PLAN} at ${OUR_PRICE} is the helpdesk for up to 10 agents${FOUNDING_OPEN ? '' : ' (Solo is $19 for one)'}, with AI reply drafts and triage included (monthly allowance) or on your own key.
 
+[Colliedesk pricing](/pricing) has the plans on sale today and the 14-day free trial, no card.
+
 ## Leaving: what Groove gives you
 
 - The account owner and admins can download **all conversation data**.
