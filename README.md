@@ -64,6 +64,11 @@ to use another checkout. `typecheck` works without it.
   closes it. A pull request the watch opens does not start CI until a person pushes to it. The run also
   lists the figures each page does not show in its HTML (prices behind a script, a page rendered in the
   browser): the watch cannot see those change, so read them by hand when the read date comes due.
+  A page that does not answer within 20 seconds, a bot challenge served with HTTP 200, or a page whose
+  text shrank to under a quarter of the last read is reported as unreachable and keeps the text read
+  last time, so a bot wall never opens a pull request. Only pull requests the workflow opened
+  (`app/github-actions`, branch `competitor-watch/…`) count as already raised. Page text quoted in a
+  pull request cannot mention a user, link, embed an image or reference an issue.
   It is free (plain HTTP GETs on a public-repo runner) and **off** until the owner turns it on:
 
   1. Let GitHub Actions open pull requests in this repository (one time):
@@ -78,9 +83,10 @@ to use another checkout. `typecheck` works without it.
      gh variable set COMPETITOR_WATCH --body on -R colliedesk/colliedesk.com
      ```
 
-  The first run after that records a baseline and opens nothing. To see what it would do first, run
-  `gh workflow run "Competitor watch" -R colliedesk/colliedesk.com` (a dry run: it prints the result
-  in the run summary and saves nothing), or locally `node scripts/competitor-watch-run.mjs` (Node 24, or
+  The first run after that records a baseline and opens nothing. A manual run with `open_prs` ticked
+  also needs the switch on. To see what it would do first, run
+  `gh workflow run "Competitor watch" -R colliedesk/colliedesk.com` (a dry run with a read-only token:
+  it prints the result in the run summary and saves nothing), or locally `node scripts/competitor-watch-run.mjs` (Node 24, or
   22.18 and later), which writes the prepared pull requests under `.competitor-watch/proposals/`.
 - While Founding is open it leads, and Team 25 is on sale beside it, on /pricing and the home page, for teams of 11 to 25
   agents (`TEAM_25_*` in `src/lib/site.ts`). Business (26 to 100 agents, $499 a month) is sold through a call with the founder in

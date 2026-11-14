@@ -3,8 +3,9 @@ name: Competitor watch
 # Reads every source URL in src/data/competitors/<slug>.ts once a day and opens a draft pull request
 # with the evidence when a page changed a figure we cite (scripts/competitor-watch.mjs). Free: plain
 # HTTP GETs on a public-repo runner, no paid API. Off until the owner sets the repository variable
-# COMPETITOR_WATCH to "on" (README, "Competitor watch"). Until then the daily run skips its job.
-# A manual run is a dry run unless open_prs is ticked: it prints what changed and saves nothing.
+# COMPETITOR_WATCH to "on" (README, "Competitor watch"). Until then nothing opens a pull request,
+# a manual run with open_prs ticked included. A manual run without open_prs is a dry run with a
+# read-only token: it prints what changed and saves nothing.
 on:
   schedule:
     - cron: '30 1 * * *' # 08:30 Vietnam time
@@ -23,10 +24,38 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  # Manual dry run: reads and prints, opens nothing, saves nothing, read-only token.
+  dry-run:
+    if: github.event_name == 'workflow_dispatch' && !inputs.open_prs
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+          sparse-checkout: |
+            scripts
+            src
+          sparse-checkout-cone-mode: true
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '22.x'
+          package-manager-cache: false
+      - uses: actions/cache/restore@v4
+        with:
+          path: .competitor-watch/state.json
+          key: competitor-watch-${{ github.run_id }}
+          restore-keys: competitor-watch-
+      - name: Watch (dry run)
+        run: node scripts/competitor-watch-run.mjs
+
+  # Opens the pull requests and saves what was read: only with the switch on.
   watch:
     if: >-
-      github.event_name == 'workflow_dispatch' ||
-      (github.event_name == 'schedule' && vars.COMPETITOR_WATCH == 'on')
+      vars.COMPETITOR_WATCH == 'on' && (
+        github.event_name == 'schedule' ||
+        (github.event_name == 'workflow_dispatch' && inputs.open_prs)
+      )
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
@@ -34,10 +63,11 @@ jobs:
       pull-requests: write
     env:
       GH_TOKEN: ${{ github.token }}
-      OPEN_PRS: ${{ github.event_name == 'schedule' || inputs.open_prs }}
     steps:
       - uses: actions/checkout@v5
         with:
+          # gh reads GH_TOKEN; the token is not left in .git/config.
+          persist-credentials: false
           sparse-checkout: |
             scripts
             src
@@ -53,8 +83,8 @@ jobs:
           key: competitor-watch-${{ github.run_id }}
           restore-keys: competitor-watch-
       - name: Watch
-        run: node scripts/competitor-watch-run.mjs ${{ env.OPEN_PRS == 'true' && '--open-prs' || '' }}
-      - if: env.OPEN_PRS == 'true' && !cancelled()
+        run: node scripts/competitor-watch-run.mjs --open-prs
+      - if: '!cancelled()'
         uses: actions/cache/save@v4
         with:
           path: .competitor-watch/state.json
