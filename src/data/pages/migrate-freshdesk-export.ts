@@ -78,13 +78,14 @@ Founding customers get the migration done for them, free. The full exit plan is 
 ## Sources
 
 - Ticket export: [support.freshdesk.com article 225158](https://support.freshdesk.com/support/solutions/articles/225158)
+- Account export (XML): [support.freshdesk.com article 237405](https://support.freshdesk.com/support/solutions/articles/237405)
 - API: [developers.freshdesk.com/api](https://developers.freshdesk.com/api/)`;
 
 const page: Page = {
   jsonLd: [],
   name: 'Export tickets from Freshdesk',
   path: '/migrate/freshdesk/export',
-  updated: '2026-10-15',
+  updated: '2026-11-15',
   section: 'Migrate',
   title: 'How to export tickets from Freshdesk (with conversations and attachments)',
   description:
