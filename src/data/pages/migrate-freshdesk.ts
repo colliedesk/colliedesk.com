@@ -1,4 +1,5 @@
 import { FOUNDING_HREF, GA_DOC, PRICES_READ } from '../../lib/site';
+import { AGENT_PROMPT_MD } from './migrate-agent';
 import { faqPage, techArticle } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
 
@@ -26,6 +27,14 @@ const faq: Faq[] = [
 ];
 
 const body = `> **Status:** Colliedesk is generally available, and the Freshdesk importer is shipped. [What general availability means](${GA_DOC}) is written down in the open-source repository. This page explains the full process so you can plan, or do it yourself with the Freshdesk API. Founding customers get the migration done for them, free.
+
+## Let your AI agent do it
+
+Use Claude Code, Codex or another coding agent? Paste this sentence into it:
+
+${AGENT_PROMPT_MD}
+
+The agent follows [the migration steps for AI agents](/migrate): it previews the import, runs it, reads the reconcile report and stops for you before anything a person must do.
 
 ## Switch gradually
 
@@ -112,6 +121,7 @@ const page: Page = {
   ctaFounding: { href: '/migrate/freshdesk/done-for-you', label: 'Free migration with Founding' },
   body,
   faq,
+  updated: '2026-11-15',
 };
 page.jsonLd = [techArticle(page), faqPage(faq)];
 export default page;
