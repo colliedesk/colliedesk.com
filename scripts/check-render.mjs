@@ -6,6 +6,8 @@
 //     (19/10/2026 the closing band's "Start free trial" was dark text on a transparent button on ink);
 //   - a button is not PostHog's size, or does not sit as a key (face over base) at rest, on hover and while pressed;
 //     the hero, section and docs type is not PostHog's size (scripts/render-sizes.mjs has the numbers);
+//   - a field is not a slot with the amber focus outline, a held key is not held, a row does not fill on hover
+//     (scripts/render-states.mjs has the states);
 //   - on a 390px phone or a 1440px desktop a button's base or lifted face is clipped by a scroll box or runs into
 //     the element under or above it;
 //   - with the cookie banner open (it shows only on colliedesk.com, so it is opened here through the
@@ -20,6 +22,7 @@ import { tmpdir } from 'node:os';
 import { join, relative, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { checkSizes, CLIPPED_KEYS } from './render-sizes.mjs';
+import { checkStates } from './render-states.mjs';
 
 const WIDTH = 375;
 // Narrow phones (320: iPhone SE 1st gen, small Android) and the common 390 are checked for sideways scroll too.
@@ -183,6 +186,7 @@ try {
     await clippedKeys(path, 1440);
   }
   failures.push(...await checkSizes({ send: c.send, once: c.once, sessionId, port }));
+  failures.push(...await checkStates({ send: c.send, once: c.once, sessionId, port }));
   for (const screen of BANNER_SCREENS) {
     await c.send('Emulation.setDeviceMetricsOverride', { width: screen.width, height: screen.height, deviceScaleFactor: 1, mobile: screen.mobile }, sessionId);
     for (const path of list) {

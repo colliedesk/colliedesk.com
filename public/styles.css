@@ -15,6 +15,8 @@
   --panel: #171717;
 }
 :root {
+  --press: 100ms cubic-bezier(0.4, 0, 0.2, 1);   /* the only animated moment: the press */
+  --nudge: 1px;                                   /* how far a row travels while pressed */
   --wrap: 1360px;
   --space-section: clamp(4rem, 3rem + 4vw, 7rem);
 }
@@ -44,6 +46,8 @@ h3 { font-size: 16px; line-height: 24px; font-weight: 600; letter-spacing: -0.01
 @media (max-width: 640px) { h1 { font-size: 30px; line-height: 31.5px; letter-spacing: -0.7px; } }
 p { margin: 0 0 1em; }
 strong { color: var(--text-1); font-weight: 600; }
+/* A keyboard key in text is a keycap: one line around, two under. */
+kbd { padding: 0 5px; border: 1px solid var(--line-control); border-bottom-width: 2px; border-radius: var(--radius-sm); background: var(--surface-1); font: 500 12px/16px var(--font-mono); color: var(--text-2); }
 code { font-family: var(--font-mono); font-size: .88em; background: var(--surface-2); border: 1px solid var(--line); padding: .1em .35em; border-radius: var(--radius-sm); color: var(--text-1); overflow-wrap: anywhere; }
 .wrap { max-width: var(--wrap); margin: 0 auto; padding: 0 var(--space-10); }
 .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
@@ -74,19 +78,32 @@ code { font-family: var(--font-mono); font-size: .88em; background: var(--surfac
 .nav-desktop ul, .nav-mobile ul { list-style: none; margin: 0; padding: 0; display: flex; gap: var(--space-1); }
 .nav-desktop a, .nav-mobile a { display: inline-block; white-space: nowrap; padding: .55rem .75rem; color: var(--text-2); text-decoration: none; font-weight: 500; font-size: .94rem; border-radius: var(--radius); }
 .nav-desktop a:hover, .nav-mobile a:hover { color: var(--text-1); background: var(--surface-2); }
-.nav-desktop a[aria-current="page"], .nav-mobile a[aria-current="page"] { color: var(--text-1); background: var(--surface-2); }
+.nav-desktop a[aria-current="page"], .nav-mobile a[aria-current="page"] { color: var(--text-1); background: var(--surface-3); }
+/* Rows (nav links, the docs sidebar and "On this page", menu rows, search results, and the docs disclosures
+   that only open more of the page) answer the pointer with a grey fill, a darker one when current or open,
+   and travel 1px down while pressed; only the press is animated. */
+:is(.nav-desktop a, .nav-mobile nav a, .docs-nav a, .docs-toc a, .docs-ai-menu a, .docs-copy-mcp, .docs-search-results a,
+  .docs-menu summary, .docs-toc-mobile summary, .docs-menu-bar .docs-search-open):active {
+  translate: 0 var(--nudge); transition: translate var(--press);
+}
+@media (prefers-reduced-motion: reduce) {
+  :is(.nav-desktop a, .nav-mobile nav a, .docs-nav a, .docs-toc a, .docs-ai-menu a, .docs-copy-mcp, .docs-search-results a,
+    .docs-menu summary, .docs-toc-mobile summary, .docs-menu-bar .docs-search-open):active { transition: none; }
+}
 .wm-tile { fill: var(--logo-tile); }
 .wm-collie { fill: var(--text-1); }
 .wm-desk { fill: var(--text-2); }
 .nav-mobile { display: none; }
 
-/* Buttons are keys, sized like PostHog's (owner decision 16/11/2026): a face lifted above a darker base that
+/* Actions and choices are keys (start, buy, copy, send, pick an option, switch the theme, go to the
+   previous/next guide); a disclosure that only opens more of the page is a row and the search opener is a
+   slot, so the first screen is not a wall of raised buttons. Keys are sized like PostHog's (owner decision 16/11/2026): a face lifted above a darker base that
    the face casts with two box-shadows (the edge, then a 1.5px rim under it). The face moves, the base's
    bottom never does: rest 4px up, hover 6px, pressed 2px (small keys 2/3/1). Only the press is animated,
    as on a real key. The margin reserves the lifted face and the rim, so a row never runs into the next
-   line. Neutral colours: the brand puts no hue on the primary action. The docs split control, the docs
-   search buttons and the phone "Menu" share the key without a .btn class (their markup is styled
-   elsewhere). */
+   line. The docs split control, the search dialog's Close, the docs pager tiles, the phone "Menu", the theme
+   toggle and the bill and /vs options share the key without a .btn class (their markup is styled elsewhere). A key whose state is on is held: it stays
+   at the press depth on a grey face with a darker rim, and hover does not lift it. */
 :root, :root[data-theme="light"] {
   --key-face: #ffffff; --key-text: #171717; --key-rim: var(--line-control); --key-edge: #d4d4d4;
   /* The primary key is the brand's primary action: the Collie orange on a darker orange base. */
@@ -97,26 +114,41 @@ code { font-family: var(--font-mono); font-size: .88em; background: var(--surfac
   /* Dark: the lighter orange face sits on the logo's orange, the darker of the two. */
   --key-primary-rim: var(--logo-tile); --key-primary-edge: var(--logo-tile);
 }
-.btn, .nav-mobile summary, .docs-ai-group, .docs-search-open, .docs-search-close {
+.btn, .nav-mobile summary, .docs-ai-group, .docs-search-close,
+.theme-toggle, .segmented label, .vs-sizes label, .docs-pager a {
   --key-rest: 4px; --key-hover: 6px; --key-press: 2px; --key-lift: var(--key-rest);
   margin-block: var(--key-rest) 1.5px; border: 1.5px solid var(--key-rim); background: var(--key-face); color: var(--key-text);
   box-shadow: 0 var(--key-lift) 0 0 var(--key-edge), 0 calc(var(--key-lift) + 1.5px) 0 0 var(--key-rim);
   transform: translateY(calc(-1 * var(--key-lift)));
 }
-:is(.btn, .nav-mobile summary, .docs-search-open, .docs-search-close):hover,
+:is(.btn, .nav-mobile summary, .docs-search-close, .theme-toggle, .segmented label, .vs-sizes label, .docs-pager a):hover,
 .docs-ai-group:has(> .docs-copy:hover, > .docs-ai > summary:hover) { --key-lift: var(--key-hover); }
-:is(.btn, .nav-mobile summary, .docs-search-open, .docs-search-close):active,
-.docs-ai-group:has(> .docs-copy:active, > .docs-ai > summary:active) { --key-lift: var(--key-press); transition: all 100ms cubic-bezier(0.4, 0, 0.2, 1); }
+:is(.btn, .nav-mobile summary, .docs-search-close, .theme-toggle, .segmented label, .vs-sizes label, .docs-pager a):active,
+.docs-ai-group:has(> .docs-copy:active, > .docs-ai > summary:active) { --key-lift: var(--key-press); transition: transform var(--press), box-shadow var(--press); }
 @media (prefers-reduced-motion: reduce) {
-  :is(.btn, .nav-mobile summary, .docs-search-open, .docs-search-close):active,
+  :is(.btn, .nav-mobile summary, .docs-search-close, .theme-toggle, .segmented label, .vs-sizes label, .docs-pager a):active,
   .docs-ai-group:has(> .docs-copy:active, > .docs-ai > summary:active) { transition: none; }
 }
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2); padding: 8px 20px; border-radius: 8px; font: 700 15px/26px var(--font-sans); text-decoration: none; white-space: nowrap; cursor: pointer; }
 .btn:hover { color: var(--key-text); text-decoration: none; }
 .btn-primary { --key-face: var(--key-primary-face); --key-text: var(--key-primary-text); --key-rim: var(--key-primary-rim); --key-edge: var(--key-primary-edge); }
 .btn-primary:focus-visible { outline-offset: 3px; }
-.btn-sm, .nav-mobile summary, .docs-ai-group, .docs-search-open, .docs-search-close { --key-rest: 2px; --key-hover: 3px; --key-press: 1px; }
-.btn-sm, .nav-mobile summary, .docs-search-close { padding: 4px 10px; border-radius: 6px; font: 700 13px/20px var(--font-sans); }
+.btn-sm, .nav-mobile summary, .docs-ai-group, .docs-search-close, .theme-toggle, .segmented label, .vs-sizes label { --key-rest: 2px; --key-hover: 3px; --key-press: 1px; }
+.btn-sm, .nav-mobile summary, .docs-search-close, .theme-toggle { padding: 4px 10px; border-radius: 6px; font: 700 13px/20px var(--font-sans); }
+/* The element type lifts the toggle's specificity over the :hover rule above, so hover cannot lift it. */
+.nav-mobile[open] summary, button.theme-toggle[aria-pressed="true"], .segmented label:has(input:checked), .vs-sizes label:has(input:checked) {
+  --key-lift: var(--key-press); --key-face: var(--surface-3); --key-text: var(--text-1); --key-rim: var(--line-strong); --key-edge: var(--line-strong);
+  background: var(--key-face); color: var(--key-text); border-color: var(--key-rim);
+}
+/* Disabled (docs feedback after an answer): sunk and grey, no base. A disabled primary keeps its orange at 30 %. */
+:is(.btn, .theme-toggle):disabled { --key-lift: 0px; transform: none; box-shadow: none; background: var(--surface-2); color: var(--text-3); border-color: var(--line); cursor: default; }
+:is(.segmented, .vs-sizes) label:has(input:checked) { cursor: default; }
+/* Forced colours drop the grey face and the base, which would leave a held key looking like the others. */
+@media (forced-colors: active) {
+  .nav-mobile[open] summary, button.theme-toggle[aria-pressed="true"],
+  .segmented label:has(input:checked), .vs-sizes label:has(input:checked) { forced-color-adjust: none; background: Highlight; color: HighlightText; border-color: Highlight; }
+}
+.btn-primary:disabled { background: var(--key-primary-face); color: var(--key-primary-text); border-color: var(--key-primary-rim); opacity: .3; }
 .btn-lg { font-size: 18px; line-height: 28px; }
 /* A long label wraps on a phone instead of pushing the page wider than the screen. */
 @media (max-width: 480px) { .btn-lg { white-space: normal; text-align: center; } }
@@ -158,11 +190,7 @@ td:has(> .badge) { width: 1%; white-space: nowrap; }
 .vs-chart { margin: 0; background: var(--surface-1); border-radius: 12px; box-shadow: var(--ring), var(--shadow-2); padding: var(--space-6); }
 .vs-chart-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-3); margin-bottom: var(--space-5); }
 .vs-chart-title { font-weight: 600; color: var(--text-1); }
-.vs-sizes { display: inline-flex; flex-wrap: wrap; max-width: 100%; gap: 2px; margin: 0; padding: 3px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-0); }
-.vs-sizes label { display: inline-flex; align-items: center; min-height: 32px; padding: 0 .7rem; white-space: nowrap; border-radius: var(--radius-sm); font-size: 13px; font-weight: 500; color: var(--text-2); cursor: pointer; font-variant-numeric: tabular-nums; }
 .vs-sizes input { position: absolute; opacity: 0; width: 1px; height: 1px; }
-.vs-sizes label:has(input:checked) { background: var(--surface-1); color: var(--text-1); box-shadow: var(--shadow-1); outline: 1px solid var(--line-control); }
-.vs-sizes label:has(input:focus-visible) { box-shadow: var(--focus-ring); }
 .vs-size { display: none; }
 .vs-chart:has(input[value="1"]:checked) .vs-size[data-size="1"],
 .vs-chart:has(input[value="3"]:checked) .vs-size[data-size="3"],
@@ -188,8 +216,7 @@ td:has(> .badge) { width: 1%; white-space: nowrap; }
 @media (max-width: 960px) { .vs-top { grid-template-columns: minmax(0, 1fr); } }
 /* A long URL in docs prose breaks instead of scrolling a phone sideways. */
 @media (max-width: 640px) { .prose { overflow-wrap: break-word; } }
-@media (max-width: 640px) { .vs-chart { padding: var(--space-4); } .vs-sizes { display: flex; width: 100%; } .vs-sizes label { flex: 1 0 auto; justify-content: center; padding: 0 .5rem; } .vs-chart .bar-math { display: none; } }
-@media (pointer: coarse) { .vs-sizes label { min-height: var(--touch); } }
+@media (max-width: 640px) { .vs-chart { padding: var(--space-4); } .vs-sizes { width: 100%; } .vs-chart .bar-math { display: none; } }
 
 /* Inner page hero and prose */
 .page-hero { padding: var(--space-16) 0 var(--space-10); }
@@ -214,7 +241,8 @@ td:has(> .badge) { width: 1%; white-space: nowrap; }
 .prose li { margin: .35rem 0; }
 .prose li::marker { color: var(--text-3); }
 .prose pre { background: var(--surface-1); border: 1px solid var(--line); color: var(--text-1); border-radius: var(--radius); padding: var(--space-4) var(--space-5); overflow-x: auto; font: 13px/1.7 var(--font-mono); }
-.prose blockquote { margin: 1.5rem 0; padding: var(--space-4) var(--space-5); border-left: 3px solid var(--accent); background: var(--accent-soft); color: var(--text-1); border-radius: 0 var(--radius) var(--radius) 0; }
+/* A note is paper: a neutral sheet on a hairline ring. Orange is for the primary action, not for notes. */
+.prose blockquote { margin: 1.5rem 0; padding: var(--space-3) var(--space-4); border: 0; border-radius: var(--radius); background: var(--surface-0); box-shadow: 0 0 0 1px var(--line); color: var(--text-1); }
 .prose blockquote p:last-child { margin: 0; }
 .table-wrap { overflow-x: auto; margin: 1.25rem 0 1.75rem; border-radius: 10px; background: var(--surface-1); box-shadow: var(--ring); }
 table { border-collapse: collapse; width: 100%; font-size: .95rem; }
@@ -290,9 +318,9 @@ p.switch-offer-print { padding-left: 0; }
 /* Docs (the sidebar, folded menu, search, "On this page", pager and feedback are in docs.css) */
 .docs-layout { display: grid; grid-template-columns: 15rem minmax(0, 1fr); gap: var(--space-12); }
 .docs-nav ul { list-style: none; margin: 0; padding: 0; border-left: 1px solid var(--line); }
-.docs-nav a { display: block; padding: .45rem .9rem; color: var(--text-2); text-decoration: none; margin-left: -1px; border-left: 2px solid transparent; }
-.docs-nav a:hover { color: var(--text-1); background: var(--surface-0); }
-.docs-nav a[aria-current="page"] { color: var(--text-1); font-weight: 600; border-left-color: var(--accent); background: var(--surface-0); }
+.docs-nav a { display: block; padding: .45rem .9rem; color: var(--text-2); text-decoration: none; margin-left: -1px; border-left: 2px solid transparent; border-radius: 0 var(--radius) var(--radius) 0; }
+.docs-nav a:hover { color: var(--text-1); background: var(--surface-2); }
+.docs-nav a[aria-current="page"] { color: var(--text-1); font-weight: 600; border-left-color: var(--accent); background: var(--surface-3); }
 .docs-nav-title { font: 600 13px var(--font-sans); color: var(--text-3); }
 .docs-nav-group + .docs-nav-group { margin-top: var(--space-4); }
 .docs-nav-subtitle { font: 600 12px var(--font-sans); color: var(--text-3); margin: 0; padding: .7rem .9rem .25rem; }
@@ -330,16 +358,25 @@ p.switch-offer-print { padding-left: 0; }
 .updates-form p { margin: 0 0 .8rem; color: var(--text-2); }
 /* The field is as tall as the Subscribe key's face and lines up with it at rest. */
 .updates-row { display: flex; align-items: flex-start; gap: var(--space-2); }
-.updates-row input { flex: 1; min-width: 0; height: 45px; padding: 0 var(--space-3); border: 1px solid var(--line-control); border-radius: var(--radius); background: var(--surface-1); color: var(--text-1); font: 400 15px var(--font-sans); }
-.updates-row input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.updates-row input { flex: 1; min-width: 0; padding: 0 var(--space-3); font: 400 15px var(--font-sans); }
+/* Fields are slots, the opposite of a key: a 1px control line and a 2px grey lip inside the top edge, no
+   lift, as tall as the key face beside them. Focus is the amber outline, as everywhere (amber means focus). */
+.updates-row input, .audit-form input:not(.updates-trap), .audit-form select {
+  height: 45px; border: 1px solid var(--line-control); border-radius: var(--radius); background-color: var(--surface-1);
+  box-shadow: inset 0 2px 0 0 var(--surface-2); color: var(--text-1);
+}
+:is(.updates-row input, .audit-form input:not(.updates-trap), .audit-form select):hover { border-color: var(--line-strong); }
+:is(.updates-row input, .audit-form input:not(.updates-trap), .audit-form select):focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-color: var(--line-strong); }
+:is(.updates-row input, .audit-form input:not(.updates-trap)):user-invalid { border-color: var(--danger); }
+:is(.updates-row input, .audit-form input:not(.updates-trap), .audit-form select):disabled { background-color: var(--surface-2); color: var(--text-3); box-shadow: none; }
+::placeholder { color: var(--text-3); opacity: 1; }
 .updates-trap { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
 .updates-status { min-height: 1.5em; margin: .6rem 0 0 !important; }
 .updates-status[data-state="error"] { color: var(--danger); }
 .footer-legal { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-3) var(--space-6); margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--line); color: var(--text-3); font-size: .88rem; }
 .footer-legal p { margin: 0; }
-.theme-toggle { display: inline-flex; align-items: center; gap: var(--space-2); min-height: 36px; padding: 0 var(--space-3); border: 1px solid var(--line-control); border-radius: var(--radius-full); background: var(--surface-1); color: var(--text-2); font: 500 13.5px var(--font-sans); cursor: pointer; }
-.theme-toggle:hover { color: var(--text-1); border-color: var(--line-strong); }
-.theme-toggle[aria-pressed="true"] { background: var(--accent-soft); color: var(--accent-text); border-color: var(--accent); }
+.theme-toggle { display: inline-flex; align-items: center; gap: var(--space-2); cursor: pointer; }
+.theme-toggle .i { width: 14px; height: 14px; }
 .theme-toggle[hidden] { display: none; }
 
 /* Responsive */
@@ -354,8 +391,7 @@ p.switch-offer-print { padding-left: 0; }
   .nav-mobile { display: block; position: static; }
   .nav-mobile summary { list-style: none; cursor: pointer; display: inline-flex; align-items: center; }
   .nav-mobile summary::-webkit-details-marker { display: none; }
-  .nav-mobile[open] summary { --key-lift: var(--key-press); }
-  .nav-mobile nav { position: absolute; left: 0; right: 0; top: 100%; background: var(--surface-1); border-bottom: 1px solid var(--line); box-shadow: var(--shadow-2); padding: .5rem var(--space-5) 1rem; }
+  .nav-mobile nav { position: absolute; left: 0; right: 0; top: 100%; background: var(--surface-1); border-bottom: 1px solid var(--line); border-radius: 0 0 var(--radius-lg) var(--radius-lg); box-shadow: var(--shadow-2); padding: .5rem var(--space-5) 1rem; }
   .nav-mobile ul { flex-direction: column; }
   .nav-mobile a { display: block; padding: .8rem .5rem; font-size: 1.05rem; }
   .header-inner { gap: var(--space-3); }
@@ -364,7 +400,6 @@ p.switch-offer-print { padding-left: 0; }
   .wrap { padding: 0 var(--space-5); }
   .header-inner { min-height: 60px; }
   .wordmark { height: 26px; }
-  .theme-toggle { min-height: var(--touch); }
   .lede { font-size: 1.05rem; }
   .cta-row { flex-direction: column; }
   .cta-row .btn { width: 100%; }
@@ -388,7 +423,6 @@ p.switch-offer-print { padding-left: 0; }
   .consent-actions .btn { flex: 1 1 0; }
 }
 .link-button { padding: 0; border: 0; background: none; color: inherit; font: inherit; text-decoration: underline; cursor: pointer; }
-.link-button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 /* Home (Paper "L1-b Landing", 06/11/2026): one 1200px sheet under a 1px line; each row is one idea, 32px
    inside, divided by hairlines. Product pictures and the report sit on grey stage rows (--surface-2). Text
@@ -478,11 +512,20 @@ a.mono-label:hover { text-decoration: underline; }
 /* The bill: four radios pick which list of bars shows (no script) */
 .bill-picker { display: flex; align-items: center; gap: var(--space-3); margin: 0; padding: var(--space-2) 0 0; border: 0; }
 .bill-picker legend { float: left; margin-right: var(--space-3); padding: 0; font: 500 14px/20px var(--font-sans); color: var(--text-2); }
-.segmented { display: flex; gap: 2px; padding: 2px; background: var(--surface-2); border: 1px solid var(--line); border-radius: var(--radius); }
-.segmented label { display: grid; place-items: center; width: 48px; height: 28px; border-radius: var(--radius-sm); font: 500 14px/20px var(--font-sans); color: var(--text-2); cursor: pointer; font-variant-numeric: tabular-nums; }
+/* Each option is a small key in a row, no tray; the chosen one is held (the key rules above). The radio is
+   hidden, so the amber focus outline is drawn on its key. 44px faces on a coarse pointer. */
+.segmented, .vs-sizes { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; border: 0; background: none; }
+.segmented label, .vs-sizes label {
+  display: inline-flex; align-items: center; justify-content: center; min-width: 48px;
+  padding: 4px 10px; border-radius: 6px; font: 700 13px/20px var(--font-sans); font-variant-numeric: tabular-nums;
+  white-space: nowrap; cursor: pointer;
+}
 .segmented input { position: absolute; width: 1px; height: 1px; opacity: 0; }
-.segmented label:has(input:checked) { background: var(--surface-1); color: var(--text-1); font-weight: 600; box-shadow: 0 1px 2px rgb(23 23 23 / .12); }
-.segmented label:has(input:focus-visible) { box-shadow: var(--focus-ring); }
+:is(.segmented, .vs-sizes) label:has(input:focus-visible) { outline: 2px solid var(--focus); outline-offset: 2px; }
+@media (pointer: coarse) { .segmented label, .vs-sizes label { min-height: var(--touch); } }
+/* On a phone the bill's four short options share one row. The five /vs options do not fit one, so they sit on
+   a three-column grid: a stretched flex row left the fifth as one full-width key. */
+@media (max-width: 640px) { .segmented label { flex: 1 0 auto; } .vs-sizes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 .bill-bars { display: none; gap: var(--space-6); }
 .bill:has(input[value="5"]:checked) .bill-bars[data-size="5"],
 .bill:has(input[value="10"]:checked) .bill-bars[data-size="10"],
@@ -581,7 +624,6 @@ a.mono-label:hover { text-decoration: underline; }
   .bill-label { flex-direction: column; gap: 0; }
   .bill-label span { text-align: left; line-height: 18px; }
   .segmented { flex: 1; }
-  .segmented label { width: auto; flex: 1; height: var(--touch); }
   .founding-buy { justify-items: stretch; }
   .sheet .included { padding-inline: var(--space-5); }
   .final-actions { flex-direction: column-reverse; align-items: stretch; }
@@ -594,9 +636,8 @@ a.mono-label:hover { text-decoration: underline; }
    button is in the first screen at 390 x 844. */
 .audit-form { display: grid; gap: var(--space-1); padding: var(--space-5); background: var(--surface-1); border-radius: 12px; box-shadow: var(--ring), var(--shadow-2); max-width: 32rem; }
 .audit-form label { font: 500 14px/1.4 var(--font-sans); color: var(--text-1); }
-.audit-form input:not(.updates-trap), .audit-form select { width: 100%; height: 44px; margin-bottom: var(--space-2); padding: 0 var(--space-3); border: 1px solid var(--line-control); border-radius: var(--radius); background: var(--surface-1); color: var(--text-1); font: 400 16px var(--font-sans); }
+.audit-form input:not(.updates-trap), .audit-form select { width: 100%; margin-bottom: var(--space-2); padding: 0 var(--space-3); font: 400 16px var(--font-sans); }
 .audit-form select { appearance: none; padding-right: var(--space-8); background-image: var(--select-chevron); background-repeat: no-repeat; background-position: right var(--space-3) center; }
-.audit-form input:focus-visible, .audit-form select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .audit-form .btn { width: 100%; margin-top: var(--space-1); }
 .audit-status { min-height: 1.5em; margin: var(--space-2) 0 0; color: var(--text-2); }
 .audit-status[data-state="error"] { color: var(--danger); }
