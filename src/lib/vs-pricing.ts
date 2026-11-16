@@ -2,6 +2,9 @@
 // Colliedesk Cloud plan that covers the team. The HTML chart and the Markdown twin both render from this.
 import { AFTER_FOUNDING, FOUNDING_OPEN } from './cloud-price';
 import { AI_RESOLUTION, BUSINESS, BUSINESS_AGENTS, CONTACT_EMAIL, dollars, LADDER_LINE, SMALL, SOLO, TEAM, TEAM_25, type CloudPlan } from './site';
+import { readOnLabel, usd } from './competitor';
+
+export { readOnLabel, usd };
 
 export interface VsPlan {
   name: string;
@@ -47,9 +50,6 @@ const LADDER: readonly CloudPlan[] = [SOLO, SMALL, TEAM, TEAM_25];
 /** The largest team a Cloud plan covers today for one flat price. */
 export const MAX_AGENTS = TEAM_25.agents;
 export const oursFor = (agents: number): CloudPlan => LADDER.find((p) => agents <= p.agents) ?? TEAM_25;
-
-export const usd = (n: number): string =>
-  `$${n.toLocaleString('en-US', { minimumFractionDigits: Number.isInteger(n) ? 0 : 2, maximumFractionDigits: 2 })}`;
 
 const limitLabel = (plan: CloudPlan): string => (plan.agents === 1 ? '1 agent' : `up to ${plan.agents} agents`);
 
@@ -109,9 +109,6 @@ export function savingAt(p: VsPricing, agents: number): { name: string; perMonth
   if (!top || top.ours) return undefined;
   return { name: top.name, perMonth: top.usd - oursFor(agents).monthly };
 }
-
-export const readOnLabel = (iso: string): string =>
-  new Date(`${iso}T00:00:00Z`).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
 
 // While Founding is open the chart shows the Cloud plans that apply once its places are taken.
 export const chartCaption = (p: VsPricing): string =>

@@ -16,6 +16,8 @@ every check and waits for a person's approval. The writer and the QA reviewer ar
    - Answer the search question in the first two sentences.
    - One idea per section. Tables for numbers, numbered steps for procedures.
    - Every competitor price: a source link and the date you read it ("read 20 October 2026").
+     On a `/vs` page, write the fact in `src/data/competitors/<slug>.ts` with its source and
+     interpolate it; `pnpm check` fails a figure written into the page module itself.
    - At least one call to action in the body, matched to intent: `/migrate/freshdesk` for "export"
      and "migrate", `/pricing` for "price" and "alternative", `/#founding` near a renewal story.
    - 3–5 FAQ items with the questions people ask (People Also Ask in the SERP data).

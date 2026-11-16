@@ -172,6 +172,9 @@ export const alphaFindings = wordFindings(
   'says "alpha"; Colliedesk is generally available, so say that and mark a feature shipped or not built yet',
 );
 
+/** One finding per line of page text that shows "undefined": a value the page code could not find. */
+export const undefinedFindings = wordFindings(/\bundefined\b/, 'shows "undefined", a value the page could not find');
+
 // AI on Colliedesk Cloud is no longer sold at the model provider's cost plus a margin: reply drafts and
 // triage are included with a monthly allowance, auto-answer is priced per resolution, and your own key
 // adds no fee (src/lib/site.ts). Any wording of the retired price fails, so it cannot come back.
@@ -272,6 +275,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
       const head = `${title}\n${description}`;
       if (!CHANGELOG.test(path)) for (const f of alphaFindings(path, fromProduct ? head : `${head}\n${withJsonLd}`)) sitewide.add(f);
       for (const f of oldAiPriceFindings(path, fromProduct ? head : withJsonLd)) sitewide.add(f);
+      if (!fromProduct) for (const f of undefinedFindings(path, withJsonLd)) sitewide.add(f);
       if (!fromProduct) {
         for (const text of [title, description, visibleText(html.replace(/<head>[\s\S]*?<\/head>/, ''))]) {
           for (const f of foundingLeadFindings(path, text, foundingOpen)) sitewide.add(f);
@@ -281,12 +285,14 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
       for (const f of betaFindings(path, readFileSync(file, 'utf8'))) sitewide.add(f);
       if (!CHANGELOG.test(path)) for (const f of alphaFindings(`${path}.md`, readFileSync(file, 'utf8'))) sitewide.add(f);
       for (const f of oldAiPriceFindings(path, readFileSync(file, 'utf8'))) sitewide.add(f);
+      for (const f of undefinedFindings(`${path}.md`, readFileSync(file, 'utf8'))) sitewide.add(f);
       for (const f of foundingLeadFindings(`${path}.md`, readFileSync(file, 'utf8'), foundingOpen)) sitewide.add(f);
     } else if (/llms(-full)?\.txt$/.test(file)) {
       const text = readFileSync(file, 'utf8');
       const name = `/${relative(outDir, file)}`;
       if (file.endsWith('/llms.txt')) for (const f of [...betaFindings(name, text), ...alphaFindings(name, text)]) sitewide.add(f);
       for (const f of oldAiPriceFindings(name, text)) sitewide.add(f);
+      for (const f of undefinedFindings(name, text)) sitewide.add(f);
       // llms.txt: one line per page; llms-full.txt: one section per page, split by "---".
       const units = file.endsWith('/llms.txt') ? text.split('\n') : text.split(/\n---\n/);
       for (const unit of units) for (const f of foundingLeadFindings(name, unit, foundingOpen)) sitewide.add(f);

@@ -1,0 +1,199 @@
+// Competitor facts on the /vs pages come from src/data/competitors/<slug>.ts, one file per
+// competitor, with a source for every fact and a read date (issue #136). This gate fails when
+//   - a competitor file lacks a required fact or a feature key, or cites a source it does not list;
+//   - a competitor file, or one of its sources, was read more than READ_MAX_DAYS ago;
+//   - a /vs page module writes a figure (any digit) into its own text, or a number other than 0, 1
+//     and the named team sizes in PAGE_NUMBERS anywhere in its code, instead of taking it from the
+//     data file.
+// The figure rule is the part a machine can check: prices, limits and dates all carry digits. A
+// claim without a number ("no free plan") is checked by review; the tables render it from data.
+import { readdirSync, readFileSync } from 'node:fs';
+import { join, relative } from 'node:path';
+import { fileURLToPath, pathToFileURL } from 'node:url';
+import ts from 'typescript';
+
+export const READ_MAX_DAYS = 90;
+const REQUIRED_FACTS = ['plans', 'ai', 'free', 'license'];
+const MONEY_FORMATTERS = new Set(['usd', 'eur', 'eurCents', 'dollars', 'num', 'money']);
+// Page metadata that is not a competitor fact, and the only shape each may take.
+const META_PROPS = { path: /^\/[a-z0-9/-]*$/, updated: /^\d{4}-\d{2}-\d{2}$/ };
+const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
+const DAY_MS = 86_400_000;
+
+const daysSince = (iso, today) => Math.round((today.getTime() - Date.parse(`${iso}T00:00:00Z`)) / DAY_MS);
+
+// Facts a page states today that no source we hold confirms. Each is listed in the pull request for
+// the owner to source or delete; the list can only shrink. Entries are "<slug>.facts.<key>".
+export const KNOWN_UNSOURCED = ['zendesk.facts.usThirdParty'];
+
+/** Findings for one competitor file (or, with own: true, the Colliedesk side); [] means it passes. */
+export function competitorFindings(c, { today, featureKeys, own = false, unsourced = KNOWN_UNSOURCED }) {
+  const findings = [];
+  const id = c.slug;
+  const sources = c.sources ?? {};
+  // A read date must be a real past day; older than READ_MAX_DAYS asks for a new read.
+  const age = (what, iso, again) => {
+    const days = daysSince(iso, today);
+    if (Number.isNaN(days)) return `${id}: ${what} has a read date that is not YYYY-MM-DD: ${iso}`;
+    if (days < 0) return `${id}: ${what === 'file' ? '' : `${what} `}read on ${iso}, a date in the future`;
+    if (days > READ_MAX_DAYS) return `${id}: ${what === 'file' ? '' : `${what} `}read on ${iso}, ${days} days ago; ${again} (limit ${READ_MAX_DAYS} days)`;
+    return undefined;
+  };
+  for (const [key, s] of Object.entries(sources)) {
+    if (!/^https:\/\//.test(s.url ?? '')) findings.push(`${id}: source ${key} has no https URL`);
+    if (own || s.readOn === undefined) continue;
+    const finding = ISO_DATE.test(s.readOn) ? age(`source ${key}`, s.readOn, 'read it again') : `${id}: source ${key} has a read date that is not YYYY-MM-DD: ${s.readOn}`;
+    if (finding) findings.push(finding);
+  }
+  if (!own) {
+    if (!ISO_DATE.test(c.readOn ?? '')) findings.push(`${id}: no read date (readOn, YYYY-MM-DD)`);
+    else {
+      const finding = age('file', c.readOn, 'read the sources again');
+      if (finding) findings.push(finding);
+    }
+  }
+  const cite = (what, entry) => {
+    if (!entry?.source) findings.push(`${id}: ${what} has no source`);
+    else if (!Object.hasOwn(sources, entry.source)) findings.push(`${id}: ${what} cites source "${entry.source}", which is not in sources`);
+  };
+  if (!own) for (const key of REQUIRED_FACTS) if (!c.facts?.[key]) findings.push(`${id}: fact ${key} is missing`);
+  for (const [key, fact] of Object.entries(c.facts ?? {})) {
+    if (!fact?.source && unsourced.includes(`${id}.facts.${key}`)) continue;
+    cite(`fact ${key}`, fact);
+  }
+  (c.export ?? []).forEach((limit, i) => cite(`export limit ${i + 1}`, limit));
+  const features = c.features ?? {};
+  for (const key of featureKeys) {
+    if (!(key in features)) findings.push(`${id}: feature ${key} has no value; give it one or mark it 'unread'`);
+  }
+  for (const [key, value] of Object.entries(features)) {
+    if (!featureKeys.includes(key)) findings.push(`${id}: feature ${key} is not in src/data/competitors/features.ts`);
+    else if (value !== 'unread') cite(`feature ${key}`, value);
+  }
+  return findings;
+}
+
+/** A known-unsourced entry that has a source now, or no longer exists, must be deleted. */
+export function unsourcedDebtFindings(competitors, unsourced = KNOWN_UNSOURCED) {
+  return unsourced.flatMap((entry) => {
+    const [slug, , key] = entry.split('.');
+    const fact = competitors.find((c) => c.slug === slug)?.facts?.[key];
+    if (!fact) return [`KNOWN_UNSOURCED: ${entry} does not exist; delete the entry`];
+    return fact.source ? [`KNOWN_UNSOURCED: ${entry} has a source now; delete the entry`] : [];
+  });
+}
+
+// The scheduled run publishes founding places and product docs every 15 minutes. An old read date
+// fails pull requests and pushes, and only warns there, so it cannot freeze the live site.
+const STALE = /, \d+ days ago; /;
+/** Findings that fail the run and findings that only warn, for a GitHub event name. */
+export function splitForEvent(findings, event) {
+  if (event !== 'schedule') return { fail: findings, warn: [] };
+  return { fail: findings.filter((f) => !STALE.test(f)), warn: findings.filter((f) => STALE.test(f)) };
+}
+
+const isTextLiteral = (node) =>
+  ts.isStringLiteral(node) || ts.isNoSubstitutionTemplateLiteral(node) || ts.isTemplateHead(node)
+  || ts.isTemplateMiddle(node) || ts.isTemplateTail(node);
+
+// True for an expression built from number literals only, such as 66, 5 * 66 or 66 as number.
+const numbersOnly = (node) => {
+  if (ts.isNumericLiteral(node)) return true;
+  if (ts.isParenthesizedExpression(node) || ts.isAsExpression(node) || ts.isSatisfiesExpression(node)) return numbersOnly(node.expression);
+  if (ts.isPrefixUnaryExpression(node)) return numbersOnly(node.operand);
+  if (ts.isBinaryExpression(node)) return numbersOnly(node.left) && numbersOnly(node.right);
+  return false;
+};
+
+// The numbers page code may write: 0 and 1 (fallbacks, "one more than the cap", .at(-1)), and these
+// constants, each only with the value its name says. A price in a constant (const PRO = 66) fails.
+export const PAGE_NUMBERS = { FOUR: 4, FIVE: 5, SIX: 6, TEN: 10, MONTHS: 12, MILLION: 1_000_000 };
+const numberValue = (node) => Number(node.text.replace(/_/g, '').replace(/n$/, ''));
+
+// True when the literal initialises a constant named in PAGE_NUMBERS with that constant's value:
+// const FIVE = 5, or const [FIVE, TEN] = [5, 10].
+const namedNumber = (node) => {
+  const value = numberValue(node);
+  const named = (name) => ts.isIdentifier(name) && Object.hasOwn(PAGE_NUMBERS, name.text) && PAGE_NUMBERS[name.text] === value;
+  const parent = node.parent;
+  if (ts.isVariableDeclaration(parent) && parent.initializer === node) return named(parent.name);
+  if (ts.isArrayLiteralExpression(parent) && ts.isVariableDeclaration(parent.parent) && parent.parent.initializer === parent
+    && ts.isArrayBindingPattern(parent.parent.name)) {
+    const element = parent.parent.name.elements[parent.elements.indexOf(node)];
+    return Boolean(element && ts.isBindingElement(element) && !element.initializer && named(element.name));
+  }
+  return false;
+};
+
+/** Findings for the source of one /vs page module; [] means every figure comes from data. */
+export function pageTextFindings(file, source) {
+  const sf = ts.createSourceFile(file, source, ts.ScriptTarget.Latest, true, ts.ScriptKind.TS);
+  const findings = [];
+  const lineOf = (pos) => sf.getLineAndCharacterOfPosition(pos).line + 1;
+  // Expressions already reported as a price, so a number inside them is not reported twice.
+  const reported = [];
+  const report = (node, finding) => { reported.push([node.getStart(sf), node.getEnd()]); findings.push(finding); };
+  const visit = (node) => {
+    if (ts.isImportDeclaration(node) || ts.isExportDeclaration(node)) return;
+    if (ts.isPropertyAssignment(node) && ts.isIdentifier(node.name) && Object.hasOwn(META_PROPS, node.name.text)
+      && isTextLiteral(node.initializer) && META_PROPS[node.name.text].test(node.initializer.text)) return;
+    if ((ts.isNumericLiteral(node) || ts.isBigIntLiteral(node)) && ![0, 1].includes(numberValue(node)) && !namedNumber(node)
+      && !reported.some(([start, end]) => node.getStart(sf) >= start && node.getEnd() <= end)) {
+      findings.push(`${file}:${lineOf(node.getStart(sf))}: number ${node.text} in page code; take the figure from the competitor data file (team sizes: the constants in PAGE_NUMBERS)`);
+    }
+    if (ts.isTemplateSpan(node) && numbersOnly(node.expression)) {
+      report(node.expression, `${file}:${lineOf(node.expression.getStart(sf))}: price "${node.expression.getText(sf)}" in a template slot in page code; take it from the competitor data file`);
+    }
+    if (isTextLiteral(node)) {
+      // The raw text keeps escapes, so the offset maps to the right line of the file.
+      const raw = node.rawText ?? node.getText(sf).slice(1, -1);
+      let offset = 0;
+      for (const line of raw.split('\n')) {
+        if (/\d/.test(line)) {
+          const shown = line.trim().length > 100 ? `${line.trim().slice(0, 100)}…` : line.trim();
+          findings.push(`${file}:${lineOf(node.getStart(sf) + 1 + offset)}: figure "${shown}" in page text; state it in the competitor data file`);
+        }
+        offset += line.length + 1;
+      }
+      return;
+    }
+    // usd(66) and lib.usd(66) alike.
+    const callee = ts.isCallExpression(node) && (ts.isIdentifier(node.expression) ? node.expression.text
+      : ts.isPropertyAccessExpression(node.expression) ? node.expression.name.text : undefined);
+    if (callee && MONEY_FORMATTERS.has(callee)) {
+      for (const arg of node.arguments) {
+        if (numbersOnly(arg)) {
+          report(arg,`${file}:${lineOf(arg.getStart(sf))}: price "${arg.getText(sf)}" passed to ${callee}() in page code; take it from the competitor data file`);
+        }
+      }
+    }
+    ts.forEachChild(node, visit);
+  };
+  visit(sf);
+  return findings;
+}
+
+/** Every finding for the site: each competitor file, the Colliedesk side and each /vs page module. */
+export async function vsFactsFindings({ root = fileURLToPath(new URL('..', import.meta.url)), today = new Date() } = {}) {
+  const load = (rel) => import(pathToFileURL(join(root, rel)).href);
+  const { FEATURE_KEYS } = await load('src/data/competitors/features.ts');
+  const { COMPETITORS } = await load('src/data/competitors/index.ts');
+  const { colliedesk } = await load('src/data/competitors/colliedesk.ts');
+  const findings = [];
+  const unread = [];
+  for (const c of COMPETITORS) {
+    findings.push(...competitorFindings(c, { today, featureKeys: FEATURE_KEYS }));
+    unread.push(...Object.entries(c.features).filter(([, v]) => v === 'unread').map(([k]) => `${c.slug}.${k}`));
+  }
+  findings.push(...unsourcedDebtFindings(COMPETITORS));
+  findings.push(...competitorFindings(colliedesk, { today, featureKeys: FEATURE_KEYS, own: true }));
+  const pagesDir = join(root, 'src/data/pages');
+  const slugs = new Set(COMPETITORS.map((c) => c.slug));
+  for (const name of readdirSync(pagesDir).filter((n) => /^vs-.+\.ts$/.test(n))) {
+    const file = relative(root, join(pagesDir, name));
+    const slug = name.replace(/^vs-|\.ts$/g, '');
+    if (!slugs.has(slug)) findings.push(`${file}: no competitor file src/data/competitors/${slug}.ts in COMPETITORS`);
+    findings.push(...pageTextFindings(file, readFileSync(join(pagesDir, name), 'utf8')));
+  }
+  return { findings, unread };
+}

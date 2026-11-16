@@ -1,21 +1,27 @@
-import { AI_EXTRA, AI_RESOLUTION, PRICES_READ } from '../../lib/site';
+import { AI_EXTRA, AI_RESOLUTION, dollars, TEAM, TEAM_25 } from '../../lib/site';
+import { eur, eurCents, exportMd, factText, readOnLabel, sourcesMd } from '../../lib/competitor';
 import { faqPage, techArticle } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
+import { OURS } from '../competitors/colliedesk';
+import { api, price, zendesk as z } from '../competitors/zendesk';
 import { collieFacts as c, statusTable } from './collie-status';
 import { FOUNDING_ACTION, OUR_CELL, OUR_PLAN, OUR_PRICE, foundingFirst, withFoundingLead } from '../../lib/cloud-price';
+
+const PRICES_READ = readOnLabel(z.readOn);
+const FIVE = 5;
 
 const faq: Faq[] = [
   {
     q: 'Is there a Zendesk alternative that is not priced per agent?',
-    a: `Yes. ${foundingFirst('Colliedesk Cloud is one flat price per workspace: Team is $69 a month for up to 10 agents, Team 25 $149 for up to 25.')} Self-hosting is free. Colliedesk is open source (AGPL-3.0) and generally available.`,
+    a: `Yes. ${foundingFirst(`Colliedesk Cloud is one flat price per workspace: Team is ${dollars(TEAM.monthly)} a month for up to ${TEAM.agents} agents, ${TEAM_25.name} ${dollars(TEAM_25.monthly)} for up to ${TEAM_25.agents}.`)} Self-hosting is free. Colliedesk is open source (${OURS.license}) and generally available.`,
   },
   {
     q: 'How does Zendesk charge for AI?',
-    a: `On the Zendesk pricing page read on ${PRICES_READ}: Copilot is €50 per agent per month billed annually, and AI agents are billed per automated resolution, €1.50 committed or €2.00 pay-as-you-go, with some resolutions included per agent.`,
+    a: `On the Zendesk pricing page read on ${PRICES_READ}: Copilot is ${eur(price.copilot)} per agent per month billed annually, and AI agents are billed per automated resolution, ${eurCents(price.resolutionCommitted)} committed or ${eurCents(price.resolutionPayg)} pay-as-you-go, with some resolutions included per agent.`,
   },
   {
     q: 'Can I export all my Zendesk tickets?',
-    a: 'Zendesk\'s native data export is off by default: the account owner must ask Zendesk Support to enable it, and it is not available on Team plans. The CSV format has no comments. The Incremental Export API returns full comments but is limited to 10 requests per minute. Step by step: [how to export tickets from Zendesk](/migrate/zendesk/export).',
+    a: `Zendesk's native data export is off by default: the account owner must ask Zendesk Support to enable it, and it is not available on Team plans. The CSV format has no comments. The Incremental Export API returns full comments but is limited to ${api.perMinute} requests per minute. Step by step: [how to export tickets from Zendesk](/migrate/zendesk/export).`,
   },
   {
     q: 'Does Colliedesk import from Zendesk?',
@@ -34,25 +40,23 @@ Zendesk prices below are from the Zendesk pricing page in euros (our request for
 
 | Topic | Zendesk | Colliedesk |
 |---|---|---|
-| Plans (annual / monthly billing) | Support Team €19 / €25, Suite Team €55 / €69, Suite Professional €115 / €149; Enterprise on quote | ${c.price} |
-| AI drafting | Copilot €50 per agent per month, billed annually | ${c.ai} |
-| AI agent | Per automated resolution: €1.50 committed, €2.00 pay-as-you-go; some included per agent | Auto-answer with a human in the loop, ${AI_RESOLUTION} per resolution, only when no person is needed afterwards (not built yet) |
-| Free option | No free plan; 14-day trial | ${c.free} |
-| Source code | Proprietary | ${c.source} |
+| Plans (annual / monthly billing) | ${z.facts.plans.text} | ${c.price} |
+| AI drafting | ${z.facts.ai.text} | ${c.ai} |
+| AI agent | ${factText(z, 'aiAgent')} | Auto-answer with a human in the loop, ${AI_RESOLUTION} per resolution, only when no person is needed afterwards (not built yet) |
+| Free option | ${z.facts.free.text} | ${c.free} |
+| Source code | ${z.facts.license.text} | ${c.source} |
 
-Third-party sites list US prices of $19, $55 and $115 for the same three plans; we could not confirm them on Zendesk's own site.
+${factText(z, 'usThirdParty')}
 
 ### What five agents pay
 
 | Team | Zendesk Suite Professional + Copilot (annual) | Colliedesk Cloud |
 |---|---|---|
-| 5 agents | 5 × (€115 + €50) = **€825 per month**, plus AI agent resolutions beyond the included amount | ${OUR_CELL} + ${AI_EXTRA} |
+| ${FIVE} agents | ${FIVE} × (${eur(price.suitePro.annual)} + ${eur(price.copilot)}) = **${eur(FIVE * (price.suitePro.annual + price.copilot))} per month**, plus AI agent resolutions beyond the included amount | ${OUR_CELL} + ${AI_EXTRA} |
 
 ## Leaving: what Zendesk gives you
 
-- The native export (JSON, CSV, XML) is **off by default**. The account owner asks Zendesk Support to turn it on. It is **not available on Team plans**.
-- The **CSV export has no comments**, so it cannot carry a conversation.
-- The **Incremental Export API** returns tickets with full comments (\`include=comment_events\`), 1,000 per page, at **10 requests per minute**.
+${exportMd(z)}
 
 ${c.export} A Zendesk importer is on the [roadmap](/roadmap) for later.
 
@@ -64,10 +68,7 @@ ${statusTable}
 
 Read on ${PRICES_READ}. Prices change; check the vendor page before you decide.
 
-- Zendesk pricing (euro page): [zendesk.de/pricing](https://www.zendesk.de/pricing/)
-- Native data export: [support.zendesk.com article 203662346](https://support.zendesk.com/hc/en-us/articles/203662346-Exporting-data-to-a-JSON-CSV-or-XML-file)
-- Incremental Export API: [developer.zendesk.com](https://developer.zendesk.com/api-reference/ticketing/ticket-management/incremental_exports/)
-- API rate limits: [developer.zendesk.com rate limits](https://developer.zendesk.com/api-reference/introduction/rate-limits/)`;
+${sourcesMd(z)}`;
 
 const page: Page = {
   jsonLd: [],
@@ -76,7 +77,7 @@ const page: Page = {
   title: 'Colliedesk vs Zendesk: a flat-priced, open-source Zendesk alternative',
   description:
     'Colliedesk vs Zendesk for small support teams: per-agent seats and per-resolution AI fees vs one flat workspace price. Sourced prices, export limits and honest status.',
-  summary: `Zendesk per-agent seats, €50 Copilot and per-resolution AI vs Colliedesk ${OUR_PLAN} at a flat ${OUR_PRICE} per workspace; export off by default`,
+  summary: `Zendesk per-agent seats, ${eur(price.copilot)} Copilot and per-resolution AI vs Colliedesk ${OUR_PLAN} at a flat ${OUR_PRICE} per workspace; export off by default`,
   eyebrow: 'Compare · Zendesk alternative',
   h1: 'Colliedesk vs Zendesk',
   lede: withFoundingLead('Zendesk is the enterprise default, and it earns that. For a team of five, the seat count and the AI meter decide the bill. Here are the numbers, with sources.'),

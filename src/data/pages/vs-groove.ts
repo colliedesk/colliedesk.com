@@ -1,8 +1,13 @@
-const PRICES_READ = '16 October 2026';
 import { faqPage, techArticle } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
+import { exportMd, readOnLabel, sourcesMd, usd } from '../../lib/competitor';
 import { collieFacts as c, statusTable } from './collie-status';
+import { dollars, SOLO, TEAM } from '../../lib/site';
+import { creditCost, exportHours, groove as g, price } from '../competitors/groove';
 import { FOUNDING_ACTION, FOUNDING_OPEN, OUR_PLAN, OUR_PRICE, withFoundingLead } from '../../lib/cloud-price';
+
+const PRICES_READ = readOnLabel(g.readOn);
+const from = usd(price.from);
 
 const faq: Faq[] = [
   {
@@ -11,11 +16,11 @@ const faq: Faq[] = [
   },
   {
     q: 'How does Helply charge?',
-    a: 'By AI credits, not by user. Plans start at $49 per month for a block of credits, with no per-user fees and 15% off annual billing. A simple AI action such as a draft uses 1 credit; harder ones use 4 or 12.',
+    a: `By AI credits, not by user. Plans start at ${from} per month for a block of credits, with no per-user fees and ${price.annualDiscount}% off annual billing. A simple AI action such as a draft uses ${creditCost.draft} credit; harder ones use ${creditCost.harder.join(' or ')}.`,
   },
   {
     q: 'How do I export my Groove conversations?',
-    a: 'The account owner or an admin downloads them from Settings > Company > More > Exports. Groove\'s help says the export is JSON only, with no CSV, one export at a time, and large exports can take up to 72 hours.',
+    a: `The account owner or an admin downloads them from Settings > Company > More > Exports. Groove's help says the export is JSON only, with no CSV, one export at a time, and large exports can take up to ${exportHours} hours.`,
   },
 ];
 
@@ -30,18 +35,16 @@ Read on ${PRICES_READ}.
 
 | Topic | Helply (formerly Groove) | Colliedesk |
 |---|---|---|
-| Plans | From $49 per month for a block of credits (500 to 32,000); no per-user fees; 15% off annual | ${c.price} |
-| AI | Charged in credits: 1 for a draft or summary, 4 or 12 for harder actions; unused credits roll over | ${c.ai} |
-| Free option | 14-day trial with 1,000 credits, no card | ${c.free} |
-| Source code | Proprietary | ${c.source} |
+| Plans | ${g.facts.plans.text} | ${c.price} |
+| AI | ${g.facts.ai.text} | ${c.ai} |
+| Free option | ${g.facts.free.text} | ${c.free} |
+| Source code | ${g.facts.license.text} | ${c.source} |
 
-Helply's $49 is a credit budget for AI work. Colliedesk ${OUR_PLAN} at ${OUR_PRICE} is the helpdesk for up to 10 agents${FOUNDING_OPEN ? '' : ' (Solo is $19 for one)'}, with AI reply drafts and triage included (monthly allowance) or on your own key.
+Helply's ${from} is a credit budget for AI work. Colliedesk ${OUR_PLAN} at ${OUR_PRICE} is the helpdesk for up to ${TEAM.agents} agents${FOUNDING_OPEN ? '' : ` (Solo is ${dollars(SOLO.monthly)} for one)`}, with AI reply drafts and triage included (monthly allowance) or on your own key.
 
 ## Leaving: what Groove gives you
 
-- The account owner and admins can download **all conversation data**.
-- The export is **JSON only**; Groove says a CSV export is not available.
-- **One export at a time**; large exports can take **up to 72 hours**.
+${exportMd(g)}
 
 ${c.export}
 
@@ -53,9 +56,7 @@ ${statusTable}
 
 Read on ${PRICES_READ}. Prices change; check the vendor page before you decide.
 
-- Helply about (formerly Groove): [helply.com/about](https://helply.com/about)
-- Helply pricing: [helply.com/pricing](https://helply.com/pricing)
-- Groove export: [help.groovehq.com](https://help.groovehq.com/help/970-export-your-groove-conversations)`;
+${sourcesMd(g)}`;
 
 const page: Page = {
   jsonLd: [],
@@ -64,8 +65,8 @@ const page: Page = {
   section: 'Compare',
   title: 'Colliedesk vs Groove (now Helply): a flat-price helpdesk vs AI credits',
   description:
-    `Groove is now Helply, priced by AI credits from $49 per month. Colliedesk is an open-source helpdesk at one flat price per workspace (${OUR_PLAN} ${OUR_PRICE} for up to 10 agents) with AI drafts included. Export limits and honest status.`,
-  summary: `Groove is now Helply: AI credits from $49 per month, JSON-only export vs Colliedesk ${OUR_PLAN}, a flat ${OUR_PRICE} per workspace helpdesk`,
+    `Groove is now Helply, priced by AI credits from ${from} per month. Colliedesk is an open-source helpdesk at one flat price per workspace (${OUR_PLAN} ${OUR_PRICE} for up to ${TEAM.agents} agents) with AI drafts included. Export limits and honest status.`,
+  summary: `Groove is now Helply: AI credits from ${from} per month, JSON-only export vs Colliedesk ${OUR_PLAN}, a flat ${OUR_PRICE} per workspace helpdesk`,
   eyebrow: 'Compare · Groove alternative',
   h1: 'Colliedesk vs Groove (now Helply)',
   lede: withFoundingLead('Groove became Helply and rebuilt itself around AI agents priced by credits. If you chose Groove for a simple shared inbox, here is the difference, with sources.'),

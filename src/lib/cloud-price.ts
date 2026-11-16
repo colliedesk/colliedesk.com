@@ -2,8 +2,8 @@
 // on sale (src/data/pages/pricing.ts), so a page that names a Cloud price leads with Founding and gives
 // the monthly plans as the prices after its places are taken. Once Founding closes the same phrases name
 // the monthly plans alone. `pnpm check:content` fails a page that names a plan price before Founding.
-import { FOUNDING_SLOTS, foundingState } from './founding';
-import { type NavLink, PRICE } from './site';
+import { FOUNDING_SLOTS, foundingState } from './founding.ts';
+import { type NavLink, PRICE } from './site.ts';
 
 export const FOUNDING_OPEN = foundingState().open;
 

@@ -1,11 +1,12 @@
 // "Your bill, by team size" on the home page: a year of Freshdesk for the chosen team against the flat
 // Colliedesk plan that covers it. Pure, so scripts/team-bill.test.mjs checks the numbers by hand.
+import { price } from '../data/competitors/freshdesk.ts';
 import { BUSINESS, TEAM, TEAM_25 } from './site.ts';
 
-// Freshdesk list prices per agent per month, billed annually, read on PRICES_READ (see /vs/freshdesk).
-const GROWTH = 19;
-const PRO = 55;
-const COPILOT = 29;
+// Freshdesk list prices per agent per month, billed annually, from its competitor file.
+const GROWTH = price.growth.annual;
+const PRO = price.pro.annual;
+const COPILOT = price.copilot.annual;
 const FOUNDING_YEAR = 4 * 99;
 
 export const BILL_SIZES = [5, 10, 25, 50] as const;
