@@ -518,7 +518,9 @@ a.mono-label:hover { text-decoration: underline; }
 .segmented input { position: absolute; width: 1px; height: 1px; opacity: 0; }
 :is(.segmented, .vs-sizes) label:has(input:focus-visible) { outline: 2px solid var(--focus); outline-offset: 2px; }
 @media (pointer: coarse) { .segmented label, .vs-sizes label { min-height: var(--touch); } }
-@media (max-width: 640px) { .segmented label, .vs-sizes label { flex: 1 0 auto; } }
+/* On a phone the bill's four short options share one row. The five /vs options do not fit one, so they sit on
+   a three-column grid: a stretched flex row left the fifth as one full-width key. */
+@media (max-width: 640px) { .segmented label { flex: 1 0 auto; } .vs-sizes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 .bill-bars { display: none; gap: var(--space-6); }
 .bill:has(input[value="5"]:checked) .bill-bars[data-size="5"],
 .bill:has(input[value="10"]:checked) .bill-bars[data-size="10"],
