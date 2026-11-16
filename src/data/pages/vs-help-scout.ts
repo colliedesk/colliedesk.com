@@ -45,6 +45,8 @@ Help Scout prices are per user per month as shown on the pricing page on ${PRICE
 |---|---|---|---|
 | 5 agents | 5 × $25 = **$125 per month** + $0.75 per AI resolution | 5 × $45 = **$225 per month** + $0.75 per AI resolution | ${OUR_CELL} + ${AI_EXTRA} |
 
+The Colliedesk price is per workspace, not per user or contact. [Colliedesk pricing](/pricing) has the plans on sale today and the 14-day free trial, no card.
+
 ## Trust and pricing changes
 
 In 2025 Help Scout moved to contact-based pricing and then reversed it after customer pushback ([Michael Tsai, 30 April 2025](https://mjtsai.com/blog/2025/04/30/whither-help-scout)). We publish our pricing in the open and the code is AGPL-3.0: if we ever change course in a way you dislike, you can self-host the same software or fork it.

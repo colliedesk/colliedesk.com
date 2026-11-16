@@ -45,6 +45,8 @@ Gorgias prices are per month for the whole account, by tickets included, read on
 | 2,000 | Pro: **$471 per month** | ${OUR_CELL} + ${AI_EXTRA} |
 | 5,000 | Advanced: **$1,227 per month** | ${OUR_CELL} + ${AI_EXTRA} |
 
+Colliedesk plans are set by agents and attachment storage, not by how many tickets you get. [Colliedesk pricing](/pricing) has the plans on sale today and the 14-day free trial, no card.
+
 ## What Colliedesk does today
 
 ${statusTable}

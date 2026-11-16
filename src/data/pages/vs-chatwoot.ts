@@ -56,6 +56,8 @@ Business is the Chatwoot plan with automation rules and teams.
 | Ticket count | Freshdesk API cap of 30,000 tickets | Archived tickets included; totals checked against what Freshdesk reports |
 | Proof that nothing was lost | Not described | Reconcile report |
 
+Leaving Freshdesk? [Migrate from Freshdesk](/migrate/freshdesk) gives the steps: import through the Freshdesk API while you keep working there, check the reconcile report, then switch.
+
 ## What Colliedesk does today
 
 ${statusTable}

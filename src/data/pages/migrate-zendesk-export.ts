@@ -74,6 +74,8 @@ The API is the route that works on every plan and lets a tool count what it read
 
 Colliedesk imports from Freshdesk and Help Scout today, with a reconcile report that proves nothing was lost. A Zendesk importer is on the [roadmap](/roadmap). Comparing the two products first? Read [Colliedesk vs Zendesk](/vs/zendesk).
 
+Leaving Zendesk before the importer ships? Keep your export as a backup and start fresh on Colliedesk Cloud: every new workspace starts with a 14-day free trial, no card. The plans are on [Colliedesk pricing](/pricing).
+
 ## Sources
 
 - Data export: [support.zendesk.com article 203662346](https://support.zendesk.com/hc/en-us/articles/203662346-Exporting-data-to-a-JSON-CSV-or-XML-file)
