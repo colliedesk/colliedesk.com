@@ -102,15 +102,36 @@ test('the shortcut leaves Shift or Alt chords and typing in other fields alone',
   assert.equal(s.opened(), 0);
 });
 
-test('"Copy MCP URL" copies https://app.colliedesk.com/mcp', async () => {
+test('"Copy MCP URL" copies https://app.colliedesk.com/mcp and says so in its label', async () => {
   const written = [];
+  const label = element();
+  label.textContent = 'Copy MCP URL';
   const button = element({ 'data-url': 'https://app.colliedesk.com/mcp' });
+  button.querySelector = (s) => (s === '[data-docs-copy-mcp-label]' ? label : null);
   page('docs-copy.js', {
     elements: { '[data-docs-copy-mcp]': button },
     globals: { navigator: { clipboard: { writeText: (t) => { written.push(t); return Promise.resolve(); } } }, setTimeout: () => 0, clearTimeout: () => {} },
   });
-  button.textContent = 'Copy MCP URL';
   await button.listeners.click[0]();
   assert.deepEqual(written, ['https://app.colliedesk.com/mcp']);
-  assert.equal(button.textContent, 'Copied');
+  assert.equal(label.textContent, 'Copied', 'only the label changes; the icon and the description stay');
+});
+
+test('the AI menu closes on Escape and on a click outside it', () => {
+  const menu = element();
+  menu.open = true;
+  menu.contains = (t) => t === 'inside';
+  const summary = element();
+  summary.focused = 0;
+  summary.focus = () => { summary.focused++; };
+  menu.querySelector = (s) => (s === 'summary' ? summary : null);
+  const { docListeners } = page('docs-copy.js', { elements: { 'details.docs-ai': menu } });
+  for (const f of docListeners.click ?? []) f({ target: 'inside' });
+  assert.equal(menu.open, true, 'a click inside keeps it open');
+  for (const f of docListeners.keydown ?? []) f({ key: 'Escape' });
+  assert.equal(menu.open, false);
+  assert.equal(summary.focused, 1, 'focus goes back to the toggle');
+  menu.open = true;
+  for (const f of docListeners.click ?? []) f({ target: 'outside' });
+  assert.equal(menu.open, false);
 });

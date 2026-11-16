@@ -11,21 +11,40 @@
     var mcp = document.querySelector('[data-docs-copy-mcp]');
     if (!mcp) return;
     if (!navigator.clipboard) { mcp.hidden = true; return; }
-    var idle = mcp.textContent;
+    // Only the title changes, so the icon and the description line stay in place.
+    var label = mcp.querySelector('[data-docs-copy-mcp-label]') || mcp;
+    var idle = label.textContent;
     var timer = 0;
     mcp.addEventListener('click', function () {
       return navigator.clipboard.writeText(mcp.getAttribute('data-url')).then(function () {
         clearTimeout(timer);
-        mcp.textContent = 'Copied';
-        timer = setTimeout(function () { mcp.textContent = idle; }, 2000);
+        label.textContent = 'Copied';
+        timer = setTimeout(function () { label.textContent = idle; }, 2000);
       }, function () {
-        mcp.textContent = 'Could not copy';
+        label.textContent = 'Could not copy';
       });
+    });
+  }
+
+  // The AI menu is a <details> so it works without script; with script it also closes the way a
+  // menu does: on Escape (focus back on its toggle) and on a click outside it.
+  function wireMenuClose() {
+    var menu = document.querySelector('details.docs-ai');
+    if (!menu) return;
+    document.addEventListener('keydown', function (e) {
+      if (e.key !== 'Escape' || !menu.open) return;
+      menu.open = false;
+      var toggle = menu.querySelector('summary');
+      if (toggle) toggle.focus();
+    });
+    document.addEventListener('click', function (e) {
+      if (menu.open && !menu.contains(e.target)) menu.open = false;
     });
   }
 
   document.addEventListener('DOMContentLoaded', function () {
     wireMcpCopy();
+    wireMenuClose();
     var button = document.querySelector('[data-docs-copy]');
     if (!button) return;
     if (!navigator.clipboard) { button.hidden = true; return; }

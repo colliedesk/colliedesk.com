@@ -252,11 +252,12 @@ p.switch-offer-print { padding-left: 0; }
 .docs-nav-group + .docs-nav-group { margin-top: var(--space-4); }
 .docs-nav-subtitle { font: 600 12px var(--font-sans); color: var(--text-3); margin: 0; padding: .7rem .9rem .25rem; }
 .docs-nav-subgroup ul { border-left: 0; padding-left: .6rem; }
-/* Docs: "Copy for AI" and "View as Markdown" between the h1 and the lede (public/docs-copy.js wires the button).
+/* Docs: the "Copy for AI" control between the h1 and the lede (public/docs-copy.js wires the button;
+   its split-button look and menu are in docs.css).
    The status line keeps .visually-hidden except in the error state, so the live region is in the
    accessibility tree from load and a success adds no row. */
 .docs-actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-5); margin: 0 0 var(--space-6); }
-.docs-copy { min-width: 9.5rem; justify-content: flex-start; cursor: pointer; }
+.docs-copy { align-items: center; cursor: pointer; }
 /* Shown from the first paint when scripting is on (no layout shift when docs-copy.js runs); browsers
    without the scripting media feature show it once the script marks it ready; no clipboard: hidden. */
 .docs-copy { display: none; }
@@ -268,10 +269,7 @@ p.switch-offer-print { padding-left: 0; }
 .docs-copy[data-state="copied"] .i-copy { display: none; }
 .docs-copy[data-state="copied"] .i-done { display: block; }
 .docs-copy[data-state="busy"] { cursor: progress; color: var(--text-2); }
-.docs-md-link { display: inline-flex; align-items: center; min-height: 36px; font-size: 14px; font-weight: 500; color: var(--text-2); }
-.docs-md-link:hover { color: var(--text-1); }
 .docs-copy-status { flex-basis: 100%; margin: 0; font-size: 14px; color: var(--danger); }
-@media (pointer: coarse) { .docs-copy, .docs-md-link { min-height: var(--touch); } }
 @media (max-width: 640px) { .docs-actions { margin-bottom: var(--space-5); } }
 
 /* Footer */

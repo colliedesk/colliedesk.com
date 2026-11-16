@@ -48,7 +48,7 @@ async function docsCopyClick(source, { fetch, refuse = false, clipboardItem = fa
   const button = el({ querySelector: () => label });
   button.attrs['data-md'] = '/docs/x.md';
   let ready;
-  const document = { addEventListener: (t, f) => { if (t === 'DOMContentLoaded') ready = f; }, querySelector: (s) => (s === '[data-docs-copy]' ? button : status) };
+  const document = { addEventListener: (t, f) => { if (t === 'DOMContentLoaded') ready = f; }, querySelector: (s) => (s === '[data-docs-copy]' ? button : s === '[data-docs-copy-status]' ? status : null) };
   const answer = () => (refuse ? Promise.reject(new Error('NotAllowedError')) : Promise.resolve());
   const clipboard = { writeText: answer, write: (items) => items[0].data['text/plain'].then(answer) };
   const ctx = { document, navigator: { clipboard }, fetch, Blob: class {}, setTimeout: (f, ms) => timers.push({ f, ms }), clearTimeout: () => {} };
@@ -355,7 +355,9 @@ if (!read('docs/knowledge-base.md').includes('`![name](/api/v1/kb/images/…)`')
       if (!buttons[0].includes(`data-md="${mdUrl}"`)) fail(`${urlPath}: Copy for AI button does not copy ${mdUrl}`);
       if (/\shidden(=""|[\s>])/.test(buttons[0])) fail(`${urlPath}: Copy for AI button must not start hidden; CSS shows it from the first paint when scripting is on, so showing it later would shift the row`);
     }
-    if (!html.includes(`<a class="docs-md-link" href="${mdUrl}" type="text/markdown">View as Markdown</a>`)) fail(`${urlPath}: no "View as Markdown" link to ${mdUrl}`);
+    const mdOpen = `<a class="docs-md-link" href="${mdUrl}" type="text/markdown">`;
+    const mdAt = html.indexOf(mdOpen);
+    if (mdAt < 0 || !html.slice(mdAt, html.indexOf('</a>', mdAt)).includes('View as Markdown')) fail(`${urlPath}: no "View as Markdown" link to ${mdUrl}`);
     if (!/<p class="docs-copy-status visually-hidden" role="status" data-docs-copy-status=""><\/p>/.test(html)) fail(`${urlPath}: Copy for AI has no empty visually-hidden status (role="status") in the page from load`);
     if (!loads) fail(`${urlPath}: docs-copy.js not loaded`);
     // Between the h1 and the lede, so a long lede never pushes the row under the cookie banner on a phone.

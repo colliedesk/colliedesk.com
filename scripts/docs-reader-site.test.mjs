@@ -87,13 +87,22 @@ test('each guide shows the date its own file last changed, the feedback question
   assert.ok(html.includes('This page is rendered from <a href="https://github.com/colliedesk/colliedesk/blob/main/docs/user/connect-codex.md" rel="noopener">the repository</a>.'));
 });
 
-test('beside "Copy for AI": open in Claude, open in ChatGPT, copy the MCP URL', opts, () => {
+test('"Copy for AI" and its menu are one compact control: Markdown, Claude, ChatGPT, MCP URL', opts, () => {
   const actions = section(read('docs/connect-codex.html'), /<div class="docs-actions">[\s\S]*?<\/details>/);
+  const group = section(actions, /<div class="docs-ai-group">[\s\S]*<\/details>/);
+  assert.ok(group, 'the copy button and the menu sit in one group');
+  assert.ok(group.indexOf('data-docs-copy=""') < group.indexOf('<details class="docs-ai">'), 'the copy button comes first, the menu toggle second');
+  assert.match(group, /<summary><span class="docs-ai-label">Use with AI<\/span><\/summary>/);
   const prompt = 'Read%20https%3A%2F%2Fcolliedesk.com%2Fdocs%2Fconnect-codex.md%20so%20I%20can%20ask%20questions%20about%20it.';
-  assert.ok(actions.includes(`<a href="https://claude.ai/new?q=${prompt}" target="_blank" rel="noopener">Open in Claude</a>`), 'Open in Claude');
-  assert.ok(actions.includes(`<a href="https://chatgpt.com/?hints=search&amp;q=${prompt}" target="_blank" rel="noopener">Open in ChatGPT</a>`), 'Open in ChatGPT');
-  assert.match(actions, /<button type="button" class="docs-copy-mcp" data-docs-copy-mcp="" data-url="https:\/\/app\.colliedesk\.com\/mcp">Copy MCP URL<\/button>/);
-  assert.ok(actions.includes('<code>https://app.colliedesk.com/mcp</code>'), 'the URL is readable without scripting');
+  const items = [...group.matchAll(/<li[^>]*>[\s\S]*?<\/li>/g)].map((m) => m[0]);
+  const titles = items.map((li) => li.match(/<strong[^>]*>([^<]+)<\/strong>/)?.[1]);
+  assert.deepEqual(titles, ['View as Markdown', 'Open in Claude', 'Open in ChatGPT', 'Copy MCP URL']);
+  assert.ok(items[0].includes('<a class="docs-md-link" href="/docs/connect-codex.md" type="text/markdown">'), 'View as Markdown opens the twin');
+  assert.ok(items[1].includes(`<a href="https://claude.ai/new?q=${prompt}" target="_blank" rel="noopener">`), 'Open in Claude');
+  assert.ok(items[2].includes(`<a href="https://chatgpt.com/?hints=search&amp;q=${prompt}" target="_blank" rel="noopener">`), 'Open in ChatGPT');
+  assert.match(items[3], /<button type="button" class="docs-copy-mcp" data-docs-copy-mcp="" data-url="https:\/\/app\.colliedesk\.com\/mcp">/);
+  assert.ok(items[3].includes('<code>https://app.colliedesk.com/mcp</code>'), 'the URL is readable without scripting');
+  for (const li of items) assert.match(li, /<small>[^<]+<\/small>/, 'each item says in a line what it does');
 });
 
 test('search: a trigger and a dialog on docs pages, an index of docs pages only', opts, () => {
