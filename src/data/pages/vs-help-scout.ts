@@ -61,6 +61,13 @@ ${c.export} The [Help Scout importer](/docs/import-helpscout) copies one inbox a
 
 ${statusTable}
 
+## Related comparisons
+
+- [Colliedesk vs Groove (now Helply)](/vs/groove)
+- [Colliedesk vs Front](/vs/front)
+- [Colliedesk vs Freshdesk](/vs/freshdesk)
+- [Every Colliedesk comparison](/compare)
+
 ## Sources
 
 Read on ${PRICES_READ}. Prices change; check the vendor page before you decide.

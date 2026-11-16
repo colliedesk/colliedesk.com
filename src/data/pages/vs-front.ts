@@ -61,6 +61,13 @@ ${c.export}
 
 ${statusTable}
 
+## Related comparisons
+
+- [Colliedesk vs Help Scout](/vs/help-scout)
+- [Colliedesk vs Groove (now Helply)](/vs/groove)
+- [Colliedesk vs HubSpot Service Hub](/vs/hubspot-service-hub)
+- [Every Colliedesk comparison](/compare)
+
 ## Sources
 
 Read on ${PRICES_READ}. Prices change; check the vendor page before you decide.

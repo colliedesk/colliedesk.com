@@ -47,6 +47,13 @@ AI is extra on HappyFox.
 
 ${statusTable}
 
+## Related comparisons
+
+- [Colliedesk vs Zoho Desk](/vs/zoho-desk)
+- [Colliedesk vs Freshdesk](/vs/freshdesk)
+- [Colliedesk vs Zendesk](/vs/zendesk)
+- [Every Colliedesk comparison](/compare)
+
 ## Sources
 
 Read on ${PRICES_READ}. Prices change; check the vendor page before you decide.

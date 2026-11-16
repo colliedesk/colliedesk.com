@@ -71,10 +71,6 @@ export const KNOWN_DEBT = {
     '/self-hosted-helpdesk', '/vs/freescout', '/vs/freshdesk', '/vs/front', '/vs/gorgias', '/vs/groove',
     '/vs/happyfox', '/vs/help-scout', '/vs/hubspot-service-hub', '/vs/zammad', '/vs/zendesk', '/vs/zoho-desk',
   ],
-  links: [
-    '/open-source', '/vs/chatwoot', '/vs/freescout', '/vs/front', '/vs/gorgias', '/vs/groove', '/vs/happyfox',
-    '/vs/help-scout', '/vs/hubspot-service-hub', '/vs/zammad', '/vs/zoho-desk',
-  ],
 };
 
 // Lines a reader reads as sentences: no headings, tables, lists, quotes, images, HTML or code.
