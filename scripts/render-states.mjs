@@ -83,6 +83,9 @@ export const PROBES = [
   // A keyboard key in text is a keycap: one line around, two under.
   { name: 'search keycap', page: DOCS, sel: '.docs-sidebar .docs-search-open kbd', widths: [1440], theme: 'light',
     states: { rest: { border: 1, under: 2, radius: 4, line: C.light.control } } },
+  // Paper: a note in prose is a neutral sheet on a hairline ring, with no orange bar.
+  ...['light', 'dark'].map((t) => ({ name: `${t} docs note`, page: '/docs/results.html', sel: '.prose blockquote', widths: [1440], theme: t,
+    states: { rest: { bg: C[t].surface0, markWidth: 0, lip: `${C[t].line} 0px 0px 0px 1px`, radius: 6 } } })),
   // The toggle is on only in the dark theme.
   { name: 'dark "Dark theme" toggle while on', page: HOME, sel: '.theme-toggle', widths: BOTH, theme: 'dark',
     setup: `document.querySelector('.theme-toggle').setAttribute('aria-pressed', 'true');`, states: held('dark') },

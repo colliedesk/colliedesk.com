@@ -231,7 +231,8 @@ td:has(> .badge) { width: 1%; white-space: nowrap; }
 .prose li { margin: .35rem 0; }
 .prose li::marker { color: var(--text-3); }
 .prose pre { background: var(--surface-1); border: 1px solid var(--line); color: var(--text-1); border-radius: var(--radius); padding: var(--space-4) var(--space-5); overflow-x: auto; font: 13px/1.7 var(--font-mono); }
-.prose blockquote { margin: 1.5rem 0; padding: var(--space-4) var(--space-5); border-left: 3px solid var(--accent); background: var(--accent-soft); color: var(--text-1); border-radius: 0 var(--radius) var(--radius) 0; }
+/* A note is paper: a neutral sheet on a hairline ring. Orange is for the primary action, not for notes. */
+.prose blockquote { margin: 1.5rem 0; padding: var(--space-3) var(--space-4); border: 0; border-radius: var(--radius); background: var(--surface-0); box-shadow: 0 0 0 1px var(--line); color: var(--text-1); }
 .prose blockquote p:last-child { margin: 0; }
 .table-wrap { overflow-x: auto; margin: 1.25rem 0 1.75rem; border-radius: 10px; background: var(--surface-1); box-shadow: var(--ring); }
 table { border-collapse: collapse; width: 100%; font-size: .95rem; }
