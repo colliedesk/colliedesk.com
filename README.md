@@ -113,8 +113,17 @@ repo checks contrast for every pair and fails when a grey, a text token or the p
   `node scripts/product-shot/variants.mjs` (ffmpeg); `pnpm check` fails if a size the hero names is missing. Retake the
   screenshot with `pnpm shot:product` once those screens ship (see below).
 - Light is the default; the footer **Dark theme** button sets `data-theme="dark"` and saves it in
-  `localStorage` for this site only (`public/theme.js`). Spacing is a 4 px grid (`--space-*`); buttons
-  are at least 44 px tall on touch (`--touch`).
+  `localStorage` for this site only (`public/theme.js`). Spacing is a 4 px grid (`--space-*`).
+- Sizes follow PostHog (owner decision 16/11/2026, measured on posthog.com that day); this replaces the old
+  "at least 44 px on touch" rule for buttons. Buttons are keys: a face 4 px above a darker base it casts
+  with two box-shadows, 6 px on hover, 2 px while pressed (a 100 ms transition on the press only, none with
+  reduced motion). `.btn` is 15/26 px bold, padding 8/20, radius 8; `.btn-sm` (header, docs controls,
+  cookie sheet) 13/20, padding 4/10, radius 6, depths 2/3/1; `.btn-lg` 18/28. Borders are 1.5 px; the
+  colours are neutral custom properties (`--key-*`) in `styles.css`, primary a charcoal face on a black base.
+- Type sizes: marketing pages (home, pricing, compare, migrate) use hero h1 60/60 (30/31.5 on phones, 44/46
+  in between), section h2 28/35, h3 16/24, body 16/24, small text 14/20. Docs and other prose pages
+  (`body.page-prose`: no CTA, plans or price chart) use h1 36/45, h2 21.4/30, h3 20/28, h4 18/28,
+  body 15/22.5, code 13. `pnpm check:render` measures buttons, their states and these sizes in Chrome.
 
 ## Retaking the product screenshot
 
