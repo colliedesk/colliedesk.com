@@ -18,6 +18,8 @@ const C = {
 };
 const HOME = '/index.html', PRICING = '/pricing.html', AUDIT = '/audit.html', DOCS = '/docs/inbox.html', VS = '/vs/freshdesk.html';
 const BOTH = [390, 1440];
+// Stands for the Highlight system colour, which the platform picks.
+const HIGHLIGHT = 'system Highlight';
 
 // A field is a slot as tall as the key face beside it, with the amber outline on focus.
 const field = (name, page, sel, t) => ({
@@ -86,6 +88,9 @@ export const PROBES = [
   // Paper: a note in prose is a neutral sheet on a hairline ring, with no orange bar.
   ...['light', 'dark'].map((t) => ({ name: `${t} docs note`, page: '/docs/results.html', sel: '.prose blockquote', widths: [1440], theme: t,
     states: { rest: { bg: C[t].surface0, markWidth: 0, lip: `${C[t].line} 0px 0px 0px 1px`, radius: 6 } } })),
+  // Forced colours drop the grey face and the base, so a held key takes the system highlight.
+  { name: 'chosen option in forced colours', page: HOME, sel: '.segmented label:has(input:checked)', widths: [1440], theme: 'light',
+    media: [{ name: 'forced-colors', value: 'active' }], states: { rest: { bg: HIGHLIGHT } } },
   // The toggle is on only in the dark theme.
   { name: 'dark "Dark theme" toggle while on', page: HOME, sel: '.theme-toggle', widths: BOTH, theme: 'dark',
     setup: `document.querySelector('.theme-toggle').setAttribute('aria-pressed', 'true');`, states: held('dark') },
@@ -107,6 +112,7 @@ const measure = (sel) => `(() => {
     under: parseFloat(s.borderBottomWidth), radius: parseFloat(s.borderTopLeftRadius), bg: s.backgroundColor, nudge: s.translate,
     mark: s.borderLeftColor, markWidth: parseFloat(s.borderLeftWidth), weight: +s.fontWeight, color: s.color,
     lift: m ? -m[1].split(',').map(Number)[5] : 0,
+    highlight: (() => { const h = document.createElement('i'); h.style.cssText = 'forced-color-adjust: none; background: Highlight'; document.body.append(h); const c = getComputedStyle(h).backgroundColor; h.remove(); return c; })(),
     shadows: [...s.boxShadow.matchAll(/(-?[\\d.]+)px (-?[\\d.]+)px (-?[\\d.]+)px (-?[\\d.]+)px/g)].map((x) => +x[2]).join('/') };
 })()`;
 
@@ -123,6 +129,7 @@ export async function checkStates({ send, once, sessionId, port }) {
     for (const width of p.widths) {
       const at = `${p.page} at ${width}px`;
       await send('Emulation.setDeviceMetricsOverride', { width, height: width < 641 ? 844 : 900, deviceScaleFactor: 2, mobile: width < 641 }, sessionId);
+      await send('Emulation.setEmulatedMedia', { features: p.media ?? [] }, sessionId);
       const loaded = once('Page.loadEventFired', sessionId);
       await send('Page.navigate', { url: `http://localhost:${port}${p.page}` }, sessionId);
       await loaded;
@@ -139,12 +146,14 @@ export async function checkStates({ send, once, sessionId, port }) {
         await sleep(state === 'rest' ? 50 : 250);
         const got = await ev(measure(p.sel));
         if (!got) { failures.push(`${at}: ${p.name} is not shown`); break; }
-        for (const [prop, value] of Object.entries(want)) {
+        for (const [prop, w] of Object.entries(want)) {
+          const value = w === HIGHLIGHT ? got.highlight : w;
           if (!same(got[prop], value)) failures.push(`${at}: ${p.name} ${state} ${prop} is ${got[prop]}, want ${value}`);
         }
       }
       await send('CSS.forcePseudoState', { nodeId, forcedPseudoClasses: [] }, sessionId);
     }
   }
+  await send('Emulation.setEmulatedMedia', { features: [] }, sessionId);
   return failures;
 }

@@ -138,6 +138,11 @@ code { font-family: var(--font-mono); font-size: .88em; background: var(--surfac
 /* Disabled (docs feedback after an answer): sunk and grey, no base. A disabled primary keeps its orange at 30 %. */
 :is(.btn, .theme-toggle):disabled { --key-lift: 0px; transform: none; box-shadow: none; background: var(--surface-2); color: var(--text-3); border-color: var(--line); cursor: default; }
 :is(.segmented, .vs-sizes) label:has(input:checked) { cursor: default; }
+/* Forced colours drop the grey face and the base, which would leave a held key looking like the others. */
+@media (forced-colors: active) {
+  .nav-mobile[open] summary, .docs-menu[open] summary, .docs-toc-mobile[open] summary, button.theme-toggle[aria-pressed="true"],
+  .segmented label:has(input:checked), .vs-sizes label:has(input:checked) { forced-color-adjust: none; background: Highlight; color: HighlightText; border-color: Highlight; }
+}
 .btn-primary:disabled { background: var(--key-primary-face); color: var(--key-primary-text); border-color: var(--key-primary-rim); opacity: .3; }
 .btn-lg { font-size: 18px; line-height: 28px; }
 /* A long label wraps on a phone instead of pushing the page wider than the screen. */
