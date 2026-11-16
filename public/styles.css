@@ -89,11 +89,13 @@ code { font-family: var(--font-mono); font-size: .88em; background: var(--surfac
    elsewhere). */
 :root, :root[data-theme="light"] {
   --key-face: #ffffff; --key-text: #171717; --key-rim: var(--line-control); --key-edge: #d4d4d4;
-  --key-primary-face: #2e2e2e; --key-primary-text: #ffffff; --key-primary-rim: #0a0a0a; --key-primary-edge: #0a0a0a;
+  /* The primary key is the brand's primary action: the Collie orange on a darker orange base. */
+  --key-primary-face: var(--accent); --key-primary-text: var(--on-accent); --key-primary-rim: var(--accent-hover); --key-primary-edge: var(--accent-hover);
 }
 :root[data-theme="dark"] {
   --key-face: #1c1c1c; --key-text: #fafafa; --key-rim: #5a5a5a; --key-edge: #3a3a3a;
-  --key-primary-face: #fafafa; --key-primary-text: #0a0a0a; --key-primary-rim: #fafafa; --key-primary-edge: #9a9a9a;
+  /* Dark: the lighter orange face sits on the logo's orange, the darker of the two. */
+  --key-primary-rim: var(--logo-tile); --key-primary-edge: var(--logo-tile);
 }
 .btn, .nav-mobile summary, .docs-ai-group, .docs-search-open, .docs-search-close {
   --key-rest: 4px; --key-hover: 6px; --key-press: 2px; --key-lift: var(--key-rest);
@@ -173,7 +175,7 @@ td:has(> .badge) { width: 1%; white-space: nowrap; }
 .bar-fill-ai, .vs-legend-ai { background: repeating-linear-gradient(135deg, var(--warn) 0 4px, var(--warn-soft) 4px 7px); }
 .vs-saving { margin: var(--space-4) 0 0; color: var(--text-1); font-weight: 500; }
 .vs-fit-line { margin: var(--space-4) 0 0; padding-top: var(--space-4); border-top: 1px solid var(--line); color: var(--text-1); }
-.vs-chart-note { margin: var(--space-3) 0 0; font-size: var(--fs-small); color: var(--text-3); }
+.vs-chart-note { margin: var(--space-3) 0 0; font-size: 13px; color: var(--text-3); }
 .vs-legend { white-space: nowrap; }
 .vs-legend-ai { display: inline-block; width: 1.4rem; height: .7rem; border-radius: 2px; vertical-align: middle; margin-left: .3rem; }
 .vs-fit { display: grid; gap: var(--space-4); }
@@ -399,6 +401,8 @@ p.switch-offer-print { padding-left: 0; }
 .sheet p, .sheet ul, .sheet ol, .sheet dl, .sheet dd, .sheet figure { margin: 0; }
 .sheet ul, .sheet ol { list-style: none; padding: 0; }
 .sheet h2 { margin: 0; max-width: 960px; font: 600 28px/35px var(--font-sans); letter-spacing: -0.02em; color: var(--text-1); }
+/* On the 1200px sheet 28px sat too close to the 16px card titles; phones and tablets keep 28px. */
+@media (min-width: 961px) { .sheet h2 { font-size: 36px; line-height: 42px; } }
 .sheet h3 { margin: 0; font: 600 16px/24px var(--font-sans); letter-spacing: 0; color: var(--text-1); }
 .mono-label { margin: 0; font: 12px/16px var(--font-mono); color: var(--text-3); }
 a.mono-label { text-decoration: none; }
@@ -596,7 +600,7 @@ a.mono-label:hover { text-decoration: underline; }
 .audit-form .btn { width: 100%; margin-top: var(--space-1); }
 .audit-status { min-height: 1.5em; margin: var(--space-2) 0 0; color: var(--text-2); }
 .audit-status[data-state="error"] { color: var(--danger); }
-.audit-note { margin: 0; font-size: var(--fs-small); color: var(--text-3); }
+.audit-note { margin: 0; font-size: 13px; color: var(--text-3); }
 @media (max-width: 640px) {
   .page-hero-split:has(.audit-form) { padding-top: var(--space-6); padding-bottom: var(--space-6); }
   .page-hero-split:has(.audit-form) .page-hero-grid { gap: var(--space-5); }

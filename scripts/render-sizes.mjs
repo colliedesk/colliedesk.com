@@ -9,6 +9,9 @@ const KEY = {
   sm: { fontSize: 13, lineHeight: 20, padY: 4, padX: 10, radius: 6, border: 1.5, weight: 700, rest: 2, hover: 3, active: 1 },
 };
 const PRESS_MS = 0.1;
+// The primary action is the Collie orange with white text on a darker orange base (brand guideline in the app
+// repo, owner 15/11/2026); in the light theme: --accent, --on-accent, --accent-hover.
+const PRIMARY = { bg: 'rgb(194, 65, 12)', color: 'rgb(255, 255, 255)', edge: 'rgb(154, 52, 18)' };
 export const SIZE_SCREENS = [
   { width: 390, height: 844, deviceScaleFactor: 2, mobile: true },
   { width: 1440, height: 900, deviceScaleFactor: 2, mobile: false },
@@ -19,10 +22,10 @@ export const SIZE_PAGES = [HOME, PRICING, DOCS];
 // face: the element whose text and padding are measured; key: the element that carries the face and base;
 // press: the element a visitor hovers and presses (the split control moves as one key).
 function keysOf(path, width) {
-  const keys = [{ name: 'header "Start free trial"', face: '.header-cta', size: 'sm' }];
+  const keys = [{ name: 'header "Start free trial"', face: '.header-cta', size: 'sm', primary: true }];
   if (width <= 1100) keys.push({ name: 'header "Menu"', face: '.nav-mobile summary', size: 'sm' });
-  if (path === HOME) keys.push({ name: 'hero "Start free trial"', face: '.hero-actions .btn-primary', size: 'default' });
-  if (path === PRICING) keys.push({ name: 'Founding card "Join"', face: '.plan .btn-primary', size: 'default' });
+  if (path === HOME) keys.push({ name: 'hero "Start free trial"', face: '.hero-actions .btn-primary', size: 'default', primary: true });
+  if (path === PRICING) keys.push({ name: 'Founding card "Join"', face: '.plan .btn-primary', size: 'default', primary: true });
   if (path === DOCS) keys.push({ name: '"Copy page"', face: '.docs-copy', key: '.docs-ai-group', press: '.docs-copy', size: 'sm' });
   return keys.map((k) => ({ key: k.face, press: k.key ?? k.face, ...k }));
 }
@@ -33,7 +36,9 @@ function typeOf(path, width) {
   const phone = width < 641;
   if (path === DOCS) return { h1: ['.page-hero h1', 36, 45], h2: ['.prose h2', 21.4, 30], p: ['.prose p', 15, 22.5] };
   const h1 = phone ? [30, 31.5] : [60, 60];
-  if (path === HOME) return { h1: ['.hero-copy h1', ...h1], h2: ['.sheet h2', 28, 35], p: ['.intro-lede', 16, 24] };
+  // On the 1200px sheet a 28px section headline sat too close to the 16px card titles under it.
+  const sectionH2 = width > 960 ? [36, 42] : [28, 35];
+  if (path === HOME) return { h1: ['.hero-copy h1', ...h1], h2: ['.sheet h2', ...sectionH2], p: ['.intro-lede', 16, 24] };
   return { h1: ['.page-hero h1', ...h1], h2: ['.prose h2', 28, 35], p: ['.prose p', 16, 24] };
 }
 
@@ -47,7 +52,8 @@ const measure = (face, key) => `(() => {
   return { fontSize: parseFloat(fs.fontSize), lineHeight: parseFloat(fs.lineHeight), weight: +fs.fontWeight,
     padY: parseFloat(fs.paddingTop), padX: parseFloat(fs.paddingLeft), radius: parseFloat(ks.borderTopLeftRadius),
     border: parseFloat(ks.borderTopWidth), lift: m ? -m[1].split(',').map(Number)[5] : 0, shadows,
-    transition: parseFloat(ks.transitionDuration) || 0 };
+    transition: parseFloat(ks.transitionDuration) || 0,
+    bg: ks.backgroundColor, color: fs.color, edge: (ks.boxShadow.match(/rgba?\\([^)]+\\)/) || [''])[0] };
 })()`;
 
 const typeMeasure = (sel) => `(() => { const e = document.querySelector(${JSON.stringify(sel)}); if (!e) return null;
@@ -120,6 +126,9 @@ export async function checkSizes({ send, once, sessionId, port }) {
         if (!rest) { failures.push(`${at}: ${k.name} is missing`); continue; }
         for (const p of ['fontSize', 'lineHeight', 'weight', 'padY', 'padX', 'radius', 'border']) {
           if (!near(rest[p], want[p])) failures.push(`${at}: ${k.name} ${p} is ${rest[p]}, want ${want[p]}`);
+        }
+        if (k.primary) for (const p of ['bg', 'color', 'edge']) {
+          if (rest[p] !== PRIMARY[p]) failures.push(`${at}: ${k.name} ${p} is ${rest[p]}, want ${PRIMARY[p]}`);
         }
         const states = [['rest', rest, 0]];
         await force(k.press, ['hover']);
