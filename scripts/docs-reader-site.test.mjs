@@ -87,10 +87,11 @@ test('each guide shows the date its own file last changed, the feedback question
   assert.ok(html.includes('This page is rendered from <a href="https://github.com/colliedesk/colliedesk/blob/main/docs/user/connect-codex.md" rel="noopener">the repository</a>.'));
 });
 
-test('"Copy for AI" and its menu are one compact control: Markdown, Claude, ChatGPT, MCP URL', opts, () => {
+test('"Copy page" and its menu are one compact control: Markdown, Claude, ChatGPT, MCP URL', opts, () => {
   const actions = section(read('docs/connect-codex.html'), /<div class="docs-actions">[\s\S]*?<\/details>/);
   const group = section(actions, /<div class="docs-ai-group">[\s\S]*<\/details>/);
   assert.ok(group, 'the copy button and the menu sit in one group');
+  assert.match(group, /<span data-docs-copy-label="">Copy page<\/span>/, 'a short label, as Mintlify, Vercel and Linear docs use');
   assert.ok(group.indexOf('data-docs-copy=""') < group.indexOf('<details class="docs-ai">'), 'the copy button comes first, the menu toggle second');
   assert.match(group, /<summary><span class="docs-ai-label">Use with AI<\/span><\/summary>/);
   const prompt = 'Read%20https%3A%2F%2Fcolliedesk.com%2Fdocs%2Fconnect-codex.md%20so%20I%20can%20ask%20questions%20about%20it.';

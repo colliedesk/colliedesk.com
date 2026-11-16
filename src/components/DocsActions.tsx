@@ -4,7 +4,7 @@ import { ArrowUpRightIcon, ChatIcon, CheckIcon, CopyIcon, FileTextIcon, PlugIcon
 
 // Under the h1 of every Docs page, before the lede (so its place does not depend on how long the lede
 // is, and the cookie banner never covers it in the first screen): one compact split control, the way
-// Mintlify and Vercel docs do it. "Copy for AI" puts the page's Markdown twin on the clipboard
+// Mintlify and Vercel docs do it. "Copy page" puts the page's Markdown twin on the clipboard
 // (public/docs-copy.js fetches mdUrl); CSS shows it from the first paint only when scripting is on, so
 // nothing shifts after load, and without a clipboard the script hides it.
 // The chevron beside it is a <details> menu (works on a phone and without script): the Markdown twin,
@@ -20,7 +20,7 @@ export function DocsActions({ mdUrl }: { mdUrl: string }) {
         <button type="button" className="docs-copy" data-docs-copy="" data-md={mdUrl}>
           <CopyIcon className="i i-copy" />
           <CheckIcon className="i i-done" />
-          <span data-docs-copy-label="">Copy for AI</span>
+          <span data-docs-copy-label="">Copy page</span>
         </button>
         <details className="docs-ai">
           <summary><span className="docs-ai-label">Use with AI</span></summary>
