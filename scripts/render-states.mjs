@@ -16,7 +16,7 @@ const C = {
     focus: 'rgb(240, 180, 76)', accent: 'rgb(251, 138, 74)',
   },
 };
-const HOME = '/index.html', AUDIT = '/audit.html', DOCS = '/docs/inbox.html';
+const HOME = '/index.html', AUDIT = '/audit.html', DOCS = '/docs/inbox.html', VS = '/vs/freshdesk.html';
 const BOTH = [390, 1440];
 
 // A field is a slot as tall as the key face beside it, with the amber outline on focus.
@@ -46,6 +46,15 @@ export const PROBES = [
     states: { focus: { outline: `solid 2px ${C.light.focus}` } } },
   ...['light', 'dark'].map((t) => ({ name: `${t} phone "Menu" while open`, page: HOME, sel: '.nav-mobile summary', widths: [390], theme: t,
     setup: `document.querySelector('.nav-mobile').open = true;`, states: held(t) })),
+  // Options (the bill by team size, the /vs team size): the chosen one is held; the radio is hidden, so the
+  // amber focus outline is drawn on the key.
+  ...[['light', HOME, '.segmented'], ['dark', HOME, '.segmented'], ['light', VS, '.vs-sizes'], ['dark', VS, '.vs-sizes']].flatMap(([t, page, group]) => [
+    { name: `${t} chosen option`, page, sel: `${group} label:has(input:checked)`, widths: BOTH, theme: t, states: held(t) },
+    { name: `${t} option with keyboard focus`, page, sel: `${group} label:not(:has(input:checked))`, force: `${group} label:not(:has(input:checked)) input`,
+      widths: BOTH, theme: t, states: { focus: { outline: `solid 2px ${C[t].focus}` } } },
+  ]),
+  { name: '/vs option', page: VS, sel: '.vs-sizes label:not(:has(input:checked))', widths: BOTH, theme: 'light',
+    states: { rest: { lift: 2, shadows: '2/3.5', border: 1.5 }, hover: { lift: 3 }, active: { lift: 1 } } },
   // The toggle is on only in the dark theme.
   { name: 'dark "Dark theme" toggle while on', page: HOME, sel: '.theme-toggle', widths: BOTH, theme: 'dark',
     setup: `document.querySelector('.theme-toggle').setAttribute('aria-pressed', 'true');`, states: held('dark') },
@@ -55,6 +64,7 @@ export const PROBES = [
     states: { rest: { lift: 0, shadows: '', bg: C.light.surface2, line: C.light.line, color: 'rgb(99, 99, 99)' }, hover: { lift: 0, shadows: '' } } },
 ];
 
+// A probe measures `sel` after forcing each state on `force` (default: `sel` itself).
 // Page-side: the computed values a probe can ask for.
 const measure = (sel) => `(() => {
   const e = document.querySelector(${JSON.stringify(sel)});
@@ -90,8 +100,8 @@ export async function checkStates({ send, once, sessionId, port }) {
         document.querySelector(${JSON.stringify(p.sel)})?.scrollIntoView({ block: 'center' });
         return true; })`);
       const { root } = await send('DOM.getDocument', {}, sessionId);
-      const { nodeId } = await send('DOM.querySelector', { nodeId: root.nodeId, selector: p.sel }, sessionId);
-      if (!nodeId) { failures.push(`${at}: ${p.name} (${p.sel}) is missing`); continue; }
+      const { nodeId } = await send('DOM.querySelector', { nodeId: root.nodeId, selector: p.force ?? p.sel }, sessionId);
+      if (!nodeId) { failures.push(`${at}: ${p.name} (${p.force ?? p.sel}) is missing`); continue; }
       for (const [state, want] of Object.entries(p.states)) {
         await send('CSS.forcePseudoState', { nodeId, forcedPseudoClasses: FORCED[state] }, sessionId);
         await sleep(state === 'rest' ? 50 : 250);
