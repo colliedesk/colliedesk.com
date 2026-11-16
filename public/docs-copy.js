@@ -4,8 +4,28 @@
 // already here; otherwise the fetch runs inside the click through ClipboardItem. Without
 // scripting the button is never shown (CSS @media (scripting: enabled)); without a clipboard this
 // script hides it. The link works either way.
+// "Copy MCP URL" in the "Use with AI" menu copies the MCP server URL; the URL is printed beside it, so
+// without a clipboard the button hides and the reader copies the text.
 (function () {
+  function wireMcpCopy() {
+    var mcp = document.querySelector('[data-docs-copy-mcp]');
+    if (!mcp) return;
+    if (!navigator.clipboard) { mcp.hidden = true; return; }
+    var idle = mcp.textContent;
+    var timer = 0;
+    mcp.addEventListener('click', function () {
+      return navigator.clipboard.writeText(mcp.getAttribute('data-url')).then(function () {
+        clearTimeout(timer);
+        mcp.textContent = 'Copied';
+        timer = setTimeout(function () { mcp.textContent = idle; }, 2000);
+      }, function () {
+        mcp.textContent = 'Could not copy';
+      });
+    });
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
+    wireMcpCopy();
     var button = document.querySelector('[data-docs-copy]');
     if (!button) return;
     if (!navigator.clipboard) { button.hidden = true; return; }

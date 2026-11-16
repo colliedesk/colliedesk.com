@@ -242,9 +242,8 @@ p.switch-offer-print { padding-left: 0; }
 .founding-meter-count { margin: 0; font-size: 14px; color: var(--text-2); font-variant-numeric: tabular-nums; }
 .founding-meter-count strong { color: var(--accent-text); font-size: 1.15em; }
 
-/* Docs */
+/* Docs (the sidebar, folded menu, search, "On this page", pager and feedback are in docs.css) */
 .docs-layout { display: grid; grid-template-columns: 15rem minmax(0, 1fr); gap: var(--space-12); }
-.docs-nav { position: sticky; top: 5.5rem; align-self: start; }
 .docs-nav ul { list-style: none; margin: 0; padding: 0; border-left: 1px solid var(--line); }
 .docs-nav a { display: block; padding: .45rem .9rem; color: var(--text-2); text-decoration: none; margin-left: -1px; border-left: 2px solid transparent; }
 .docs-nav a:hover { color: var(--text-1); background: var(--surface-0); }
@@ -302,14 +301,6 @@ p.switch-offer-print { padding-left: 0; }
 /* Responsive */
 @media (max-width: 960px) {
   .pillars, .plans { grid-template-columns: minmax(0, 1fr); }
-  .docs-layout { grid-template-columns: minmax(0, 1fr); gap: var(--space-6); }
-  .docs-nav { position: static; }
-  .docs-nav ul { display: flex; flex-wrap: wrap; border-left: 0; gap: var(--space-1); }
-  .docs-nav a { border: 1px solid var(--line-strong); border-radius: var(--radius); padding: .5rem .8rem; margin: 0; min-height: var(--touch); display: inline-flex; align-items: center; }
-  .docs-nav a[aria-current="page"] { border-color: var(--accent); }
-  .docs-nav-subgroup { flex-basis: 100%; }
-  .docs-nav-subtitle { padding: var(--space-1) 0 0; }
-  .docs-nav-subgroup ul { padding-left: 0; }
   .footer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .footer-about { grid-column: 1 / -1; }
 }

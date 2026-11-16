@@ -1,7 +1,12 @@
 ---
 // The Markdown body of a page, then its FAQ and, for pages rendered from the product repo, a source note.
-import { renderMarkdown } from '../lib/markdown';
+// A docs guide also gets heading anchors, "On this page" when it has three or more sections (a closed
+// list at the top here, a column beside the guide on wide screens), previous/next, date and feedback.
+// Only the guide text is marked for the docs search index.
+import { DocsFeedback, DocsPager, DocsToc, DocsTocMobile, longDate } from './DocsPageParts';
+import { renderMarkdown, sectionsOf } from '../lib/markdown';
 import type { Page } from '../lib/page';
+import { html } from '../lib/render-react';
 import { TRADEMARK_NOTE } from '../lib/site';
 import Faq from './Faq.astro';
 
@@ -10,10 +15,23 @@ interface Props {
 }
 
 const { page } = Astro.props;
+const place = page.docsPlace;
+const body = renderMarkdown(page.body ?? '', { anchors: Boolean(place) });
+const sections = place ? sectionsOf(body) : [];
+const toc = sections.length >= 3 ? sections : [];
 ---
 <article class="prose">
-  <Fragment set:html={renderMarkdown(page.body ?? '')} />
+  {toc.length > 0 && <Fragment set:html={html(DocsTocMobile, { sections: toc })} />}
+  {place ? <div data-pagefind-body><Fragment set:html={body} /></div> : <Fragment set:html={body} />}
   <Faq faq={page.faq} />
+  {place && <Fragment set:html={html(DocsPager, { place })} />}
+  {place && (
+    <div class="docs-foot">
+      <Fragment set:html={html(DocsFeedback, { path: page.path })} />
+      {page.updated && <p class="docs-updated">Updated <time datetime={page.updated}>{longDate(page.updated)}</time></p>}
+    </div>
+  )}
   {page.section === 'Compare' && <p class="edit-source">{TRADEMARK_NOTE}</p>}
   {page.sourceUrl && <p class="edit-source">This page is rendered from <a href={page.sourceUrl} rel="noopener">the repository</a>. Spot a mistake? Open an issue or a pull request.</p>}
 </article>
+{toc.length > 0 && <Fragment set:html={html(DocsToc, { sections: toc })} />}
