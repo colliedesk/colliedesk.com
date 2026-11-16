@@ -3,7 +3,7 @@ import { faqPage, techArticle } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
 import { collieFacts as c, statusTable } from './collie-status';
 import { AI_EXTRA } from '../../lib/site';
-import { FOUNDING_ACTION, FOUNDING_OPEN, OUR_CELL, OUR_PLAN, OUR_PRICE, withFoundingLead } from '../../lib/cloud-price';
+import { FOUNDING_ACTION, FOUNDING_OPEN, OUR_CELL, OUR_PLAN, OUR_PRICE } from '../../lib/cloud-price';
 
 const faq: Faq[] = [
   {
@@ -23,7 +23,7 @@ const body = `## The short answer
 
 ## Price, side by side
 
-HappyFox prices are per agent per month, read on ${PRICES_READ}.
+HappyFox prices are per agent per month, read on ${PRICES_READ}. Colliedesk prices the whole workspace${FOUNDING_OPEN ? ', and Founding costs $396 a year for up to 10 agents' : ''}.
 
 | Topic | HappyFox | Colliedesk |
 |---|---|---|
@@ -65,7 +65,7 @@ const page: Page = {
   summary: `HappyFox $24–99 per agent (Basic capped at 5), AI sold separately vs Colliedesk ${OUR_PLAN} at a flat ${OUR_PRICE} per workspace`,
   eyebrow: 'Compare · HappyFox alternative',
   h1: 'Colliedesk vs HappyFox',
-  lede: withFoundingLead('HappyFox is a mature helpdesk priced per agent, with AI sold on top. Past five agents its cheapest plan stops. Here are the numbers, with sources.'),
+  lede: 'HappyFox is a mature helpdesk priced per agent, with AI sold on top. Past five agents its cheapest plan stops. Here are the numbers, with sources.',
   cta: true,
   ctaFounding: FOUNDING_ACTION,
   body,

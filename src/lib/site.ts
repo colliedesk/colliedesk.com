@@ -19,7 +19,7 @@ export const PRICES_READ = '14 October 2026';
 
 export const TAGLINE = 'The open-source alternative to Freshdesk, Zendesk and Help Scout.';
 export const POSITIONING =
-  'Leave Freshdesk with all your data. AI that actually answers tickets is included, not an add-on. Flat price, no per-agent fees.';
+  'Leave Freshdesk with every ticket, counted on both sides. One flat price for up to 10 agents, AI reply drafts included. Open source, AGPL-3.0.';
 
 // Shown at the end of every page in the Compare section, HTML and Markdown twin.
 export const TRADEMARK_NOTE =
@@ -96,7 +96,6 @@ export const FOUNDING_AGENTS = '3 to 10';
 export const TEAM_25_AGENTS = '11 to 25';
 export const TEAM_25_WHO = `For support teams of ${TEAM_25_AGENTS} agents.`;
 export const TEAM_25_IMPORT = 'We run the Freshdesk import with you.';
-export const TEAM_25_BELOW = `Teams of ${TEAM_25_AGENTS} agents can buy Team 25 below.`;
 export const BUSINESS_AGENTS = `${BUSINESS.agentsFrom} to ${BUSINESS.agents}`;
 
 // AI on Colliedesk Cloud: reply drafts and triage are included in every plan with a monthly allowance;

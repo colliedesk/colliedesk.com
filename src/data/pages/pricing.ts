@@ -1,6 +1,6 @@
 import {
   AI_EXTRA, AI_RESOLUTION, agentsLabel, BUSINESS, BUSINESS_AGENTS, CLOUD_PLANS, CONTACT_EMAIL, dollars, FOUNDING_CHECKOUT, FOUNDING_HREF, GA_DOC, LADDER_LINE, PRICE, REPO,
-  SMALL, SOLO, SWITCH_CALL_HREF, SWITCH_OFFER_BLOCK_MD, TEAM, TEAM_25, TEAM_25_AGENTS, TEAM_25_BELOW, TEAM_25_IMPORT, TEAM_25_WHO, TRIAL_HREF, STATUS_LINE,
+  SMALL, SOLO, SWITCH_CALL_HREF, SWITCH_OFFER_BLOCK_MD, TEAM, TEAM_25, TEAM_25_AGENTS, TEAM_25_IMPORT, TEAM_25_WHO, TRIAL_HREF, STATUS_LINE,
 } from '../../lib/site';
 import { FOUNDING_SLOTS, foundingState } from '../../lib/founding';
 import { faqPage, softwareApplication } from '../../lib/schema';
@@ -103,9 +103,9 @@ const body = `## What you pay for
 
 Self-hosting is free. We sell two things: **Colliedesk Cloud** (we run it for you) and **migration** (we move your Freshdesk history and prove nothing was lost). That is the whole business. There is no "enterprise edition" with the good features held back.
 
-**Every feature on every plan.** Solo, Small, Team, Team 25, Business and Founding differ only in the number of agents and the attachment storage, and in how much of the move we do for you. Self-hosting has every feature too.
+**Every feature on every plan.** Solo, Small, Team, Team 25, Business and Founding differ only in the number of agents and the attachment storage, and in how much of the move we do for you. That includes the MCP server for your AI agents. Self-hosting has every feature too.
 
-## Honest status
+## What works today, and what does not
 
 Colliedesk is **generally available**: it runs on Colliedesk Cloud, and [what general availability means](${GA_DOC}) is written down in the open-source repository. Shipped today: the email channel, the Freshdesk and Help Scout importers with their reconcile reports, the knowledge base and public help center, starting a new conversation from the inbox, contact history, saved replies, Cc on replies, attachments, live updates, and AI reply drafts and triage suggestions (off until an admin turns them on). Not built yet: AI auto-answer. If you are planning your exit before your next Freshdesk renewal, [start the free trial](${TRIAL_HREF}) or take [the founding offer](${FOUNDING_HREF}).
 
@@ -151,7 +151,7 @@ const foundingFaq: Faq[] = [
 
 // Team 25 beside Founding: the plan for teams of 11 to 25 agents.
 export const team25Row = `| ${TEAM_25.name} | ${dollars(TEAM_25.monthly)} a month, or ${dollars(TEAM_25.yearly)} a year per workspace | ${agentsLabel(TEAM_25)}, ${TEAM_25.storage} of attachments. ${TEAM_25_WHO} ${TEAM_25_IMPORT} [Start free trial](${TRIAL_HREF}). |`;
-export const businessRow = `| ${BUSINESS.name} | ${dollars(BUSINESS.monthly)} a month, or ${dollars(BUSINESS.yearly)} a year per workspace | ${agentsLabel(BUSINESS)}, ${BUSINESS.storage} of attachments. ${BUSINESS.who} We migrate everything for you, help center with 301 redirects included. Custom domain, MCP server, priority support. [99.9% uptime with service credits](/terms#availability), like every paid plan. ${businessCta} |`;
+export const businessRow = `| ${BUSINESS.name} | ${dollars(BUSINESS.monthly)} a month, or ${dollars(BUSINESS.yearly)} a year per workspace | ${agentsLabel(BUSINESS)}, ${BUSINESS.storage} of attachments. ${BUSINESS.who} We migrate everything for you, help center with 301 redirects included. Custom domain, priority support. [99.9% uptime with service credits](/terms#availability), like every paid plan. ${businessCta} |`;
 
 const foundingPlansMd = `| Plan | Price | What you get |
 |---|---|---|
@@ -166,9 +166,9 @@ ${switchSection}`;
 
 const foundingBody = `## Founding, while we are young
 
-**Founding** is for ${FOUNDING_SLOTS} support teams who want to leave Freshdesk. You get every feature, we move your Freshdesk history for you and prove nothing was lost, and you talk to the person who builds Colliedesk. When the ${FOUNDING_SLOTS} places are taken, Founding closes for good and your price stays at $99 every 3 months. ${TEAM_25_INSTEAD}
+**Founding** is for ${FOUNDING_SLOTS} support teams who want to leave Freshdesk. You get every feature (the MCP server for your AI agents included), we move your Freshdesk history for you and prove nothing was lost, and you talk to the person who builds Colliedesk. When the ${FOUNDING_SLOTS} places are taken, Founding closes for good and your price stays at $99 every 3 months. ${TEAM_25_INSTEAD}
 
-## Honest status
+## What works today, and what does not
 
 Colliedesk is **generally available**: it runs on Colliedesk Cloud, and [what general availability means](${GA_DOC}) is written down in the open-source repository. Shipped today: the email channel, the Freshdesk and Help Scout importers with their reconcile reports, the knowledge base and public help center, starting a new conversation from the inbox, contact history, saved replies, Cc on replies, attachments, live updates, and AI reply drafts and triage suggestions (off until an admin turns them on). Not built yet: AI auto-answer. If you are planning your exit before your next Freshdesk renewal, [join as a founding customer](${FOUNDING_CHECKOUT}) and we refund you in full within 30 days if it is not right.
 
@@ -197,8 +197,8 @@ const foundingPage = {
   description:
     `Founding is $99 every 3 months per workspace for up to 10 agents, locked for life, with Freshdesk migration done for you. Only ${FOUNDING_SLOTS} places, 30-day money-back guarantee. ${TEAM_25.name} is ${PRICE.team25Monthly} a month for up to ${TEAM_25.agents} agents. Self-hosting is free.`,
   summary: `Founding while it is open: $99 every 3 months per workspace, locked for life, up to 10 agents, Freshdesk migration done for you, ${FOUNDING_SLOTS} places, 30-day money-back guarantee; ${TEAM_25.name} ${PRICE.team25Monthly} a month for up to ${TEAM_25.agents} agents; 14-day free trial; self-host free`,
-  h1: 'Founding: $99 every 3 months, locked for life.',
-  lede: `For ${FOUNDING_SLOTS} support teams of 3 to 10 agents who pay for Freshdesk and just got a price rise. $396 a year, about $7.60 a week for the whole team. If it is not right within 30 days, we refund you in full. ${TEAM_25_BELOW} Teams of ${BUSINESS_AGENTS} agents can talk to us about Business.`,
+  h1: '$396 a year for your whole team. Not per agent.',
+  lede: `Founding is for ${FOUNDING_SLOTS} teams of 3 to 10 agents leaving Freshdesk: $99 every 3 months, locked for life. We move your Freshdesk history and prove nothing was lost. Not right within 30 days? Full refund.`,
   preMd: foundingPlansMd,
   body: foundingBody,
   faq: foundingFaq,

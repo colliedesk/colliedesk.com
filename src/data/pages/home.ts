@@ -10,14 +10,14 @@ import {
   CLAUDE_DIRECTORY_URL, GUARANTEES, issueHref, MCP_URL, MIGRATE_LEDE, NOT_MOVED, OURS_YEAR, rangeLabel, RELIABILITY_LEDE, REPORT_NOT_IMPORTED, REPORT_ROWS, STEPS, STILL_COMING,
 } from './home-sections';
 
-// Headline: why our buyer stays on Freshdesk (leaving is hard) and what we changed. The lede names the
-// category (a helpdesk), the proof (the reconcile report) and the AI agent; the fine print under the
-// actions gives the price for each team size.
+// Headline: the promise our buyer needs before leaving Freshdesk (every ticket comes along, and we count
+// it). The lede opens with what Freshdesk's own export loses, then names the category (a helpdesk) and
+// the proof (the reconcile report); the fine print under the actions gives the price for each team size.
 export const HOME_EYEBROW = 'Helpdesk for teams leaving Freshdesk · Generally available since 5 November 2026 · Open source';
-export const HOME_H1_LINES = ['Freshdesk raises your price', 'because leaving is hard.', 'We made leaving easy.'] as const;
+export const HOME_H1_LINES = ['Leave Freshdesk.', 'Keep every ticket.', 'We count them to prove it.'] as const;
 export const HOME_H1 = HOME_H1_LINES.join(' ');
 export const HOME_LEDE =
-  'Colliedesk is a helpdesk: one shared inbox and a help center for your support team. We import every Freshdesk ticket and article, with a report that proves nothing was lost. Your AI agent can work in it too, through MCP.';
+  "Freshdesk's CSV export leaves the conversations out. Colliedesk is a helpdesk that brings every ticket, reply and attachment, then counts each record on both sides in a report that proves nothing was lost. One count off and you keep Freshdesk.";
 /** The price line under the hero actions: the team of 3 to 10 first, then where bigger teams go. */
 export const HOME_PRICE_LEAD = `3–10 agents: $${OURS_YEAR} a year, flat.`;
 export const HOME_PRICE_REST = `11–25: ${TEAM_25.name}, ${PRICE.team25Monthly} a month. 26–100: Business, through a call.`;

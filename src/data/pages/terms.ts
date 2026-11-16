@@ -125,7 +125,7 @@ const page: Page = {
   section: 'Product',
   title: 'Terms of service | Colliedesk',
   description:
-    'The terms for Colliedesk Cloud: free trial, plans and payment, 99.9% uptime with service credits, support response times, backups, your content, acceptable use, liability and the law that applies.',
+    'Terms for Colliedesk Cloud: free trial, plans and payment, 99.9% uptime with service credits, support response times, backups, your content and liability.',
   summary: 'Terms for Colliedesk Cloud: trial rules, payment through Polar, 99.9% uptime with service credits, 2-hour support for outages, backups, your content, acceptable use, liability',
   eyebrow: 'Legal',
   h1: 'Terms of service',

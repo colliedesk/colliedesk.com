@@ -756,8 +756,8 @@ for (const file of files.filter((f) => f.endsWith('.html') && !/[\\/](changelog|
   }
 }
 
-// Home hero: the h1 names why our buyer stays on Freshdesk (leaving is hard) and that we made
-// leaving easy; the lede names the category (a helpdesk) and the proof (a reconcile report); the price
+// Home hero: the h1 promises our buyer leaves Freshdesk with every ticket and that we count them; the
+// lede names the category (a helpdesk) and the proof (a reconcile report); the price
 // line under the actions gives the yearly price for 3 to 10 agents and where teams of 11 to 100 go,
 // with the risk reversal. No "% cheaper" claim: Freshdesk's dearest plan includes AI that Colliedesk
 // prices separately.
@@ -766,7 +766,7 @@ for (const file of files.filter((f) => f.endsWith('.html') && !/[\\/](changelog|
   const h1 = home.match(/<h1[\s\S]*?<\/h1>/)?.[0] ?? '';
   // The home page speaks to one buyer: a team of 3 to 10 agents paying for Freshdesk.
   if (/Zendesk|Help Scout/.test(h1)) fail('/: h1 must speak about Freshdesk only, the one tool our buyer pays for');
-  if (!/leaving is hard/.test(h1) || !/made leaving easy/.test(h1)) fail('/: h1 must say leaving Freshdesk is hard and that we made it easy');
+  if (!/Leave Freshdesk/.test(h1) || !/Keep every ticket/.test(h1) || !/count them/.test(h1)) fail('/: h1 must say you leave Freshdesk, keep every ticket and that we count them');
   if (/h1-rotate/.test(h1)) fail('/: h1 is one static sentence, no rotating words');
   const lede = home.match(/<p class="lede">([\s\S]*?)<\/p>/)?.[1] ?? '';
   if (!/\bhelpdesk\b/.test(lede)) fail('/: hero lede must name the category: a helpdesk');
@@ -797,7 +797,11 @@ for (const file of files.filter((f) => f.endsWith('.html') && !/[\\/](changelog|
 {
   const section = read('index.html').match(/<section[^>]*aria-labelledby="agents"[\s\S]*?<\/section>/)?.[0] ?? '';
   const homeMd = read('index.md');
-  const heading = 'Everything you see here, your AI agent can do too';
+  // The heading's tool count must match the tools table of the MCP guide rendered at /docs/mcp
+  // (operator tools are a separate table and are not counted).
+  const toolCount = (read('docs/mcp.md').match(/^\| `colliedesk_(?!operator_)/gm) ?? []).length;
+  const heading = `${toolCount} MCP tools: your AI agent can do what you do in Colliedesk, except create tokens or approve AI apps`;
+  if (!toolCount) fail('/docs/mcp.md: no MCP tool rows to count for the home AI agent heading');
   if (!section) fail('/: AI agent section (aria-labelledby="agents") missing');
   else {
     if (!section.includes(heading)) fail(`/: AI agent section lacks the heading "${heading}"`);

@@ -38,7 +38,6 @@ export function BusinessCard() {
       <ul>
         <li>We migrate everything for you: tickets, contacts, and your help center with 301 redirects</li>
         <li>Custom domain for your help center</li>
-        <li>MCP server for your AI agents</li>
         <li>Priority support</li>
         <li><a href="/terms#availability">99.9% uptime, with service credits</a></li>
       </ul>

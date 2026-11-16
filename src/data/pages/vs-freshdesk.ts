@@ -1,6 +1,6 @@
 import { faqPage, techArticle } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
-import { FOUNDING_ACTION, FOUNDING_LEAD, OUR_PLAN, OUR_PRICE } from '../../lib/cloud-price';
+import { FOUNDING_ACTION, FOUNDING_LEAD, FOUNDING_OPEN, OUR_PLAN, OUR_PRICE } from '../../lib/cloud-price';
 import { AI_RESOLUTION, BUSINESS, BUSINESS_AGENTS, dollars, PRICE, SMALL, SWITCH_OFFER_BLOCK_MD, TEAM_25 } from '../../lib/site';
 import { readOnLabel, rowsAt, usd, vsMarkdown, type VsPricing } from '../../lib/vs-pricing';
 import { collieFacts as c, statusTable } from './collie-status';
@@ -121,7 +121,7 @@ const page: Page = {
   summary: `Freshdesk $19–107 per agent plus $29–35 Copilot vs Colliedesk ${OUR_PLAN} at a flat ${OUR_PRICE} per workspace for up to 10 agents; export limits; honest status`,
   eyebrow: 'Compare · Freshdesk alternative',
   h1: 'Colliedesk vs Freshdesk',
-  lede: `Five agents on ${fiveAgents?.name ?? 'Freshdesk'} pay ${usd(fiveAgents?.usd ?? 0)} a month. ${FOUNDING_LEAD ? `${FOUNDING_LEAD} The chart shows the Cloud plans after that.` : `Colliedesk Cloud Team is ${PRICE.monthly} for the whole workspace, up to 10 agents (Small ${dollars(SMALL.monthly)} for up to 3, Team 25 ${PRICE.team25Monthly} for up to 25).`} Pick your team size to see where Colliedesk fits, and where it does not.`,
+  lede: `Five agents on ${fiveAgents?.name ?? 'Freshdesk'} pay ${usd(fiveAgents?.usd ?? 0)} a month. ${FOUNDING_OPEN ? `Colliedesk Founding costs $396 a year for up to 10 agents, and we move your Freshdesk history with a count for every record. The chart shows the Cloud plans after the 10 Founding places.` : `Colliedesk Cloud Team is ${PRICE.monthly} for the whole workspace, up to 10 agents (Small ${dollars(SMALL.monthly)} for up to 3, Team 25 ${PRICE.team25Monthly} for up to 25).`} Pick your team size to see where Colliedesk fits, and where it does not.`,
   cta: true,
   ctaFounding: FOUNDING_ACTION,
   vs: pricing,

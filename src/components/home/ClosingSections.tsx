@@ -52,7 +52,7 @@ function Founding() {
 function Questions() {
   return (
     <section aria-labelledby="questions">
-      <SectionIntro id="questions" eyebrow="Questions" title="What buyers asked us before switching." />
+      <SectionIntro id="questions" eyebrow="Questions" title="What teams ask before they switch." />
       <dl className="sheet-row faq-rows">
         {HOME_FAQ.map((f) => (
           <div key={f.q}><dt>{f.q}</dt><dd dangerouslySetInnerHTML={{ __html: renderInline(f.a) }} /></div>

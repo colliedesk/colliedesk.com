@@ -2,7 +2,7 @@ const PRICES_READ = '16 October 2026';
 import { faqPage, techArticle } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
 import { AI_EXTRA } from '../../lib/site';
-import { AFTER_FOUNDING, FOUNDING_ACTION, FOUNDING_LEAD, FOUNDING_OPEN, OUR_PLAN, OUR_PRICE, withFoundingLead } from '../../lib/cloud-price';
+import { AFTER_FOUNDING, FOUNDING_ACTION, FOUNDING_LEAD, FOUNDING_OPEN, OUR_PLAN, OUR_PRICE } from '../../lib/cloud-price';
 
 const faq: Faq[] = [
   {
@@ -62,8 +62,8 @@ const page: Page = {
     'Freshdesk alternatives compared: open-source (Colliedesk, Zammad, Chatwoot, FreeScout) and SaaS (Zendesk, Help Scout, Front, Zoho Desk, HappyFox, Gorgias, HubSpot, Groove). Prices for 5 agents and Freshdesk import, with sources.',
   summary: 'Freshdesk alternatives compared: 4 open-source and 8 SaaS helpdesks, 5-agent price, pricing model and Freshdesk import; how to choose',
   eyebrow: 'Compare · Freshdesk alternatives',
-  h1: 'Freshdesk alternatives, compared honestly',
-  lede: withFoundingLead('Twelve helpdesks, open source and SaaS, with what five agents pay and how each one gets your Freshdesk history in. Colliedesk is one of them; we say where the others win.'),
+  h1: '12 Freshdesk alternatives: what 5 agents pay, and how they import your history',
+  lede: 'Twelve helpdesks, open source and SaaS, with what five agents pay and how each one gets your Freshdesk history in. Colliedesk is one of them; we say where the others win.',
   cta: true,
   ctaFounding: FOUNDING_ACTION,
   body,

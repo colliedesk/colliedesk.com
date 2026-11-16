@@ -2,7 +2,7 @@ const PRICES_READ = '16 October 2026';
 import { faqPage, techArticle } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
 import { collieFacts as c, statusTable } from './collie-status';
-import { FOUNDING_ACTION, FOUNDING_OPEN, OUR_PLAN, OUR_PRICE, withFoundingLead } from '../../lib/cloud-price';
+import { FOUNDING_ACTION, FOUNDING_OPEN, OUR_PLAN, OUR_PRICE } from '../../lib/cloud-price';
 
 const faq: Faq[] = [
   {
@@ -68,7 +68,7 @@ const page: Page = {
   summary: `Groove is now Helply: AI credits from $49 per month, JSON-only export vs Colliedesk ${OUR_PLAN}, a flat ${OUR_PRICE} per workspace helpdesk`,
   eyebrow: 'Compare · Groove alternative',
   h1: 'Colliedesk vs Groove (now Helply)',
-  lede: withFoundingLead('Groove became Helply and rebuilt itself around AI agents priced by credits. If you chose Groove for a simple shared inbox, here is the difference, with sources.'),
+  lede: 'Groove became Helply and rebuilt itself around AI agents priced by credits. If you chose Groove for a simple shared inbox, here is the difference, with sources.',
   cta: true,
   ctaFounding: FOUNDING_ACTION,
   body,
