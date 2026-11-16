@@ -60,15 +60,15 @@ export const KNOWN_DEBT = {
     '/vs/happyfox', '/vs/help-scout', '/vs/hubspot-service-hub', '/vs/zoho-desk',
   ],
   title: [
-    '/', '/compare', '/freshdesk-alternative', '/freshdesk-pricing-history', '/migrate/freshdesk',
-    '/migrate/freshdesk/export', '/migrate/zendesk/export', '/open-source', '/pricing', '/self-hosted-helpdesk',
-    '/vs/chatwoot', '/vs/freescout', '/vs/freshdesk', '/vs/front', '/vs/gorgias', '/vs/groove', '/vs/happyfox',
+    '/compare', '/freshdesk-alternative', '/freshdesk-pricing-history', '/migrate/freshdesk',
+    '/migrate/freshdesk/export', '/migrate/zendesk/export', '/open-source', '/self-hosted-helpdesk',
+    '/vs/chatwoot', '/vs/freescout', '/vs/front', '/vs/gorgias', '/vs/groove', '/vs/happyfox',
     '/vs/help-scout', '/vs/hubspot-service-hub', '/vs/zammad', '/vs/zendesk', '/vs/zoho-desk',
   ],
   description: [
-    '/', '/compare', '/freshdesk-alternative', '/freshdesk-pricing-history', '/helpdesk-for-small-teams',
-    '/migrate/freshdesk', '/migrate/freshdesk/done-for-you', '/migrate/zendesk/export', '/open-source', '/pricing',
-    '/self-hosted-helpdesk', '/vs/freescout', '/vs/freshdesk', '/vs/front', '/vs/gorgias', '/vs/groove',
+    '/compare', '/freshdesk-alternative', '/freshdesk-pricing-history',
+    '/migrate/freshdesk', '/migrate/freshdesk/done-for-you', '/migrate/zendesk/export', '/open-source',
+    '/self-hosted-helpdesk', '/vs/freescout', '/vs/front', '/vs/gorgias', '/vs/groove',
     '/vs/happyfox', '/vs/help-scout', '/vs/hubspot-service-hub', '/vs/zammad', '/vs/zendesk', '/vs/zoho-desk',
   ],
   links: [

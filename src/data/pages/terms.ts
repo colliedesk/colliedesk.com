@@ -33,7 +33,7 @@ These terms are an agreement between you and **HC Labs Co., Ltd.** (CÔNG TY TNH
 - Prices are on the [pricing page](/pricing). Payment is handled by Polar, our merchant of record, which also charges the applicable tax.
 - Plans are paid in advance, monthly, quarterly (the Founding plan) or yearly, and renew automatically until you cancel.
 - You can cancel at any time. The plan stays active until the end of the period you paid for, then the workspace locks.
-- **Switch offer** (Team 25 and Business): we migrate your Freshdesk data and take the first payment only after your team answers its first real ticket in Colliedesk. **Invoice offer** (Team 25 and Business): send an invoice from Zendesk, Freshdesk, Help Scout or Intercom dated in the last 3 months. On a monthly plan your first paid month is free, up to the amount on that invoice; on a yearly plan you get 13 months for the price of one year. Once per workspace. The 14-day free trial is unchanged.
+- **Switch offer** (Founding, Team 25 and Business): we migrate your Freshdesk data and take the first payment only after your team answers its first real ticket in Colliedesk. A Founding place is held only once you pay. **Invoice offer** (Team 25 and Business): send an invoice from Zendesk, Freshdesk, Help Scout or Intercom dated in the last 3 months. On a monthly plan your first paid month is free, up to the amount on that invoice; on a yearly plan you get 13 months for the price of one year. Once per workspace. The 14-day free trial is unchanged.
 - A price change applies from your next renewal, never to a period you already paid for, and we email workspace admins before it applies. The Founding price stays locked for as long as you keep the subscription.
 
 ## Refunds
@@ -125,7 +125,7 @@ const page: Page = {
   section: 'Product',
   title: 'Terms of service | Colliedesk',
   description:
-    'The terms for Colliedesk Cloud: free trial, plans and payment, 99.9% uptime with service credits, support response times, backups, your content, acceptable use, liability and the law that applies.',
+    'Terms for Colliedesk Cloud: free trial, plans and payment, 99.9% uptime with service credits, support response times, backups, your content and liability.',
   summary: 'Terms for Colliedesk Cloud: trial rules, payment through Polar, 99.9% uptime with service credits, 2-hour support for outages, backups, your content, acceptable use, liability',
   eyebrow: 'Legal',
   h1: 'Terms of service',

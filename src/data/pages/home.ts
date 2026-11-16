@@ -6,18 +6,18 @@ import type { Faq, Page } from '../../lib/page';
 import { faqMarkdown } from '../../lib/twin';
 import { statusTable } from './collie-status';
 import {
-  AGENT_CALLS, AGENT_HEADING, AGENT_LEDE, AGENT_OUTCOME, AGENT_POINTS, BILL_LEDE, DAILY, DONE_FOR_YOU, FACTS, FOUNDING_OPEN, FRESHDESK_RANGE,
-  CLAUDE_DIRECTORY_URL, GUARANTEES, issueHref, MCP_URL, MIGRATE_LEDE, NOT_MOVED, OURS_YEAR, rangeLabel, RELIABILITY_LEDE, REPORT_NOT_IMPORTED, REPORT_ROWS, STEPS, STILL_COMING,
+  AGENT_CALLS, AGENT_HEADING, AGENT_LEDE, AGENT_OUTCOME, AGENT_POINTS, BILL_LEDE, DAILY, DONE_FOR_YOU, FACTS, FOUNDING_OPEN,
+  CLAUDE_DIRECTORY_URL, GUARANTEES, issueHref, MCP_URL, MIGRATE_LEDE, NOT_MOVED, OURS_YEAR, RELIABILITY_LEDE, REPORT_NOT_IMPORTED, REPORT_ROWS, STEPS, STILL_COMING,
 } from './home-sections';
 
-// Headline: why our buyer stays on Freshdesk (leaving is hard) and what we changed. The lede names the
-// category (a helpdesk), the proof (the reconcile report) and the AI agent; the fine print under the
-// actions gives the price for each team size.
+// Headline: the promise our buyer needs before leaving Freshdesk (every ticket comes along, and we count
+// it). The lede opens with what Freshdesk's own export loses, then names the category (a helpdesk) and
+// the proof (the reconcile report); the fine print under the actions gives the price for each team size.
 export const HOME_EYEBROW = 'Helpdesk for teams leaving Freshdesk · Generally available since 5 November 2026 · Open source';
-export const HOME_H1_LINES = ['Freshdesk raises your price', 'because leaving is hard.', 'We made leaving easy.'] as const;
+export const HOME_H1_LINES = ['Leave Freshdesk.', 'Keep every ticket.', 'We count them to prove it.'] as const;
 export const HOME_H1 = HOME_H1_LINES.join(' ');
 export const HOME_LEDE =
-  'Colliedesk is a helpdesk: one shared inbox and a help center for your support team. We import every Freshdesk ticket and article, with a report that proves nothing was lost. Your AI agent can work in it too, through MCP.';
+  "Freshdesk's CSV export leaves the conversations out. Colliedesk is a helpdesk that brings every ticket, reply and attachment, then counts each record on both sides in a report that proves nothing was lost. One count off and you keep Freshdesk.";
 /** The price line under the hero actions: the team of 3 to 10 first, then where bigger teams go. */
 export const HOME_PRICE_LEAD = `3–10 agents: $${OURS_YEAR} a year, flat.`;
 export const HOME_PRICE_REST = `11–25: ${TEAM_25.name}, ${PRICE.team25Monthly} a month. 26–100: Business, through a call.`;
@@ -42,7 +42,7 @@ const billMd = BILL_SIZES.map((n) => {
 const foundingMd = FOUNDING_OPEN
   ? `## Founding offer: $99 every 3 months, locked for life
 
-For small teams of 3 to 10 agents planning to leave Freshdesk; 10 places. Your price never goes up, we migrate your Freshdesk data for free, and you can export the whole workspace at any time. After the 10 places: Cloud Team at ${PRICE.yearly} a year. Bigger team? 11 to 25 agents: ${TEAM_25.name}, ${PRICE.team25Monthly} a month. ${BUSINESS_AGENTS}: Business, through a call. Up to 10 agents, no per-agent fees; 20 GiB of attachments, imported files included; AI reply drafts and triage included, or your own key; ${MONEY_BACK}.`
+For small teams of 3 to 10 agents planning to leave Freshdesk; 10 places. Your price never goes up, we migrate your Freshdesk data for free, you pay your first $99 only when your team answers its first real ticket, and you can export the whole workspace at any time. After the 10 places: Cloud Team at ${PRICE.yearly} a year. Bigger team? 11 to 25 agents: ${TEAM_25.name}, ${PRICE.team25Monthly} a month. ${BUSINESS_AGENTS}: Business, through a call. Up to 10 agents, no per-agent fees; 20 GiB of attachments, imported files included; AI reply drafts and triage included, or your own key; ${MONEY_BACK}.`
   : `## Cloud plans
 
 Founding is closed: all 10 places are taken. One flat price per workspace, never per agent: ${LADDER_LINE}.`;
@@ -111,9 +111,9 @@ const page: Page = {
   name: 'Colliedesk overview',
   path: '/',
   section: 'Product',
-  title: `Colliedesk: $${OURS_YEAR} a year for your whole support team, not per agent`,
+  title: 'Colliedesk: leave Freshdesk with every ticket, counted',
   description:
-    `Colliedesk is an open-source helpdesk for teams of 3 to 10 agents leaving Freshdesk, $${OURS_YEAR} a year for up to 10 agents, where five agents pay Freshdesk ${rangeLabel(FRESHDESK_RANGE)} a year. Leave Freshdesk with all your data. ${FOUNDING_OPEN ? 'Founding, locked for life, only 10 places' : `One flat price per workspace from ${PRICE.range} a month`}, no per-agent fees.`,
+    `Open-source helpdesk for 3 to 10 agents leaving Freshdesk: every ticket, reply and attachment moves, counted on both sides. $${OURS_YEAR} a year, not per agent.`,
   summary: `What Colliedesk is, the Freshdesk migration and its reconcile report, what AI agents can do through MCP, the bill by team size, reliability and status, founding offer; competitor prices read ${PRICES_READ}`,
   h1: HOME_H1,
   lede: HOME_LEDE,

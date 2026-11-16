@@ -164,6 +164,15 @@ export function docsPages(): Page[] {
   return [index, selfHostIndex, ...guides];
 }
 
+// The MCP tools a workspace token can call, counted from the generated tools table of the MCP guide, so
+// the number on the site follows the product. Operator tools have their own table and are not counted.
+export function mcpToolCount(): number {
+  const table = readRepo('docs/user/mcp.md').match(/<!-- generated:tools -->([\s\S]*?)<!-- \/generated -->/)?.[1] ?? '';
+  const count = table.match(/^\| `colliedesk_/gm)?.length ?? 0;
+  if (!count) throw new Error('docs/user/mcp.md: no tool rows between <!-- generated:tools --> and <!-- /generated -->');
+  return count;
+}
+
 // The docs groups that get their own llms.txt, in navigation order. Group slugs share one URL space
 // (/llms/<slug>/), so two groups that slugify the same fail the build instead of overwriting each other.
 export function docsGroupList(): DocsGroup[] {
@@ -184,7 +193,7 @@ export function roadmapPage(): Page {
     h1: 'Colliedesk roadmap',
     title: 'Colliedesk roadmap: what is live and what comes next',
     description:
-      'What Colliedesk has shipped on Colliedesk Cloud and what comes next: one-click Gmail and Microsoft 365 mailboxes, then AI, then simple rules, macros and per-agent reports. Dates are targets.',
+      'Shipped on Colliedesk Cloud and next: one-click Gmail and Microsoft 365 mailboxes, then AI, then simple rules, macros and per-agent reports. Dates are targets.',
     summary: 'Live now (email, Freshdesk and Help Scout importers, knowledge base, Cloud trial); next one-click mailboxes; then AI; later simple rules, macros, per-agent reports',
   } satisfies Partial<Page>);
   page.jsonLd = [techArticle(page)];

@@ -26,11 +26,12 @@ function Founding() {
         {state.open ? (
           <>
             <h2 id="founding-title"><span>$99 every 3 months.</span> <span>Locked for life.</span></h2>
-            <p>For small teams planning to leave Freshdesk. Your price never goes up, we migrate your Freshdesk data for free, and you can export the whole workspace at any time. After the {FOUNDING_SLOTS} places: Cloud Team at {PRICE.yearly} a year. Bigger team? {TEAM_25_AGENTS} agents: {TEAM_25.name}. {BUSINESS_AGENTS}: Business, through a call.</p>
+            <p>For small teams planning to leave Freshdesk. Your price never goes up, we migrate your Freshdesk data for free, you pay your first $99 only when your team answers its first real ticket, and you can export the whole workspace at any time. After the {FOUNDING_SLOTS} places: Cloud Team at {PRICE.yearly} a year. Bigger team? {TEAM_25_AGENTS} agents: {TEAM_25.name}. {BUSINESS_AGENTS}: Business, through a call.</p>
             <div className="founding-buy">
               <FoundingMeter state={state} />
               <a className="btn btn-primary" href={FOUNDING_CHECKOUT} rel="noopener">Become a founding customer</a>
               <p className="text-small">Secure checkout by Polar. Full refund within 30 days, <a href="/terms#refunds">no questions asked</a>.</p>
+              <p className="text-small">Or <a href={TRIAL_HREF}>start free</a>: we migrate you, and you pay after your first real ticket.</p>
             </div>
           </>
         ) : (
@@ -52,7 +53,7 @@ function Founding() {
 function Questions() {
   return (
     <section aria-labelledby="questions">
-      <SectionIntro id="questions" eyebrow="Questions" title="What buyers asked us before switching." />
+      <SectionIntro id="questions" eyebrow="Questions" title="What teams ask before they switch." />
       <dl className="sheet-row faq-rows">
         {HOME_FAQ.map((f) => (
           <div key={f.q}><dt>{f.q}</dt><dd dangerouslySetInnerHTML={{ __html: renderInline(f.a) }} /></div>

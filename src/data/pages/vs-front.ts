@@ -4,7 +4,7 @@ import { faqPage, techArticle } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
 import { collieFacts as c, statusTable } from './collie-status';
 import { AI_EXTRA } from '../../lib/site';
-import { FOUNDING_ACTION, OUR_CELL, OUR_PLAN, OUR_PRICE, foundingFirst, withFoundingLead } from '../../lib/cloud-price';
+import { FOUNDING_ACTION, OUR_CELL, OUR_PLAN, OUR_PRICE, foundingFirst } from '../../lib/cloud-price';
 
 const faq: Faq[] = [
   {
@@ -79,7 +79,7 @@ const page: Page = {
   summary: `Front $25–105 per seat plus $20 Copilot vs Colliedesk ${OUR_PLAN} at a flat ${OUR_PRICE} per workspace; export only through Front Support`,
   eyebrow: 'Compare · Front alternative',
   h1: 'Colliedesk vs Front',
-  lede: withFoundingLead('Front is a polished shared inbox. For a team of five, the seat count and the AI add-on decide the bill. Here are the numbers, with sources.'),
+  lede: 'Front is a polished shared inbox. For a team of five, the seat count and the AI add-on decide the bill. Here are the numbers, with sources.',
   cta: true,
   ctaFounding: FOUNDING_ACTION,
   body,

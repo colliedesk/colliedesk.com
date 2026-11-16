@@ -4,6 +4,7 @@
 import { foundingState } from '../../lib/founding';
 import { GA_BACKUPS, PRICES_READ, REPO, STATUS_PAGE, SWITCH_HREF, TEAM } from '../../lib/site';
 import { billAt } from '../../lib/team-bill';
+import { mcpToolCount } from './repo-docs';
 
 // While Founding is open it leads the plans we sell, so the home page prices Founding; once the
 // places are taken (the site rebuilds on that change) it prices Cloud Team.
@@ -58,7 +59,8 @@ export const SWITCH_STEPS_HREF = SWITCH_HREF;
 export const MCP_URL = 'https://app.colliedesk.com/mcp';
 /** The community connector listing (published 10/11/2026); Claude users connect from here with OAuth, no token. */
 export const CLAUDE_DIRECTORY_URL = 'https://claude.ai/directory/connectors/colliedesk';
-export const AGENT_HEADING = 'Everything you see here, your AI agent can do too';
+/** Only a person creates tokens and lets an AI app in (docs/user/mcp.md); every other action has a tool. */
+export const AGENT_HEADING = `${mcpToolCount()} MCP tools: your AI agent can do what you do in Colliedesk, except create tokens or approve AI apps`;
 export const AGENT_LEDE = 'Give Claude Code, Codex or Cursor one URL and an agent token. It does what you allow, never more than you can.';
 /** The terminal: [tool call, its result]; the last line is the outcome. */
 export const AGENT_PROMPT = 'Triage open refund questions, draft replies, fix the refund article';
