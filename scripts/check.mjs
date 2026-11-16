@@ -15,8 +15,10 @@ const ORIGIN = 'https://colliedesk.com';
 const UPDATES_FORM_URL = 'https://app.colliedesk.com/api/v1/public/forms/hclabs';
 const JS_BUDGET_BYTES = 100 * 1024;
 // The page is neutral grey and ink (app brand guideline); the price has its own token (--price)
-// (README, Design). Every var(--accent…) in styles.css and docs.css counts. Raise this only with a reason in the commit.
-const ACCENT_BUDGET = 26;
+// (README, Design). Every var(--accent…) in styles.css and docs.css counts. Focus is amber, a note is
+// neutral and a held key is grey, so the budget is the count after those moved off the orange (17/11/2026).
+// Raise this only with a reason in the commit.
+const ACCENT_BUDGET = 11;
 const REQUIRED_PAGES = [
   '/', '/pricing', '/migrate/freshdesk', '/vs/freshdesk', '/vs/zendesk', '/vs/help-scout',
   '/open-source', '/roadmap', '/docs', '/changelog', '/privacy', '/terms',
@@ -817,7 +819,7 @@ for (const file of files.filter((f) => f.endsWith('.html') && !/[\\/](changelog|
 
 // docs.css (docs pages only) shares the budget: a docs-only stylesheet is not a way around it.
 const accentUses = ['styles.css', 'docs.css'].map((f) => read(f).match(/var\(--accent/g)?.length ?? 0).reduce((a, b) => a + b, 0);
-if (accentUses > ACCENT_BUDGET) fail(`styles.css and docs.css use var(--accent…) ${accentUses} times > ${ACCENT_BUDGET}: the accent is for the primary action, focus and selection (README, Design)`);
+if (accentUses > ACCENT_BUDGET) fail(`styles.css and docs.css use var(--accent…) ${accentUses} times > ${ACCENT_BUDGET}: the orange is for the primary key and the docs current-page mark, never focus, notes or selection (README, Design)`);
 
 // Brand guideline (app docs/internals/design.md): the price is the one coloured thing on the site
 // (rule 2), and cards sit on a shadow ring, never a border (rule 4), the featured plan included.

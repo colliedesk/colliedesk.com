@@ -124,6 +124,30 @@ action is not the orange).
   cookie sheet) 13/20, padding 4/10, radius 6, depths 2/3/1; `.btn-lg` 18/28. Borders are 1.5 px; the
   colours are custom properties (`--key-*`) in `styles.css`: secondary a white face on a grey base, primary
   the orange face (`--accent`) on a darker orange base (`--accent-hover`; in the dark theme `--logo-tile`).
+- Tactile site (owner decision 17/11/2026, after PostHog's mechanism, not its look): an element answers the
+  pointer in one of three ways, and everything else is paper (flat, hairlines and rings, no motion, no base).
+  - **Key**: actions, stand-alone destinations and options: buttons, the phone "Menu", the theme toggle,
+    the bill and /vs team-size options, the docs search, "Copy page", "Docs menu", "On this page" and the
+    docs pager tiles. A face on a solid base: it lifts on hover and sinks on press. A base means "you can
+    press this"; never on a static card, a badge or a picture. Keys keep their 1.5 px rim; static cards
+    keep their ring.
+  - **Held key**: a key whose state is on (a menu open, an option chosen, the dark theme on) stays at the
+    press depth on a grey face (`--surface-3`) with a darker rim (`--line-strong`); hover does not lift it.
+    This replaces fills, outlines and orange for "selected". A disabled key is sunk with no base.
+  - **Row**: a repeated item in a list or menu (nav links, the docs sidebar, menu rows, search results): a
+    grey fill on hover, `--surface-3` when current, 1 px down while pressed.
+  - **Inline link**: ink, underlined; the underline darkens on hover; it never moves.
+  - **Fields are slots**, the opposite of keys: 45 px (the key face beside them), a 1 px `--line-control`
+    line and a 2 px `--surface-2` lip inside the top edge; the line darkens on hover. Focus everywhere is
+    the 2 px amber outline (`--focus`) with a 2 px gap (3 px on primary keys and pager tiles).
+  - Depth is solid offsets; blur only on floating layers (menus, the search dialog, the featured plan, the
+    hero proof card). The press is the only animation (`--press`, 100 ms; none with reduced motion).
+  - The orange appears only on the primary key face (one per view), the price (`--price`), the logo tile
+    and the docs sidebar's current-page mark. It is never focus, a note bar, a selected state or a
+    highlight; a docs note is a neutral sheet. The accent budget in `scripts/check.mjs` holds this count.
+  - Touch: options keep 44 px faces on a coarse pointer and rows keep their touch heights; other keys keep
+    the key sizes. `pnpm check:render` measures the keys, held keys, rows, fields and the note
+    (`scripts/render-sizes.mjs`, `scripts/render-states.mjs`).
 - Type sizes: marketing pages (home, pricing, compare, migrate) use hero h1 60/60 (30/31.5 on phones, 44/46
   in between), section h2 28/35 (36/42 on the home sheet from 961 px, where 28 px sat too close to the 16 px card titles), h3 16/24, body 16/24, small text 14/20. Docs and other prose pages
   (`body.page-prose`: no CTA, plans or price chart) use h1 36/45, h2 21.4/30, h3 20/28, h4 18/28,
