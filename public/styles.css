@@ -16,14 +16,15 @@
 }
 :root {
   --wrap: 1360px;
-  --step-h1: clamp(2.1rem, 1.3rem + 2.6vw, 3rem);
-  --step-h2: clamp(1.45rem, 1.1rem + 1.2vw, 2rem);
   --space-section: clamp(4rem, 3rem + 4vw, 7rem);
 }
 
 *, *::before, *::after { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; scroll-padding-top: 5rem; }
-body { margin: 0; font: 400 var(--fs-body)/var(--lh-body) var(--font-sans); color: var(--text-2); background: var(--surface-1); -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+/* Type sizes are PostHog's (owner decision 16/11/2026): marketing pages here, docs and other prose pages
+   (body.page-prose) further down. The body line-height is a site override of the app token --lh-body
+   (1.55, 24.8px), which tokens.css keeps for the app. */
+body { margin: 0; font: 400 var(--fs-body)/24px var(--font-sans); color: var(--text-2); background: var(--surface-1); -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
 img, svg { display: block; max-width: 100%; }
 p { text-wrap: pretty; }
 a { color: var(--text-1); text-underline-offset: 3px; text-decoration-thickness: 1px; text-decoration-color: var(--line-strong); }
@@ -32,12 +33,15 @@ a:hover { color: var(--text-1); text-decoration-color: currentColor; }
 h1, h2, h3 { color: var(--text-1); line-height: 1.12; letter-spacing: -0.025em; margin: 0 0 .6em; text-wrap: balance; }
 /* Headlines in Plex Serif: the sans carries the interface, the serif the voice; one Plex skeleton for both. */
 h1, h2 { font-family: var(--font-display); font-weight: 500; letter-spacing: -0.02em; }
-h1 { font-size: var(--step-h1); line-height: 1.1; }
-h2 { font-size: var(--step-h2); }
+h1 { font-size: 60px; line-height: 60px; letter-spacing: -1.5px; }
+h2 { font-size: 28px; line-height: 35px; }
 /* A full-width section opens with its heading centred over the content. */
 .section-head { max-width: 46rem; margin: 0 auto var(--space-10); text-align: center; }
 .section-head .section-lede { margin-inline: auto; }
-h3 { font-size: 1.2rem; font-weight: 600; letter-spacing: -0.01em; }
+h3 { font-size: 16px; line-height: 24px; font-weight: 600; letter-spacing: -0.01em; }
+/* Between a phone and a desktop PostHog gives no hero size; 44px keeps a two-line headline on a tablet. */
+@media (max-width: 960px) { h1 { font-size: 44px; line-height: 46px; letter-spacing: -1px; } }
+@media (max-width: 640px) { h1 { font-size: 30px; line-height: 31.5px; letter-spacing: -0.7px; } }
 p { margin: 0 0 1em; }
 strong { color: var(--text-1); font-weight: 600; }
 code { font-family: var(--font-mono); font-size: .88em; background: var(--surface-2); border: 1px solid var(--line); padding: .1em .35em; border-radius: var(--radius-sm); color: var(--text-1); overflow-wrap: anywhere; }
@@ -76,18 +80,47 @@ code { font-family: var(--font-mono); font-size: .88em; background: var(--surfac
 .wm-desk { fill: var(--text-2); }
 .nav-mobile { display: none; }
 
-/* Buttons: Plex Sans, sentence case, 40px (44px on touch) */
-.btn { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2); height: 40px; padding: 0 var(--space-4); border-radius: var(--radius); border: 1px solid var(--line-control); background: var(--surface-1); box-shadow: var(--shadow-1); color: var(--text-1); font: 500 15px/1 var(--font-sans); text-decoration: none; white-space: nowrap; transition: background var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease); }
-.btn:hover { background: var(--surface-2); border-color: var(--line-strong); color: var(--text-1); text-decoration: none; }
-.btn-primary { background: var(--text-1); border-color: var(--text-1); color: var(--surface-1); font-weight: 600; }
-.btn-primary:hover { background: var(--text-2); border-color: var(--text-2); color: var(--surface-1); }
+/* Buttons are keys, sized like PostHog's (owner decision 16/11/2026): a face lifted above a darker base that
+   the face casts with two box-shadows (the edge, then a 1.5px rim under it). The face moves, the base's
+   bottom never does: rest 4px up, hover 6px, pressed 2px (small keys 2/3/1). Only the press is animated,
+   as on a real key. The margin reserves the lifted face and the rim, so a row never runs into the next
+   line. Neutral colours: the brand puts no hue on the primary action. The docs split control, the docs
+   search buttons and the phone "Menu" share the key without a .btn class (their markup is styled
+   elsewhere). */
+:root, :root[data-theme="light"] {
+  --key-face: #ffffff; --key-text: #171717; --key-rim: var(--line-control); --key-edge: #d4d4d4;
+  /* The primary key is the brand's primary action: the Collie orange on a darker orange base. */
+  --key-primary-face: var(--accent); --key-primary-text: var(--on-accent); --key-primary-rim: var(--accent-hover); --key-primary-edge: var(--accent-hover);
+}
+:root[data-theme="dark"] {
+  --key-face: #1c1c1c; --key-text: #fafafa; --key-rim: #5a5a5a; --key-edge: #3a3a3a;
+  /* Dark: the lighter orange face sits on the logo's orange, the darker of the two. */
+  --key-primary-rim: var(--logo-tile); --key-primary-edge: var(--logo-tile);
+}
+.btn, .nav-mobile summary, .docs-ai-group, .docs-search-open, .docs-search-close {
+  --key-rest: 4px; --key-hover: 6px; --key-press: 2px; --key-lift: var(--key-rest);
+  margin-block: var(--key-rest) 1.5px; border: 1.5px solid var(--key-rim); background: var(--key-face); color: var(--key-text);
+  box-shadow: 0 var(--key-lift) 0 0 var(--key-edge), 0 calc(var(--key-lift) + 1.5px) 0 0 var(--key-rim);
+  transform: translateY(calc(-1 * var(--key-lift)));
+}
+:is(.btn, .nav-mobile summary, .docs-search-open, .docs-search-close):hover,
+.docs-ai-group:has(> .docs-copy:hover, > .docs-ai > summary:hover) { --key-lift: var(--key-hover); }
+:is(.btn, .nav-mobile summary, .docs-search-open, .docs-search-close):active,
+.docs-ai-group:has(> .docs-copy:active, > .docs-ai > summary:active) { --key-lift: var(--key-press); transition: all 100ms cubic-bezier(0.4, 0, 0.2, 1); }
+@media (prefers-reduced-motion: reduce) {
+  :is(.btn, .nav-mobile summary, .docs-search-open, .docs-search-close):active,
+  .docs-ai-group:has(> .docs-copy:active, > .docs-ai > summary:active) { transition: none; }
+}
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2); padding: 8px 20px; border-radius: 8px; font: 700 15px/26px var(--font-sans); text-decoration: none; white-space: nowrap; cursor: pointer; }
+.btn:hover { color: var(--key-text); text-decoration: none; }
+.btn-primary { --key-face: var(--key-primary-face); --key-text: var(--key-primary-text); --key-rim: var(--key-primary-rim); --key-edge: var(--key-primary-edge); }
 .btn-primary:focus-visible { outline-offset: 3px; }
-.btn-ghost { color: var(--text-1); }
-.btn-sm { height: 36px; padding: 0 var(--space-3); font-size: 14px; }
-.btn-lg { height: 48px; padding: 0 var(--space-6); font-size: 16px; border-radius: 8px; }
+.btn-sm, .nav-mobile summary, .docs-ai-group, .docs-search-open, .docs-search-close { --key-rest: 2px; --key-hover: 3px; --key-press: 1px; }
+.btn-sm, .nav-mobile summary, .docs-search-close { padding: 4px 10px; border-radius: 6px; font: 700 13px/20px var(--font-sans); }
+.btn-lg { font-size: 18px; line-height: 28px; }
 /* A long label wraps on a phone instead of pushing the page wider than the screen. */
-@media (max-width: 480px) { .btn-lg { height: auto; min-height: 48px; padding-block: var(--space-3); white-space: normal; text-align: center; line-height: 1.3; } }
-.btn.is-placeholder { background: transparent; color: var(--text-3); border: 1px dashed var(--line-strong); box-shadow: none; cursor: not-allowed; }
+@media (max-width: 480px) { .btn-lg { white-space: normal; text-align: center; } }
+.btn.is-placeholder { margin-block: 0; transform: none; background: transparent; color: var(--text-3); border: 1.5px dashed var(--line-strong); box-shadow: none; cursor: not-allowed; }
 .cta-row { display: flex; flex-wrap: wrap; gap: var(--space-3); margin: var(--space-8) 0 0; }
 
 /* Badges */
@@ -100,6 +133,8 @@ td:has(> .badge) { width: 1%; white-space: nowrap; }
 /* Eyebrow and ledes */
 .eyebrow { font: 600 14px/1.4 var(--font-sans); color: var(--text-3); margin: 0 0 var(--space-4); }
 .lede { font-size: 1.2rem; color: var(--text-2); max-width: 38rem; line-height: 1.55; }
+/* Above 15px prose the 19px lede outweighed the page; one step over the body is enough. */
+.page-prose .lede { font-size: 17px; line-height: 26px; }
 .section-lede { color: var(--text-2); font-size: 1.05rem; max-width: 40rem; }
 
 /* Sections */
@@ -140,7 +175,7 @@ td:has(> .badge) { width: 1%; white-space: nowrap; }
 .bar-fill-ai, .vs-legend-ai { background: repeating-linear-gradient(135deg, var(--warn) 0 4px, var(--warn-soft) 4px 7px); }
 .vs-saving { margin: var(--space-4) 0 0; color: var(--text-1); font-weight: 500; }
 .vs-fit-line { margin: var(--space-4) 0 0; padding-top: var(--space-4); border-top: 1px solid var(--line); color: var(--text-1); }
-.vs-chart-note { margin: var(--space-3) 0 0; font-size: var(--fs-small); color: var(--text-3); }
+.vs-chart-note { margin: var(--space-3) 0 0; font-size: 13px; color: var(--text-3); }
 .vs-legend { white-space: nowrap; }
 .vs-legend-ai { display: inline-block; width: 1.4rem; height: .7rem; border-radius: 2px; vertical-align: middle; margin-left: .3rem; }
 .vs-fit { display: grid; gap: var(--space-4); }
@@ -158,7 +193,7 @@ td:has(> .badge) { width: 1%; white-space: nowrap; }
 
 /* Inner page hero and prose */
 .page-hero { padding: var(--space-16) 0 var(--space-10); }
-.page-hero h1 { font-size: clamp(1.75rem, 1.25rem + 2vw, 2.65rem); max-width: 24ch; }
+.page-hero h1 { max-width: 24ch; }
 /* /pricing: the Founding card beside the hero copy on wide screens, under it with its list in a second
    column on tablets, so the buy button is in the first view. */
 .page-hero-split { padding-top: var(--space-12); }
@@ -173,7 +208,7 @@ td:has(> .badge) { width: 1%; white-space: nowrap; }
 .page-body { padding-top: var(--space-10); padding-bottom: var(--space-section); }
 .prose { max-width: 52rem; }
 .prose-wide { max-width: none; }
-.prose h2 { margin-top: 2.6rem; font-size: clamp(1.3rem, 1.1rem + .8vw, 1.6rem); }
+.prose h2 { margin-top: 2.6rem; }
 .prose h3 { margin-top: 1.8rem; }
 .prose ul, .prose ol { padding-left: 1.3rem; }
 .prose li { margin: .35rem 0; }
@@ -190,9 +225,19 @@ td:first-child { font-weight: 500; color: var(--text-1); }
 .faq { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--line); }
 .section-faq .faq { border-top: 0; margin-top: 0; }
 .faq-item { padding: 1.1rem 0; border-bottom: 1px solid var(--line); }
-.faq-item h3 { margin: 0 0 .4rem; font-size: 1.1rem; }
+.faq-item h3 { margin: 0 0 .4rem; }
 .faq-item p { margin: 0; }
 .edit-source { margin-top: 2.5rem; font-size: .92rem; color: var(--text-3); }
+/* Docs and other prose pages: PostHog's docs sizes, the same on a phone and a desktop. */
+.page-prose h1 { font-size: 36px; line-height: 45px; letter-spacing: -0.02em; margin-bottom: 8px; }
+.page-prose .prose h2 { margin: 34px 0 17px; font-size: 21.4px; line-height: 30px; letter-spacing: -0.5px; }
+.page-prose .prose h3 { margin: 0 0 12px; font-size: 20px; line-height: 28px; letter-spacing: -0.5px; }
+.page-prose .prose h4 { margin: 0 0 4px; font-size: 18px; line-height: 28px; }
+.page-prose .prose :is(p, li) { font-size: 15px; line-height: 22.5px; }
+.page-prose .prose p { margin: 0 0 17px; }
+.page-prose .prose code { font-size: 13px; }
+.page-prose .prose pre { font-size: 13px; line-height: 19px; }
+.page-prose .prose pre code { font-size: inherit; }
 
 /* Plans */
 .plans { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: var(--space-5); padding-top: var(--space-10); align-items: stretch; }
@@ -283,8 +328,9 @@ p.switch-offer-print { padding-left: 0; }
 .site-footer li a:hover { color: var(--text-1); text-decoration: underline; }
 .updates-form { grid-column: 1 / -1; max-width: 32rem; }
 .updates-form p { margin: 0 0 .8rem; color: var(--text-2); }
-.updates-row { display: flex; gap: var(--space-2); }
-.updates-row input { flex: 1; min-width: 0; height: 40px; padding: 0 var(--space-3); border: 1px solid var(--line-control); border-radius: var(--radius); background: var(--surface-1); color: var(--text-1); font: 400 15px var(--font-sans); }
+/* The field is as tall as the Subscribe key's face and lines up with it at rest. */
+.updates-row { display: flex; align-items: flex-start; gap: var(--space-2); }
+.updates-row input { flex: 1; min-width: 0; height: 45px; padding: 0 var(--space-3); border: 1px solid var(--line-control); border-radius: var(--radius); background: var(--surface-1); color: var(--text-1); font: 400 15px var(--font-sans); }
 .updates-row input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .updates-trap { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
 .updates-status { min-height: 1.5em; margin: .6rem 0 0 !important; }
@@ -306,14 +352,13 @@ p.switch-offer-print { padding-left: 0; }
   .nav-desktop { display: none; }
   .header-cta { margin-left: auto; }
   .nav-mobile { display: block; position: static; }
-  .nav-mobile summary { list-style: none; cursor: pointer; min-height: var(--touch); display: inline-flex; align-items: center; padding: 0 var(--space-4); border: 1px solid var(--line-control); border-radius: var(--radius); background: var(--surface-1); font: 500 15px var(--font-sans); color: var(--text-1); }
+  .nav-mobile summary { list-style: none; cursor: pointer; display: inline-flex; align-items: center; }
   .nav-mobile summary::-webkit-details-marker { display: none; }
-  .nav-mobile[open] summary { background: var(--surface-2); }
+  .nav-mobile[open] summary { --key-lift: var(--key-press); }
   .nav-mobile nav { position: absolute; left: 0; right: 0; top: 100%; background: var(--surface-1); border-bottom: 1px solid var(--line); box-shadow: var(--shadow-2); padding: .5rem var(--space-5) 1rem; }
   .nav-mobile ul { flex-direction: column; }
   .nav-mobile a { display: block; padding: .8rem .5rem; font-size: 1.05rem; }
   .header-inner { gap: var(--space-3); }
-  .header-cta { height: var(--touch); }
 }
 @media (max-width: 640px) {
   .wrap { padding: 0 var(--space-5); }
@@ -322,13 +367,10 @@ p.switch-offer-print { padding-left: 0; }
   .theme-toggle { min-height: var(--touch); }
   .lede { font-size: 1.05rem; }
   .cta-row { flex-direction: column; }
-  .cta-row .btn { width: 100%; height: var(--touch); }
+  .cta-row .btn { width: 100%; }
   /* minmax(0, 1fr), not 1fr: the track never grows past the screen to fit the email field's width. */
   .footer-grid { grid-template-columns: minmax(0, 1fr); }
   .footer-grid a { min-height: var(--touch); display: inline-flex !important; align-items: center; }
-}
-@media (max-width: 380px) {
-  .header-cta { padding: 0 var(--space-3); }
 }
 
 /* Cookie banner (public/consent.js): a slim bar along the bottom edge so it never covers the buttons a visitor
@@ -339,33 +381,34 @@ p.switch-offer-print { padding-left: 0; }
 .consent-banner[hidden] { display: none; }
 .consent-banner p { margin: 0; color: var(--text-2); }
 .consent-actions { display: flex; flex: none; gap: var(--space-2); }
-.consent-actions .btn { min-width: 96px; border-color: var(--line-strong); }
+.consent-actions .btn { --key-rim: var(--line-strong); min-width: 96px; }
 @media (max-width: 640px) {
   .consent-banner { flex-direction: column; align-items: stretch; gap: var(--space-2); padding-inline: var(--space-4); font-size: 13px; }
   .consent-actions { gap: var(--space-3); }
-  .consent-actions .btn { flex: 1 1 0; height: var(--touch); }
+  .consent-actions .btn { flex: 1 1 0; }
 }
 .link-button { padding: 0; border: 0; background: none; color: inherit; font: inherit; text-decoration: underline; cursor: pointer; }
 .link-button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 /* Home (Paper "L1-b Landing", 06/11/2026): one 1200px sheet under a 1px line; each row is one idea, 32px
    inside, divided by hairlines. Product pictures and the report sit on grey stage rows (--surface-2). Text
-   is the app's scale: 15/24 body, a 12px mono label over each headline, 40/48 Plex Sans 600 headlines and the
-   Plex Serif hero. Colour only for status: ok green for counts that match, open blue for what is coming. */
+   takes PostHog's sizes: 16/24 body, a 12px mono label over each headline, 28/35 Plex Sans 600 headlines and
+   the Plex Serif hero. Colour only for status: ok green for counts that match, open blue for what is coming. */
 .home-wrap { max-width: calc(1200px + 2 * var(--space-10)); padding-block: var(--space-2) var(--space-8); }
-.sheet { border: 1px solid var(--line); background: var(--surface-1); font-size: 15px; line-height: 24px; color: var(--text-2); }
+.sheet { border: 1px solid var(--line); background: var(--surface-1); color: var(--text-2); }
 .sheet-row { margin: 0; padding: var(--space-8); border-bottom: 1px solid var(--line); }
 .sheet > :last-child { border-bottom: 0; }
 .sheet p, .sheet ul, .sheet ol, .sheet dl, .sheet dd, .sheet figure { margin: 0; }
 .sheet ul, .sheet ol { list-style: none; padding: 0; }
-.sheet h2 { margin: 0; max-width: 960px; font: 600 40px/48px var(--font-sans); letter-spacing: -0.02em; color: var(--text-1); }
-.sheet h3 { margin: 0; font: 600 15px/24px var(--font-sans); letter-spacing: 0; color: var(--text-1); }
-.sheet .btn { height: var(--control, 32px); padding: 0 var(--space-3); font: 500 14px/20px var(--font-sans); border-radius: var(--radius); box-shadow: none; }
+.sheet h2 { margin: 0; max-width: 960px; font: 600 28px/35px var(--font-sans); letter-spacing: -0.02em; color: var(--text-1); }
+/* On the 1200px sheet 28px sat too close to the 16px card titles; phones and tablets keep 28px. */
+@media (min-width: 961px) { .sheet h2 { font-size: 36px; line-height: 42px; } }
+.sheet h3 { margin: 0; font: 600 16px/24px var(--font-sans); letter-spacing: 0; color: var(--text-1); }
 .mono-label { margin: 0; font: 12px/16px var(--font-mono); color: var(--text-3); }
 a.mono-label { text-decoration: none; }
 a.mono-label:hover { text-decoration: underline; }
 .text-link { color: var(--text-1); font-weight: 500; text-decoration: underline 1px; text-decoration-color: currentColor; text-underline-offset: 3px; }
-.text-small, .sheet .text-small { font-size: 13px; line-height: 20px; }
+.text-small, .sheet .text-small { font-size: 14px; line-height: 20px; }
 .ok-text { color: var(--ok); font: 600 13px/20px var(--font-sans); }
 .soon-text { color: var(--open); font-weight: 500; }
 .intro { display: grid; gap: var(--space-3); }
@@ -379,9 +422,9 @@ a.mono-label:hover { text-decoration: underline; }
 
 /* Hero */
 .hero-copy { display: grid; gap: var(--space-5); justify-items: start; }
-.hero-copy h1 { margin: 0; max-width: 960px; font: 500 56px/64px var(--font-display); letter-spacing: -0.02em; color: var(--text-1); }
+.hero-copy h1 { margin: 0; max-width: 960px; color: var(--text-1); }
 .hero-copy h1 span { display: block; }
-.hero-copy .lede { margin: 0; max-width: 640px; font-size: 15px; line-height: 24px; }
+.hero-copy .lede { margin: 0; max-width: 640px; font-size: 16px; line-height: 24px; }
 .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3) var(--space-5); padding-top: var(--space-2); }
 .hero-note { color: var(--text-3); }
 .hero-note strong { color: var(--text-1); font-weight: 600; }
@@ -513,7 +556,6 @@ a.mono-label:hover { text-decoration: underline; }
   .hero-caption { flex-direction: column; gap: var(--space-1); }
   .faq-rows > div { flex-direction: column; gap: var(--space-2); }
   .faq-rows dt { width: auto; }
-  .hero-copy h1 { font-size: 44px; line-height: 52px; }
 }
 @media (max-width: 640px) {
   .home-wrap { padding: 0; }
@@ -522,12 +564,10 @@ a.mono-label:hover { text-decoration: underline; }
   .sheet-row { padding-block: var(--space-6); }
   .cells, .faq-rows { padding-inline: 0; padding-block: 0; }
   .cell { padding-block: var(--space-5); }
-  .sheet h2 { font-size: 28px; line-height: 34px; }
   .hero-copy { gap: var(--space-4); }
-  .hero-copy h1 { font-size: 34px; line-height: 40px; }
   .hero-copy h1 span { display: inline; }
   .hero-actions { flex-direction: column; align-items: stretch; gap: var(--space-3); width: 100%; }
-  .hero-actions .btn, .founding-buy .btn, .final-actions .btn { width: 100%; height: var(--touch); font-size: 15px; }
+  .hero-actions .btn, .founding-buy .btn, .final-actions .btn { width: 100%; }
   .hero-actions .text-link { display: inline-flex; align-items: center; min-height: var(--touch); }
   .hero-shot img { border: 0; border-radius: 0; }
   .facts .cell { padding-block: var(--space-4); }
@@ -549,7 +589,6 @@ a.mono-label:hover { text-decoration: underline; }
   .status-head { flex-wrap: wrap; }
   .status-badge { max-width: 100%; }
 }
-@media (pointer: coarse) { .sheet .btn { min-height: var(--touch); } }
 
 /* /audit: the request form beside the hero copy. Stacks under it on phones, with tight spacing so the
    button is in the first screen at 390 x 844. */
@@ -561,7 +600,7 @@ a.mono-label:hover { text-decoration: underline; }
 .audit-form .btn { width: 100%; margin-top: var(--space-1); }
 .audit-status { min-height: 1.5em; margin: var(--space-2) 0 0; color: var(--text-2); }
 .audit-status[data-state="error"] { color: var(--danger); }
-.audit-note { margin: 0; font-size: var(--fs-small); color: var(--text-3); }
+.audit-note { margin: 0; font-size: 13px; color: var(--text-3); }
 @media (max-width: 640px) {
   .page-hero-split:has(.audit-form) { padding-top: var(--space-6); padding-bottom: var(--space-6); }
   .page-hero-split:has(.audit-form) .page-hero-grid { gap: var(--space-5); }

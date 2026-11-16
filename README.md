@@ -85,14 +85,17 @@ References: t3.codes (honest "what are you selling me", fork-it, terminal snippe
 ("X alternative" positioning, transparent pricing, vs pages), cal.com (pricing answered in the FAQ,
 footer comparison links).
 
-Brand: **ink and paper**, shared with the app; the brand guideline is in the app repo,
-`docs/internals/design.md` (owner decision 19/10/2026; research on https://design.hclabs.co, owner only).
+Brand: **paper, ink and the Collie orange**, shared with the app; the brand guideline is in the app repo,
+`docs/internals/design.md` (ink and paper: owner decision 19/10/2026; the orange as the primary action:
+15/11/2026; research on https://design.hclabs.co, owner only).
 `public/tokens.css` is a copy of the app's `web/src/styles/tokens.css` (change it there first; the app
-repo checks contrast for every pair and fails when a grey, a text token or the primary action has a hue).
+repo checks contrast for every pair and fails when a grey or a text token has a hue, or when the primary
+action is not the orange).
 
-- Colour: neutral grey surfaces (`--surface-0` `#fafafa`, cards `#ffffff`), ink text and ink buttons and
-  links (`#171717`; dark theme `#0a0a0a` page, `#fafafa` ink). The price has its own colour (`--price`,
-  `#c2410c`, dark `#fb8a4a`), and the logo tile (`--logo-tile`) is the same orange in both themes; status colours appear only inside product pictures. `pnpm check` fails
+- Colour: neutral grey surfaces (`--surface-0` `#fafafa`, cards `#ffffff`), ink text and links
+  (`#171717`; dark theme `#0a0a0a` page, `#fafafa` ink). The primary button is the Collie orange (`--accent`,
+  `#c2410c`, dark `#fb8a4a`) with `--on-accent` text; the price has the same orange through its own token
+  (`--price`), and the logo tile (`--logo-tile`) is the same orange in both themes; status colours appear only inside product pictures. `pnpm check` fails
   when `styles.css` uses the accent token more than its budget.
 - Layout (from a full-page teardown of nine helpdesk sites): one page background, no tinted bands; one
   idea per section with a crop of the real product on a soft panel (`--panel`); three checkable facts
@@ -113,8 +116,18 @@ repo checks contrast for every pair and fails when a grey, a text token or the p
   `node scripts/product-shot/variants.mjs` (ffmpeg); `pnpm check` fails if a size the hero names is missing. Retake the
   screenshot with `pnpm shot:product` once those screens ship (see below).
 - Light is the default; the footer **Dark theme** button sets `data-theme="dark"` and saves it in
-  `localStorage` for this site only (`public/theme.js`). Spacing is a 4 px grid (`--space-*`); buttons
-  are at least 44 px tall on touch (`--touch`).
+  `localStorage` for this site only (`public/theme.js`). Spacing is a 4 px grid (`--space-*`).
+- Sizes follow PostHog (owner decision 16/11/2026, measured on posthog.com that day); this replaces the old
+  "at least 44 px on touch" rule for buttons. Buttons are keys: a face 4 px above a darker base it casts
+  with two box-shadows, 6 px on hover, 2 px while pressed (a 100 ms transition on the press only, none with
+  reduced motion). `.btn` is 15/26 px bold, padding 8/20, radius 8; `.btn-sm` (header, docs controls,
+  cookie sheet) 13/20, padding 4/10, radius 6, depths 2/3/1; `.btn-lg` 18/28. Borders are 1.5 px; the
+  colours are custom properties (`--key-*`) in `styles.css`: secondary a white face on a grey base, primary
+  the orange face (`--accent`) on a darker orange base (`--accent-hover`; in the dark theme `--logo-tile`).
+- Type sizes: marketing pages (home, pricing, compare, migrate) use hero h1 60/60 (30/31.5 on phones, 44/46
+  in between), section h2 28/35 (36/42 on the home sheet from 961 px, where 28 px sat too close to the 16 px card titles), h3 16/24, body 16/24, small text 14/20. Docs and other prose pages
+  (`body.page-prose`: no CTA, plans or price chart) use h1 36/45, h2 21.4/30, h3 20/28, h4 18/28,
+  body 15/22.5, code 13. `pnpm check:render` measures buttons, their states and these sizes in Chrome.
 
 ## Retaking the product screenshot
 
