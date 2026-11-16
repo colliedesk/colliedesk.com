@@ -42,7 +42,7 @@ const billMd = BILL_SIZES.map((n) => {
 const foundingMd = FOUNDING_OPEN
   ? `## Founding offer: $99 every 3 months, locked for life
 
-For small teams of 3 to 10 agents planning to leave Freshdesk; 10 places. Your price never goes up, we migrate your Freshdesk data for free, and you can export the whole workspace at any time. After the 10 places: Cloud Team at ${PRICE.yearly} a year. Bigger team? 11 to 25 agents: ${TEAM_25.name}, ${PRICE.team25Monthly} a month. ${BUSINESS_AGENTS}: Business, through a call. Up to 10 agents, no per-agent fees; 20 GiB of attachments, imported files included; AI reply drafts and triage included, or your own key; ${MONEY_BACK}.`
+For small teams of 3 to 10 agents planning to leave Freshdesk; 10 places. Your price never goes up, we migrate your Freshdesk data for free, you pay your first $99 only when your team answers its first real ticket, and you can export the whole workspace at any time. After the 10 places: Cloud Team at ${PRICE.yearly} a year. Bigger team? 11 to 25 agents: ${TEAM_25.name}, ${PRICE.team25Monthly} a month. ${BUSINESS_AGENTS}: Business, through a call. Up to 10 agents, no per-agent fees; 20 GiB of attachments, imported files included; AI reply drafts and triage included, or your own key; ${MONEY_BACK}.`
   : `## Cloud plans
 
 Founding is closed: all 10 places are taken. One flat price per workspace, never per agent: ${LADDER_LINE}.`;

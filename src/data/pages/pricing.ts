@@ -14,7 +14,7 @@ export const PER_WORKSPACE_FAQ: Faq = {
 
 const SWITCH_FAQ: Faq = {
   q: 'Do we have to leave Freshdesk in one day?',
-  a: 'No. Keep answering customers in Freshdesk and import your Freshdesk history: the import only reads Freshdesk, and in the app the tickets of the last 90 days come first, so your team can start while older ones follow. Run the import again to catch up; it never copies an imported ticket twice. When your team is sure, for example before your Freshdesk renewal, forward your support mail to Colliedesk and run one last catch-up. Founding customers get the migration done for them. [How to switch gradually](/migrate/freshdesk#switch-gradually).',
+  a: 'No. Keep answering customers in Freshdesk and import your Freshdesk history: the import only reads Freshdesk, and in the app the tickets of the last 90 days come first, so your team can start while older ones follow. Run the import again to catch up; it never copies an imported ticket twice. When your team is sure, for example before your Freshdesk renewal, forward your support mail to Colliedesk and run one last catch-up. Founding customers get the migration done for them and pay after their first real ticket. [How to switch gradually](/migrate/freshdesk#switch-gradually).',
 };
 
 // Business replaced the Unlimited plan; it is sold through a call, not a checkout.
@@ -53,7 +53,7 @@ const ladderFaq: Faq[] = [
   },
   {
     q: 'What is the founding offer?',
-    a: `A founding customer pays $99 every 3 months per workspace, and that price is locked for life. It is limited to 10 workspaces in total; when they are taken, the offer closes for good. We also migrate your Freshdesk data for you, free. It includes up to 10 agents and 20 GiB of attachments, imported files included. Above 20 GiB nothing is deleted and customer email keeps arriving with its attachments; only your own uploads and new imports wait until you upgrade to Cloud Team, which includes ${TEAM.storage}. It is for teams who want to leave Freshdesk and help shape Colliedesk while it is young.`,
+    a: `A founding customer pays $99 every 3 months per workspace, and that price is locked for life. It is limited to 10 workspaces in total; when they are taken, the offer closes for good. We also migrate your Freshdesk data for you, free, and you pay your first $99 only when your team answers its first real ticket in Colliedesk. A place is yours once you pay. It includes up to 10 agents and 20 GiB of attachments, imported files included. Above 20 GiB nothing is deleted and customer email keeps arriving with its attachments; only your own uploads and new imports wait until you upgrade to Cloud Team, which includes ${TEAM.storage}. It is for teams who want to leave Freshdesk and help shape Colliedesk while it is young.`,
   },
   {
     q: 'Can I get my money back if Founding is not right for us?',
@@ -81,7 +81,7 @@ ${SWITCH_OFFER_BLOCK_MD}`;
 const plansMd = `| Plan | Price | What you get |
 |---|---|---|
 ${CLOUD_PLANS.map(cloudRow).join('\n')}
-| Founding | $99 every 3 months per workspace, locked for life; 30-day money-back guarantee | Limited to 10 workspaces. Freshdesk migration done for you, with a reconcile report. Up to 10 agents, no per-agent fees. 20 GiB of attachments, imported files included. |
+| Founding | $99 every 3 months per workspace, locked for life; 30-day money-back guarantee | Limited to 10 workspaces. Freshdesk migration done for you, with a reconcile report; you pay after your first real ticket. Up to 10 agents, no per-agent fees. 20 GiB of attachments, imported files included. |
 | Self-host | $0, forever | Every feature, no agent limit. AGPL-3.0. AI with your own model key. |
 
 Every plan has every feature, unlimited conversations and no per-agent fees. AI reply drafts and triage are included with a monthly allowance, or use your own key at no extra fee. 14-day free trial, no card. No automatic charge: when the trial ends, you pick a plan or export your data. Cancel anytime.
@@ -141,7 +141,7 @@ const foundingFaq: Faq[] = [
   },
   {
     q: 'Can I try it before I pay?',
-    a: `Yes. Every Cloud workspace starts with a 14-day free trial, no card, and there is no automatic charge. Or pay for Founding now: if it is not right within 30 days, we refund the full amount. [Start the free trial](${TRIAL_HREF}).`,
+    a: `Yes. Every Cloud workspace starts with a 14-day free trial, no card, and there is no automatic charge. With Founding we migrate you during the trial, and you pay your first $99 when your team answers its first real ticket. Not right within 30 days of that payment? We refund the full amount. [Start the free trial](${TRIAL_HREF}).`,
   },
   SWITCH_FAQ,
   ABOVE_25_FAQ,
@@ -155,7 +155,7 @@ export const businessRow = `| ${BUSINESS.name} | ${dollars(BUSINESS.monthly)} a 
 
 const foundingPlansMd = `| Plan | Price | What you get |
 |---|---|---|
-| Founding | $99 every 3 months per workspace ($396 a year, about $7.60 a week), locked for life; 30-day money-back guarantee | Limited to ${FOUNDING_SLOTS} workspaces. Freshdesk migration done for you, with a reconcile report. Up to 10 agents, no per-agent fees. 20 GiB of attachments, imported files included. A direct line to the founder, and a say in the roadmap. [Join for $99 every 3 months](${FOUNDING_CHECKOUT}). |
+| Founding | $99 every 3 months per workspace ($396 a year, about $7.60 a week), locked for life; 30-day money-back guarantee | Limited to ${FOUNDING_SLOTS} workspaces. Freshdesk migration done for you, with a reconcile report; you pay after your first real ticket. Up to 10 agents, no per-agent fees. 20 GiB of attachments, imported files included. A direct line to the founder, and a say in the roadmap. [Start free](${TRIAL_HREF}) and pay after your first real ticket, or [join now for $99 every 3 months](${FOUNDING_CHECKOUT}). |
 ${team25Row}
 ${businessRow}
 | Self-host | $0, forever | Every feature, no agent limit. AGPL-3.0. AI with your own model key. |
@@ -166,11 +166,11 @@ ${switchSection}`;
 
 const foundingBody = `## Founding, while we are young
 
-**Founding** is for ${FOUNDING_SLOTS} support teams who want to leave Freshdesk. You get every feature (the MCP server for your AI agents included), we move your Freshdesk history for you and prove nothing was lost, and you talk to the person who builds Colliedesk. When the ${FOUNDING_SLOTS} places are taken, Founding closes for good and your price stays at $99 every 3 months. ${TEAM_25_INSTEAD}
+**Founding** is for ${FOUNDING_SLOTS} support teams who want to leave Freshdesk. You get every feature (the MCP server for your AI agents included), we move your Freshdesk history for you and prove nothing was lost, you pay your first $99 only when your team answers its first real ticket in Colliedesk, and you talk to the person who builds Colliedesk. When the ${FOUNDING_SLOTS} places are taken, Founding closes for good and your price stays at $99 every 3 months. ${TEAM_25_INSTEAD}
 
 ## What works today, and what does not
 
-Colliedesk is **generally available**: it runs on Colliedesk Cloud, and [what general availability means](${GA_DOC}) is written down in the open-source repository. Shipped today: the email channel, the Freshdesk and Help Scout importers with their reconcile reports, the knowledge base and public help center, starting a new conversation from the inbox, contact history, saved replies, Cc on replies, attachments, live updates, and AI reply drafts and triage suggestions (off until an admin turns them on). Not built yet: AI auto-answer. If you are planning your exit before your next Freshdesk renewal, [join as a founding customer](${FOUNDING_CHECKOUT}) and we refund you in full within 30 days if it is not right.
+Colliedesk is **generally available**: it runs on Colliedesk Cloud, and [what general availability means](${GA_DOC}) is written down in the open-source repository. Shipped today: the email channel, the Freshdesk and Help Scout importers with their reconcile reports, the knowledge base and public help center, starting a new conversation from the inbox, contact history, saved replies, Cc on replies, attachments, live updates, and AI reply drafts and triage suggestions (off until an admin turns them on). Not built yet: AI auto-answer. If you are planning your exit before your next Freshdesk renewal, [start the free trial](${TRIAL_HREF}) and write to ${CONTACT_EMAIL}: we migrate your Freshdesk data, and you pay your first $99 when your team answers its first real ticket in Colliedesk. A place is yours once you pay. Not right within 30 days of that payment? Full refund.
 
 ${STATUS_LINE}
 
@@ -196,9 +196,9 @@ const foundingPage = {
   title: `Colliedesk pricing: Founding $99 every 3 months, ${TEAM_25.name} ${PRICE.team25Monthly} a month`,
   description:
     `Founding is $99 every 3 months per workspace for up to 10 agents, locked for life, with Freshdesk migration done for you. Only ${FOUNDING_SLOTS} places, 30-day money-back guarantee. ${TEAM_25.name} is ${PRICE.team25Monthly} a month for up to ${TEAM_25.agents} agents. Self-hosting is free.`,
-  summary: `Founding while it is open: $99 every 3 months per workspace, locked for life, up to 10 agents, Freshdesk migration done for you, ${FOUNDING_SLOTS} places, 30-day money-back guarantee; ${TEAM_25.name} ${PRICE.team25Monthly} a month for up to ${TEAM_25.agents} agents; 14-day free trial; self-host free`,
+  summary: `Founding while it is open: $99 every 3 months per workspace, locked for life, up to 10 agents, Freshdesk migration done for you, pay after the first real ticket, ${FOUNDING_SLOTS} places, 30-day money-back guarantee; ${TEAM_25.name} ${PRICE.team25Monthly} a month for up to ${TEAM_25.agents} agents; 14-day free trial; self-host free`,
   h1: '$396 a year for your whole team. Not per agent.',
-  lede: `Founding is for ${FOUNDING_SLOTS} teams of 3 to 10 agents leaving Freshdesk: $99 every 3 months, locked for life. We move your Freshdesk history and prove nothing was lost. Not right within 30 days? Full refund.`,
+  lede: `Founding is for ${FOUNDING_SLOTS} teams of 3 to 10 agents leaving Freshdesk: $99 every 3 months, locked for life. We move your Freshdesk history, prove nothing was lost, and you pay when your team answers its first real ticket. Not right within 30 days of paying? Full refund.`,
   preMd: foundingPlansMd,
   body: foundingBody,
   faq: foundingFaq,

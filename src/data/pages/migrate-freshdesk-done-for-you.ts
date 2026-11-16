@@ -12,11 +12,11 @@ const faq: Faq[] = [
   },
   {
     q: 'What does a done-for-you Freshdesk migration cost?',
-    a: `Nothing extra, and it is not sold on its own. It is part of the founding plan ($99 every 3 months per workspace) for teams of 3 to 10 agents, and of the [switch offer](${SWITCH_HREF}) on Team 25 and Business for teams of 11 to ${BUSINESS.agents} agents. The importer stays free to run yourself.`,
+    a: `Nothing extra, and it is not sold on its own. It is part of the founding plan ($99 every 3 months per workspace) for teams of 3 to 10 agents, and of the [switch offer](${SWITCH_HREF}) on Team 25 and Business for teams of 11 to ${BUSINESS.agents} agents. In both, you pay only when your team answers its first real ticket in Colliedesk. The importer stays free to run yourself.`,
   },
   {
     q: 'When can you start?',
-    a: 'The Freshdesk importer is available now, and Colliedesk Cloud is generally available. Migrations for founding customers can start now. Tell us your renewal date so we plan before it.',
+    a: 'The Freshdesk importer is available now, and Colliedesk Cloud is generally available. Founding migrations start during your free trial, and you pay after your first real ticket. Tell us your renewal date so we plan before it.',
   },
   {
     q: 'What if something does not arrive?',
@@ -43,7 +43,7 @@ Tickets (archived ones included), replies, private notes, attachments, tags, con
 
 | You are | Migration price |
 |---|---|
-| A founding customer ($99 every 3 months per workspace, locked for life) | **Included.** Done-for-you migration is a founding benefit and is not sold separately. |
+| A founding customer ($99 every 3 months per workspace, locked for life) | **Included.** Done-for-you migration is a founding benefit and is not sold separately. You pay when your team answers its first real ticket in Colliedesk. |
 | A team of 11 to ${BUSINESS.agents} agents on Team 25 or Business | **Included** in the [switch offer](${SWITCH_HREF}): we migrate you, and you pay when your team answers its first real ticket in Colliedesk. |
 | Self-hosting | Free: run the same importer yourself with the [import guide](/docs/import-freshdesk) |
 

@@ -105,6 +105,7 @@ function FoundingCard({ state }: { state: FoundingState }) {
           <li>Limited to {FOUNDING_SLOTS} workspaces, then closed for good</li>
           <li>Price locked for life</li>
           <li>Freshdesk migration done for you, with a reconcile report</li>
+          {state.open && <li>You pay after your team answers its first real ticket</li>}
           <li>Up to 10 agents, no per-agent fees</li>
           <li>20 GiB of attachments, imported files included</li>
           {state.open && <li>A direct line to the founder</li>}
@@ -116,7 +117,7 @@ function FoundingCard({ state }: { state: FoundingState }) {
           <FoundingMeter state={state} />
           <a className="btn btn-primary" href={FOUNDING_CHECKOUT} rel="noopener">Join for $99 every 3 months</a>
           <p className="plan-guarantee"><a href="/terms#refunds">{MONEY_BACK}</a>. Full refund, no questions asked.</p>
-          <p className="plan-guarantee">Want to look first? <a href={TRIAL_HREF}>Start a 14-day free trial</a>, no card.</p>
+          <p className="plan-guarantee">Rather pay later? <a href={TRIAL_HREF}>Start a 14-day free trial</a>, no card: we migrate you, and you pay after your first real ticket.</p>
         </div>
       ) : <p>Founding is closed. Existing founding customers keep this price for life.</p>}
     </article>
