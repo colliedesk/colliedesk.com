@@ -2,7 +2,7 @@ const PRICES_READ = '16 October 2026';
 import { faqPage, techArticle } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
 import { collieFacts as c, statusTable } from './collie-status';
-import { FOUNDING_ACTION, OUR_PLAN, OUR_PRICE, withFoundingLead } from '../../lib/cloud-price';
+import { FOUNDING_ACTION, OUR_PLAN, OUR_PRICE } from '../../lib/cloud-price';
 
 const faq: Faq[] = [
   {
@@ -70,7 +70,7 @@ const page: Page = {
   summary: `FreeScout free core plus paid modules, no official cloud or Freshdesk importer vs Colliedesk every feature free, flat-priced Cloud (${OUR_PLAN} ${OUR_PRICE}), importer available now`,
   eyebrow: 'Compare · Open source',
   h1: 'Colliedesk vs FreeScout',
-  lede: withFoundingLead('Both are open source under AGPL-3.0. FreeScout is a lightweight PHP helpdesk with paid modules. Colliedesk keeps every feature in the free code. Here is the difference, with sources.'),
+  lede: 'Both are open source under AGPL-3.0. FreeScout is a lightweight PHP helpdesk with paid modules. Colliedesk keeps every feature in the free code. Here is the difference, with sources.',
   cta: true,
   ctaFounding: FOUNDING_ACTION,
   body,

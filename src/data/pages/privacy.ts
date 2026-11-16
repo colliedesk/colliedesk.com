@@ -195,7 +195,7 @@ const page: Page = {
   section: 'Product',
   title: 'Privacy policy | Colliedesk',
   description:
-    'How Colliedesk Cloud and colliedesk.com handle personal data: what we collect, the providers we use, where data is stored (Germany), how long we keep it and your rights.',
+    'How Colliedesk Cloud and colliedesk.com handle personal data: what we collect, who helps run it, where it is stored (Germany), how long, your rights.',
   summary: 'What Colliedesk collects, why, who helps run it, where it is stored, how long it is kept, your rights',
   eyebrow: 'Legal',
   h1: 'Privacy policy',

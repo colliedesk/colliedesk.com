@@ -2,7 +2,7 @@ import { AI_EXTRA, AI_RESOLUTION, PRICES_READ } from '../../lib/site';
 import { faqPage, techArticle } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
 import { collieFacts as c, statusTable } from './collie-status';
-import { FOUNDING_ACTION, OUR_CELL, OUR_PLAN, OUR_PRICE, foundingFirst, withFoundingLead } from '../../lib/cloud-price';
+import { FOUNDING_ACTION, OUR_CELL, OUR_PLAN, OUR_PRICE, foundingFirst } from '../../lib/cloud-price';
 
 const faq: Faq[] = [
   {
@@ -79,7 +79,7 @@ const page: Page = {
   summary: `Zendesk per-agent seats, €50 Copilot and per-resolution AI vs Colliedesk ${OUR_PLAN} at a flat ${OUR_PRICE} per workspace; export off by default`,
   eyebrow: 'Compare · Zendesk alternative',
   h1: 'Colliedesk vs Zendesk',
-  lede: withFoundingLead('Zendesk is the enterprise default, and it earns that. For a team of five, the seat count and the AI meter decide the bill. Here are the numbers, with sources.'),
+  lede: 'Zendesk is the enterprise default, and it earns that. For a team of five, the seat count and the AI meter decide the bill. Here are the numbers, with sources.',
   cta: true,
   ctaFounding: FOUNDING_ACTION,
   body,

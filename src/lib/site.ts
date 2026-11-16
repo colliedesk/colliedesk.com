@@ -19,7 +19,7 @@ export const PRICES_READ = '14 October 2026';
 
 export const TAGLINE = 'The open-source alternative to Freshdesk, Zendesk and Help Scout.';
 export const POSITIONING =
-  'Leave Freshdesk with all your data. AI that actually answers tickets is included, not an add-on. Flat price, no per-agent fees.';
+  'Leave Freshdesk with every ticket, counted on both sides. One flat price for up to 10 agents, AI reply drafts included. Open source, AGPL-3.0.';
 
 // Shown at the end of every page in the Compare section, HTML and Markdown twin.
 export const TRADEMARK_NOTE =
@@ -96,7 +96,6 @@ export const FOUNDING_AGENTS = '3 to 10';
 export const TEAM_25_AGENTS = '11 to 25';
 export const TEAM_25_WHO = `For support teams of ${TEAM_25_AGENTS} agents.`;
 export const TEAM_25_IMPORT = 'We run the Freshdesk import with you.';
-export const TEAM_25_BELOW = `Teams of ${TEAM_25_AGENTS} agents can buy Team 25 below.`;
 export const BUSINESS_AGENTS = `${BUSINESS.agentsFrom} to ${BUSINESS.agents}`;
 
 // AI on Colliedesk Cloud: reply drafts and triage are included in every plan with a monthly allowance;
@@ -124,6 +123,9 @@ export const LADDER_LINE = `Solo ${dollars(SOLO.monthly)} a month for 1 agent, S
 // decision 03/11/2026): we migrate them, and they pay once their team answers its first real ticket
 // in Colliedesk; the last invoice of their old helpdesk buys their first month, capped at that
 // invoice. The 14-day trial is unchanged. /pricing, /vs/freshdesk and the switch page share these lines.
+// Founding teams of 3 to 10 agents get the same pay-later promise (owner decision 17/11/2026): they start
+// the trial, we migrate them, and they pay the first $99 through the Founding checkout after their first
+// real ticket. Only a payment holds one of the 10 places, so the copy says so.
 export const SWITCH_HREF = '/migrate/freshdesk/switch';
 // A 30-minute call with the founder on Cal.com; the Business card and the switch offer book it.
 export const SWITCH_CALL_HREF = 'https://cal.com/chinh/colliedesk-switch';
@@ -131,7 +133,7 @@ export const SWITCH_CALL_LABEL = 'Book a 30-min switch call';
 export const SWITCH_OFFER_MD = '**We move your team for you.** We migrate you from Freshdesk, and you pay when your team answers its first real ticket in Colliedesk, not before. After your first payment you still have 30 days to ask for your money back.';
 export const INVOICE_OFFER_MD = "**Don't pay twice while you switch.** Send us your latest Zendesk, Freshdesk, Help Scout or Intercom invoice from the last 3 months. Your first paid month of Colliedesk is on us, up to the amount on that invoice. Paying yearly? You get 13 months for the price of one year.";
 export const OFFER_SMALL_PRINT: readonly string[] = [
-  'Team 25 and Business only. The 14-day free trial is unchanged and comes first.',
+  'The invoice offer is for Team 25 and Business only. The 14-day free trial is unchanged and comes first.',
   'We use the invoice only to check the amount and the team size.',
   'Keep your current helpdesk running while you test. There is nothing to cancel until you are ready.',
 ];

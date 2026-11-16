@@ -4,7 +4,7 @@ import { faqPage, techArticle } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
 import { collieFacts as c, statusTable } from './collie-status';
 import { AI_EXTRA } from '../../lib/site';
-import { FOUNDING_ACTION, OUR_CELL, OUR_PLAN, OUR_PRICE, withFoundingLead } from '../../lib/cloud-price';
+import { FOUNDING_ACTION, OUR_CELL, OUR_PLAN, OUR_PRICE } from '../../lib/cloud-price';
 
 const faq: Faq[] = [
   {
@@ -82,7 +82,7 @@ const page: Page = {
   summary: `Zammad €7–27 per agent hosted, €0.03 per AI call, released Freshdesk migrator vs Colliedesk ${OUR_PLAN} at a flat ${OUR_PRICE}, importer available now with reconcile report`,
   eyebrow: 'Compare · Open source',
   h1: 'Colliedesk vs Zammad',
-  lede: withFoundingLead('Both are open source under AGPL-3.0. Zammad is mature and charges per agent; Colliedesk is young and charges per workspace. Here is where each one wins, with sources.'),
+  lede: 'Both are open source under AGPL-3.0. Zammad is mature and charges per agent; Colliedesk is young and charges per workspace. Here is where each one wins, with sources.',
   cta: true,
   ctaFounding: FOUNDING_ACTION,
   body,

@@ -3,7 +3,7 @@ import { faqPage, techArticle } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
 import { collieFacts as c, statusTable } from './collie-status';
 import { AI_EXTRA } from '../../lib/site';
-import { FOUNDING_ACTION, OUR_CELL, OUR_PLAN, OUR_PRICE, withFoundingLead } from '../../lib/cloud-price';
+import { FOUNDING_ACTION, OUR_CELL, OUR_PLAN, OUR_PRICE } from '../../lib/cloud-price';
 
 const faq: Faq[] = [
   {
@@ -80,7 +80,7 @@ const page: Page = {
   summary: `Chatwoot $19–99 per agent, Freshdesk import without attachments on paid plans vs Colliedesk ${OUR_PLAN} at a flat ${OUR_PRICE}, importer with attachments and reconcile report (available now)`,
   eyebrow: 'Compare · Open source',
   h1: 'Colliedesk vs Chatwoot',
-  lede: withFoundingLead('Chatwoot is an open-source inbox built around chat and messaging. Colliedesk is an open-source helpdesk built for teams leaving Freshdesk. Here is the difference, with sources.'),
+  lede: 'Chatwoot is an open-source inbox built around chat and messaging. Colliedesk is an open-source helpdesk built for teams leaving Freshdesk. Here is the difference, with sources.',
   cta: true,
   ctaFounding: FOUNDING_ACTION,
   body,

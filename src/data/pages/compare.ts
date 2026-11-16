@@ -18,7 +18,7 @@ import vsHubspotServiceHub from './vs-hubspot-service-hub';
 import vsZammad from './vs-zammad';
 import vsZendesk from './vs-zendesk';
 import vsZohoDesk from './vs-zoho-desk';
-import { AFTER_FOUNDING, FOUNDING_ACTION, FOUNDING_OPEN, withFoundingLead } from '../../lib/cloud-price';
+import { AFTER_FOUNDING, FOUNDING_ACTION, FOUNDING_OPEN } from '../../lib/cloud-price';
 
 // Order: the tools most of our buyers leave first, then the open-source helpdesks, then the rest.
 export const COMPARISONS: readonly Page[] = [
@@ -63,8 +63,8 @@ const page: Page = {
     'Every Colliedesk comparison in one place: Freshdesk, Zendesk, Help Scout, Zoho Desk, Front, Zammad and more. Published prices with the date we read them.',
   summary: 'Hub of every comparison page, with the Colliedesk Cloud price at 1 to 25 agents',
   eyebrow: 'Compare',
-  h1: 'Compare Colliedesk with the helpdesk you use today',
-  lede: withFoundingLead('Most helpdesks charge per agent. Colliedesk charges one price for the workspace. Each comparison shows the published prices, with sources, and says where the other tool is the better choice.'),
+  h1: 'What your helpdesk costs at 5 agents, next to ours',
+  lede: 'Most helpdesks charge per agent. Colliedesk charges one price for the workspace. Each comparison shows the published prices, with sources, and says where the other tool is the better choice.',
   cta: true,
   ctaFounding: FOUNDING_ACTION,
   body,

@@ -2,7 +2,7 @@ import { AI_EXTRA, PRICES_READ } from '../../lib/site';
 import { faqPage, techArticle } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
 import { collieFacts as c, statusTable } from './collie-status';
-import { FOUNDING_ACTION, OUR_CELL, OUR_PLAN, OUR_PRICE, foundingFirst, withFoundingLead } from '../../lib/cloud-price';
+import { FOUNDING_ACTION, OUR_CELL, OUR_PLAN, OUR_PRICE, foundingFirst } from '../../lib/cloud-price';
 
 const faq: Faq[] = [
   {
@@ -80,7 +80,7 @@ const page: Page = {
   summary: `Help Scout $25–75 per user and $0.75 per AI resolution vs Colliedesk ${OUR_PLAN} at a flat ${OUR_PRICE} per workspace; no bulk export in Help Scout`,
   eyebrow: 'Compare · Help Scout alternative',
   h1: 'Colliedesk vs Help Scout',
-  lede: withFoundingLead('Help Scout has some of the best email UX in the category. Colliedesk is younger, open source and flat-priced. Here is where each one fits, with sources.'),
+  lede: 'Help Scout has some of the best email UX in the category. Colliedesk is younger, open source and flat-priced. Here is where each one fits, with sources.',
   cta: true,
   ctaFounding: FOUNDING_ACTION,
   body,

@@ -50,7 +50,7 @@ const page: Page = {
   section: 'Product',
   title: 'Colliedesk changelog: what shipped, release by release',
   description:
-    'Every Colliedesk release with its date and what changed. v0.0.1 (14 October 2026): email channel, Freshdesk importer, shared inbox, Colliedesk Cloud. RSS feed available.',
+    'Every Colliedesk release, newest first. Generally available since 5 November 2026. Each entry gives its date and what changed; follow it by RSS.',
   summary: 'Dated release notes, first release v0.0.1 on 2026-10-14; RSS at /changelog.xml',
   eyebrow: 'Changelog',
   h1: 'Changelog',

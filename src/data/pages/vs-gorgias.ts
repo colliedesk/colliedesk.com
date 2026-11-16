@@ -3,7 +3,7 @@ import { faqPage, techArticle } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
 import { collieFacts as c, statusTable } from './collie-status';
 import { AI_EXTRA } from '../../lib/site';
-import { FOUNDING_ACTION, FOUNDING_OPEN, OUR_CELL, OUR_PLAN, OUR_PRICE, foundingFirst, withFoundingLead } from '../../lib/cloud-price';
+import { FOUNDING_ACTION, FOUNDING_OPEN, OUR_CELL, OUR_PLAN, OUR_PRICE, foundingFirst } from '../../lib/cloud-price';
 
 const faq: Faq[] = [
   {
@@ -66,7 +66,7 @@ const page: Page = {
   summary: `Gorgias $50–750 per month by ticket volume, $77–1,227 with AI Agent vs Colliedesk ${OUR_PLAN} at a flat ${OUR_PRICE} with unlimited conversations`,
   eyebrow: 'Compare · Gorgias alternative',
   h1: 'Colliedesk vs Gorgias',
-  lede: withFoundingLead('Gorgias is a helpdesk for online stores, priced by how many tickets you get. Colliedesk is a general helpdesk with one flat price. Here are the numbers, with sources.'),
+  lede: 'Gorgias is a helpdesk for online stores, priced by how many tickets you get. Colliedesk is a general helpdesk with one flat price. Here are the numbers, with sources.',
   cta: true,
   ctaFounding: FOUNDING_ACTION,
   body,

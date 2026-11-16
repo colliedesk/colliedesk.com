@@ -80,7 +80,7 @@ const page: Page = {
     'Colliedesk is an AGPL-3.0 open source helpdesk and ticketing system by HC Labs. Self-hosting is free with every feature. What we sell, the license and the CLA.',
   summary: 'AGPL-3.0-only license, CLA, what HC Labs sells, self-host in two commands, fork it, clean-room rule',
   eyebrow: 'Open source',
-  h1: 'Open source, and honest about the business',
+  h1: 'You were held hostage at renewal once. Not again.',
   lede: 'Colliedesk is an open source helpdesk and ticketing system, licensed AGPL-3.0. Self-hosting is free with every feature. Here is exactly what we sell and how you keep control.',
   cta: true,
   body,

@@ -75,7 +75,7 @@ const page: Page = {
   summary: `Switch offer for Freshdesk teams of 11 to ${BUSINESS.agents} agents on Team 25 or Business (${BUSINESS_AGENTS} agents): we migrate you and you pay when your team answers its first real ticket; your last helpdesk invoice buys the first month, up to its amount; 14-day trial unchanged`,
   eyebrow: 'Migrate · Switch offer',
   h1: 'We move your team off Freshdesk. You pay after its first real ticket.',
-  lede: `For support teams of 11 to ${BUSINESS.agents} agents. We import your Freshdesk history, your team runs one queue in Colliedesk next to Freshdesk, and you pay when it answers its first real ticket here. Smaller team? [Founding](/pricing) includes the migration too.`,
+  lede: `For support teams of 11 to ${BUSINESS.agents} agents. We import your Freshdesk history, your team runs one queue in Colliedesk next to Freshdesk, and you pay when it answers its first real ticket here. Smaller team? [Founding](/pricing) works the same way for 3 to 10 agents.`,
   cta: true,
   ctaCall: { href: SWITCH_CALL_HREF, label: SWITCH_CALL_LABEL },
   pre: 'switch-plans',

@@ -1,12 +1,14 @@
 ---
 // Main content of a standard page: hero (with the Founding card beside it on /pricing), optional block
 // (pricing plans, or the /vs price chart and fit columns), then the prose, with the docs navigation
-// beside it on docs pages.
+// beside it on docs pages. Docs pages also get the folded docs menu for narrow screens above the hero and
+// the search dialog.
 import { createElement } from 'react';
 import type { Page } from '../lib/page';
 import { html } from '../lib/render-react';
 import { AuditForm } from './AuditForm';
-import { DocsNav } from './DocsNav';
+import { DocsMenu, DocsSidebar } from './DocsNav';
+import { DocsSearchDialog } from './DocsSearch';
 import { Hero } from './Hero';
 import { PricingHero, PricingPlans, SwitchPlans } from './PricingPlans';
 import Prose from './Prose.astro';
@@ -19,6 +21,7 @@ interface Props {
 const { page } = Astro.props;
 const auditAside = page.pre === 'audit-form' ? createElement(AuditForm) : undefined;
 ---
+{page.docsNav && page.docsPlace && <Fragment set:html={html(DocsMenu, { groups: page.docsNav, current: page.path, label: page.docsPlace.label })} />}
 {page.pre === 'pricing-plans' ? <Fragment set:html={html(PricingHero, { page })} /> : <Fragment set:html={html(Hero, { page, aside: auditAside })} />}
 {page.pre === 'pricing-plans' && <Fragment set:html={html(PricingPlans, {})} />}
 {page.pre === 'switch-plans' && <Fragment set:html={html(SwitchPlans, {})} />}
@@ -30,8 +33,9 @@ const auditAside = page.pre === 'audit-form' ? createElement(AuditForm) : undefi
 )}
 <div class="wrap page-body">
   {page.docsNav ? (
-    <div class="docs-layout"><Fragment set:html={html(DocsNav, { groups: page.docsNav, current: page.path })} /><Prose page={page} /></div>
+    <div class="docs-layout"><Fragment set:html={html(DocsSidebar, { groups: page.docsNav, current: page.path })} /><Prose page={page} /></div>
   ) : (
     <Prose page={page} />
   )}
 </div>
+{page.docsNav && <Fragment set:html={html(DocsSearchDialog, {})} />}

@@ -3,7 +3,7 @@ import { faqPage, techArticle } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
 import { collieFacts as c, statusTable } from './collie-status';
 import { AI_EXTRA } from '../../lib/site';
-import { FOUNDING_ACTION, OUR_CELL, OUR_PLAN, OUR_PRICE, withFoundingLead } from '../../lib/cloud-price';
+import { FOUNDING_ACTION, OUR_CELL, OUR_PLAN, OUR_PRICE } from '../../lib/cloud-price';
 
 const faq: Faq[] = [
   {
@@ -74,7 +74,7 @@ const page: Page = {
   summary: `HubSpot Service Hub $20–150 per seat, AI customer agent on credits (~$0.50 per resolution) vs Colliedesk ${OUR_PLAN} at a flat ${OUR_PRICE} per workspace`,
   eyebrow: 'Compare · HubSpot Service Hub alternative',
   h1: 'Colliedesk vs HubSpot Service Hub',
-  lede: withFoundingLead('HubSpot Service Hub puts tickets inside a CRM suite and prices by seat. Colliedesk is a helpdesk with one flat price. Here are the numbers, with sources.'),
+  lede: 'HubSpot Service Hub puts tickets inside a CRM suite and prices by seat. Colliedesk is a helpdesk with one flat price. Here are the numbers, with sources.',
   cta: true,
   ctaFounding: FOUNDING_ACTION,
   body,

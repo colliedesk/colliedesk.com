@@ -76,7 +76,7 @@ const page: Page = {
     'Run Colliedesk, an AGPL-3.0 open-source helpdesk, on your own server: Docker and PostgreSQL, one install command, every feature free, and what you take on.',
   summary: 'Self-host Colliedesk free: one container plus PostgreSQL 16, one install command, every feature, AGPL-3.0; what you must run yourself',
   eyebrow: 'Self-host',
-  h1: 'A self-hosted helpdesk with nothing held back',
+  h1: 'Self-host Colliedesk free: every feature, no agent limit, AGPL-3.0.',
   lede: 'Colliedesk is open source. Run it on your own server with Docker and PostgreSQL, free, with every feature. Here is what that takes.',
   cta: true,
   ctaFounding: FOUNDING_ACTION,

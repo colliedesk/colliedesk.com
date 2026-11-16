@@ -3,12 +3,13 @@
 Static marketing and docs site, built with [Astro](https://astro.build), React and TypeScript.
 React renders at build time only: the browser gets HTML, CSS and small vanilla scripts
 (`public/theme.js`, `public/updates.js`, `public/audit.js` on /audit only, `public/attribution.js` that carries an ad link's `utm_*`, `ttclid` and `fbclid` to the app's sign-up links; on Docs pages `public/docs-copy.js`, the "Copy for AI" button that
-copies the page's Markdown twin) plus PostHog web analytics (`public/analytics.js`:
+copies the page's Markdown twin and "Copy MCP URL", `public/docs-search.js`, search with Cmd/Ctrl+K, and `public/docs-feedback.js`, the
+"Was this page helpful?" question that sends the PostHog event `docs_feedback`) plus PostHog web analytics (`public/analytics.js`:
 cookieless until the visitor accepts cookies in the banner of `public/consent.js`, then cookie
 and masked session replay; JavaScript errors always; no person profiles, IP discarded; `pnpm check` fails if that changes), no framework runtime.
 
 ```sh
-git clone --depth 1 https://github.com/colliedesk/colliedesk product   # docs source, gitignored
+git clone --filter=blob:none https://github.com/colliedesk/colliedesk product   # docs source, gitignored
 corepack pnpm install
 corepack pnpm dev         # astro dev on http://localhost:4321, reloads on save
 corepack pnpm build       # astro build, writes _site/
@@ -18,7 +19,10 @@ corepack pnpm serve       # serves _site/ on http://localhost:4321 with Cloudfla
 ```
 
 `dev`, `build` and `typecheck` read the docs from `./product`; set `PRODUCT_DIR=/path/to/checkout`
-to use another checkout. `typecheck` works without it.
+to use another checkout. `typecheck` works without it. Each docs page shows "Updated <date>", the last commit
+that changed its own file (`src/lib/git-dates.mjs`), so the checkout needs its history: a `--depth 1` clone
+builds, with no dates. `pnpm build` also writes the docs search index (`_site/pagefind/`, Pagefind, docs pages
+only; `src/integrations/pagefind-index.ts`).
 
 ## Layout
 
@@ -37,11 +41,16 @@ to use another checkout. `typecheck` works without it.
   `_headers` is written after the build by `src/integrations/cloudflare-headers.ts`.
 - `public/`: files served as they are (fonts, icons, images, CSS, the scripts).
 - `src/integrations/no-bundled-client-js.ts` fails the build if any script other than
-  `theme.js`, `updates.js`, `audit.js`, `analytics.js`, `consent.js`, `attribution.js`, `docs-copy.js` and JSON-LD would ship (a bundled or inlined `<script>`). A `client:*`
+  `theme.js`, `updates.js`, `audit.js`, `analytics.js`, `consent.js`, `attribution.js`, `docs-copy.js`, `docs-search.js`, `docs-feedback.js` and JSON-LD would ship (a bundled or inlined `<script>`). A `client:*`
   directive on a React component fails earlier: without a React renderer Astro cannot hydrate it.
 
 ## Content
 
+- Docs pages (`public/docs.css`): at 960px and under the sidebar folds into one "Docs menu" control above the
+  title; a breadcrumb, "On this page" for guides with three or more `##` sections, previous/next inside the
+  guide's `## Heading` group, and the "Use with AI" menu (Open in Claude, Open in ChatGPT, Copy MCP URL). Every
+  docs `.md` twin and `/llms.txt` start with the same agent instructions (`src/lib/agent-instructions.ts`); each
+  docs group also has `/llms/<group>/llms.txt` and `/llms/<group>/llms-full.txt` (no page may live under `/llms/`).
 - `/docs` and `/roadmap` render `docs/user/*.md` and `ROADMAP.md` from [colliedesk/colliedesk](https://github.com/colliedesk/colliedesk). Edit those files there, not here. Every 15 minutes CI compares those docs on `main` with `/product-docs-version.txt` on the live site (`scripts/product-docs-version.sh`) and rebuilds when they differ. GitHub runs scheduled workflows late and sometimes skips them, so a docs change can take hours to appear; to publish one at once, run `gh workflow run Site -R colliedesk/colliedesk.com` (no `product_ref`), which builds from `main` and deploys. Any merge to this repo's `main` also rebuilds the docs from the app's `main`. To preview unmerged docs, run the Site workflow with `product_ref` set to a branch of colliedesk/colliedesk: it builds, checks and uploads the site as an artifact without deploying. Pull requests there that touch the docs build this site too, so a broken link fails before merge.
 - `/audit` is the lead page for ads: a free help center audit. `AuditForm.tsx` (hero aside) is posted by `public/audit.js` as JSON to `UPDATES_FORM_URL` with `source: 'site:audit'`, so each request lands as a conversation in our own workspace. Only after a 202 it calls `fbq('track', 'Lead')` and `posthog.capture('audit_requested')`, when `public/consent.js` has loaded them (`scripts/audit-form.test.mjs`).
 - SEO: an agent researches, writes and audits pages as described in [docs/seo](docs/seo/README.md); `pnpm check:content` checks the copy and a person approves every SEO page (required check `content-approval`).
@@ -76,14 +85,17 @@ References: t3.codes (honest "what are you selling me", fork-it, terminal snippe
 ("X alternative" positioning, transparent pricing, vs pages), cal.com (pricing answered in the FAQ,
 footer comparison links).
 
-Brand: **ink and paper**, shared with the app; the brand guideline is in the app repo,
-`docs/internals/design.md` (owner decision 19/10/2026; research on https://design.hclabs.co, owner only).
+Brand: **paper, ink and the Collie orange**, shared with the app; the brand guideline is in the app repo,
+`docs/internals/design.md` (ink and paper: owner decision 19/10/2026; the orange as the primary action:
+15/11/2026; research on https://design.hclabs.co, owner only).
 `public/tokens.css` is a copy of the app's `web/src/styles/tokens.css` (change it there first; the app
-repo checks contrast for every pair and fails when a grey, a text token or the primary action has a hue).
+repo checks contrast for every pair and fails when a grey or a text token has a hue, or when the primary
+action is not the orange).
 
-- Colour: neutral grey surfaces (`--surface-0` `#fafafa`, cards `#ffffff`), ink text and ink buttons and
-  links (`#171717`; dark theme `#0a0a0a` page, `#fafafa` ink). The price has its own colour (`--price`,
-  `#c2410c`, dark `#fb8a4a`), and the logo tile (`--logo-tile`) is the same orange in both themes; status colours appear only inside product pictures. `pnpm check` fails
+- Colour: neutral grey surfaces (`--surface-0` `#fafafa`, cards `#ffffff`), ink text and links
+  (`#171717`; dark theme `#0a0a0a` page, `#fafafa` ink). The primary button is the Collie orange (`--accent`,
+  `#c2410c`, dark `#fb8a4a`) with `--on-accent` text; the price has the same orange through its own token
+  (`--price`), and the logo tile (`--logo-tile`) is the same orange in both themes; status colours appear only inside product pictures. `pnpm check` fails
   when `styles.css` uses the accent token more than its budget.
 - Layout (from a full-page teardown of nine helpdesk sites): one page background, no tinted bands; one
   idea per section with a crop of the real product on a soft panel (`--panel`); three checkable facts
@@ -104,8 +116,18 @@ repo checks contrast for every pair and fails when a grey, a text token or the p
   `node scripts/product-shot/variants.mjs` (ffmpeg); `pnpm check` fails if a size the hero names is missing. Retake the
   screenshot with `pnpm shot:product` once those screens ship (see below).
 - Light is the default; the footer **Dark theme** button sets `data-theme="dark"` and saves it in
-  `localStorage` for this site only (`public/theme.js`). Spacing is a 4 px grid (`--space-*`); buttons
-  are at least 44 px tall on touch (`--touch`).
+  `localStorage` for this site only (`public/theme.js`). Spacing is a 4 px grid (`--space-*`).
+- Sizes follow PostHog (owner decision 16/11/2026, measured on posthog.com that day); this replaces the old
+  "at least 44 px on touch" rule for buttons. Buttons are keys: a face 4 px above a darker base it casts
+  with two box-shadows, 6 px on hover, 2 px while pressed (a 100 ms transition on the press only, none with
+  reduced motion). `.btn` is 15/26 px bold, padding 8/20, radius 8; `.btn-sm` (header, docs controls,
+  cookie sheet) 13/20, padding 4/10, radius 6, depths 2/3/1; `.btn-lg` 18/28. Borders are 1.5 px; the
+  colours are custom properties (`--key-*`) in `styles.css`: secondary a white face on a grey base, primary
+  the orange face (`--accent`) on a darker orange base (`--accent-hover`; in the dark theme `--logo-tile`).
+- Type sizes: marketing pages (home, pricing, compare, migrate) use hero h1 60/60 (30/31.5 on phones, 44/46
+  in between), section h2 28/35 (36/42 on the home sheet from 961 px, where 28 px sat too close to the 16 px card titles), h3 16/24, body 16/24, small text 14/20. Docs and other prose pages
+  (`body.page-prose`: no CTA, plans or price chart) use h1 36/45, h2 21.4/30, h3 20/28, h4 18/28,
+  body 15/22.5, code 13. `pnpm check:render` measures buttons, their states and these sizes in Chrome.
 
 ## Retaking the product screenshot
 

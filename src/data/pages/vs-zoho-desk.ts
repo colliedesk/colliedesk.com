@@ -4,7 +4,7 @@ import { faqPage, techArticle } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
 import { collieFacts as c, statusTable } from './collie-status';
 import { AI_EXTRA } from '../../lib/site';
-import { FOUNDING_ACTION, OUR_CELL, OUR_PLAN, OUR_PRICE, foundingFirst, withFoundingLead } from '../../lib/cloud-price';
+import { FOUNDING_ACTION, OUR_CELL, OUR_PLAN, OUR_PRICE, foundingFirst } from '../../lib/cloud-price';
 
 const faq: Faq[] = [
   {
@@ -76,7 +76,7 @@ const page: Page = {
   summary: `Zoho Desk free for 3 users, €7–40 per user, Zia from Professional, backups by primary contact without attachments vs Colliedesk ${OUR_PLAN} at a flat ${OUR_PRICE}`,
   eyebrow: 'Compare · Zoho Desk alternative',
   h1: 'Colliedesk vs Zoho Desk',
-  lede: withFoundingLead('Zoho Desk is cheap per user and strong inside the Zoho suite. For a team of five with AI, the per-user price adds up. Here are the numbers, with sources.'),
+  lede: 'Zoho Desk is cheap per user and strong inside the Zoho suite. For a team of five with AI, the per-user price adds up. Here are the numbers, with sources.',
   cta: true,
   ctaFounding: FOUNDING_ACTION,
   body,

@@ -4,8 +4,47 @@
 // already here; otherwise the fetch runs inside the click through ClipboardItem. Without
 // scripting the button is never shown (CSS @media (scripting: enabled)); without a clipboard this
 // script hides it. The link works either way.
+// "Copy MCP URL" in the "Use with AI" menu copies the MCP server URL; the URL is printed beside it, so
+// without a clipboard the button hides and the reader copies the text.
 (function () {
+  function wireMcpCopy() {
+    var mcp = document.querySelector('[data-docs-copy-mcp]');
+    if (!mcp) return;
+    if (!navigator.clipboard) { mcp.hidden = true; return; }
+    // Only the title changes, so the icon and the description line stay in place.
+    var label = mcp.querySelector('[data-docs-copy-mcp-label]') || mcp;
+    var idle = label.textContent;
+    var timer = 0;
+    mcp.addEventListener('click', function () {
+      return navigator.clipboard.writeText(mcp.getAttribute('data-url')).then(function () {
+        clearTimeout(timer);
+        label.textContent = 'Copied';
+        timer = setTimeout(function () { label.textContent = idle; }, 2000);
+      }, function () {
+        label.textContent = 'Could not copy';
+      });
+    });
+  }
+
+  // The AI menu is a <details> so it works without script; with script it also closes the way a
+  // menu does: on Escape (focus back on its toggle) and on a click outside it.
+  function wireMenuClose() {
+    var menu = document.querySelector('details.docs-ai');
+    if (!menu) return;
+    document.addEventListener('keydown', function (e) {
+      if (e.key !== 'Escape' || !menu.open) return;
+      menu.open = false;
+      var toggle = menu.querySelector('summary');
+      if (toggle) toggle.focus();
+    });
+    document.addEventListener('click', function (e) {
+      if (menu.open && !menu.contains(e.target)) menu.open = false;
+    });
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
+    wireMcpCopy();
+    wireMenuClose();
     var button = document.querySelector('[data-docs-copy]');
     if (!button) return;
     if (!navigator.clipboard) { button.hidden = true; return; }

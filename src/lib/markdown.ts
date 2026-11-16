@@ -7,14 +7,18 @@ export const slugify = (text: string): string =>
 export const escapeHtml = (s: string): string =>
   s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
-// Markdown -> HTML with heading ids (deep links), scrollable tables and external links marked.
-export function renderMarkdown(md: string): string {
+// Markdown -> HTML with heading ids (deep links), scrollable tables and external links marked. With
+// anchors (docs pages) each heading ends in a "#" link to itself, so a reader can copy a deep link; it
+// has no text of its own (CSS draws the "#"), so table names and the search index read the heading only.
+export function renderMarkdown(md: string, { anchors = false }: { anchors?: boolean } = {}): string {
   const marked = new Marked({ gfm: true, async: false });
   marked.use({
     renderer: {
       heading({ tokens, depth }) {
         const text = this.parser.parseInline(tokens);
-        return `<h${depth} id="${slugify(text)}">${text}</h${depth}>\n`;
+        const id = slugify(text);
+        const anchor = anchors ? `<a class="heading-anchor" href="#${id}" aria-label="Link to ${text.replace(/<[^>]+>/g, '').replace(/"/g, '&quot;')}"></a>` : '';
+        return `<h${depth} id="${id}">${text}${anchor}</h${depth}>\n`;
       },
       link({ href, title, tokens }) {
         const text = this.parser.parseInline(tokens);
@@ -54,6 +58,14 @@ function wrapTables(html: string): string {
     return `<div class="table-wrap" role="region" aria-label="${name}" tabindex="0"><table>`;
   });
 }
+
+// The h2 sections of rendered HTML, for "On this page": id and plain text (entities decoded, since the
+// text is rendered again by React, which escapes it).
+export const sectionsOf = (html: string): { id: string; text: string }[] =>
+  [...html.matchAll(/<h2 id="([^"]+)">([\s\S]*?)<\/h2>/g)].map(([, id = '', inner = '']) => ({
+    id,
+    text: inner.replace(/<[^>]+>/g, '').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&amp;/g, '&'),
+  }));
 
 // Inline Markdown (a lede) without the wrapping paragraph.
 export const renderInline = (md: string): string => renderMarkdown(md).replace(/^<p>|<\/p>\n?$/g, '');

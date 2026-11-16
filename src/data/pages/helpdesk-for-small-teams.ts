@@ -2,7 +2,7 @@ import { AI_RESOLUTION, FOUNDING_HREF, TRIAL_HREF } from '../../lib/site';
 import { faqPage, techArticle } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
 import { statusTable } from './collie-status';
-import { FOUNDING_ACTION, FOUNDING_LEAD, FOUNDING_OPEN, foundingFirst, withFoundingLead } from '../../lib/cloud-price';
+import { FOUNDING_ACTION, FOUNDING_LEAD, FOUNDING_OPEN, foundingFirst } from '../../lib/cloud-price';
 
 // Date the Freshdesk monthly-billing prices on this page were read from freshworks.com.
 const FRESHDESK_READ = '17 October 2026';
@@ -64,11 +64,11 @@ const page: Page = {
   section: 'Product',
   title: 'Helpdesk for small teams: one flat price for 2 to 10 agents',
   description:
-    `Helpdesk for teams of 2 to 10 agents: one flat price per workspace (${FOUNDING_OPEN ? 'Founding: $99 every 3 months for up to 10 agents' : '$39 for up to 3 agents, $69 for up to 10'}), not per agent. AI drafts included.`,
+    `Ten agents cost the same as four: one flat price per workspace (${FOUNDING_OPEN ? 'Founding: $99 every 3 months for up to 10 agents' : '$39 for up to 3 agents, $69 for up to 10'}), AI drafts included.`,
   summary: 'Small-team helpdesk: price by team size (2, 3, 5, 10 agents) vs Freshdesk, what small teams need, honest status',
   eyebrow: 'For small teams',
-  h1: 'A helpdesk priced for a small team',
-  lede: withFoundingLead('Two to ten people answering customers do not need an enterprise suite. They need a shared inbox, their history, and a bill that does not grow with every hire.'),
+  h1: 'Ten agents cost the same as four.',
+  lede: 'Freshdesk Pro with Freddy AI Copilot costs $303 a month for 3 agents and $1,010 for 10. Colliedesk is one price for up to 10.',
   cta: true,
   ctaFounding: FOUNDING_ACTION,
   body,

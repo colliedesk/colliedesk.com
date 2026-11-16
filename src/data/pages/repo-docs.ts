@@ -4,10 +4,12 @@
 // their links. PRODUCT_DIR points at a checkout of that repo (default ./product).
 import { readFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
+import { lastChangedDates } from '../../lib/git-dates.mjs';
 import { outsideCode, plain } from '../../lib/markdown';
-import type { DocsNavGroup, Page } from '../../lib/page';
+import type { DocsGroup, DocsNavGroup, Page } from '../../lib/page';
 import { techArticle } from '../../lib/schema';
 import { REPO } from '../../lib/site';
+import { docsGroups, docsPlace } from '../../lib/docs-structure';
 
 const repoRoot = resolve(process.env['PRODUCT_DIR'] || 'product');
 
@@ -20,9 +22,11 @@ function readRepo(rel: string): string {
 }
 
 // The two docs directories: user guides for everyone, self-host for the person running a server.
+// crumbs lead to the section overview; a self-host group's llms.txt title says "Self-host: …".
+const DOCS_HOME = { label: 'Docs', href: '/docs' };
 const SECTIONS = [
-  { dir: 'docs/user', path: '/docs', title: 'User guides' },
-  { dir: 'docs/self-host', path: '/docs/self-host', title: 'Self-host' },
+  { dir: 'docs/user', path: '/docs', title: 'User guides', crumbs: [DOCS_HOME], groupPrefix: '' },
+  { dir: 'docs/self-host', path: '/docs/self-host', title: 'Self-host', crumbs: [DOCS_HOME, { label: 'Self-host', href: '/docs/self-host' }], groupPrefix: 'Self-host: ' },
 ] as const;
 type DocsSection = (typeof SECTIONS)[number];
 
@@ -105,6 +109,19 @@ const docsNav = (current: DocsSection): DocsNavGroup[] =>
         : [{ href: section.path, label: section === SECTIONS[0] ? 'All user guides' : 'Run Colliedesk on your own server' }],
   }));
 
+// "Updated" on a page is the last commit that changed its own file. Without that history (a shallow
+// clone) pages show no date rather than a wrong one.
+let dates: Map<string, string> | undefined;
+function updatedOf(file: string): string | undefined {
+  if (!dates) {
+    dates = lastChangedDates(repoRoot, [...SECTIONS.map((s) => s.dir), 'ROADMAP.md']);
+    if (!dates.size) console.warn(`no git history in ${repoRoot} (shallow or not a clone): docs pages get no Updated date`);
+  }
+  return dates.get(file);
+}
+
+const sectionOf = (path: string): DocsSection => (path.startsWith(SECTIONS[1].path) ? SECTIONS[1] : SECTIONS[0]);
+
 function docPage(path: string, file: string, summaryFallback: string, withNav = true): Page {
   const fromDir = file.slice(0, file.lastIndexOf('/') + 1);
   const { title, lede, body } = split(rewriteLinks(readRepo(file), fromDir), file);
@@ -121,7 +138,13 @@ function docPage(path: string, file: string, summaryFallback: string, withNav = 
     sourceUrl: `${REPO}/blob/main/${file}`,
     jsonLd: [],
   };
-  if (withNav) page.docsNav = docsNav(path.startsWith(SECTIONS[1].path) ? SECTIONS[1] : SECTIONS[0]);
+  const updated = updatedOf(file);
+  if (updated) page.updated = updated;
+  if (withNav) {
+    const section = sectionOf(path);
+    page.docsNav = docsNav(section);
+    page.docsPlace = docsPlace(sectionNav(section), path, section.crumbs);
+  }
   page.jsonLd = [techArticle(page)];
   return page;
 }
@@ -141,6 +164,27 @@ export function docsPages(): Page[] {
   return [index, selfHostIndex, ...guides];
 }
 
+// The MCP tools a workspace token can call, counted from the generated tools table of the MCP guide, so
+// the number on the site follows the product. Operator tools have their own table and are not counted.
+export function mcpToolCount(): number {
+  const table = readRepo('docs/user/mcp.md').match(/<!-- generated:tools -->([\s\S]*?)<!-- \/generated -->/)?.[1] ?? '';
+  const count = table.match(/^\| `colliedesk_/gm)?.length ?? 0;
+  if (!count) throw new Error('docs/user/mcp.md: no tool rows between <!-- generated:tools --> and <!-- /generated -->');
+  return count;
+}
+
+// The docs groups that get their own llms.txt, in navigation order. Group slugs share one URL space
+// (/llms/<slug>/), so two groups that slugify the same fail the build instead of overwriting each other.
+export function docsGroupList(): DocsGroup[] {
+  const groups = SECTIONS.flatMap((s) => docsGroups(sectionNav(s), s.title, s.path, s.groupPrefix));
+  const seen = new Set<string>();
+  for (const { slug, title } of groups) {
+    if (seen.has(slug)) throw new Error(`two docs groups share the llms.txt slug "${slug}" (${title}); rename one heading`);
+    seen.add(slug);
+  }
+  return groups;
+}
+
 export function roadmapPage(): Page {
   const page = docPage('/roadmap', 'ROADMAP.md', '', false);
   Object.assign(page, {
@@ -149,7 +193,7 @@ export function roadmapPage(): Page {
     h1: 'Colliedesk roadmap',
     title: 'Colliedesk roadmap: what is live and what comes next',
     description:
-      'What Colliedesk has shipped on Colliedesk Cloud and what comes next: one-click Gmail and Microsoft 365 mailboxes, then AI, then simple rules, macros and per-agent reports. Dates are targets.',
+      'Shipped on Colliedesk Cloud and next: one-click Gmail and Microsoft 365 mailboxes, then AI, then simple rules, macros and per-agent reports. Dates are targets.',
     summary: 'Live now (email, Freshdesk and Help Scout importers, knowledge base, Cloud trial); next one-click mailboxes; then AI; later simple rules, macros, per-agent reports',
   } satisfies Partial<Page>);
   page.jsonLd = [techArticle(page)];
