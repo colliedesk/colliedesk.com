@@ -15,13 +15,13 @@ const faq: Faq[] = [
   },
   {
     q: 'Which Freshdesk alternative is cheapest for 5 agents?',
-    a: `${FOUNDING_LEAD ? `${FOUNDING_LEAD} Among the other paid plans` : 'Among the paid plans'} we compared on ${PRICES_READ}, the lowest prices for 5 agents are plans capped at five: Zammad Starter and Zoho Desk Express, each €7 per agent, so €35 a month. ${AFTER_FOUNDING}Colliedesk Cloud Team is $690 a year per workspace ($57.50 a month, or $69 billed monthly), which keeps the same price up to 10 agents. Helply (formerly Groove) starts at $49 a month, but that buys AI credits. The free plans of Zoho Desk and HubSpot cost nothing if you can live with their limits.`,
+    a: `${FOUNDING_LEAD ? `${FOUNDING_LEAD} Among the other paid plans` : 'Among the paid plans'} we compared on ${PRICES_READ}, the lowest prices for 5 agents are plans capped at five: Zammad Starter and Zoho Desk Express, each €7 per agent, so €35 a month. ${AFTER_FOUNDING}Colliedesk Cloud Team is $690 a year per workspace ($57.50 a month, or $69 billed monthly), which keeps the same price up to 10 agents. Helply (formerly Groove), read on 15 November 2026, starts at $99 a month for up to 2 agents, so 5 agents need Plus at $199. The free plans of Zoho Desk and HubSpot cost nothing if you can live with their limits.`,
   },
 ];
 
 const body = `## The alternatives, side by side
 
-Prices for 5 agents per month, billed annually, from each vendor's page on ${PRICES_READ}. Every row links to a full comparison with sources.
+Prices for 5 agents per month, billed annually, from each vendor's page on ${PRICES_READ}. Every row links to a full comparison with sources. Helply's price was read again on 15 November 2026.
 
 | Helpdesk | 5 agents | Pricing model | Open source | Freshdesk import | Comparison |
 |---|---|---|---|---|---|
@@ -36,7 +36,7 @@ Prices for 5 agents per month, billed annually, from each vendor's page on ${PRI
 | HappyFox | $120 (Basic, max 5) | Per agent | No | — | [vs HappyFox](/vs/happyfox) |
 | Gorgias | $77–1,227 by tickets, with AI Agent | By ticket volume | No | — | [vs Gorgias](/vs/gorgias) |
 | HubSpot Service Hub | $500 (Professional) | Per seat | No | — | [vs HubSpot](/vs/hubspot-service-hub) |
-| Groove (now Helply) | From $49 in credits | AI credits | No | — | [vs Groove](/vs/groove) |
+| Groove (now Helply) | $199 (Plus, max 5 agents) | Per plan, with an agent cap and AI credits | No | — | [vs Groove](/vs/groove) |
 | Freshdesk, for reference | $420 (Pro + Copilot) | Per agent | No | — | [vs Freshdesk](/vs/freshdesk) |
 
 ## How to choose
@@ -55,7 +55,7 @@ const page: Page = {
   jsonLd: [],
   name: 'Freshdesk alternatives',
   path: '/freshdesk-alternative',
-  updated: '2026-10-16',
+  updated: '2026-11-15',
   section: 'Compare',
   title: 'Freshdesk alternatives in 2026: 12 helpdesks compared by price and import',
   description:
