@@ -4,6 +4,7 @@ import { FOUNDING_ACTION, FOUNDING_LEAD, FOUNDING_OPEN, OUR_PLAN, OUR_PRICE } fr
 import { AI_RESOLUTION, BUSINESS, BUSINESS_AGENTS, dollars, PRICE, SMALL, SWITCH_OFFER_BLOCK_MD, TEAM_25 } from '../../lib/site';
 import { readOnLabel, rowsAt, usd, vsMarkdown, type VsPricing } from '../../lib/vs-pricing';
 import { collieFacts as c, statusTable } from './collie-status';
+import { FRESHDESK_RANGE, OURS_YEAR } from './home-sections';
 
 const pricing: VsPricing = {
   competitor: 'Freshdesk',
@@ -115,9 +116,9 @@ const page: Page = {
   jsonLd: [],
   path: '/vs/freshdesk',
   section: 'Compare',
-  title: `Colliedesk vs Freshdesk: ${OUR_PRICE} for up to 10 agents, not $19–107 per agent`,
+  title: `Colliedesk vs Freshdesk: 5 agents, ${usd(FRESHDESK_RANGE.high)} a year vs $${OURS_YEAR}`,
   description:
-    `An honest comparison of Colliedesk and Freshdesk: published prices, AI add-on costs, export limits and what Colliedesk can and cannot do yet. Prices read ${PRICES_READ}.`,
+    "Freshdesk's CSV export leaves conversations out; Colliedesk imports every ticket and counts both sides. Published prices, AI add-on costs, export limits.",
   summary: `Freshdesk $19–107 per agent plus $29–35 Copilot vs Colliedesk ${OUR_PLAN} at a flat ${OUR_PRICE} per workspace for up to 10 agents; export limits; honest status`,
   eyebrow: 'Compare · Freshdesk alternative',
   h1: 'Colliedesk vs Freshdesk',

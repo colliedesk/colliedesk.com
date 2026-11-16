@@ -151,7 +151,7 @@ const foundingFaq: Faq[] = [
 
 // Team 25 beside Founding: the plan for teams of 11 to 25 agents.
 export const team25Row = `| ${TEAM_25.name} | ${dollars(TEAM_25.monthly)} a month, or ${dollars(TEAM_25.yearly)} a year per workspace | ${agentsLabel(TEAM_25)}, ${TEAM_25.storage} of attachments. ${TEAM_25_WHO} ${TEAM_25_IMPORT} [Start free trial](${TRIAL_HREF}). |`;
-export const businessRow = `| ${BUSINESS.name} | ${dollars(BUSINESS.monthly)} a month, or ${dollars(BUSINESS.yearly)} a year per workspace | ${agentsLabel(BUSINESS)}, ${BUSINESS.storage} of attachments. ${BUSINESS.who} We migrate everything for you, help center with 301 redirects included. Custom domain, priority support. [99.9% uptime with service credits](/terms#availability), like every paid plan. ${businessCta} |`;
+export const businessRow = `| ${BUSINESS.name} | ${dollars(BUSINESS.monthly)} a month, or ${dollars(BUSINESS.yearly)} a year per workspace | ${agentsLabel(BUSINESS)}, ${BUSINESS.storage} of attachments. ${BUSINESS.who} We migrate everything for you, help center with 301 redirects included. Priority support. [99.9% uptime with service credits](/terms#availability), like every paid plan. ${businessCta} |`;
 
 const foundingPlansMd = `| Plan | Price | What you get |
 |---|---|---|
@@ -193,9 +193,9 @@ ${aiSection}
 For five agents, Freshdesk Pro with Freddy AI Copilot lists at $5,040 a year billed annually. Founding is $396 a year ($99 every 3 months) for the workspace, plus ${AI_EXTRA}. Prices and sources: [vs Freshdesk](/vs/freshdesk), [vs Zendesk](/vs/zendesk), [vs Help Scout](/vs/help-scout).`;
 
 const foundingPage = {
-  title: `Colliedesk pricing: Founding $99 every 3 months, ${TEAM_25.name} ${PRICE.team25Monthly} a month`,
+  title: 'Colliedesk pricing: $396 a year for your team, not per agent',
   description:
-    `Founding is $99 every 3 months per workspace for up to 10 agents, locked for life, with Freshdesk migration done for you. Only ${FOUNDING_SLOTS} places, 30-day money-back guarantee. ${TEAM_25.name} is ${PRICE.team25Monthly} a month for up to ${TEAM_25.agents} agents. Self-hosting is free.`,
+    'Founding: $99 every 3 months for up to 10 agents, locked for life. We move your Freshdesk history, count every record, and you pay after your first real ticket.',
   summary: `Founding while it is open: $99 every 3 months per workspace, locked for life, up to 10 agents, Freshdesk migration done for you, pay after the first real ticket, ${FOUNDING_SLOTS} places, 30-day money-back guarantee; ${TEAM_25.name} ${PRICE.team25Monthly} a month for up to ${TEAM_25.agents} agents; 14-day free trial; self-host free`,
   h1: '$396 a year for your whole team. Not per agent.',
   lede: `Founding is for ${FOUNDING_SLOTS} teams of 3 to 10 agents leaving Freshdesk: $99 every 3 months, locked for life. We move your Freshdesk history, prove nothing was lost, and you pay when your team answers its first real ticket. Not right within 30 days of paying? Full refund.`,

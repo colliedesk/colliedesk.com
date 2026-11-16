@@ -6,8 +6,8 @@ import type { Faq, Page } from '../../lib/page';
 import { faqMarkdown } from '../../lib/twin';
 import { statusTable } from './collie-status';
 import {
-  AGENT_CALLS, AGENT_HEADING, AGENT_LEDE, AGENT_OUTCOME, AGENT_POINTS, BILL_LEDE, DAILY, DONE_FOR_YOU, FACTS, FOUNDING_OPEN, FRESHDESK_RANGE,
-  CLAUDE_DIRECTORY_URL, GUARANTEES, issueHref, MCP_URL, MIGRATE_LEDE, NOT_MOVED, OURS_YEAR, rangeLabel, RELIABILITY_LEDE, REPORT_NOT_IMPORTED, REPORT_ROWS, STEPS, STILL_COMING,
+  AGENT_CALLS, AGENT_HEADING, AGENT_LEDE, AGENT_OUTCOME, AGENT_POINTS, BILL_LEDE, DAILY, DONE_FOR_YOU, FACTS, FOUNDING_OPEN,
+  CLAUDE_DIRECTORY_URL, GUARANTEES, issueHref, MCP_URL, MIGRATE_LEDE, NOT_MOVED, OURS_YEAR, RELIABILITY_LEDE, REPORT_NOT_IMPORTED, REPORT_ROWS, STEPS, STILL_COMING,
 } from './home-sections';
 
 // Headline: the promise our buyer needs before leaving Freshdesk (every ticket comes along, and we count
@@ -111,9 +111,9 @@ const page: Page = {
   name: 'Colliedesk overview',
   path: '/',
   section: 'Product',
-  title: `Colliedesk: $${OURS_YEAR} a year for your whole support team, not per agent`,
+  title: 'Colliedesk: leave Freshdesk with every ticket, counted',
   description:
-    `Colliedesk is an open-source helpdesk for teams of 3 to 10 agents leaving Freshdesk, $${OURS_YEAR} a year for up to 10 agents, where five agents pay Freshdesk ${rangeLabel(FRESHDESK_RANGE)} a year. Leave Freshdesk with all your data. ${FOUNDING_OPEN ? 'Founding, locked for life, only 10 places' : `One flat price per workspace from ${PRICE.range} a month`}, no per-agent fees.`,
+    `Open-source helpdesk for 3 to 10 agents leaving Freshdesk: every ticket, reply and attachment moves, counted on both sides. $${OURS_YEAR} a year, not per agent.`,
   summary: `What Colliedesk is, the Freshdesk migration and its reconcile report, what AI agents can do through MCP, the bill by team size, reliability and status, founding offer; competitor prices read ${PRICES_READ}`,
   h1: HOME_H1,
   lede: HOME_LEDE,
