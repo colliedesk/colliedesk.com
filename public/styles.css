@@ -46,6 +46,8 @@ h3 { font-size: 16px; line-height: 24px; font-weight: 600; letter-spacing: -0.01
 @media (max-width: 640px) { h1 { font-size: 30px; line-height: 31.5px; letter-spacing: -0.7px; } }
 p { margin: 0 0 1em; }
 strong { color: var(--text-1); font-weight: 600; }
+/* A keyboard key in text is a keycap: one line around, two under. */
+kbd { padding: 0 5px; border: 1px solid var(--line-control); border-bottom-width: 2px; border-radius: var(--radius-sm); background: var(--surface-1); font: 500 12px/16px var(--font-mono); color: var(--text-2); }
 code { font-family: var(--font-mono); font-size: .88em; background: var(--surface-2); border: 1px solid var(--line); padding: .1em .35em; border-radius: var(--radius-sm); color: var(--text-1); overflow-wrap: anywhere; }
 .wrap { max-width: var(--wrap); margin: 0 auto; padding: 0 var(--space-10); }
 .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
@@ -94,8 +96,8 @@ code { font-family: var(--font-mono); font-size: .88em; background: var(--surfac
    the face casts with two box-shadows (the edge, then a 1.5px rim under it). The face moves, the base's
    bottom never does: rest 4px up, hover 6px, pressed 2px (small keys 2/3/1). Only the press is animated,
    as on a real key. The margin reserves the lifted face and the rim, so a row never runs into the next
-   line. The docs split control, the docs search buttons, the phone "Menu" and the theme toggle share the
-   key without a .btn class (their markup is styled elsewhere). A key whose state is on is held: it stays
+   line. The docs split control, search buttons, disclosures and pager tiles, the phone "Menu", the theme
+   toggle and the bill and /vs options share the key without a .btn class (their markup is styled elsewhere). A key whose state is on is held: it stays
    at the press depth on a grey face with a darker rim, and hover does not lift it. */
 :root, :root[data-theme="light"] {
   --key-face: #ffffff; --key-text: #171717; --key-rim: var(--line-control); --key-edge: #d4d4d4;
@@ -107,28 +109,29 @@ code { font-family: var(--font-mono); font-size: .88em; background: var(--surfac
   /* Dark: the lighter orange face sits on the logo's orange, the darker of the two. */
   --key-primary-rim: var(--logo-tile); --key-primary-edge: var(--logo-tile);
 }
-.btn, .nav-mobile summary, .docs-ai-group, .docs-search-open, .docs-search-close, .theme-toggle, .segmented label, .vs-sizes label {
+.btn, .nav-mobile summary, .docs-ai-group, .docs-search-open, .docs-search-close,
+.theme-toggle, .segmented label, .vs-sizes label, .docs-menu summary, .docs-toc-mobile summary, .docs-pager a {
   --key-rest: 4px; --key-hover: 6px; --key-press: 2px; --key-lift: var(--key-rest);
   margin-block: var(--key-rest) 1.5px; border: 1.5px solid var(--key-rim); background: var(--key-face); color: var(--key-text);
   box-shadow: 0 var(--key-lift) 0 0 var(--key-edge), 0 calc(var(--key-lift) + 1.5px) 0 0 var(--key-rim);
   transform: translateY(calc(-1 * var(--key-lift)));
 }
-:is(.btn, .nav-mobile summary, .docs-search-open, .docs-search-close, .theme-toggle, .segmented label, .vs-sizes label):hover,
+:is(.btn, .nav-mobile summary, .docs-search-open, .docs-search-close, .theme-toggle, .segmented label, .vs-sizes label, .docs-menu summary, .docs-toc-mobile summary, .docs-pager a):hover,
 .docs-ai-group:has(> .docs-copy:hover, > .docs-ai > summary:hover) { --key-lift: var(--key-hover); }
-:is(.btn, .nav-mobile summary, .docs-search-open, .docs-search-close, .theme-toggle, .segmented label, .vs-sizes label):active,
+:is(.btn, .nav-mobile summary, .docs-search-open, .docs-search-close, .theme-toggle, .segmented label, .vs-sizes label, .docs-menu summary, .docs-toc-mobile summary, .docs-pager a):active,
 .docs-ai-group:has(> .docs-copy:active, > .docs-ai > summary:active) { --key-lift: var(--key-press); transition: transform var(--press), box-shadow var(--press); }
 @media (prefers-reduced-motion: reduce) {
-  :is(.btn, .nav-mobile summary, .docs-search-open, .docs-search-close, .theme-toggle, .segmented label, .vs-sizes label):active,
+  :is(.btn, .nav-mobile summary, .docs-search-open, .docs-search-close, .theme-toggle, .segmented label, .vs-sizes label, .docs-menu summary, .docs-toc-mobile summary, .docs-pager a):active,
   .docs-ai-group:has(> .docs-copy:active, > .docs-ai > summary:active) { transition: none; }
 }
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2); padding: 8px 20px; border-radius: 8px; font: 700 15px/26px var(--font-sans); text-decoration: none; white-space: nowrap; cursor: pointer; }
 .btn:hover { color: var(--key-text); text-decoration: none; }
 .btn-primary { --key-face: var(--key-primary-face); --key-text: var(--key-primary-text); --key-rim: var(--key-primary-rim); --key-edge: var(--key-primary-edge); }
 .btn-primary:focus-visible { outline-offset: 3px; }
-.btn-sm, .nav-mobile summary, .docs-ai-group, .docs-search-open, .docs-search-close, .theme-toggle, .segmented label, .vs-sizes label { --key-rest: 2px; --key-hover: 3px; --key-press: 1px; }
+.btn-sm, .nav-mobile summary, .docs-ai-group, .docs-search-open, .docs-search-close, .theme-toggle, .segmented label, .vs-sizes label, .docs-menu summary, .docs-toc-mobile summary { --key-rest: 2px; --key-hover: 3px; --key-press: 1px; }
 .btn-sm, .nav-mobile summary, .docs-search-close, .theme-toggle { padding: 4px 10px; border-radius: 6px; font: 700 13px/20px var(--font-sans); }
 /* The element type lifts the toggle's specificity over the :hover rule above, so hover cannot lift it. */
-.nav-mobile[open] summary, button.theme-toggle[aria-pressed="true"], .segmented label:has(input:checked), .vs-sizes label:has(input:checked) {
+.nav-mobile[open] summary, .docs-menu[open] summary, .docs-toc-mobile[open] summary, button.theme-toggle[aria-pressed="true"], .segmented label:has(input:checked), .vs-sizes label:has(input:checked) {
   --key-lift: var(--key-press); --key-face: var(--surface-3); --key-text: var(--text-1); --key-rim: var(--line-strong); --key-edge: var(--line-strong);
   background: var(--key-face); color: var(--key-text); border-color: var(--key-rim);
 }

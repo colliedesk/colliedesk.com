@@ -69,6 +69,20 @@ export const PROBES = [
     states: { rest: { bg: C[t].surface3, mark: C[t].accent, markWidth: 2, weight: 600 } } })),
   { name: '"Copy page" menu row', page: DOCS, sel: '.docs-ai-menu a', widths: BOTH, theme: 'light',
     setup: `document.querySelector('.docs-ai').open = true;`, states: { hover: { bg: C.light.surface2 }, active: { nudge: '0px 1px' } } },
+  // Docs on a phone or tablet: "Docs menu" and "On this page" are small keys, held while open.
+  ...['light', 'dark'].flatMap((t) => [
+    { name: `${t} "Docs menu" while open`, page: DOCS, sel: '.docs-menu summary', widths: [390], theme: t,
+      setup: `document.querySelector('.docs-menu').open = true;`, states: held(t) },
+    { name: `${t} "On this page" while open`, page: DOCS, sel: '.docs-toc-mobile summary', widths: [390], theme: t,
+      setup: `document.querySelector('.docs-toc-mobile').open = true;`, states: held(t) },
+  ]),
+  { name: 'docs pager tile', page: DOCS, sel: '.docs-pager a', widths: BOTH, theme: 'light',
+    states: { focus: { outline: `solid 2px ${C.light.focus}`, offset: 3 } } },
+  { name: 'search dialog', page: DOCS, sel: '.docs-search', widths: [1440], theme: 'light', setup: `document.querySelector('.docs-search').showModal();`,
+    states: { rest: { lip: 'rgba(0, 0, 0, 0.06) 0px 0px 0px 1px, rgba(0, 0, 0, 0.24) 0px 24px 56px -12px' } } },
+  // A keyboard key in text is a keycap: one line around, two under.
+  { name: 'search keycap', page: DOCS, sel: '.docs-sidebar .docs-search-open kbd', widths: [1440], theme: 'light',
+    states: { rest: { border: 1, under: 2, radius: 4, line: C.light.control } } },
   // The toggle is on only in the dark theme.
   { name: 'dark "Dark theme" toggle while on', page: HOME, sel: '.theme-toggle', widths: BOTH, theme: 'dark',
     setup: `document.querySelector('.theme-toggle').setAttribute('aria-pressed', 'true');`, states: held('dark') },
@@ -86,7 +100,8 @@ const measure = (sel) => `(() => {
   const s = getComputedStyle(e), r = e.getBoundingClientRect();
   const m = s.transform.match(/matrix\\(([^)]+)\\)/);
   return { height: r.height, border: parseFloat(s.borderTopWidth), line: s.borderTopColor, lip: s.boxShadow,
-    outline: s.outlineStyle + ' ' + s.outlineWidth + ' ' + s.outlineColor, bg: s.backgroundColor, nudge: s.translate,
+    outline: s.outlineStyle + ' ' + s.outlineWidth + ' ' + s.outlineColor, offset: parseFloat(s.outlineOffset),
+    under: parseFloat(s.borderBottomWidth), radius: parseFloat(s.borderTopLeftRadius), bg: s.backgroundColor, nudge: s.translate,
     mark: s.borderLeftColor, markWidth: parseFloat(s.borderLeftWidth), weight: +s.fontWeight, color: s.color,
     lift: m ? -m[1].split(',').map(Number)[5] : 0,
     shadows: [...s.boxShadow.matchAll(/(-?[\\d.]+)px (-?[\\d.]+)px (-?[\\d.]+)px (-?[\\d.]+)px/g)].map((x) => +x[2]).join('/') };

@@ -7,6 +7,8 @@
 const KEY = {
   default: { fontSize: 15, lineHeight: 26, padY: 8, padX: 20, radius: 8, border: 1.5, weight: 700, rest: 4, hover: 6, active: 2 },
   sm: { fontSize: 13, lineHeight: 20, padY: 4, padX: 10, radius: 6, border: 1.5, weight: 700, rest: 2, hover: 3, active: 1 },
+  // The docs pager: a destination tile on the card radius, at the default key depths.
+  tile: { padY: 16, padX: 20, radius: 10, border: 1.5, weight: 600, rest: 4, hover: 6, active: 2 },
 };
 const PRESS_MS = 0.1;
 // The primary action is the Collie orange with white text on a darker orange base (brand guideline in the app
@@ -28,7 +30,10 @@ function keysOf(path, width) {
   if (path === HOME) keys.push({ name: 'hero "Start free trial"', face: '.hero-actions .btn-primary', size: 'default', primary: true },
     { name: 'bill option', face: '.segmented label:not(:has(input:checked))', size: 'sm' });
   if (path === PRICING) keys.push({ name: 'Founding card "Join"', face: '.plan .btn-primary', size: 'default', primary: true });
-  if (path === DOCS) keys.push({ name: '"Copy page"', face: '.docs-copy', key: '.docs-ai-group', press: '.docs-copy', size: 'sm' });
+  if (path === DOCS) keys.push({ name: '"Copy page"', face: '.docs-copy', key: '.docs-ai-group', press: '.docs-copy', size: 'sm' },
+    { name: 'docs pager tile', face: '.docs-pager a', size: 'tile' });
+  if (path === DOCS && width <= 960) keys.push({ name: '"Docs menu"', face: '.docs-menu summary', size: 'sm' });
+  if (path === DOCS && width < 1200) keys.push({ name: '"On this page"', face: '.docs-toc-mobile summary', size: 'sm' });
   return keys.map((k) => ({ key: k.face, press: k.key ?? k.face, ...k }));
 }
 
@@ -67,7 +72,7 @@ const typeMeasure = (sel) => `(() => { const e = document.querySelector(${JSON.s
 // the whole footprint, and no other element may sit inside it (the next line starts at or after the base).
 export const CLIPPED_KEYS = `document.fonts.ready.then(() => {
   const out = [];
-  const keys = [...document.querySelectorAll(':is(.btn:not(.is-placeholder), .nav-mobile summary, .docs-ai-group, .docs-search-open, .theme-toggle, .segmented label, .vs-sizes label):not(:disabled)')]
+  const keys = [...document.querySelectorAll(':is(.btn:not(.is-placeholder), .nav-mobile summary, .docs-ai-group, .docs-search-open, .theme-toggle, .segmented label, .vs-sizes label, .docs-menu summary, .docs-toc-mobile summary, .docs-pager a):not(:disabled)')]
     .filter((e) => e.getClientRects().length && getComputedStyle(e).visibility !== 'hidden' && !e.closest('dialog, .docs-ai-group > *'));
   for (const e of keys) {
     const label = (e.textContent.trim().replace(/\\s+/g, ' ') || e.getAttribute('aria-label') || e.className).slice(0, 40);
@@ -127,7 +132,7 @@ export async function checkSizes({ send, once, sessionId, port }) {
         const want = KEY[k.size];
         const rest = await ev(measure(k.face, k.key));
         if (!rest) { failures.push(`${at}: ${k.name} is missing`); continue; }
-        for (const p of ['fontSize', 'lineHeight', 'weight', 'padY', 'padX', 'radius', 'border']) {
+        for (const p of ['fontSize', 'lineHeight', 'weight', 'padY', 'padX', 'radius', 'border'].filter((x) => x in want)) {
           if (!near(rest[p], want[p])) failures.push(`${at}: ${k.name} ${p} is ${rest[p]}, want ${want[p]}`);
         }
         if (k.primary) for (const p of ['bg', 'color', 'edge']) {
