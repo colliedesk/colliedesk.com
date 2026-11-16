@@ -104,6 +104,9 @@ export interface ChangelogEntry {
 }
 
 /** The fields the HTML document head needs. */
-export type PageHead = Pick<Page, 'path' | 'title' | 'description' | 'jsonLd'> & Partial<Pick<Page, 'updated' | 'bodyClass' | 'section' | 'sourceUrl'>>;
+export type PageHead = Pick<Page, 'path' | 'title' | 'description' | 'jsonLd'> & Partial<Pick<Page, 'updated' | 'bodyClass' | 'section' | 'sourceUrl' | 'view' | 'cta' | 'pre' | 'vs'>>;
+
+/** Pages that only explain (docs, legal, changelog, 404) take the docs type sizes; pages that sell take the marketing ones. */
+export const isProsePage = (page: PageHead): boolean => !page.view && !page.cta && !page.pre && !page.vs;
 
 export const mdUrlOf = (path: string): string => (path === '/' ? '/index.md' : `${path}.md`);

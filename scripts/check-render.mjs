@@ -4,7 +4,10 @@
 //     the browser lays it out);
 //   - in the light or the dark theme a button or link's text is below 4.5:1 against what is behind it
 //     (19/10/2026 the closing band's "Start free trial" was dark text on a transparent button on ink);
-//   - on a 390px phone the header's "Start free trial" and "Menu" are not 36px high;
+//   - a button is not PostHog's size, or does not sit as a key (face over base) at rest, on hover and while pressed;
+//     the hero, section and docs type is not PostHog's size (scripts/render-sizes.mjs has the numbers);
+//   - on a 390px phone or a 1440px desktop a button's base or lifted face is clipped by a scroll box or runs into
+//     the element under or above it;
 //   - with the cookie banner open (it shows only on colliedesk.com, so it is opened here through the
 //     "Your privacy choices" button), it covers a button or link-button that starts in the first view of a
 //     1280x800 desktop or a 390x844 phone, or takes more than 15% of that screen (30/10/2026 it hid half of
@@ -16,6 +19,7 @@ import { existsSync, mkdtempSync, readdirSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, relative, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { checkSizes, CLIPPED_KEYS } from './render-sizes.mjs';
 
 const WIDTH = 375;
 // Narrow phones (320: iPhone SE 1st gen, small Android) and the common 390 are checked for sideways scroll too.
@@ -26,13 +30,6 @@ const BANNER_SCREENS = [
   { name: 'phone', width: 390, height: 844, mobile: true },
 ];
 const MAX_BANNER_SHARE = 0.15;
-// On a phone the header's two controls are compact (owner 16/11/2026: 44px looked oversized beside the page).
-const PHONE_HEADER_CONTROL = 36;
-const HEADER_CONTROLS = `(() => ['.header-cta', '.nav-mobile summary'].map((sel) => {
-  const el = document.querySelector(sel);
-  const h = el ? Math.round(el.getBoundingClientRect().height) : null;
-  return h === ${PHONE_HEADER_CONTROL} ? '' : sel + ' is ' + (h === null ? 'missing' : h + 'px');
-}).filter(Boolean).join(', '))()`;
 const site = fileURLToPath(new URL('../_site/', import.meta.url));
 const chromeBin = process.env.CHROME_BIN
   || ['google-chrome', '/usr/bin/google-chrome', '/usr/bin/chromium'].find((b) => !b.startsWith('/') || existsSync(b));
@@ -136,7 +133,7 @@ if (!existsSync(join(site, 'index.html'))) { console.error('check-render: _site/
 const port = 4400 + Math.floor(Math.random() * 500);
 const server = spawn(process.execPath, [fileURLToPath(new URL('./serve.mjs', import.meta.url))], { env: { ...process.env, PORT: String(port) } });
 const profile = mkdtempSync(join(tmpdir(), 'check-render-'));
-const chrome = spawn(chromeBin, ['--headless=new', '--no-sandbox', '--disable-gpu', '--hide-scrollbars', `--user-data-dir=${profile}`, '--remote-debugging-port=0', 'about:blank']);
+const chrome = spawn(chromeBin, ['--headless=new', '--no-sandbox', '--disable-gpu', '--hide-scrollbars', '--force-device-scale-factor=2', `--user-data-dir=${profile}`, '--remote-debugging-port=0', 'about:blank']);
 const failures = [];
 let list = [];
 try {
@@ -148,6 +145,10 @@ try {
   await c.send('Page.enable', {}, sessionId);
   await c.send('Emulation.setDeviceMetricsOverride', { width: WIDTH, height: 812, deviceScaleFactor: 1, mobile: true }, sessionId);
   list = pages(site);
+  const clippedKeys = async (path, width) => {
+    const { result } = await c.send('Runtime.evaluate', { returnByValue: true, awaitPromise: true, expression: CLIPPED_KEYS }, sessionId);
+    for (const f of result.value) failures.push(`${path}: at ${width}px ${f}`);
+  };
   for (const path of list) {
     const loaded = c.once('Page.loadEventFired', sessionId);
     await c.send('Page.navigate', { url: `http://localhost:${port}${path}` }, sessionId);
@@ -171,12 +172,17 @@ try {
       await loaded;
       const { result } = await c.send('Runtime.evaluate', { returnByValue: true, expression: SIDEWAYS }, sessionId);
       if (result.value) failures.push(`${path}: scrolls sideways at ${width}px, ${result.value}`);
-      if (width === 390) {
-        const { result: header } = await c.send('Runtime.evaluate', { returnByValue: true, expression: HEADER_CONTROLS }, sessionId);
-        if (header.value) failures.push(`${path}: at 390px the header controls are not ${PHONE_HEADER_CONTROL}px high: ${header.value}`);
-      }
+      if (width === 390) await clippedKeys(path, width);
     }
   }
+  await c.send('Emulation.setDeviceMetricsOverride', { width: 1440, height: 900, deviceScaleFactor: 1, mobile: false }, sessionId);
+  for (const path of list) {
+    const loaded = c.once('Page.loadEventFired', sessionId);
+    await c.send('Page.navigate', { url: `http://localhost:${port}${path}` }, sessionId);
+    await loaded;
+    await clippedKeys(path, 1440);
+  }
+  failures.push(...await checkSizes({ send: c.send, once: c.once, sessionId, port }));
   for (const screen of BANNER_SCREENS) {
     await c.send('Emulation.setDeviceMetricsOverride', { width: screen.width, height: screen.height, deviceScaleFactor: 1, mobile: screen.mobile }, sessionId);
     for (const path of list) {
@@ -202,4 +208,4 @@ try {
 }
 
 if (failures.length) { failures.forEach((f) => console.error('FAIL ' + f)); process.exit(1); }
-console.log(`OK ${list.length} pages fit ${[WIDTH, ...MORE_WIDTHS].sort((a, b) => a - b).join(', ')}px without sideways scroll; every control reads at ${MIN_CONTRAST}:1 in both themes; the cookie banner covers no button in the first view of a desktop or phone screen`);
+console.log(`OK ${list.length} pages fit ${[WIDTH, ...MORE_WIDTHS].sort((a, b) => a - b).join(', ')}px without sideways scroll; every control reads at ${MIN_CONTRAST}:1 in both themes; buttons and type are PostHog's sizes and every key's base has room; the cookie banner covers no button in the first view of a desktop or phone screen`);
