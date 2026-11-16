@@ -19,6 +19,10 @@ const faq: Faq[] = [
     q: 'Can I export Freshdesk tickets on the free plan?',
     a: 'Export needs an Admin or Supervisor role whose export permission is on. Check your own plan and role in Freshdesk before you depend on it, and finish the export before the plan or account ends.',
   },
+  {
+    q: 'What does the Colliedesk import leave out?',
+    a: 'Custom ticket and contact fields, ticket groups and products, watchers, parent/child and merge links, contact phone numbers and addresses, satisfaction ratings, SLA policies, automations, files on canned responses, and tickets in Trash or Spam. Every import report lists them under **Not imported by design**, so keep the Freshdesk account export if you need any of them.',
+  },
 ];
 
 const body = `There are three ways to get your tickets out of Freshdesk. They do not give you the same data.
@@ -69,9 +73,44 @@ The API is the only route that lets a tool count what it read and prove nothing 
 - **Conversations.** \`include=conversations\` embeds at most 10. Fetch the rest from \`/api/v2/tickets/{id}/conversations\`.
 - **Rate limits** are shared across the account, so an export slows down your agents' integrations.
 
-## Moving to Colliedesk
+## What the Colliedesk import brings
 
-Colliedesk's importer does the API route for you, from **Settings → Import from Freshdesk** or the \`collie import freshdesk\` command: tickets with every reply and note, archived tickets, attachments with a SHA-256 checksum, tags, contacts, companies and time entries. It ends with a reconcile report. If one count does not match, the report says **FAILED** and you keep using Freshdesk. It is available now; the [import guide](/docs/import-freshdesk) has the command and flags.
+Colliedesk's importer does the API route for you, from **Settings → Data → Import from Freshdesk** or the \`collie import freshdesk\` command. It reads your Freshdesk account and does not change it. It brings over:
+
+- **Tickets, including archived ones**, with their subject, status, priority, assignee, tags and dates.
+- **Every message**: the description, replies, private and public notes and forwards, with the original author and time.
+- **Attachments**, each stored with a SHA-256 checksum, and the **images inside messages** that Freshdesk hosts, so they still show after you close the account.
+- **Contacts** (matched by email), **companies** (as the contact's organization) and **agents** (matched by email to your Colliedesk agents).
+- **Time entries**, shown on the conversation timeline.
+- **Canned responses**, as shared saved replies.
+- **The knowledge base**: categories, folders and articles. While your Colliedesk help center is on, old Freshdesk help center paths (\`/support/solutions/...\`) work on its address and on your custom domain once it points at Colliedesk. Published articles open directly.
+
+## What the import leaves out
+
+The importer does not bring everything. Each report ends with the full list, under **Not imported by design**. The main items:
+
+- Custom ticket fields and custom contact fields.
+- A ticket's group, product, watchers, and parent/child and merge links.
+- Contact phone numbers, other emails, addresses and job titles, and company details other than the name.
+- Satisfaction ratings, SLA policies and automations.
+- Files attached to canned responses: saved replies hold text only.
+- Tickets in the Freshdesk Trash or Spam. The report lists them by id.
+- Time entries of archived tickets. The report lists those tickets; check them in Freshdesk.
+- Images in messages that other sites host, such as a newsletter banner. They stay links.
+
+Canned responses in personal folders are not imported unless you ask for them, because saved replies are shared by the whole workspace. If you need any item on the list, keep the Freshdesk account export as well.
+
+## What the reconcile report shows
+
+Every import ends with a reconcile report, as Markdown for people and JSON for tools. Its status is one of three:
+
+- **OK**: every count matches and the totals were verified.
+- **FAILED**: something is missing. A table lists each missing item with its Freshdesk id and ticket id.
+- **UNVERIFIED**: nothing failed, but completeness could not be proven. This happens, for example, when Freshdesk refuses the importer access to archived tickets.
+
+The report has a **Counts** table with three numbers for each kind of data: in Freshdesk, in Colliedesk and failed. It covers contacts, tickets, messages, attachments, inline images, time entries, saved replies and the knowledge base. It also gives the attachment bytes in Freshdesk and in storage, and how many files had their SHA-256 checksum read again from storage.
+
+Freshdesk's ticket list leaves out trashed and spam tickets by default, and archived tickets come from a separate endpoint. So the importer also checks every ticket number from 1, and the report says how each total was verified. Do not close the Freshdesk account until the last report says **OK**. The [import guide](/docs/import-freshdesk) has the command, the flags and every section of the report.
 
 Founding customers get the migration done for them, free. The full exit plan is in [Migrate from Freshdesk](/migrate/freshdesk).
 
@@ -84,11 +123,11 @@ const page: Page = {
   jsonLd: [],
   name: 'Export tickets from Freshdesk',
   path: '/migrate/freshdesk/export',
-  updated: '2026-10-15',
+  updated: '2026-11-15',
   section: 'Migrate',
   title: 'How to export tickets from Freshdesk (with conversations and attachments)',
   description:
-    'Three ways to export Freshdesk tickets: the CSV export (fields only), the account export (full XML backup) and the API. What each one keeps, and the steps.',
+    'Three ways to export Freshdesk tickets: the CSV export (fields only), the account export (XML backup) and the API. What each keeps; what an import leaves out.',
   summary: 'Export Freshdesk tickets: CSV export (fields only) vs account export (XML backup) vs API; steps and limits',
   eyebrow: 'Migrate · Freshdesk · Export',
   h1: 'Export your tickets from Freshdesk',
