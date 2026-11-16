@@ -32,8 +32,6 @@ function keysOf(path, width) {
   if (path === PRICING) keys.push({ name: 'Founding card "Join"', face: '.plan .btn-primary', size: 'default', primary: true });
   if (path === DOCS) keys.push({ name: '"Copy page"', face: '.docs-copy', key: '.docs-ai-group', press: '.docs-copy', size: 'sm' },
     { name: 'docs pager tile', face: '.docs-pager a', size: 'tile' });
-  if (path === DOCS && width <= 960) keys.push({ name: '"Docs menu"', face: '.docs-menu summary', size: 'sm' });
-  if (path === DOCS && width < 1200) keys.push({ name: '"On this page"', face: '.docs-toc-mobile summary', size: 'sm' });
   return keys.map((k) => ({ key: k.face, press: k.key ?? k.face, ...k }));
 }
 
@@ -70,9 +68,12 @@ const typeMeasure = (sel) => `(() => { const e = document.querySelector(${JSON.s
 // and no base by design, so it is skipped). Its footprint runs from the face
 // at hover height to the base's bottom edge (1.5px under the layout box). A scroll box around it must hold
 // the whole footprint, and no other element may sit inside it (the next line starts at or after the base).
+// Keys are actions and choices; disclosures that only open more of the page are rows and the search opener
+// is a slot, so neither is listed here.
+export const KEY_SELECTOR = ':is(.btn:not(.is-placeholder), .nav-mobile summary, .docs-ai-group, .docs-search-close, .theme-toggle, .segmented label, .vs-sizes label, .docs-pager a):not(:disabled)';
 export const CLIPPED_KEYS = `document.fonts.ready.then(() => {
   const out = [];
-  const keys = [...document.querySelectorAll(':is(.btn:not(.is-placeholder), .nav-mobile summary, .docs-ai-group, .docs-search-open, .theme-toggle, .segmented label, .vs-sizes label, .docs-menu summary, .docs-toc-mobile summary, .docs-pager a):not(:disabled)')]
+  const keys = [...document.querySelectorAll(${JSON.stringify(KEY_SELECTOR)})]
     .filter((e) => e.getClientRects().length && getComputedStyle(e).visibility !== 'hidden' && !e.closest('dialog, .docs-ai-group > *'));
   for (const e of keys) {
     const label = (e.textContent.trim().replace(/\\s+/g, ' ') || e.getAttribute('aria-label') || e.className).slice(0, 40);

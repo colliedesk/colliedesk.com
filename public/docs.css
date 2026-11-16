@@ -14,17 +14,20 @@
 }
 .docs-toc-title { font: 600 13px var(--font-sans); color: var(--text-3); margin: 0 0 var(--space-2); }
 .docs-toc ul { list-style: none; margin: 0; padding: 0; border-left: 1px solid var(--line); }
-.docs-toc a { display: block; padding: .3rem .8rem; color: var(--text-2); text-decoration: none; }
-.docs-toc a:hover { color: var(--text-1); text-decoration: underline; }
+.docs-toc a { display: block; padding: .3rem .8rem; border-radius: var(--radius); color: var(--text-2); text-decoration: none; }
+.docs-toc a:hover { color: var(--text-1); background: var(--surface-2); }
 
 /* Up to 1200px "On this page" is a closed list at the top of the guide. */
-/* "On this page" and "Docs menu" are small keys, held while open; the list opens under the key on a ringed sheet. */
-.docs-toc-mobile { margin: var(--space-1) 0 var(--space-8); }   /* room above for the face lifted on hover */
+/* "On this page" and "Docs menu" only open more of the page, so they are rows, not keys: a quiet box (a 1px
+   hairline on the page colour), a grey fill on hover, a darker one while open. The list opens on a ringed sheet. */
+.docs-toc-mobile { margin: 0 0 var(--space-8); }
 .docs-toc-mobile summary, .docs-menu summary, .docs-ai summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: var(--space-2); }
 .docs-toc-mobile summary::-webkit-details-marker, .docs-menu summary::-webkit-details-marker, .docs-ai summary::-webkit-details-marker { display: none; }
 .docs-toc-mobile summary::after, .docs-menu summary::after, .docs-ai summary::after { content: ""; flex: none; width: 7px; height: 7px; margin: 0 2px 3px auto; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: rotate(45deg); }
 .docs-toc-mobile[open] summary::after, .docs-menu[open] summary::after, .docs-ai[open] summary::after { margin-bottom: -3px; transform: rotate(-135deg); }
-.docs-toc-mobile summary, .docs-menu summary { padding: 4px 10px; border-radius: 6px; font: 700 13px/20px var(--font-sans); }
+.docs-toc-mobile summary, .docs-menu summary, .docs-menu-bar .docs-search-open { min-height: 36px; padding: 7px 10px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-1); color: var(--text-1); font: 600 13px/20px var(--font-sans); }
+:is(.docs-toc-mobile summary, .docs-menu summary, .docs-menu-bar .docs-search-open):hover { background: var(--surface-2); color: var(--text-1); }
+:is(.docs-toc-mobile, .docs-menu)[open] summary { background: var(--surface-3); }
 .docs-menu .docs-nav, .prose .docs-toc-mobile ul { margin: var(--space-2) 0 0; padding: var(--space-2); background: var(--surface-1); border-radius: var(--radius-lg); box-shadow: var(--ring); }
 .prose .docs-toc-mobile ul { list-style: none; font-size: 15px; }
 .prose .docs-toc-mobile li { margin: 0; }
@@ -121,13 +124,16 @@
 @media (max-width: 640px) { .docs-ai-menu { width: min(19rem, calc(100vw - 40px)); } }
 
 /* Search: the button in the sidebar (an icon in the phone menu bar) and the dialog. */
-/* The sidebar search button reads as a field, so it keeps a regular-weight grey label on the small key. */
-.docs-search-open { display: none; align-items: center; gap: var(--space-2); width: 100%; margin-bottom: var(--space-4); padding: 4px 10px; border-radius: 6px; color: var(--text-2); font: 400 13px/20px var(--font-sans); text-align: left; cursor: pointer; }
+/* The sidebar search opener is a slot like the fields (a control line and a 2px lip, a regular-weight grey
+   label, the shortcut keycap on the right); it is still a button that opens the dialog. */
+.docs-search-open { display: none; align-items: center; gap: var(--space-2); width: 100%; margin-bottom: var(--space-4); padding: 7px 10px; border: 1px solid var(--line-control); border-radius: var(--radius); background: var(--surface-1); box-shadow: inset 0 2px 0 0 var(--surface-2); color: var(--text-2); font: 400 13px/20px var(--font-sans); text-align: left; cursor: pointer; }
+.docs-search-open:hover { border-color: var(--line-strong); }
 @media (scripting: enabled) { .docs-search-open { display: flex; } }
 .docs-search-open[hidden] { display: none; }
 .docs-search-open:hover { color: var(--text-1); }
 .docs-search-open kbd { margin-left: auto; }
-.docs-menu-bar .docs-search-open { flex: none; width: 31px; margin-bottom: 1.5px; justify-content: center; padding: 4px 0; }
+/* On a phone the opener is an icon in the same quiet box as the "Docs menu" row beside it. */
+.docs-menu-bar .docs-search-open { flex: none; width: 36px; margin: 0; justify-content: center; padding: 7px 0; box-shadow: none; }
 .docs-menu-bar .docs-search-open span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .docs-menu-bar .docs-search-open kbd { display: none; }
 .docs-search { width: min(40rem, calc(100vw - 2 * var(--space-4))); max-width: none; max-height: min(36rem, calc(100vh - 6rem)); margin: 10vh auto auto; padding: 0; border: 0; border-radius: var(--radius-lg); background: var(--surface-1); color: var(--text-1); box-shadow: var(--shadow-3); }

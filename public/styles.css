@@ -79,24 +79,29 @@ code { font-family: var(--font-mono); font-size: .88em; background: var(--surfac
 .nav-desktop a, .nav-mobile a { display: inline-block; white-space: nowrap; padding: .55rem .75rem; color: var(--text-2); text-decoration: none; font-weight: 500; font-size: .94rem; border-radius: var(--radius); }
 .nav-desktop a:hover, .nav-mobile a:hover { color: var(--text-1); background: var(--surface-2); }
 .nav-desktop a[aria-current="page"], .nav-mobile a[aria-current="page"] { color: var(--text-1); background: var(--surface-3); }
-/* Rows (nav links, the docs sidebar, menu rows, search results) answer the pointer with a grey fill, a
-   darker one when current, and travel 1px down while pressed; only the press is animated. */
-:is(.nav-desktop a, .nav-mobile nav a, .docs-nav a, .docs-ai-menu a, .docs-copy-mcp, .docs-search-results a):active {
+/* Rows (nav links, the docs sidebar and "On this page", menu rows, search results, and the docs disclosures
+   that only open more of the page) answer the pointer with a grey fill, a darker one when current or open,
+   and travel 1px down while pressed; only the press is animated. */
+:is(.nav-desktop a, .nav-mobile nav a, .docs-nav a, .docs-toc a, .docs-ai-menu a, .docs-copy-mcp, .docs-search-results a,
+  .docs-menu summary, .docs-toc-mobile summary, .docs-menu-bar .docs-search-open):active {
   translate: 0 var(--nudge); transition: translate var(--press);
 }
 @media (prefers-reduced-motion: reduce) {
-  :is(.nav-desktop a, .nav-mobile nav a, .docs-nav a, .docs-ai-menu a, .docs-copy-mcp, .docs-search-results a):active { transition: none; }
+  :is(.nav-desktop a, .nav-mobile nav a, .docs-nav a, .docs-toc a, .docs-ai-menu a, .docs-copy-mcp, .docs-search-results a,
+    .docs-menu summary, .docs-toc-mobile summary, .docs-menu-bar .docs-search-open):active { transition: none; }
 }
 .wm-tile { fill: var(--logo-tile); }
 .wm-collie { fill: var(--text-1); }
 .wm-desk { fill: var(--text-2); }
 .nav-mobile { display: none; }
 
-/* Buttons are keys, sized like PostHog's (owner decision 16/11/2026): a face lifted above a darker base that
+/* Actions and choices are keys (start, buy, copy, send, pick an option, switch the theme, go to the
+   previous/next guide); a disclosure that only opens more of the page is a row and the search opener is a
+   slot, so the first screen is not a wall of raised buttons. Keys are sized like PostHog's (owner decision 16/11/2026): a face lifted above a darker base that
    the face casts with two box-shadows (the edge, then a 1.5px rim under it). The face moves, the base's
    bottom never does: rest 4px up, hover 6px, pressed 2px (small keys 2/3/1). Only the press is animated,
    as on a real key. The margin reserves the lifted face and the rim, so a row never runs into the next
-   line. The docs split control, search buttons, disclosures and pager tiles, the phone "Menu", the theme
+   line. The docs split control, the search dialog's Close, the docs pager tiles, the phone "Menu", the theme
    toggle and the bill and /vs options share the key without a .btn class (their markup is styled elsewhere). A key whose state is on is held: it stays
    at the press depth on a grey face with a darker rim, and hover does not lift it. */
 :root, :root[data-theme="light"] {
@@ -109,29 +114,29 @@ code { font-family: var(--font-mono); font-size: .88em; background: var(--surfac
   /* Dark: the lighter orange face sits on the logo's orange, the darker of the two. */
   --key-primary-rim: var(--logo-tile); --key-primary-edge: var(--logo-tile);
 }
-.btn, .nav-mobile summary, .docs-ai-group, .docs-search-open, .docs-search-close,
-.theme-toggle, .segmented label, .vs-sizes label, .docs-menu summary, .docs-toc-mobile summary, .docs-pager a {
+.btn, .nav-mobile summary, .docs-ai-group, .docs-search-close,
+.theme-toggle, .segmented label, .vs-sizes label, .docs-pager a {
   --key-rest: 4px; --key-hover: 6px; --key-press: 2px; --key-lift: var(--key-rest);
   margin-block: var(--key-rest) 1.5px; border: 1.5px solid var(--key-rim); background: var(--key-face); color: var(--key-text);
   box-shadow: 0 var(--key-lift) 0 0 var(--key-edge), 0 calc(var(--key-lift) + 1.5px) 0 0 var(--key-rim);
   transform: translateY(calc(-1 * var(--key-lift)));
 }
-:is(.btn, .nav-mobile summary, .docs-search-open, .docs-search-close, .theme-toggle, .segmented label, .vs-sizes label, .docs-menu summary, .docs-toc-mobile summary, .docs-pager a):hover,
+:is(.btn, .nav-mobile summary, .docs-search-close, .theme-toggle, .segmented label, .vs-sizes label, .docs-pager a):hover,
 .docs-ai-group:has(> .docs-copy:hover, > .docs-ai > summary:hover) { --key-lift: var(--key-hover); }
-:is(.btn, .nav-mobile summary, .docs-search-open, .docs-search-close, .theme-toggle, .segmented label, .vs-sizes label, .docs-menu summary, .docs-toc-mobile summary, .docs-pager a):active,
+:is(.btn, .nav-mobile summary, .docs-search-close, .theme-toggle, .segmented label, .vs-sizes label, .docs-pager a):active,
 .docs-ai-group:has(> .docs-copy:active, > .docs-ai > summary:active) { --key-lift: var(--key-press); transition: transform var(--press), box-shadow var(--press); }
 @media (prefers-reduced-motion: reduce) {
-  :is(.btn, .nav-mobile summary, .docs-search-open, .docs-search-close, .theme-toggle, .segmented label, .vs-sizes label, .docs-menu summary, .docs-toc-mobile summary, .docs-pager a):active,
+  :is(.btn, .nav-mobile summary, .docs-search-close, .theme-toggle, .segmented label, .vs-sizes label, .docs-pager a):active,
   .docs-ai-group:has(> .docs-copy:active, > .docs-ai > summary:active) { transition: none; }
 }
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2); padding: 8px 20px; border-radius: 8px; font: 700 15px/26px var(--font-sans); text-decoration: none; white-space: nowrap; cursor: pointer; }
 .btn:hover { color: var(--key-text); text-decoration: none; }
 .btn-primary { --key-face: var(--key-primary-face); --key-text: var(--key-primary-text); --key-rim: var(--key-primary-rim); --key-edge: var(--key-primary-edge); }
 .btn-primary:focus-visible { outline-offset: 3px; }
-.btn-sm, .nav-mobile summary, .docs-ai-group, .docs-search-open, .docs-search-close, .theme-toggle, .segmented label, .vs-sizes label, .docs-menu summary, .docs-toc-mobile summary { --key-rest: 2px; --key-hover: 3px; --key-press: 1px; }
+.btn-sm, .nav-mobile summary, .docs-ai-group, .docs-search-close, .theme-toggle, .segmented label, .vs-sizes label { --key-rest: 2px; --key-hover: 3px; --key-press: 1px; }
 .btn-sm, .nav-mobile summary, .docs-search-close, .theme-toggle { padding: 4px 10px; border-radius: 6px; font: 700 13px/20px var(--font-sans); }
 /* The element type lifts the toggle's specificity over the :hover rule above, so hover cannot lift it. */
-.nav-mobile[open] summary, .docs-menu[open] summary, .docs-toc-mobile[open] summary, button.theme-toggle[aria-pressed="true"], .segmented label:has(input:checked), .vs-sizes label:has(input:checked) {
+.nav-mobile[open] summary, button.theme-toggle[aria-pressed="true"], .segmented label:has(input:checked), .vs-sizes label:has(input:checked) {
   --key-lift: var(--key-press); --key-face: var(--surface-3); --key-text: var(--text-1); --key-rim: var(--line-strong); --key-edge: var(--line-strong);
   background: var(--key-face); color: var(--key-text); border-color: var(--key-rim);
 }
@@ -140,7 +145,7 @@ code { font-family: var(--font-mono); font-size: .88em; background: var(--surfac
 :is(.segmented, .vs-sizes) label:has(input:checked) { cursor: default; }
 /* Forced colours drop the grey face and the base, which would leave a held key looking like the others. */
 @media (forced-colors: active) {
-  .nav-mobile[open] summary, .docs-menu[open] summary, .docs-toc-mobile[open] summary, button.theme-toggle[aria-pressed="true"],
+  .nav-mobile[open] summary, button.theme-toggle[aria-pressed="true"],
   .segmented label:has(input:checked), .vs-sizes label:has(input:checked) { forced-color-adjust: none; background: Highlight; color: HighlightText; border-color: Highlight; }
 }
 .btn-primary:disabled { background: var(--key-primary-face); color: var(--key-primary-text); border-color: var(--key-primary-rim); opacity: .3; }

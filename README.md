@@ -126,19 +126,25 @@ action is not the orange).
   the orange face (`--accent`) on a darker orange base (`--accent-hover`; in the dark theme `--logo-tile`).
 - Tactile site (owner decision 17/11/2026, after PostHog's mechanism, not its look): an element answers the
   pointer in one of three ways, and everything else is paper (flat, hairlines and rings, no motion, no base).
-  - **Key**: actions, stand-alone destinations and options: buttons, the phone "Menu", the theme toggle,
-    the bill and /vs team-size options, the docs search, "Copy page", "Docs menu", "On this page" and the
-    docs pager tiles. A face on a solid base: it lifts on hover and sinks on press. A base means "you can
-    press this"; never on a static card, a badge or a picture. Keys keep their 1.5 px rim; static cards
-    keep their ring.
+  - **Key**: an action or a choice (start, buy, copy, send, pick an option, switch the theme, go to the
+    previous or next guide): buttons, "Copy page", the bill and /vs team-size options, the theme toggle,
+    the docs pager tiles, the feedback Yes/No and the header's phone "Menu". A face on a solid base: it
+    lifts on hover and sinks on press. A base means "you can press this"; never on a static card, a badge
+    or a picture. Keys keep their 1.5 px rim; static cards keep their ring. When everything is raised
+    nothing stands out: `pnpm check:render` allows at most 4 raised elements in the first 390 x 844 screen
+    of a guide.
   - **Held key**: a key whose state is on (a menu open, an option chosen, the dark theme on) stays at the
     press depth on a grey face (`--surface-3`) with a darker rim (`--line-strong`); hover does not lift it.
     This replaces fills, outlines and orange for "selected". A disabled key is sunk with no base.
-  - **Row**: a repeated item in a list or menu (nav links, the docs sidebar, menu rows, search results): a
-    grey fill on hover, `--surface-3` when current, 1 px down while pressed.
+  - **Row**: a repeated item in a list or menu (nav links, the docs sidebar and "On this page" column, menu
+    rows, search results), and a disclosure that only opens more of the page ("Docs menu", "On this page"
+    on a phone or tablet, in a quiet box: 1 px `--line` on `--surface-1`): a grey fill on hover,
+    `--surface-3` when current or open, 1 px down while pressed.
   - **Inline link**: ink, underlined; the underline darkens on hover; it never moves.
   - **Fields are slots**, the opposite of keys: 45 px (the key face beside them), a 1 px `--line-control`
-    line and a 2 px `--surface-2` lip inside the top edge; the line darkens on hover. Focus everywhere is
+    line and a 2 px `--surface-2` lip inside the top edge; the line darkens on hover. The docs sidebar's
+    search opener is a slot too (a button that opens the dialog); on a phone it is an icon in the same
+    quiet box as "Docs menu". Focus everywhere is
     the 2 px amber outline (`--focus`) with a 2 px gap (3 px on primary keys and pager tiles).
   - Depth is solid offsets; blur only on floating layers (menus, the search dialog, the featured plan, the
     hero proof card). The press is the only animation (`--press`, 100 ms; none with reduced motion).

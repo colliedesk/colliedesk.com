@@ -1,7 +1,8 @@
 // States of the tactile site, measured in headless Chrome by scripts/check-render.mjs. Three answers to the
-// pointer: keys (a face on a solid base; a key whose state is on stays held at the press depth on a grey
-// face with a darker rim), rows (a grey fill on hover, a darker fill when current, 1px down while pressed)
-// and fields (slots: a 1px control line with a 2px grey lip, the amber focus outline). The expected colours
+// pointer: keys for actions and choices (a face on a solid base; a key whose state is on stays held at the
+// press depth on a grey face with a darker rim), rows for list items and disclosures (a grey fill on hover,
+// a darker fill when current or open, 1px down while pressed) and slots for fields and the search opener (a
+// 1px control line with a 2px grey lip, the amber focus outline). The expected colours
 // are the app tokens (public/tokens.css) written out, so a token swap shows up here.
 
 const C = {
@@ -71,13 +72,31 @@ export const PROBES = [
     states: { rest: { bg: C[t].surface3, mark: C[t].accent, markWidth: 2, weight: 600 } } })),
   { name: '"Copy page" menu row', page: DOCS, sel: '.docs-ai-menu a', widths: BOTH, theme: 'light',
     setup: `document.querySelector('.docs-ai').open = true;`, states: { hover: { bg: C.light.surface2 }, active: { nudge: '0px 1px' } } },
-  // Docs on a phone or tablet: "Docs menu" and "On this page" are small keys, held while open.
+  // Docs on a phone or tablet: "Docs menu" and "On this page" only open more of the page, so they are
+  // disclosure rows in a quiet box: no base, no lift; a grey fill on hover, a darker one while open. Both are
+  // hidden on a desktop, so they are measured at 390 and 768.
+  ...['light', 'dark'].flatMap((t) => [['"Docs menu"', '.docs-menu'], ['"On this page"', '.docs-toc-mobile']].flatMap(([label, d]) => [
+    { name: `${t} ${label}`, page: DOCS, sel: `${d} summary`, widths: [390, 768], theme: t,
+      states: {
+        rest: { lift: 0, shadows: '', nudge: 'none', border: 1, line: C[t].line },
+        hover: { lift: 0, shadows: '', bg: C[t].surface2 },
+        active: { lift: 0, shadows: '', nudge: '0px 1px' },
+        focus: { outline: `solid 2px ${C[t].focus}` },
+      } },
+    { name: `${t} ${label} while open`, page: DOCS, sel: `${d} summary`, widths: [390, 768], theme: t,
+      setup: `document.querySelector('${d}').open = true;`, states: { rest: { lift: 0, shadows: '', bg: C[t].surface3 }, hover: { lift: 0, shadows: '' } } },
+  ])),
+  // The search opener is a slot like the fields (line and lip, no base); on a phone, an icon in the same
+  // quiet box as the "Docs menu" row beside it.
   ...['light', 'dark'].flatMap((t) => [
-    { name: `${t} "Docs menu" while open`, page: DOCS, sel: '.docs-menu summary', widths: [390], theme: t,
-      setup: `document.querySelector('.docs-menu').open = true;`, states: held(t) },
-    { name: `${t} "On this page" while open`, page: DOCS, sel: '.docs-toc-mobile summary', widths: [390], theme: t,
-      setup: `document.querySelector('.docs-toc-mobile').open = true;`, states: held(t) },
+    { name: `${t} sidebar search`, page: DOCS, sel: '.docs-sidebar .docs-search-open', widths: [1440], theme: t,
+      states: { rest: { lift: 0, border: 1, line: C[t].control, lip: `${C[t].surface2} 0px 2px 0px 0px inset`, weight: 400 }, hover: { lift: 0, line: C[t].strong } } },
+    { name: `${t} phone search button`, page: DOCS, sel: '.docs-menu-bar .docs-search-open', widths: [390], theme: t,
+      states: { rest: { lift: 0, shadows: '', border: 1, line: C[t].line }, hover: { lift: 0, shadows: '', bg: C[t].surface2 }, active: { nudge: '0px 1px' } } },
   ]),
+  // The desktop "On this page" column answers like the sidebar beside it.
+  { name: 'desktop "On this page" link', page: DOCS, sel: '.docs-toc a', widths: [1440], theme: 'light',
+    states: { rest: { nudge: 'none' }, hover: { bg: C.light.surface2, radius: 6 }, active: { nudge: '0px 1px' } } },
   { name: 'docs pager tile', page: DOCS, sel: '.docs-pager a', widths: BOTH, theme: 'light',
     states: { focus: { outline: `solid 2px ${C.light.focus}`, offset: 3 } } },
   { name: 'search dialog', page: DOCS, sel: '.docs-search', widths: [1440], theme: 'light', setup: `document.querySelector('.docs-search').showModal();`,
@@ -115,6 +134,26 @@ const measure = (sel) => `(() => {
     highlight: (() => { const h = document.createElement('i'); h.style.cssText = 'forced-color-adjust: none; background: Highlight'; document.body.append(h); const c = getComputedStyle(h).backgroundColor; h.remove(); return c; })(),
     shadows: [...s.boxShadow.matchAll(/(-?[\\d.]+)px (-?[\\d.]+)px (-?[\\d.]+)px (-?[\\d.]+)px/g)].map((x) => +x[2]).join('/') };
 })()`;
+
+// When everything is raised nothing stands out: the first phone screen of a guide holds at most this many
+// raised keys. Anything drawn raised counts, whatever its class (a face lifted over a solid base cast straight
+// below it); counted as elements in the DOM, so the "Copy page" split control (copy + chevron) is one key.
+const MAX_FIRST_SCREEN_KEYS = 4;
+async function firstScreenKeys({ send, once, sessionId, port, ev }) {
+  await send('Emulation.setDeviceMetricsOverride', { width: 390, height: 844, deviceScaleFactor: 2, mobile: true }, sessionId);
+  const loaded = once('Page.loadEventFired', sessionId);
+  await send('Page.navigate', { url: `http://localhost:${port}${DOCS}` }, sessionId);
+  await loaded;
+  const keys = await ev(`document.fonts.ready.then(() => { scrollTo(0, 0);
+    return [...document.body.querySelectorAll('*')].filter((e) => {
+      const s = getComputedStyle(e), r = e.getBoundingClientRect(), m = s.transform.match(/matrix\\(([^)]+)\\)/);
+      const base = [...s.boxShadow.matchAll(/(-?[\\d.]+)px (-?[\\d.]+)px 0px/g)].some((x) => +x[1] === 0 && +x[2] > 0);
+      return r.height && r.top < innerHeight && r.bottom > 0 && !e.closest('dialog') && m && -m[1].split(',').map(Number)[5] > 0 && base;
+    }).map((e) => (e.textContent.trim().replace(/\\s+/g, ' ') || e.getAttribute('aria-label') || e.className).slice(0, 24)); })`);
+  return keys.length > MAX_FIRST_SCREEN_KEYS
+    ? [`${DOCS} at 390x844: ${keys.length} raised keys in the first screen (${keys.join(' | ')}), max ${MAX_FIRST_SCREEN_KEYS} (elements drawn raised; the "Copy page" split control is one)`]
+    : [];
+}
 
 const FORCED = { rest: [], hover: ['hover'], active: ['hover', 'active'], focus: ['focus', 'focus-visible'] };
 const same = (got, want) => (typeof want === 'number' ? typeof got === 'number' && Math.abs(got - want) < 0.06 : got === want);
@@ -155,5 +194,6 @@ export async function checkStates({ send, once, sessionId, port }) {
     }
   }
   await send('Emulation.setEmulatedMedia', { features: [] }, sessionId);
+  failures.push(...await firstScreenKeys({ send, once, sessionId, port, ev }));
   return failures;
 }
