@@ -330,8 +330,18 @@ p.switch-offer-print { padding-left: 0; }
 .updates-form p { margin: 0 0 .8rem; color: var(--text-2); }
 /* The field is as tall as the Subscribe key's face and lines up with it at rest. */
 .updates-row { display: flex; align-items: flex-start; gap: var(--space-2); }
-.updates-row input { flex: 1; min-width: 0; height: 45px; padding: 0 var(--space-3); border: 1px solid var(--line-control); border-radius: var(--radius); background: var(--surface-1); color: var(--text-1); font: 400 15px var(--font-sans); }
-.updates-row input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.updates-row input { flex: 1; min-width: 0; padding: 0 var(--space-3); font: 400 15px var(--font-sans); }
+/* Fields are slots, the opposite of a key: a 1px control line and a 2px grey lip inside the top edge, no
+   lift, as tall as the key face beside them. Focus is the amber outline, as everywhere (amber means focus). */
+.updates-row input, .audit-form input:not(.updates-trap), .audit-form select {
+  height: 45px; border: 1px solid var(--line-control); border-radius: var(--radius); background-color: var(--surface-1);
+  box-shadow: inset 0 2px 0 0 var(--surface-2); color: var(--text-1);
+}
+:is(.updates-row input, .audit-form input:not(.updates-trap), .audit-form select):hover { border-color: var(--line-strong); }
+:is(.updates-row input, .audit-form input:not(.updates-trap), .audit-form select):focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-color: var(--line-strong); }
+:is(.updates-row input, .audit-form input:not(.updates-trap)):user-invalid { border-color: var(--danger); }
+:is(.updates-row input, .audit-form input:not(.updates-trap), .audit-form select):disabled { background-color: var(--surface-2); color: var(--text-3); box-shadow: none; }
+::placeholder { color: var(--text-3); opacity: 1; }
 .updates-trap { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
 .updates-status { min-height: 1.5em; margin: .6rem 0 0 !important; }
 .updates-status[data-state="error"] { color: var(--danger); }
@@ -388,7 +398,6 @@ p.switch-offer-print { padding-left: 0; }
   .consent-actions .btn { flex: 1 1 0; }
 }
 .link-button { padding: 0; border: 0; background: none; color: inherit; font: inherit; text-decoration: underline; cursor: pointer; }
-.link-button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 /* Home (Paper "L1-b Landing", 06/11/2026): one 1200px sheet under a 1px line; each row is one idea, 32px
    inside, divided by hairlines. Product pictures and the report sit on grey stage rows (--surface-2). Text
@@ -594,9 +603,8 @@ a.mono-label:hover { text-decoration: underline; }
    button is in the first screen at 390 x 844. */
 .audit-form { display: grid; gap: var(--space-1); padding: var(--space-5); background: var(--surface-1); border-radius: 12px; box-shadow: var(--ring), var(--shadow-2); max-width: 32rem; }
 .audit-form label { font: 500 14px/1.4 var(--font-sans); color: var(--text-1); }
-.audit-form input:not(.updates-trap), .audit-form select { width: 100%; height: 44px; margin-bottom: var(--space-2); padding: 0 var(--space-3); border: 1px solid var(--line-control); border-radius: var(--radius); background: var(--surface-1); color: var(--text-1); font: 400 16px var(--font-sans); }
+.audit-form input:not(.updates-trap), .audit-form select { width: 100%; margin-bottom: var(--space-2); padding: 0 var(--space-3); font: 400 16px var(--font-sans); }
 .audit-form select { appearance: none; padding-right: var(--space-8); background-image: var(--select-chevron); background-repeat: no-repeat; background-position: right var(--space-3) center; }
-.audit-form input:focus-visible, .audit-form select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .audit-form .btn { width: 100%; margin-top: var(--space-1); }
 .audit-status { min-height: 1.5em; margin: var(--space-2) 0 0; color: var(--text-2); }
 .audit-status[data-state="error"] { color: var(--danger); }
