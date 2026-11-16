@@ -16,7 +16,7 @@ const C = {
     focus: 'rgb(240, 180, 76)', accent: 'rgb(251, 138, 74)',
   },
 };
-const HOME = '/index.html', AUDIT = '/audit.html', DOCS = '/docs/inbox.html', VS = '/vs/freshdesk.html';
+const HOME = '/index.html', PRICING = '/pricing.html', AUDIT = '/audit.html', DOCS = '/docs/inbox.html', VS = '/vs/freshdesk.html';
 const BOTH = [390, 1440];
 
 // A field is a slot as tall as the key face beside it, with the amber outline on focus.
@@ -55,6 +55,20 @@ export const PROBES = [
   ]),
   { name: '/vs option', page: VS, sel: '.vs-sizes label:not(:has(input:checked))', widths: BOTH, theme: 'light',
     states: { rest: { lift: 2, shadows: '2/3.5', border: 1.5 }, hover: { lift: 3 }, active: { lift: 1 } } },
+  // Rows: a grey fill on hover, a darker fill when current, 1px down while pressed.
+  { name: 'desktop nav link', page: HOME, sel: '.nav-desktop a:not([aria-current])', widths: [1440], theme: 'light',
+    states: { rest: { nudge: 'none' }, hover: { bg: C.light.surface2 }, active: { nudge: '0px 1px' } } },
+  ...['light', 'dark'].map((t) => ({ name: `${t} desktop nav current page`, page: PRICING, sel: '.nav-desktop a[aria-current="page"]', widths: [1440], theme: t,
+    states: { rest: { bg: C[t].surface3 } } })),
+  { name: 'phone menu row', page: HOME, sel: '.nav-mobile nav a:not([aria-current])', widths: [390], theme: 'light',
+    setup: `document.querySelector('.nav-mobile').open = true;`, states: { hover: { bg: C.light.surface2 }, active: { nudge: '0px 1px' } } },
+  { name: 'docs sidebar link', page: DOCS, sel: '.docs-sidebar .docs-nav a:not([aria-current])', widths: [1440], theme: 'light',
+    states: { hover: { bg: C.light.surface2 }, active: { nudge: '0px 1px' } } },
+  // The current page keeps the one orange mark the docs sidebar is allowed.
+  ...['light', 'dark'].map((t) => ({ name: `${t} docs sidebar current page`, page: DOCS, sel: '.docs-sidebar .docs-nav a[aria-current="page"]', widths: [1440], theme: t,
+    states: { rest: { bg: C[t].surface3, mark: C[t].accent, markWidth: 2, weight: 600 } } })),
+  { name: '"Copy page" menu row', page: DOCS, sel: '.docs-ai-menu a', widths: BOTH, theme: 'light',
+    setup: `document.querySelector('.docs-ai').open = true;`, states: { hover: { bg: C.light.surface2 }, active: { nudge: '0px 1px' } } },
   // The toggle is on only in the dark theme.
   { name: 'dark "Dark theme" toggle while on', page: HOME, sel: '.theme-toggle', widths: BOTH, theme: 'dark',
     setup: `document.querySelector('.theme-toggle').setAttribute('aria-pressed', 'true');`, states: held('dark') },
