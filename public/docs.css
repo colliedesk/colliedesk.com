@@ -85,7 +85,6 @@
 #docs-feedback-q { font-weight: 500; color: var(--text-1); }
 .docs-feedback-status { flex-basis: 100%; font-size: 14px; color: var(--text-2); }
 .docs-feedback-status:empty { display: none; }
-.docs-feedback .btn:disabled { cursor: default; color: var(--text-2); }
 .docs-updated { margin: 0; font-size: .92rem; color: var(--text-3); }
 .docs-foot + .edit-source { margin-top: var(--space-4); }
 

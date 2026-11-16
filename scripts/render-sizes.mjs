@@ -24,6 +24,7 @@ export const SIZE_PAGES = [HOME, PRICING, DOCS];
 function keysOf(path, width) {
   const keys = [{ name: 'header "Start free trial"', face: '.header-cta', size: 'sm', primary: true }];
   if (width <= 1100) keys.push({ name: 'header "Menu"', face: '.nav-mobile summary', size: 'sm' });
+  keys.push({ name: 'footer "Dark theme"', face: '.theme-toggle', size: 'sm' });
   if (path === HOME) keys.push({ name: 'hero "Start free trial"', face: '.hero-actions .btn-primary', size: 'default', primary: true });
   if (path === PRICING) keys.push({ name: 'Founding card "Join"', face: '.plan .btn-primary', size: 'default', primary: true });
   if (path === DOCS) keys.push({ name: '"Copy page"', face: '.docs-copy', key: '.docs-ai-group', press: '.docs-copy', size: 'sm' });
@@ -59,12 +60,13 @@ const measure = (face, key) => `(() => {
 const typeMeasure = (sel) => `(() => { const e = document.querySelector(${JSON.stringify(sel)}); if (!e) return null;
   const s = getComputedStyle(e); return { fontSize: parseFloat(s.fontSize), lineHeight: s.lineHeight === 'normal' ? null : parseFloat(s.lineHeight) }; })()`;
 
-// Page-side: every key on the page, scrolled to the middle of the screen. Its footprint runs from the face
+// Page-side: every key on the page, scrolled to the middle of the screen (a disabled key is sunk: no face
+// and no base by design, so it is skipped). Its footprint runs from the face
 // at hover height to the base's bottom edge (1.5px under the layout box). A scroll box around it must hold
 // the whole footprint, and no other element may sit inside it (the next line starts at or after the base).
 export const CLIPPED_KEYS = `document.fonts.ready.then(() => {
   const out = [];
-  const keys = [...document.querySelectorAll('.btn:not(.is-placeholder), .nav-mobile summary, .docs-ai-group, .docs-search-open')]
+  const keys = [...document.querySelectorAll(':is(.btn:not(.is-placeholder), .nav-mobile summary, .docs-ai-group, .docs-search-open, .theme-toggle):not(:disabled)')]
     .filter((e) => e.getClientRects().length && getComputedStyle(e).visibility !== 'hidden' && !e.closest('dialog, .docs-ai-group > *'));
   for (const e of keys) {
     const label = (e.textContent.trim().replace(/\\s+/g, ' ') || e.getAttribute('aria-label') || e.className).slice(0, 40);

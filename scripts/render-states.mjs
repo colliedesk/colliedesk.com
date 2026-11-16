@@ -16,7 +16,7 @@ const C = {
     focus: 'rgb(240, 180, 76)', accent: 'rgb(251, 138, 74)',
   },
 };
-const HOME = '/index.html', AUDIT = '/audit.html';
+const HOME = '/index.html', AUDIT = '/audit.html', DOCS = '/docs/inbox.html';
 const BOTH = [390, 1440];
 
 // A field is a slot as tall as the key face beside it, with the amber outline on focus.
@@ -29,6 +29,13 @@ const field = (name, page, sel, t) => ({
   },
 });
 
+// A held key: at the press depth of a small key (1px, the base under it at 1/2.5px), grey face, darker rim,
+// and hover does not lift it.
+const held = (t) => ({
+  rest: { lift: 1, shadows: '1/2.5', bg: C[t].surface3, line: C[t].strong },
+  hover: { lift: 1, shadows: '1/2.5' },
+});
+
 export const PROBES = [
   ...['light', 'dark'].flatMap((t) => [
     field(`${t} footer updates field`, HOME, '.updates-row input', t),
@@ -37,6 +44,15 @@ export const PROBES = [
   ]),
   { name: '"Your privacy choices" link button', page: HOME, sel: '.link-button', widths: BOTH, theme: 'light',
     states: { focus: { outline: `solid 2px ${C.light.focus}` } } },
+  ...['light', 'dark'].map((t) => ({ name: `${t} phone "Menu" while open`, page: HOME, sel: '.nav-mobile summary', widths: [390], theme: t,
+    setup: `document.querySelector('.nav-mobile').open = true;`, states: held(t) })),
+  // The toggle is on only in the dark theme.
+  { name: 'dark "Dark theme" toggle while on', page: HOME, sel: '.theme-toggle', widths: BOTH, theme: 'dark',
+    setup: `document.querySelector('.theme-toggle').setAttribute('aria-pressed', 'true');`, states: held('dark') },
+  // Disabled (feedback after an answer): sunk, grey, no base.
+  { name: 'docs feedback "Yes" after an answer', page: DOCS, sel: '.docs-feedback .btn', widths: BOTH, theme: 'light',
+    setup: `document.querySelectorAll('.docs-feedback .btn').forEach((b) => { b.disabled = true; });`,
+    states: { rest: { lift: 0, shadows: '', bg: C.light.surface2, line: C.light.line, color: 'rgb(99, 99, 99)' }, hover: { lift: 0, shadows: '' } } },
 ];
 
 // Page-side: the computed values a probe can ask for.
