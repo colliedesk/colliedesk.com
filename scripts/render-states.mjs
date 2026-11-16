@@ -78,7 +78,7 @@ export const PROBES = [
   ...['light', 'dark'].flatMap((t) => [['"Docs menu"', '.docs-menu'], ['"On this page"', '.docs-toc-mobile']].flatMap(([label, d]) => [
     { name: `${t} ${label}`, page: DOCS, sel: `${d} summary`, widths: [390, 768], theme: t,
       states: {
-        rest: { lift: 0, shadows: '', nudge: 'none', border: 1, line: C[t].line },
+        rest: { lift: 0, shadows: '', nudge: 'none', border: 1, line: C[t].control },
         hover: { lift: 0, shadows: '', bg: C[t].surface2 },
         active: { lift: 0, shadows: '', nudge: '0px 1px' },
         focus: { outline: `solid 2px ${C[t].focus}` },
@@ -92,7 +92,7 @@ export const PROBES = [
     { name: `${t} sidebar search`, page: DOCS, sel: '.docs-sidebar .docs-search-open', widths: [1440], theme: t,
       states: { rest: { lift: 0, border: 1, line: C[t].control, lip: `${C[t].surface2} 0px 2px 0px 0px inset`, weight: 400 }, hover: { lift: 0, line: C[t].strong } } },
     { name: `${t} phone search button`, page: DOCS, sel: '.docs-menu-bar .docs-search-open', widths: [390], theme: t,
-      states: { rest: { lift: 0, shadows: '', border: 1, line: C[t].line }, hover: { lift: 0, shadows: '', bg: C[t].surface2 }, active: { nudge: '0px 1px' } } },
+      states: { rest: { lift: 0, shadows: '', border: 1, line: C[t].control }, hover: { lift: 0, shadows: '', bg: C[t].surface2 }, active: { nudge: '0px 1px' } } },
   ]),
   // The desktop "On this page" column answers like the sidebar beside it.
   { name: 'desktop "On this page" link', page: DOCS, sel: '.docs-toc a', widths: [1440], theme: 'light',

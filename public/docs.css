@@ -19,13 +19,13 @@
 
 /* Up to 1200px "On this page" is a closed list at the top of the guide. */
 /* "On this page" and "Docs menu" only open more of the page, so they are rows, not keys: a quiet box (a 1px
-   hairline on the page colour), a grey fill on hover, a darker one while open. The list opens on a ringed sheet. */
+   control line, the one the fields use: a hairline was too faint to read as pressable), a grey fill on hover, a darker one while open. The list opens on a ringed sheet. */
 .docs-toc-mobile { margin: 0 0 var(--space-8); }
 .docs-toc-mobile summary, .docs-menu summary, .docs-ai summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: var(--space-2); }
 .docs-toc-mobile summary::-webkit-details-marker, .docs-menu summary::-webkit-details-marker, .docs-ai summary::-webkit-details-marker { display: none; }
 .docs-toc-mobile summary::after, .docs-menu summary::after, .docs-ai summary::after { content: ""; flex: none; width: 7px; height: 7px; margin: 0 2px 3px auto; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: rotate(45deg); }
 .docs-toc-mobile[open] summary::after, .docs-menu[open] summary::after, .docs-ai[open] summary::after { margin-bottom: -3px; transform: rotate(-135deg); }
-.docs-toc-mobile summary, .docs-menu summary, .docs-menu-bar .docs-search-open { min-height: 36px; padding: 7px 10px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-1); color: var(--text-1); font: 600 13px/20px var(--font-sans); }
+.docs-toc-mobile summary, .docs-menu summary, .docs-menu-bar .docs-search-open { min-height: 36px; padding: 7px 10px; border: 1px solid var(--line-control); border-radius: var(--radius); background: var(--surface-1); color: var(--text-1); font: 600 13px/20px var(--font-sans); }
 :is(.docs-toc-mobile summary, .docs-menu summary, .docs-menu-bar .docs-search-open):hover { background: var(--surface-2); color: var(--text-1); }
 :is(.docs-toc-mobile, .docs-menu)[open] summary { background: var(--surface-3); }
 .docs-menu .docs-nav, .prose .docs-toc-mobile ul { margin: var(--space-2) 0 0; padding: var(--space-2); background: var(--surface-1); border-radius: var(--radius-lg); box-shadow: var(--ring); }
