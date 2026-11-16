@@ -318,6 +318,9 @@ p.switch-offer-print { padding-left: 0; }
 @media (max-width: 640px) {
   .wrap { padding: 0 var(--space-5); }
   .header-inner { min-height: 60px; }
+  /* On a phone the header's two controls are 36px: at 44px they outweighed the page under them. */
+  .header-cta { height: 36px; padding: 0 var(--space-3); }
+  .nav-mobile summary { min-height: 36px; padding: 0 var(--space-3); font-size: 14px; }
   .wordmark { height: 26px; }
   .theme-toggle { min-height: var(--touch); }
   .lede { font-size: 1.05rem; }
