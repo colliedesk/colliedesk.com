@@ -104,6 +104,6 @@ export interface ChangelogEntry {
 }
 
 /** The fields the HTML document head needs. */
-export type PageHead = Pick<Page, 'path' | 'title' | 'description' | 'jsonLd'> & Partial<Pick<Page, 'updated' | 'bodyClass' | 'section'>>;
+export type PageHead = Pick<Page, 'path' | 'title' | 'description' | 'jsonLd'> & Partial<Pick<Page, 'updated' | 'bodyClass' | 'section' | 'sourceUrl'>>;
 
 export const mdUrlOf = (path: string): string => (path === '/' ? '/index.md' : `${path}.md`);

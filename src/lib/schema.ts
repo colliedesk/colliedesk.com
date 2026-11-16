@@ -1,6 +1,7 @@
 // JSON-LD builders. Only facts from site.ts; no ratings, reviews or counts we do not have.
 import { plain } from './markdown';
 import type { Faq, JsonLd, Page } from './page';
+import { pageDate } from './page-date.mjs';
 import { agentsLabel, CLOUD_PLANS, type CloudPlan, dollars, NAME, ORIGIN, POSITIONING, REPO, UPDATED } from './site';
 
 export const organization = (): JsonLd => ({
@@ -53,7 +54,7 @@ export const faqPage = (faq: readonly Faq[]): JsonLd => ({
   })),
 });
 
-type ArticleFields = Pick<Page, 'h1' | 'description' | 'path'> & Partial<Pick<Page, 'updated'>>;
+type ArticleFields = Pick<Page, 'h1' | 'description' | 'path'> & Partial<Pick<Page, 'updated' | 'sourceUrl'>>;
 
 export const techArticle = (page: ArticleFields): JsonLd => ({
   '@context': 'https://schema.org',
@@ -61,7 +62,7 @@ export const techArticle = (page: ArticleFields): JsonLd => ({
   headline: page.h1,
   description: page.description,
   url: `${ORIGIN}${page.path}`,
-  dateModified: page.updated || UPDATED,
+  ...(pageDate(page, UPDATED) ? { dateModified: pageDate(page, UPDATED) } : {}),
   author: { '@type': 'Organization', name: 'HC Labs' },
   about: { '@type': 'SoftwareApplication', name: NAME },
 });

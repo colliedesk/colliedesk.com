@@ -1,4 +1,5 @@
 // Markdown twins: every HTML page has a .md file with the same content for people and AI agents.
+import { pageDate } from './page-date.mjs';
 import { AGENT_INSTRUCTIONS } from './agent-instructions';
 import { absolutizeMarkdownLinks } from './markdown';
 import type { Faq, Page } from './page';
@@ -12,10 +13,11 @@ export function faqMarkdown(faq: readonly Faq[] | undefined): string {
 // Docs twins open with the agent instructions. A file that joins many twins (llms-full.txt) states
 // them once at its top and passes agentBlock: false.
 export function markdownTwin(page: Page, { agentBlock = page.section === 'Docs' }: { agentBlock?: boolean } = {}): string {
+  const updated = pageDate(page, UPDATED);
   const lede = page.lede ? `\n> ${page.lede}\n` : '';
   const agent = agentBlock ? `${AGENT_INSTRUCTIONS}\n` : '';
   const trademark = page.section === 'Compare' ? `\n\n${TRADEMARK_NOTE}` : '';
   const content = (page.md ?? [page.preMd, page.body].filter(Boolean).join('\n\n') + faqMarkdown(page.faq)) + trademark;
-  const md = `# ${page.h1}\n${lede}\nSource: ${ORIGIN}${page.path}\nUpdated: ${page.updated || UPDATED}\n\n${agent}${content.trim()}\n`;
+  const md = `# ${page.h1}\n${lede}\nSource: ${ORIGIN}${page.path}\n${updated ? `Updated: ${updated}\n` : ''}\n${agent}${content.trim()}\n`;
   return absolutizeMarkdownLinks(md, page.path);
 }

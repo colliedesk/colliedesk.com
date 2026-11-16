@@ -87,8 +87,13 @@
     };
 
     Array.prototype.forEach.call(openers, function (b) { b.addEventListener('click', open); });
+    // Typing in another field keeps its own Ctrl+K (on a Mac it deletes to the end of the line).
+    var typing = function (t) {
+      return !!t && t !== input && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName || ''));
+    };
     document.addEventListener('keydown', function (e) {
-      if ((e.metaKey || e.ctrlKey) && (e.key === 'k' || e.key === 'K')) { e.preventDefault(); open(); }
+      if (!(e.metaKey || e.ctrlKey) || e.shiftKey || e.altKey || typing(e.target)) return;
+      if (e.key === 'k' || e.key === 'K') { e.preventDefault(); open(); }
     });
     input.addEventListener('input', run);
     input.addEventListener('keydown', function (e) {

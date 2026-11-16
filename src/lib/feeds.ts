@@ -4,6 +4,7 @@ import { AGENT_INSTRUCTIONS } from './agent-instructions';
 import { foundingFirst } from './cloud-price';
 import { escapeHtml, slugify } from './markdown';
 import { mdUrlOf, type ChangelogEntry, type DocsGroup, type Page, type Section } from './page';
+import { pageDate } from './page-date.mjs';
 import { LADDER_LINE, NAME, ORIGIN, POSITIONING, REPO, UPDATED } from './site';
 import { markdownTwin } from './twin';
 
@@ -58,13 +59,13 @@ ${pagesOf(group, pages).map(entry).join('\n')}
 
 export function llmsGroupFullTxt(group: DocsGroup, pages: readonly Page[]): string {
   const own = pagesOf(group, pages);
-  const updated = own.map((p) => p.updated || UPDATED).sort().at(-1);
-  return `# ${NAME} docs: ${group.title}, full text\n\nUpdated ${updated}. Each section starts with its Source URL. Index of this group: ${groupUrl(group, 'llms.txt')}\n\n${AGENT_INSTRUCTIONS}\n${twins(own)}`;
+  const updated = own.map((p) => pageDate(p, UPDATED)).filter(Boolean).sort().at(-1);
+  return `# ${NAME} docs: ${group.title}, full text\n\n${updated ? `Updated ${updated}. ` : ''}Each section starts with its Source URL. Index of this group: ${groupUrl(group, 'llms.txt')}\n\n${AGENT_INSTRUCTIONS}\n${twins(own)}`;
 }
 
 export const sitemapXml = (pages: readonly Page[]): string => `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${pages.map((p) => `  <url><loc>${ORIGIN}${p.path}</loc><lastmod>${p.updated || UPDATED}</lastmod></url>`).join('\n')}
+${pages.map((p) => `  <url><loc>${ORIGIN}${p.path}</loc>${pageDate(p, UPDATED) ? `<lastmod>${pageDate(p, UPDATED)}</lastmod>` : ''}</url>`).join('\n')}
 </urlset>
 `;
 

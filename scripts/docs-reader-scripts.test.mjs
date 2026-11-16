@@ -92,6 +92,16 @@ test('Cmd+K or Ctrl+K opens docs search; a plain K does not', () => {
   assert.equal(s.opened(), 2);
 });
 
+test('the shortcut leaves Shift or Alt chords and typing in other fields alone', () => {
+  const s = searchPage();
+  assert.equal(s.press({ key: 'K', metaKey: true, shiftKey: true }), false);
+  assert.equal(s.press({ key: 'k', ctrlKey: true, altKey: true }), false);
+  // Ctrl+K in the footer's email field deletes to the end of the line on a Mac.
+  assert.equal(s.press({ key: 'k', ctrlKey: true, target: { tagName: 'INPUT' } }), false);
+  assert.equal(s.press({ key: 'k', metaKey: true, target: { tagName: 'DIV', isContentEditable: true } }), false);
+  assert.equal(s.opened(), 0);
+});
+
 test('"Copy MCP URL" copies https://app.colliedesk.com/mcp', async () => {
   const written = [];
   const button = element({ 'data-url': 'https://app.colliedesk.com/mcp' });

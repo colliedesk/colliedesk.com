@@ -17,7 +17,7 @@ export function renderMarkdown(md: string, { anchors = false }: { anchors?: bool
       heading({ tokens, depth }) {
         const text = this.parser.parseInline(tokens);
         const id = slugify(text);
-        const anchor = anchors ? `<a class="heading-anchor" href="#${id}" aria-label="Link to ${text.replace(/<[^>]+>/g, '')}"></a>` : '';
+        const anchor = anchors ? `<a class="heading-anchor" href="#${id}" aria-label="Link to ${text.replace(/<[^>]+>/g, '').replace(/"/g, '&quot;')}"></a>` : '';
         return `<h${depth} id="${id}">${text}${anchor}</h${depth}>\n`;
       },
       link({ href, title, tokens }) {
