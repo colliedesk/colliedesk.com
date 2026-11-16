@@ -4,6 +4,7 @@
 //     the browser lays it out);
 //   - in the light or the dark theme a button or link's text is below 4.5:1 against what is behind it
 //     (19/10/2026 the closing band's "Start free trial" was dark text on a transparent button on ink);
+//   - on a 390px phone the header's "Start free trial" and "Menu" are not 36px high;
 //   - with the cookie banner open (it shows only on colliedesk.com, so it is opened here through the
 //     "Your privacy choices" button), it covers a button or link-button that starts in the first view of a
 //     1280x800 desktop or a 390x844 phone, or takes more than 15% of that screen (30/10/2026 it hid half of
@@ -25,6 +26,13 @@ const BANNER_SCREENS = [
   { name: 'phone', width: 390, height: 844, mobile: true },
 ];
 const MAX_BANNER_SHARE = 0.15;
+// On a phone the header's two controls are compact (owner 16/11/2026: 44px looked oversized beside the page).
+const PHONE_HEADER_CONTROL = 36;
+const HEADER_CONTROLS = `(() => ['.header-cta', '.nav-mobile summary'].map((sel) => {
+  const el = document.querySelector(sel);
+  const h = el ? Math.round(el.getBoundingClientRect().height) : null;
+  return h === ${PHONE_HEADER_CONTROL} ? '' : sel + ' is ' + (h === null ? 'missing' : h + 'px');
+}).filter(Boolean).join(', '))()`;
 const site = fileURLToPath(new URL('../_site/', import.meta.url));
 const chromeBin = process.env.CHROME_BIN
   || ['google-chrome', '/usr/bin/google-chrome', '/usr/bin/chromium'].find((b) => !b.startsWith('/') || existsSync(b));
@@ -163,6 +171,10 @@ try {
       await loaded;
       const { result } = await c.send('Runtime.evaluate', { returnByValue: true, expression: SIDEWAYS }, sessionId);
       if (result.value) failures.push(`${path}: scrolls sideways at ${width}px, ${result.value}`);
+      if (width === 390) {
+        const { result: header } = await c.send('Runtime.evaluate', { returnByValue: true, expression: HEADER_CONTROLS }, sessionId);
+        if (header.value) failures.push(`${path}: at 390px the header controls are not ${PHONE_HEADER_CONTROL}px high: ${header.value}`);
+      }
     }
   }
   for (const screen of BANNER_SCREENS) {
