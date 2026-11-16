@@ -1,0 +1,142 @@
+/* Docs reader, loaded on docs pages only: sidebar or folded menu, breadcrumb, heading anchors, "On this
+   page", previous/next, date and feedback, the "Use with AI" menu and search. Ink and paper like the rest
+   of the site: greys and ink, no accent colour. The base .docs-nav and "Copy for AI" rules are in styles.css. */
+
+/* Wide screens: sidebar | guide | "On this page". The third column starts at 1200px, where the guide
+   still has a readable width beside it. */
+/* The scroll box clips anything outside it; 4px of inner room keeps the 2px focus ring (offset 2px) whole. */
+.docs-sidebar { position: sticky; top: 5.5rem; align-self: start; max-height: calc(100vh - 6.5rem); overflow-y: auto; padding: 4px; margin: -4px; }
+.docs-toc { display: none; }
+@media (min-width: 1200px) {
+  .docs-layout:has(> .docs-toc) { grid-template-columns: 15rem minmax(0, 1fr) 13rem; }
+  .docs-toc { display: block; position: sticky; top: 5.5rem; align-self: start; max-height: calc(100vh - 6.5rem); overflow-y: auto; padding: 4px; margin: -4px; font-size: 14px; }
+  .docs-toc-mobile { display: none; }
+}
+.docs-toc-title { font: 600 13px var(--font-sans); color: var(--text-3); margin: 0 0 var(--space-2); }
+.docs-toc ul { list-style: none; margin: 0; padding: 0; border-left: 1px solid var(--line); }
+.docs-toc a { display: block; padding: .3rem .8rem; color: var(--text-2); text-decoration: none; }
+.docs-toc a:hover { color: var(--text-1); text-decoration: underline; }
+
+/* Up to 1200px "On this page" is a closed list at the top of the guide. */
+.docs-toc-mobile { margin: 0 0 var(--space-8); border: 1px solid var(--line-control); border-radius: var(--radius); background: var(--surface-1); }
+.docs-toc-mobile summary, .docs-menu summary, .docs-ai summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: var(--space-2); }
+.docs-toc-mobile summary::-webkit-details-marker, .docs-menu summary::-webkit-details-marker, .docs-ai summary::-webkit-details-marker { display: none; }
+.docs-toc-mobile summary::after, .docs-menu summary::after, .docs-ai summary::after { content: ""; flex: none; width: 7px; height: 7px; margin: 0 2px 3px auto; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: rotate(45deg); }
+.docs-toc-mobile[open] summary::after, .docs-menu[open] summary::after, .docs-ai[open] summary::after { margin-bottom: -3px; transform: rotate(-135deg); }
+.docs-toc-mobile summary { min-height: 36px; padding: 0 var(--space-3); font-size: 15px; font-weight: 500; color: var(--text-1); }
+.prose .docs-toc-mobile ul { list-style: none; margin: 0; padding: 0 var(--space-3) var(--space-2); font-size: 15px; }
+.prose .docs-toc-mobile li { margin: 0; }
+.docs-toc-mobile a { display: flex; align-items: center; min-height: 36px; line-height: 1.3; color: var(--text-2); text-decoration: none; }
+
+/* 960px and under: the sidebar folds into the "Docs menu" control above the title. */
+.docs-menu-bar { display: none; }
+@media (max-width: 960px) {
+  .docs-layout { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .docs-sidebar { display: none; }
+  .docs-menu-bar { display: flex; align-items: flex-start; gap: var(--space-2); padding-top: var(--space-4); }
+  .docs-menu-bar + .page-hero { padding-top: var(--space-6); }
+  .docs-menu { flex: 1; min-width: 0; border: 1px solid var(--line-control); border-radius: var(--radius); background: var(--surface-1); }
+  .docs-menu summary { min-height: 34px; padding: 0 var(--space-3); font-size: 15px; color: var(--text-1); }
+  .docs-menu[open] summary { border-bottom: 1px solid var(--line); }
+  .docs-menu-label { font-weight: 600; white-space: nowrap; }
+  .docs-menu-current { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--text-2); }
+  .docs-menu-current::before { content: "·"; margin-right: var(--space-2); }
+  /* Opened, a compact list: 15px rows of 36px, the full width is the tap area. */
+  .docs-menu .docs-nav { padding: var(--space-2) var(--space-1) var(--space-3); font-size: 15px; }
+  .docs-menu .docs-nav a { display: flex; align-items: center; min-height: 36px; padding: 0 var(--space-3); line-height: 1.3; }
+  .docs-menu .docs-nav-title { margin: var(--space-2) var(--space-3) var(--space-1); font-size: 12px; letter-spacing: .02em; }
+  .docs-menu .docs-nav-subtitle { padding: var(--space-3) var(--space-3) var(--space-1); font-size: 12px; letter-spacing: .02em; }
+  .docs-menu .docs-nav ul { border-left: 0; }
+  .docs-menu .docs-nav-subgroup ul { padding-left: 0; }
+}
+
+/* Breadcrumb in place of the eyebrow; heading anchors drawn by CSS (the link has no text of its own). */
+.docs-breadcrumb { margin: 0 0 var(--space-4); font: 500 14px/1.4 var(--font-sans); color: var(--text-3); }
+.docs-breadcrumb ol { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0 var(--space-2); }
+.docs-breadcrumb li + li::before { content: "›"; margin-right: var(--space-2); }
+.docs-breadcrumb a { color: var(--text-2); text-decoration: none; }
+.docs-breadcrumb a:hover { color: var(--text-1); text-decoration: underline; }
+.heading-anchor { margin-left: .35em; color: var(--text-3); text-decoration: none; opacity: 0; transition: opacity var(--dur-fast) var(--ease); }
+.heading-anchor::before { content: "#"; }
+:is(h2, h3, h4):hover > .heading-anchor, .heading-anchor:focus-visible { opacity: 1; }
+@media (hover: none) { .heading-anchor { opacity: 1; } }
+:is(.prose h2, .prose h3) { scroll-margin-top: 5.5rem; }
+
+/* Previous / next, then the feedback question and the date. */
+.docs-pager { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-4); margin-top: var(--space-12); }
+.docs-pager a { display: flex; flex-direction: column; gap: var(--space-1); padding: var(--space-4) var(--space-5); border-radius: var(--radius-lg); box-shadow: var(--ring); color: var(--text-1); font-weight: 600; text-decoration: none; }
+.docs-pager a:hover { box-shadow: var(--shadow-2); }
+.docs-pager span { font: 500 13px var(--font-sans); color: var(--text-2); }
+.docs-pager-next { grid-column: 2; text-align: right; }
+@media (max-width: 640px) { .docs-pager { grid-template-columns: minmax(0, 1fr); } .docs-pager-next { grid-column: auto; } }
+.docs-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-3) var(--space-6); margin-top: var(--space-10); padding-top: var(--space-5); border-top: 1px solid var(--line); }
+.docs-feedback { display: none; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-3); }
+@media (scripting: enabled) { .docs-feedback { display: flex; } }
+.docs-feedback p { margin: 0; }
+#docs-feedback-q { font-weight: 500; color: var(--text-1); }
+.docs-feedback-status { flex-basis: 100%; font-size: 14px; color: var(--text-2); }
+.docs-feedback-status:empty { display: none; }
+.docs-feedback .btn:disabled { cursor: default; color: var(--text-2); }
+@media (pointer: coarse) { .docs-feedback .btn { min-height: var(--touch); } }
+.docs-updated { margin: 0; font-size: .92rem; color: var(--text-3); }
+.docs-foot + .edit-source { margin-top: var(--space-4); }
+
+/* "Copy page" and its menu toggle are one small split control (28px like the app's controls, 36px on touch screens). The
+   menu opens under it as a panel: icon, title, one line on what it does. On a phone it is as wide as
+   the text column, so it never runs past the screen edge. */
+.docs-ai-group { position: relative; display: inline-flex; align-items: stretch; height: 28px; border: 1px solid var(--line-control); border-radius: var(--radius); background: var(--surface-1); }
+.docs-ai-group > .docs-copy { gap: 6px; padding: 0 10px; border: 0; border-radius: calc(var(--radius) - 1px) 0 0 calc(var(--radius) - 1px); background: none; color: var(--text-1); font: 500 13px var(--font-sans); white-space: nowrap; }
+.docs-ai-group > .docs-copy .i { width: 14px; height: 14px; }
+.docs-ai-group > .docs-copy:hover, .docs-ai summary:hover, .docs-ai[open] summary { background: var(--surface-2); }
+.docs-ai { display: flex; }
+.docs-ai summary { min-width: 28px; padding: 0 9px; justify-content: center; border-left: 1px solid var(--line-control); border-radius: 0 calc(var(--radius) - 1px) calc(var(--radius) - 1px) 0; color: var(--text-2); font: 500 13px var(--font-sans); }
+.docs-ai summary::after { margin: 0 0 3px; }
+.docs-ai[open] summary::after { margin: 0 0 -3px; }
+/* With the copy button on screen the toggle is a chevron and its label is for screen readers only. */
+@media (scripting: enabled) { .docs-ai-group:not(:has(.docs-copy[hidden])) .docs-ai-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; } }
+.docs-ai-group:has(.docs-copy[hidden]) summary, .docs-ai-group:not(:has(.docs-copy)) summary { gap: var(--space-2); border-left: 0; }
+.docs-ai-menu { position: absolute; z-index: 4; top: calc(100% + 6px); left: -1px; width: 19rem; margin: 0; padding: 6px; list-style: none; background: var(--surface-1); border: 1px solid var(--line); border-radius: var(--radius-lg); box-shadow: var(--shadow-2); }
+.docs-ai-menu li { margin: 0; }
+.docs-ai-menu a, .docs-copy-mcp { display: flex; align-items: flex-start; gap: var(--space-3); width: 100%; padding: 8px 10px; border: 0; border-radius: var(--radius); background: none; color: var(--text-1); font: inherit; text-decoration: none; text-align: left; cursor: pointer; }
+.docs-ai-menu a:hover, .docs-copy-mcp:hover, .docs-ai-menu a:focus-visible, .docs-copy-mcp:focus-visible { background: var(--surface-2); }
+.docs-ai-menu .i { flex: none; width: 16px; height: 16px; margin-top: 2px; color: var(--text-2); }
+.docs-ai-menu a > .i:last-child { margin-left: auto; width: 14px; height: 14px; color: var(--text-3); }
+.docs-ai-menu span { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.docs-ai-menu strong { font: 500 14px/1.35 var(--font-sans); color: var(--text-1); }
+.docs-ai-menu small { font: 400 12.5px/1.35 var(--font-sans); color: var(--text-3); }
+.docs-copy-mcp { display: none; }
+@media (scripting: enabled) { .docs-copy-mcp { display: flex; } }
+.docs-copy-mcp[hidden] { display: none; }
+.docs-ai-mcp { margin-top: 6px; padding-top: 6px; border-top: 1px solid var(--line); }
+.docs-ai-mcp code { display: block; margin: 0 10px 6px 38px; padding: 4px 8px; border-radius: var(--radius-sm); background: var(--surface-2); font-size: 12px; overflow-wrap: anywhere; }
+@media (pointer: coarse) { .docs-ai-group { height: 36px; } .docs-ai summary { min-width: 36px; } .docs-ai-menu a, .docs-copy-mcp { padding: 10px; } }
+@media (max-width: 640px) { .docs-ai-menu { width: min(19rem, calc(100vw - 40px)); } }
+
+/* Search: the button in the sidebar (an icon in the phone menu bar) and the dialog. */
+.docs-search-open { display: none; align-items: center; gap: var(--space-2); width: 100%; min-height: 40px; margin: 0 0 var(--space-4); padding: 0 var(--space-3); border: 1px solid var(--line-control); border-radius: var(--radius); background: var(--surface-1); color: var(--text-2); font: 400 14px var(--font-sans); text-align: left; cursor: pointer; }
+@media (scripting: enabled) { .docs-search-open { display: flex; } }
+.docs-search-open[hidden] { display: none; }
+.docs-search-open:hover { border-color: var(--line-strong); color: var(--text-1); }
+.docs-search-open kbd { margin-left: auto; padding: .1rem .35rem; border: 1px solid var(--line); border-radius: var(--radius-sm); font: 500 12px var(--font-mono); color: var(--text-2); }
+.docs-menu-bar .docs-search-open { flex: none; width: 36px; min-height: 36px; margin: 0; justify-content: center; padding: 0; }
+.docs-menu-bar .docs-search-open span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.docs-menu-bar .docs-search-open kbd { display: none; }
+.docs-search { width: min(40rem, calc(100vw - 2 * var(--space-4))); max-width: none; max-height: min(36rem, calc(100vh - 6rem)); margin: 10vh auto auto; padding: 0; border: 0; border-radius: var(--radius-lg); background: var(--surface-1); color: var(--text-1); box-shadow: var(--shadow-2); }
+.docs-search::backdrop { background: rgb(0 0 0 / .4); }
+.docs-search-panel { display: flex; flex-direction: column; max-height: inherit; }
+.docs-search-row { display: flex; align-items: center; gap: var(--space-2); padding: var(--space-2) var(--space-3) var(--space-2) var(--space-4); border-bottom: 1px solid var(--line); color: var(--text-2); }
+.docs-search-row input { flex: 1; min-width: 0; height: var(--touch); border: 0; outline: 0; background: transparent; color: var(--text-1); font: 400 16px var(--font-sans); }
+.docs-search-row:focus-within { box-shadow: inset 0 -2px 0 var(--text-1); }
+.docs-search-row input::-webkit-search-cancel-button { -webkit-appearance: none; }
+.docs-search-row form { margin: 0; }
+.docs-search-close { min-height: 36px; padding: 0 var(--space-3); border: 1px solid var(--line-control); border-radius: var(--radius); background: var(--surface-1); color: var(--text-1); font: 500 13px var(--font-sans); cursor: pointer; }
+.docs-search-status { margin: 0; padding: var(--space-2) var(--space-4) 0; font-size: 13px; color: var(--text-2); }
+.docs-search-status:empty { display: none; }
+.docs-search-results { list-style: none; margin: 0; padding: var(--space-2); overflow-y: auto; }
+.docs-search-results:empty { display: none; }
+.docs-search-results a { display: block; padding: var(--space-2) var(--space-3); border-radius: var(--radius); color: var(--text-1); text-decoration: none; }
+.docs-search-results a:hover, .docs-search-results a:focus-visible { background: var(--surface-2); }
+.docs-search-title { display: block; font-weight: 600; font-size: 14px; }
+.docs-search-text { display: block; margin-top: 2px; font-size: 13px; line-height: 1.45; color: var(--text-2); }
+.docs-search mark { background: var(--surface-3); color: var(--text-1); font-weight: 600; }
+@media (max-width: 640px) { .docs-search { width: 100vw; height: 100dvh; max-height: 100dvh; margin: 0; border-radius: 0; } }

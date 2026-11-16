@@ -6,6 +6,7 @@ import { Header } from '../components/Header';
 import { versionedAsset } from '../lib/asset-version';
 import { mdUrlOf, type PageHead } from '../lib/page';
 import { html } from '../lib/render-react';
+import { pageDate } from '../lib/page-date.mjs';
 import { NAME, ORIGIN, UPDATED } from '../lib/site';
 
 interface Props {
@@ -43,7 +44,10 @@ const canonical = `${ORIGIN}${page.path}`;
 <script is:inline src="/consent.js" defer></script>
 <script is:inline src="/attribution.js" defer></script>
 {page.path === '/audit' && <script is:inline src="/audit.js" defer></script>}
+{page.section === 'Docs' && <link rel="stylesheet" href="/docs.css">}
 {page.section === 'Docs' && <script is:inline src="/docs-copy.js" defer></script>}
+{page.section === 'Docs' && <script is:inline src="/docs-search.js" defer></script>}
+{page.section === 'Docs' && <script is:inline src="/docs-feedback.js" defer></script>}
 <meta name="theme-color" content="#ffffff">
 <meta name="color-scheme" content="light">
 <meta property="og:type" content="website">
@@ -57,7 +61,7 @@ const canonical = `${ORIGIN}${page.path}`;
 <meta property="og:image:alt" content="Colliedesk: the open-source helpdesk for small support teams leaving Freshdesk.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://colliedesk.com/og.png">
-<meta name="last-modified" content={page.updated || UPDATED}>
+{pageDate(page, UPDATED) && <meta name="last-modified" content={pageDate(page, UPDATED)}>}
 {page.jsonLd.map((o) => <script is:inline type="application/ld+json" set:html={JSON.stringify(o)} />)}
 </head>
 <body class={page.bodyClass || ''}>

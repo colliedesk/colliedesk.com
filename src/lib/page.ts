@@ -26,6 +26,29 @@ export interface DocsNavGroup {
   items: (DocsNavItem | DocsNavSubgroup)[];
 }
 
+/** A breadcrumb step; a group name has no page of its own, so no href. */
+export interface DocsCrumb {
+  label: string;
+  href?: string;
+}
+
+/** Where a docs page sits in the docs navigation. */
+export interface DocsPlace {
+  /** Docs › group › page; the last crumb is the page itself. */
+  crumbs: DocsCrumb[];
+  /** The page's name in the navigation. */
+  label: string;
+  prev?: DocsNavItem;
+  next?: DocsNavItem;
+}
+
+/** A docs group (a "## Heading" of a docs README) with its own llms.txt and llms-full.txt. */
+export interface DocsGroup {
+  slug: string;
+  title: string;
+  paths: string[];
+}
+
 export interface Page {
   /** URL path without trailing slash: "/" or "/pricing". */
   path: string;
@@ -65,6 +88,8 @@ export interface Page {
   vs?: VsPricing;
   /** Side navigation for docs pages, one group per docs directory. */
   docsNav?: DocsNavGroup[];
+  /** Breadcrumb and previous/next page, for docs pages. */
+  docsPlace?: DocsPlace;
   /** Repository file the page is rendered from. */
   sourceUrl?: string;
 }
@@ -79,6 +104,6 @@ export interface ChangelogEntry {
 }
 
 /** The fields the HTML document head needs. */
-export type PageHead = Pick<Page, 'path' | 'title' | 'description' | 'jsonLd'> & Partial<Pick<Page, 'updated' | 'bodyClass' | 'section'>>;
+export type PageHead = Pick<Page, 'path' | 'title' | 'description' | 'jsonLd'> & Partial<Pick<Page, 'updated' | 'bodyClass' | 'section' | 'sourceUrl'>>;
 
 export const mdUrlOf = (path: string): string => (path === '/' ? '/index.md' : `${path}.md`);

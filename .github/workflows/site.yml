@@ -81,11 +81,15 @@ jobs:
           fi
           echo "product ref: ${ref:-main}"
           echo "ref=$ref" >> "$GITHUB_OUTPUT"
+      # Full history without file contents (blobless): each docs page shows the date of the last commit
+      # that changed its own file (src/lib/git-dates.mjs). A depth-1 clone would give every page one date.
       - uses: actions/checkout@v5
         with:
           repository: colliedesk/colliedesk
           ref: ${{ steps.product.outputs.ref }}
           path: product
+          fetch-depth: 0
+          filter: blob:none
           sparse-checkout: |
             docs/user
             docs/self-host
