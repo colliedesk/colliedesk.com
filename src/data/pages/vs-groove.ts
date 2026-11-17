@@ -73,9 +73,9 @@ const page: Page = {
   path: '/vs/groove',
   updated: '2026-11-17',
   section: 'Compare',
-  title: 'Colliedesk vs Groove (now Helply): flat price vs AI credits',
+  title: 'Colliedesk vs Groove (now Helply): price for 10 agents',
   description:
-    `Groove is now Helply, with plans built around AI credits. Colliedesk ${OUR_PLAN} is a flat ${OUR_PRICE} for up to 10 agents, AI drafts included.`,
+    `Groove is now Helply: ${H.team.monthly} a month for 10 agents, billed monthly. Colliedesk ${OUR_PLAN} is a flat ${OUR_PRICE} for up to 10 agents, AI drafts included.`,
   summary: `Groove is now Helply: ${HELPLY.team.monthly} a month for 10 agents billed monthly, JSON-only export, vs Colliedesk ${OUR_PLAN}, a flat ${OUR_PRICE} per workspace helpdesk`,
   eyebrow: 'Compare · Groove alternative',
   h1: 'Colliedesk vs Groove (now Helply)',
