@@ -1,4 +1,4 @@
-// Zoho Desk, Gorgias, HappyFox, HubSpot and Groove pages were read on the same day.
+// Zoho Desk, Gorgias, HappyFox and HubSpot pages were read on the same day.
 const PRICES_READ = '16 October 2026';
 import { faqPage, techArticle } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
