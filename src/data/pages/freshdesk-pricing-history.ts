@@ -61,9 +61,9 @@ const page: Page = {
   path: '/freshdesk-pricing-history',
   updated: '2026-10-16',
   section: 'Compare',
-  title: 'Freshdesk pricing history 2021–2026: every price change, with archived sources',
+  title: 'Freshdesk pricing history 2021–2026: every price change',
   description:
-    'Freshdesk price history from archived pricing pages: Growth $15 to $19 and Pro $49 to $55 per agent (early 2026), Freddy AI Copilot $29 per agent since November 2024. Sources linked.',
+    'Freshdesk price history from archived pages: Growth $15 to $19, Pro $49 to $55 per agent (by January 2026), Freddy AI Copilot $29 per agent since November 2024.',
   summary: 'Freshdesk price history 2021–2026 from Wayback snapshots: Growth $15→$19, Pro $49→$55 (Dec 2025–Jan 2026), Copilot $29 since Nov 2024',
   eyebrow: 'Compare · Freshdesk pricing',
   h1: 'Freshdesk pricing history',

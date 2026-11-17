@@ -73,9 +73,9 @@ const page: Page = {
   path: '/vs/front',
   updated: '2026-10-15',
   section: 'Compare',
-  title: 'Colliedesk vs Front: an open-source Front alternative with flat pricing',
+  title: 'Colliedesk vs Front: open-source alternative, flat price',
   description:
-    'Colliedesk vs Front for small support teams: per-seat plans and a $20 Copilot add-on vs one flat workspace price. Sourced prices, export limits and honest status.',
+    'Colliedesk vs Front for small support teams: per-seat plans and a $20 Copilot add-on vs one flat workspace price. Sourced prices and export limits.',
   summary: `Front $25–105 per seat plus $20 Copilot vs Colliedesk ${OUR_PLAN} at a flat ${OUR_PRICE} per workspace; export only through Front Support`,
   eyebrow: 'Compare · Front alternative',
   h1: 'Colliedesk vs Front',
