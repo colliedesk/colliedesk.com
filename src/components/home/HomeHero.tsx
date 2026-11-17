@@ -11,7 +11,7 @@ export function HeroCopy() {
   const open = foundingState().open;
   return (
     <div className="hero-copy">
-      <p className="mono-label">{HOME_EYEBROW}</p>
+      <p className="row-label">{HOME_EYEBROW}</p>
       <h1 id="hero-title">{HOME_H1_LINES.map((line, i) => <span key={line}>{i > 0 && ' '}{line}</span>)}</h1>
       <p className="lede">{HOME_LEDE}</p>
       <div className="hero-actions">
