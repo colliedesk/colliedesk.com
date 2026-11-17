@@ -60,9 +60,9 @@ const page: Page = {
   path: '/vs/gorgias',
   updated: '2026-10-16',
   section: 'Compare',
-  title: `Colliedesk vs Gorgias: flat ${OUR_PRICE} per workspace vs pricing by ticket volume`,
+  title: 'Colliedesk vs Gorgias: flat price vs price by ticket volume',
   description:
-    `Colliedesk vs Gorgias: Gorgias $50–750 per month by tickets, plus AI Agent, vs Colliedesk at one flat price per workspace (${OUR_PLAN} ${OUR_PRICE} for up to 10 agents) with unlimited conversations. Sourced prices and honest status.`,
+    `Gorgias prices by ticket volume, plus an AI Agent add-on. Colliedesk ${OUR_PLAN} is a flat ${OUR_PRICE} for up to 10 agents, unlimited conversations.`,
   summary: `Gorgias $50–750 per month by ticket volume, $77–1,227 with AI Agent vs Colliedesk ${OUR_PLAN} at a flat ${OUR_PRICE} with unlimited conversations`,
   eyebrow: 'Compare · Gorgias alternative',
   h1: 'Colliedesk vs Gorgias',

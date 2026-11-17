@@ -66,7 +66,7 @@ const page: Page = {
   section: 'Migrate',
   title: 'Freshdesk migration done for you, with a reconcile report',
   description:
-    'We move your Freshdesk tickets, replies, notes and attachments into Colliedesk and prove nothing was lost with a reconcile report. Included with the founding plan.',
+    `We move your Freshdesk tickets, replies, notes and attachments and prove nothing was lost with a reconcile report. Included with ${foundingOpen ? 'Founding' : 'Team 25 and Business'}.`,
   summary: 'Done-for-you Freshdesk migration: included with the founding plan, and with Team 25 and Business through the switch offer; not sold separately; reconcile report before you switch; available now',
   eyebrow: 'Migrate · Done for you',
   h1: 'Send us a Freshdesk API key. Switch only when every count matches.',

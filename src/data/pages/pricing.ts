@@ -205,9 +205,9 @@ const foundingPage = {
 };
 
 const ladderPage = {
-  title: `Colliedesk pricing: ${PRICE.range} a month per workspace, no per-agent fees, 14-day free trial`,
+  title: `Colliedesk pricing: ${PRICE.range} a month, no per-agent fees`,
   description:
-    `Colliedesk Cloud costs one flat price per workspace: Solo ${dollars(SOLO.monthly)} a month for 1 agent, Small ${dollars(SMALL.monthly)} for 3, Team ${PRICE.monthly} for 10, Team 25 ${PRICE.team25Monthly} for 25. No per-agent fees, 14-day free trial, no card. Self-hosting is free.`,
+    `One flat price per workspace: Solo ${dollars(SOLO.monthly)} a month for 1 agent, Small ${dollars(SMALL.monthly)} for 3, Team ${PRICE.monthly} for 10, Team 25 ${PRICE.team25Monthly} for 25. 14-day free trial, no card.`,
   summary: `14-day free trial, no card; ${LADDER_LINE}; a year costs ten months; no per-agent fees; founding offer limited to 10 workspaces; AI: ${PRICE.ai}; self-host free`,
   h1: 'Clear, fixed prices. No per-agent fees.',
   lede: `Everyone on your team is included. Pick the plan by team size, from Solo at ${dollars(SOLO.monthly)} a month to Team 25 at ${PRICE.team25Monthly}, or talk to us about Business for ${BUSINESS_AGENTS} agents. Try it free for 14 days, no card. Self-host for $0.`,

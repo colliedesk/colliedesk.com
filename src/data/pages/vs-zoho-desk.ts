@@ -70,9 +70,9 @@ const page: Page = {
   path: '/vs/zoho-desk',
   updated: '2026-10-16',
   section: 'Compare',
-  title: `Colliedesk vs Zoho Desk: flat ${OUR_PRICE} for up to 10 agents vs per-user plans`,
+  title: 'Colliedesk vs Zoho Desk: flat price vs per-user plans',
   description:
-    `Colliedesk vs Zoho Desk: Zoho €7–40 per user with Zia on Professional and up vs Colliedesk at one flat price per workspace (${OUR_PLAN} ${OUR_PRICE} for up to 10 agents). Backup limits and honest status, with sources.`,
+    `Zoho Desk costs €7–40 per user, with Zia on Professional and up. Colliedesk ${OUR_PLAN} is a flat ${OUR_PRICE} for up to 10 agents. Backup limits compared.`,
   summary: `Zoho Desk free for 3 users, €7–40 per user, Zia from Professional, backups by primary contact without attachments vs Colliedesk ${OUR_PLAN} at a flat ${OUR_PRICE}`,
   eyebrow: 'Compare · Zoho Desk alternative',
   h1: 'Colliedesk vs Zoho Desk',
