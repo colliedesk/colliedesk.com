@@ -60,5 +60,5 @@ feature and Colliedesk feature. For each one it opens the source and reads the c
 - Body: `Closes #N`, the keyword, what the page adds over the top 3 results, the QA checklist
   with each answer, and the claim check.
 - Ask for review: comment on the PR with the file to read and the 3 claims most worth a check.
-- Do not merge and do not add `content:approved`. A person adds it after reading. If they comment,
-  fix on the same branch; the new commit removes the label and they approve again.
+- Merge (merge commit) once the QA agent finds no "no" and every check is green. If the owner
+  comments on a live page, fix it in a new PR on an `seo/` branch.

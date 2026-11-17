@@ -426,8 +426,7 @@ p.switch-offer-print { padding-left: 0; }
 
 /* Home (Paper "L1-b Landing", 06/11/2026): one 1200px sheet under a 1px line; each row is one idea, 32px
    inside, divided by hairlines. Product pictures and the report sit on grey stage rows (--surface-2). Text
-   takes PostHog's sizes: 16/24 body, a 12px mono label over each headline, 28/35 Plex Sans 600 headlines and
-   the Plex Serif hero. Colour only for status: ok green for counts that match, open blue for what is coming. */
+   takes PostHog's sizes: 16/24 body, 28/35 Plex Sans 600 headlines (no label above them) and the Plex Serif hero. Colour only for status: ok green for counts that match, open blue for what is coming. */
 .home-wrap { max-width: calc(1200px + 2 * var(--space-10)); padding-block: var(--space-2) var(--space-8); }
 .sheet { border: 1px solid var(--line); background: var(--surface-1); color: var(--text-2); }
 .sheet-row { margin: 0; padding: var(--space-8); border-bottom: 1px solid var(--line); }
@@ -438,9 +437,11 @@ p.switch-offer-print { padding-left: 0; }
 /* On the 1200px sheet 28px sat too close to the 16px card titles; phones and tablets keep 28px. */
 @media (min-width: 961px) { .sheet h2 { font-size: 36px; line-height: 42px; } }
 .sheet h3 { margin: 0; font: 600 16px/24px var(--font-sans); letter-spacing: 0; color: var(--text-1); }
-.mono-label { margin: 0; font: 12px/16px var(--font-mono); color: var(--text-3); }
-a.mono-label { text-decoration: none; }
-a.mono-label:hover { text-decoration: underline; }
+/* A small sans label, only where it adds a fact the headline lacks (the hero's category, the Founding terms, a
+   step's number). Mono stays for code and identifiers such as an issue number. */
+.row-label { margin: 0; font: 500 13px/20px var(--font-sans); color: var(--text-3); font-variant-numeric: tabular-nums; }
+.issue-ref { font: 12px/16px var(--font-mono); color: var(--text-3); text-decoration: none; }
+.issue-ref:hover { text-decoration: underline; }
 .text-link { color: var(--text-1); font-weight: 500; text-decoration: underline 1px; text-decoration-color: currentColor; text-underline-offset: 3px; }
 .text-small, .sheet .text-small { font-size: 14px; line-height: 20px; }
 .ok-text { color: var(--ok); font: 600 13px/20px var(--font-sans); }
@@ -535,7 +536,7 @@ a.mono-label:hover { text-decoration: underline; }
 .bill-bar { display: grid; gap: var(--space-2); }
 .bill-label { display: flex; justify-content: space-between; gap: var(--space-4); }
 .bill-label b { font-weight: 600; color: var(--text-1); }
-.bill-label span { font: 12px/24px var(--font-mono); color: var(--text-3); text-align: right; }
+.bill-label span { font: 13px/24px var(--font-sans); color: var(--text-3); text-align: right; font-variant-numeric: tabular-nums; }
 .bill-track { display: flex; align-items: center; gap: var(--space-3); }
 .bill-fill { flex: none; max-width: calc(100% - 7.5rem); height: 12px; border-radius: var(--radius-sm); background: var(--line-strong); }
 .bill-ours .bill-fill { background: var(--text-1); }
@@ -608,7 +609,6 @@ a.mono-label:hover { text-decoration: underline; }
   .cells, .faq-rows { padding-inline: 0; padding-block: 0; }
   .cell { padding-block: var(--space-5); }
   .hero-copy { gap: var(--space-4); }
-  .hero-copy h1 span { display: inline; }
   .hero-actions { flex-direction: column; align-items: stretch; gap: var(--space-3); width: 100%; }
   .hero-actions .btn, .founding-buy .btn, .final-actions .btn { width: 100%; }
   .hero-actions .text-link { display: inline-flex; align-items: center; min-height: var(--touch); }

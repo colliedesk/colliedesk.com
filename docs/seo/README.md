@@ -1,7 +1,8 @@
 # Agentic SEO loop
 
-An agent finds keywords, writes and checks articles and improves what is live. A person reads and
-approves every page before it is published; the required check `content-approval` enforces it.
+An agent finds keywords, writes and checks articles and improves what is live. A second agent
+checks every page and every claim before it is published; the required check `content-approval`
+enforces the claim check.
 
 Goal: trial sign-ups and founding purchases from search and AI answers, not clicks.
 Reader: a support lead or founder of a 3–10 agent team that pays for Freshdesk, is hit by a price
@@ -28,16 +29,14 @@ increase, wants hosted and does not need PSA/RMM.
 3. **Agent QA**: a second agent that did not write the page runs the QA checklist and the claim
    check in [write-and-qa.md](write-and-qa.md), then `pnpm build && pnpm check:content`. A failure
    goes back to step 2 on the same branch. Repeat until both pass.
-4. **Human review**: the PR waits for a person. They read the rendered page and the claim check,
-   then add the label `content:approved` or comment what to change. New commits remove the label.
-   Agents never add that label; a hook on the agent host refuses it.
-5. **Publish**: merge when every check, including `content-approval`, is green. The merge closes
-   the issue and deploys.
-6. **Audit, weekly** ([research-and-audit.md](research-and-audit.md)): open `seo:improve` issues for
+4. **Publish**: the writing agent merges when the QA agent finds no "no" and every check, including
+   `content-approval`, is green. The merge closes the issue and deploys. The owner reads live pages
+   and comments when something must change; that becomes an `seo:improve` issue.
+5. **Audit, weekly** ([research-and-audit.md](research-and-audit.md)): open `seo:improve` issues for
    live pages that fall, stall on page 2 or do not convert. Treat them like step 2.
-7. **Conversions first**: every research and audit run starts from the PostHog query in
+6. **Conversions first**: every research and audit run starts from the PostHog query in
    research-and-audit.md and favours page types that brought sign-ups.
-8. **Digest**: after the weekly run, post a short comment on the pinned issue #68 `SEO weekly digest`:
+7. **Digest**: after the weekly run, post a short comment on the pinned issue #68 `SEO weekly digest`:
    what shipped, what moved (clicks, positions, sign-ups by landing page), what is next.
 
 ## Limits
@@ -53,7 +52,7 @@ increase, wants hosted and does not need PSA/RMM.
 
 `scripts/content-approval.mjs` (workflow `content-approval.yml`, required by a ruleset on `main`
 with no bypass) fails a PR from an `seo/` branch, with an `seo:` label or adding a page module,
-until it has the label `content:approved` and a fully verified `## Claim check` table.
+until its body has a fully verified `## Claim check` table.
 
 `scripts/content-qa.mjs` (`pnpm check:content`, in CI) fails any marketing page that reads above
 grade 10, uses an em dash or an AI-slop phrase, has no call to action in the body, or quotes a

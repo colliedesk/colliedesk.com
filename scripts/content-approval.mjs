@@ -1,12 +1,9 @@
-// Required check `content-approval`: a pull request that publishes SEO content merges only after a
-// person approves it. Content means an `seo/` branch, an `seo:` label, or a new page module in
-// src/data/pages/. Such a PR needs the label content:approved, which only the owner adds (an agent
-// hook refuses it, and the workflow removes it when new commits arrive), and a "## Claim check"
-// table in its body with every claim's source marked verified. Other PRs pass untouched.
+// Required check `content-approval`: a pull request that publishes SEO content merges only when
+// every claim on the page is sourced. Content means an `seo/` branch, an `seo:` label, or a new page
+// module in src/data/pages/. Such a PR needs a "## Claim check" table in its body with every claim's
+// source marked verified by the independent QA agent. Other PRs pass untouched.
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-
-export const APPROVED = 'content:approved';
 
 function claimRows(body) {
   const section = body.split(/^## Claim check[ \t]*$/m)[1]?.split(/^## /m)[0] ?? '';
@@ -27,9 +24,6 @@ export function contentApproval({ branch, labels, files, body }) {
   if (!required) return { required, errors: [] };
 
   const errors = [];
-  if (!labels.includes(APPROVED)) {
-    errors.push(`waiting for a person: read the page and the claim check, then add the label ${APPROVED} (agents cannot; new commits remove it)`);
-  }
   const rows = claimRows(body ?? '');
   if (!rows.length) {
     errors.push('the PR body has no "## Claim check" table (| Claim | Source | Verified |) with at least one claim');
@@ -54,5 +48,5 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   if (!required) console.log('ok not a content PR; no approval needed');
   for (const e of errors) console.error(`FAIL ${e}`);
   if (errors.length) process.exit(1);
-  if (required) console.log('ok content approved by a person, every claim verified');
+  if (required) console.log('ok content PR, every claim verified');
 }

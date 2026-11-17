@@ -11,7 +11,7 @@ const usd = (n: number): string => `$${n.toLocaleString('en-US')}`;
 function Bill() {
   return (
     <section className="bill" aria-labelledby="bill">
-      <SectionIntro id="bill" eyebrow="Your bill, by team size" title="Freshdesk charges per agent, then again for AI." lede={BILL_LEDE}>
+      <SectionIntro id="bill" title="Freshdesk charges per agent, then again for AI." lede={BILL_LEDE}>
         <fieldset className="bill-picker">
           <legend>Agents</legend>
           <div className="segmented">
@@ -52,7 +52,6 @@ function Daily() {
     <section aria-labelledby="daily">
       <SectionIntro
         id="daily"
-        eyebrow="Every day"
         title="What your team uses every day already works."
         lede={<>HC Labs answers its own customers in it. Not built yet: automations and macros. Freshdesk still does more there: <a href="/vs/freshdesk">read Colliedesk vs Freshdesk before you decide <span aria-hidden="true">→</span></a></>}
       />

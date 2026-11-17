@@ -7,7 +7,7 @@ import { SectionIntro } from './SectionIntro';
 export function AgentSection() {
   return (
     <section aria-labelledby="agents">
-      <SectionIntro id="agents" eyebrow="For your AI agent" title={`${AGENT_HEADING}.`} lede={AGENT_LEDE} />
+      <SectionIntro id="agents" title={`${AGENT_HEADING}.`} lede={AGENT_LEDE} />
       <div className="sheet-row stage agent-stage">
         <figure className="terminal" aria-label="An example Claude Code session with Colliedesk over MCP">
           <figcaption className="terminal-head">claude · Colliedesk MCP · token without send</figcaption>
