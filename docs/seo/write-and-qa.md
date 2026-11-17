@@ -1,7 +1,7 @@
 # Write and QA a page
 
 Input: one open issue labelled `seo:new` or `seo:improve`. Output: a PR that closes it, passes
-every check and waits for a person's approval. The writer and the QA reviewer are different agents.
+every check and merges once the QA agent finds no "no". The writer and the QA reviewer are different agents.
 
 ## Write
 
