@@ -9,7 +9,7 @@ import { SectionIntro } from './SectionIntro';
 export function StatusSection() {
   return (
     <section aria-labelledby="reliability">
-      <SectionIntro id="reliability" eyebrow="Reliability" title="Generally available. Here is what that means." lede={RELIABILITY_LEDE} />
+      <SectionIntro id="reliability" title="Generally available. Here is what that means." lede={RELIABILITY_LEDE} />
       <div className="sheet-row cells trust">
         <div className="cell">
           <dl className="guarantees">
@@ -32,7 +32,7 @@ export function StatusSection() {
             <p>{item.text}</p>
             <p className="roadmap-state">
               <span className={item.soon ? 'state state-soon' : 'state'}>{item.state}</span>
-              <a className="mono-label" href={issueHref(item.issue)} rel="noopener">#{item.issue}</a>
+              <a className="issue-ref" href={issueHref(item.issue)} rel="noopener">#{item.issue}</a>
             </p>
           </li>
         ))}

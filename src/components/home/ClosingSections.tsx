@@ -22,7 +22,7 @@ function Founding() {
   return (
     <section className="sheet-row cells founding-offer" id="founding" aria-labelledby="founding-title">
       <div className="cell">
-        <p className="mono-label">Founding offer · 3 to 10 agents · {FOUNDING_SLOTS} places</p>
+        <p className="row-label">Founding offer · 3 to 10 agents · {FOUNDING_SLOTS} places</p>
         {state.open ? (
           <>
             <h2 id="founding-title"><span>$99 every 3 months.</span> <span>Locked for life.</span></h2>
@@ -53,7 +53,7 @@ function Founding() {
 function Questions() {
   return (
     <section aria-labelledby="questions">
-      <SectionIntro id="questions" eyebrow="Questions" title="What teams ask before they switch." />
+      <SectionIntro id="questions" title="What teams ask before they switch." />
       <dl className="sheet-row faq-rows">
         {HOME_FAQ.map((f) => (
           <div key={f.q}><dt>{f.q}</dt><dd dangerouslySetInnerHTML={{ __html: renderInline(f.a) }} /></div>

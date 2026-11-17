@@ -102,7 +102,7 @@ action is not the orange).
   under the hero. Text sits in plain columns under a hairline; code and tables sit on a 1px shadow ring
   (`--ring`). The home page follows the Paper design "L1-b Landing" (page 50 Landing of the app design
   file): one 1200px sheet, rows split by hairlines, product pictures on grey stage rows, headlines in Plex
-  Sans 600 under a 12px mono label, the bill by team size as CSS-only radios (`src/lib/team-bill.ts`).
+  Sans 600 with no label above them (a small sans label only where it adds a fact the headline lacks), the bill by team size as CSS-only radios (`src/lib/team-bill.ts`).
 - Scrollbars are styled site-wide (thin, palette grey: `--line-control`, `--line-strong` on hover); never the OS
   default. `pnpm check` fails if `scrollbar-width`/`scrollbar-color` appear outside the Firefox `@supports` block.
 - Type: self-hosted IBM Plex Sans and Mono; IBM Plex Serif 500 for h1 and h2. Sentence case everywhere,

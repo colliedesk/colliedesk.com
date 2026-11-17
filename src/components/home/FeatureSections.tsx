@@ -41,12 +41,12 @@ function ReconcileReport() {
 export function MigrationSection() {
   return (
     <section aria-labelledby="migrate">
-      <SectionIntro id="migrate" eyebrow="Leave Freshdesk" title="Switch at your pace. Prove nothing was lost." lede={MIGRATE_LEDE} />
+      <SectionIntro id="migrate" title="Switch at your pace. Prove nothing was lost." lede={MIGRATE_LEDE} />
       <div className="sheet-row stage stage-center"><ReconcileReport /></div>
       <ol className="sheet-row cells steps">
         {STEPS.map(([title, text], i) => (
           <li key={title} className="cell">
-            <span className="mono-label">{String(i + 1).padStart(2, '0')}</span>
+            <span className="row-label">{String(i + 1).padStart(2, '0')}</span>
             <h3>{title}</h3>
             <p>{text}</p>
           </li>
