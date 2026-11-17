@@ -1,14 +1,14 @@
 name: Content approval
 
-# Required check: SEO content merges only after a person adds the label content:approved
-# (scripts/content-approval.mjs). New commits remove the label, so the person approves what merges.
+# Required check: an SEO content PR merges only with a fully verified "## Claim check" table in its
+# body (scripts/content-approval.mjs).
 on:
   pull_request:
     types: [opened, synchronize, reopened, labeled, unlabeled, edited]
 
 permissions:
   contents: read
-  pull-requests: write
+  pull-requests: read
 
 concurrency:
   group: content-approval-${{ github.event.pull_request.number }}
@@ -27,11 +27,6 @@ jobs:
         with:
           sparse-checkout: scripts/content-approval.mjs
           sparse-checkout-cone-mode: false
-      - name: New commits need a new approval
-        if: >-
-          github.event.action == 'synchronize' &&
-          contains(github.event.pull_request.labels.*.name, 'content:approved')
-        run: gh pr edit "$PR" --remove-label content:approved
       - run: |
           gh pr view "$PR" --json headRefName,labels,body > pr.json
           gh api --paginate --slurp "repos/$GH_REPO/pulls/$PR/files" > files.json
