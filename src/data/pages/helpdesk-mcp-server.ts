@@ -56,7 +56,7 @@ Every row below comes from the vendor's own documentation, read on ${READ}. Wher
 | Helpdesk | Sign-in | Plans and limits |
 |---|---|---|
 | Colliedesk | OAuth for an AI app, or an agent token for a script | Every plan, and self-hosted |
-| Freshdesk | An API key for each user | Growth, Pro and Enterprise. 1,200, 6,000 and 12,000 actions a year for the account. Rate limit of 25, 50 and 100 actions a minute. |
+| Freshdesk | An API key for each user | Growth, Pro and Enterprise, on Freshdesk Standalone 2021 or Freshdesk Unified Omni 2026 only. 1,200, 6,000 and 12,000 actions a year for the account. Rate limit of 25, 50 and 100 actions a minute. |
 | Zendesk | OAuth | Suite Team and up, Support Team and up. Free during early access. |
 | Help Scout | OAuth, each person as themselves | Standard, Plus and Pro. Report tools need Plus or Pro. |
 | Intercom | OAuth, or a bearer token | US and EU workspaces. AU workspaces are not supported yet. Plans are not stated. |
@@ -111,7 +111,7 @@ Paste \`${MCP_URL}\` into Claude, Codex or Cursor after you [start the 14-day tr
 
 ## When another helpdesk fits better
 
-- You already run Freshdesk on Growth or higher, and 1,200 actions a year is enough. The server is on by default.
+- You already run Freshdesk on Growth or higher, and 1,200 actions a year is enough. The server is on by default. Check your version first: the FAQ lists Freshdesk variants from before 2021 as not supported.
 - You want a person to confirm every change. Zendesk does that by design.
 - You only need the agent to read and report. Help Scout and Intercom both do that.
 
