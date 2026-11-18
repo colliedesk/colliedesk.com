@@ -279,7 +279,8 @@ td:first-child { font-weight: 500; color: var(--text-1); }
 .plan-price span { color: var(--text-3); }
 .plan-alt { color: var(--text-3); margin: 0 0 1rem; }
 .plans-note { grid-column: 1 / -1; margin: var(--space-6) 0 0; color: var(--text-2); }
-.plans-ladder { grid-template-columns: repeat(auto-fit, minmax(10.5rem, 1fr)); gap: var(--space-4); }
+/* Once Founding closes the ladder follows the hero directly, like the plans after the hero while it is open. */
+.plans-ladder { grid-template-columns: repeat(auto-fit, minmax(10.5rem, 1fr)); gap: var(--space-4); padding-top: 0; }
 /* While Founding is open its card is in the hero; Self-host keeps the width of one hero column. */
 .plans-after-hero { padding-top: 0; }
 @media (min-width: 961px) { .plans-after-hero { grid-template-columns: repeat(3, minmax(0, 1fr)); } .plans-switch { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
