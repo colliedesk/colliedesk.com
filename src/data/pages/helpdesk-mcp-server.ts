@@ -49,7 +49,7 @@ Every row below comes from the vendor's own documentation, read on ${READ}. Wher
 | [Freshdesk](${FRESHDESK_MCP}) | Generally available since 10 September 2026 | \`https://<subdomain>.freshdesk.com/mcp\` | 37 in the tool table | Yes: \`replyTicket\` |
 | [Zendesk](${ZENDESK_MCP}) | Early access program | \`https://<subdomain>.zendesk.com/mcp\` | Not stated; up to 150 tools and AI agents on one pre-built connection | Not stated. It creates and updates tickets after a person confirms. |
 | [Help Scout](${HELP_SCOUT_MCP}) | Generally available | \`https://mcp.helpscout.net/mcp\` | Not stated | No. New connections are read-only. |
-| [Intercom](${INTERCOM_MCP}) | Live | \`https://mcp.intercom.com/mcp\` (US), \`https://mcp.eu.intercom.com/mcp\` (EU) | 16 | No. It adds an internal note and writes help articles. |
+| [Intercom](${INTERCOM_MCP}) | Live | \`https://mcp.intercom.com/mcp\` (US), \`https://mcp.eu.intercom.com/mcp\` (EU) | 16, plus 5 Fin Operator tools on an OAuth connection when the workspace has Fin Operator | No. It adds an internal note and writes help articles. |
 
 ## Sign-in, plans and limits
 
