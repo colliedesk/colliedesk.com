@@ -71,7 +71,7 @@ ${DONE_FOR_YOU} ${NOT_MOVED} [Migration guide](/migrate/freshdesk).
 
 ## ${AGENT_HEADING}
 
-${AGENT_LEDE} MCP endpoint on Colliedesk Cloud: \`${MCP_URL}\`, with the agent token as a bearer token. In Claude, connect from the [Claude directory](${CLAUDE_DIRECTORY_URL}) without a token. [Connect an AI agent](/docs/mcp); who can do what: [Roles and permissions](/docs/roles-and-permissions). An example session with a token that may not send:
+${AGENT_LEDE} MCP endpoint on Colliedesk Cloud: \`${MCP_URL}\`, with the agent token as a bearer token. In Claude, connect from the [Claude directory](${CLAUDE_DIRECTORY_URL}) without a token. [Connect an AI agent](/docs/mcp); [five helpdesk MCP servers compared](/helpdesk-mcp-server); who can do what: [Roles and permissions](/docs/roles-and-permissions). An example session with a token that may not send:
 
 ${AGENT_CALLS.map((c) => `- \`${c}\``).join('\n')}
 - ${AGENT_OUTCOME}

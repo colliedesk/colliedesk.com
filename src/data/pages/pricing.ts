@@ -103,7 +103,7 @@ const body = `## What you pay for
 
 Self-hosting is free. We sell two things: **Colliedesk Cloud** (we run it for you) and **migration** (we move your Freshdesk history and prove nothing was lost). That is the whole business. There is no "enterprise edition" with the good features held back.
 
-**Every feature on every plan.** Solo, Small, Team, Team 25, Business and Founding differ only in the number of agents and the attachment storage, and in how much of the move we do for you. That includes the MCP server for your AI agents. Self-hosting has every feature too.
+**Every feature on every plan.** Solo, Small, Team, Team 25, Business and Founding differ only in the number of agents and the attachment storage, and in how much of the move we do for you. That includes the [MCP server](/helpdesk-mcp-server) for your AI agents. Self-hosting has every feature too.
 
 ## What works today, and what does not
 
