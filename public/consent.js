@@ -166,8 +166,8 @@
       banner.setAttribute('role', 'region');
       banner.setAttribute('aria-label', 'Cookie choice');
       banner.innerHTML =
-        '<p>We would like to use analytics and advertising cookies from Google Analytics, PostHog, Apollo and Meta. ' +
-        'If you decline, we count visits without cookies. <a href="/privacy#cookies">Privacy</a></p>' +
+        '<p>We\'d like to use analytics and advertising cookies. ' +
+        'If you decline, we count visits without cookies. <a href="/privacy#cookies">Who gets what</a></p>' +
         '<div class="consent-actions">' +
         '<button type="button" class="btn btn-sm" data-consent="denied">Decline</button>' +
         '<button type="button" class="btn btn-sm" data-consent="granted">Accept</button>' +

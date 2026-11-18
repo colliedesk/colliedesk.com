@@ -482,7 +482,10 @@ else {
   if (!granted.fbqCalls.some((c) => c[0] === 'init' && c[1] === META_PIXEL_ID)) fail(`consent.js: the Meta pixel must init dataset ${META_PIXEL_ID}`);
   if (!granted.fbqCalls.some((c) => c[0] === 'track' && c[1] === 'PageView')) fail('consent.js: the Meta pixel must track PageView');
   if (!/name === '_fbp'/.test(source) || !/name === '_fbc'/.test(source)) fail('consent.js: declining must delete the Meta _fbp and _fbc cookies');
-  if (!/Meta/.test(source.match(/banner\.innerHTML =[\s\S]*?<\/p>/)?.[0] ?? '')) fail('consent.js: the cookie banner must name Meta');
+  // The banner names no vendor; it must say the cookies include advertising ones and link to the
+  // privacy page, which names Meta and its cookies (checked below).
+  const bannerText = source.match(/banner\.innerHTML =[\s\S]*?<\/p>/)?.[0] ?? '';
+  if (!/advertising cookies/.test(bannerText) || !bannerText.includes('href="/privacy#cookies"')) fail('consent.js: the cookie banner must say it sets advertising cookies and link to /privacy#cookies');
 }
 for (const file of pages) {
   const page = readFileSync(file, 'utf8');
