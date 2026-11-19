@@ -10,9 +10,9 @@ permissions:
   contents: read
   pull-requests: read
 
-concurrency:
-  group: content-approval-${{ github.event.pull_request.number }}
-  cancel-in-progress: true
+# No concurrency group: `gh pr create -l` sends "opened" and "labeled" together, and a cancelled run
+# can stay on the head commit and block the merge (PR 178). Each run reads the PR as it is now and takes
+# seconds, so two runs give the same answer.
 
 jobs:
   content-approval:
