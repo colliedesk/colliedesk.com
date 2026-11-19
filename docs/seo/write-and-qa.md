@@ -43,6 +43,11 @@ the writer fixes it and the reviewer runs the whole checklist again.
 The reviewer lists every factual claim on the page: each price, date, number, limit, competitor
 feature and Colliedesk feature. For each one it opens the source and reads the claim there.
 
+A source often states a number with a condition: a plan, a product version, a region, a sign-in type,
+an average instead of a limit. The reviewer reads the paragraph and the FAQ around the claim and lists
+each condition there. The page must state every condition that changes who gets the claim. A claim
+that drops one is a `no`.
+
 ```
 ## Claim check
 
