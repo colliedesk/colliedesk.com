@@ -119,6 +119,90 @@ test('a link to the page itself or to the app is not an internal link', () => {
   assert.match(findings[0], /links 1 other page/);
 });
 
+// A support lead reads these pages; a long script in the open pushes the prose off the screen.
+const codeBlock = (lines) => `\`\`\`bash\n${Array.from({ length: lines }, (_, i) => `echo step ${i + 1}`).join('\n')}\n\`\`\``;
+
+test('allows a code block of 12 lines or fewer in the open', () => {
+  assert.deepEqual(page(`${CLEAN}\n${codeBlock(12)}\n`), []);
+});
+
+test('fails a code block over 12 lines that is not inside a closed details block', () => {
+  const findings = page(`${CLEAN}\n${codeBlock(13)}\n`);
+  assert.equal(findings.length, 1);
+  assert.match(findings[0], /code block of 13 lines/);
+  assert.match(findings[0], /<details>/);
+});
+
+test('allows a long code block inside a details block with a summary', () => {
+  const md = `${CLEAN}\n<details>\n<summary>Show the script (44 lines of bash)</summary>\n\n${codeBlock(44)}\n\n</details>\n`;
+  assert.deepEqual(page(md), []);
+});
+
+test('counts tilde fences and fences indented under a list item', () => {
+  const tilde = codeBlock(13).replace(/```/g, '~~~');
+  const indented = `1. Run it:\n\n${codeBlock(13).replace(/^/gm, '   ')}\n`;
+  for (const md of [tilde, indented]) {
+    const findings = page(`${CLEAN}\n${md}\n`);
+    assert.equal(findings.length, 1, md.slice(0, 20));
+    assert.match(findings[0], /code block of 13 lines/);
+  }
+});
+
+test('a details block with attributes hides its code, unless it is open', () => {
+  const wrap = (tag) => `${CLEAN}\n${tag}\n<summary>Show the script</summary>\n\n${codeBlock(20)}\n\n</details>\n`;
+  assert.deepEqual(page(wrap('<details class="script">')), []);
+  assert.match(page(wrap('<details open>')).join('\n'), /code block of 20 lines/);
+});
+
+test('an empty fence does not pair with the next fence across the prose', () => {
+  const prose = Array.from({ length: 14 }, (_, i) => `Plain line ${i + 1}.`).join('\n\n');
+  const md = `${CLEAN}\n\`\`\`\n\`\`\`\n\n${prose}\n\n${codeBlock(3)}\n`;
+  assert.deepEqual(page(md), []);
+});
+
+test('a longer fence holds a shorter one inside it, and its lines all count', () => {
+  const inner = Array.from({ length: 12 }, (_, i) => `line ${i + 1}`).join('\n');
+  const md = `${CLEAN}\n\`\`\`\`md\n\`\`\`bash\necho hi\n\`\`\`\n${inner}\n\`\`\`\`\n`;
+  assert.match(page(md).join('\n'), /code block of 15 lines/);
+});
+
+test('counts a fence that opens on a list marker or inside a blockquote', () => {
+  const body = Array.from({ length: 13 }, (_, i) => `echo ${i + 1}`);
+  const listed = `4. \`\`\`bash\n${body.map((l) => `   ${l}`).join('\n')}\n   \`\`\`\n\nPlain words after.\n`;
+  const quoted = `> \`\`\`bash\n${body.map((l) => `> ${l}`).join('\n')}\n> \`\`\`\n`;
+  for (const md of [listed, quoted]) {
+    assert.match(page(`${CLEAN}\n${md}`).join('\n'), /code block of 13 lines/, md.slice(0, 12));
+  }
+});
+
+test('only an open attribute opens a details block, not a class or title with the word', () => {
+  const wrap = (tag) => `${CLEAN}\n${tag}\n<summary>Show it</summary>\n\n${codeBlock(20)}\n\n</details>\n`;
+  for (const tag of ['<details class="open-source">', '<details title="Open the script">', '<details data-open="1">']) {
+    assert.deepEqual(page(wrap(tag)), [], tag);
+  }
+  assert.match(page(wrap('<details open="">')).join('\n'), /code block of 20 lines/);
+});
+
+test('details tags written inside a code block do not hide code', () => {
+  const html = `\`\`\`html\n<details>\n${Array.from({ length: 14 }, (_, i) => `<p>${i}</p>`).join('\n')}\n</details>\n\`\`\``;
+  assert.match(page(`${CLEAN}\n${html}\n`).join('\n'), /code block of 16 lines/);
+});
+
+test('a backtick line with a backtick in its info string is inline code, not a fence', () => {
+  const md = `${CLEAN}\n\`\`\`not a fence\` here\n\n${Array.from({ length: 14 }, (_, i) => `Line ${i}.`).join('\n\n')}\n`;
+  assert.deepEqual(page(md), []);
+});
+
+test('a details tag mentioned in prose or never closed does not hide later code', () => {
+  const inline = `${CLEAN}\nWrap long code in \`<details>\` so it starts closed.\n\n${codeBlock(20)}\n`;
+  const unclosed = `${CLEAN}\n<details>\n<summary>Show it</summary>\n\n${codeBlock(3)}\n\n</detail>\n\n${codeBlock(20)}\n`;
+  for (const md of [inline, unclosed]) assert.match(page(md).join('\n'), /code block of 20 lines/);
+});
+
+test('counts code blocks in a page with Windows line endings', () => {
+  assert.match(page(`${CLEAN}\n${codeBlock(13)}\n`.replace(/\n/g, '\r\n')).join('\n'), /code block of 13 lines/);
+});
+
 // Colliedesk is generally available; nothing on the site may call the product, a release or a feature beta.
 test('fails the word beta in any case, quoting where it appears', () => {
   for (const text of ['AI is coming after beta.', '| Gmail mailboxes | **Beta** |', 'Our BETA programme', 'Not there yet (beta).']) {

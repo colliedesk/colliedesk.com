@@ -20,7 +20,7 @@ const faq: Faq[] = [
   },
   {
     q: 'Can Colliedesk import my Help Scout inbox?',
-    a: 'Yes, on a self-hosted Colliedesk server. The `collie import helpscout` command reads one inbox through the Inbox API 2.0 and ends with a reconcile report. See [Import from Help Scout](/docs/import-helpscout).',
+    a: 'Yes. The `collie import helpscout` command reads one inbox through the Inbox API 2.0 and ends with a reconcile report. The documented steps run it on your own Colliedesk server. See [Import from Help Scout](/docs/import-helpscout).',
   },
 ];
 
@@ -79,6 +79,8 @@ const body = `Help Scout's Reports export (CSV or XLSX) leaves out the conversat
 | Format | CSV or XLSX | CSV | JSON |
 | Who can get it | Users with the "Reports: Export reporting data" permission | Account Owners, by asking Help Scout support | Any user with an app, on a plan with API access |
 
+Leaving Help Scout, not keeping a copy? Skip the script: [Moving to Colliedesk](#moving-to-colliedesk) covers the importer, a command that reads the same API.
+
 ## 1. Reports export: fields only
 
 1. Open **Reports** and pick a report: All Channels, Email, Company, User or Happiness.
@@ -101,7 +103,7 @@ Times in the XLSX file are in UTC. Times in the CSV file use the company time zo
 
 ## 2. Inbox API: every thread, as a CSV
 
-Help Scout says that exporting through the API is currently the only means of getting the rest of your data out. This script reads one inbox and writes \`threads.csv\` with one row per thread. It has not been run against a live Help Scout account, so check the counts before you cancel (see below).
+Help Scout says that exporting through the API is currently the only means of getting the rest of your data out. You need someone who can run a shell script; if that is not you, send them this section. This script reads one inbox and writes \`threads.csv\` with one row per thread. It has not been run against a live Help Scout account, so check the counts before you cancel (see below).
 
 1. **Create an app.** Go to **Your Profile > My apps** and click **Create My App**. Help Scout asks for a redirection URL. This script uses the Client Credentials flow, so a placeholder URL such as https://www.google.com is enough.
 2. **Use an active user.** The app must belong to an active, invited user in the account, or the API returns 401.
@@ -109,9 +111,14 @@ Help Scout says that exporting through the API is currently the only means of ge
 4. **Run the script.** It needs \`curl\` and \`jq\`.
 5. **Open \`threads.csv\`** in a spreadsheet. The \`body\` column holds the message HTML.
 
+<details>
+<summary>Show the script (44 lines of bash)</summary>
+
 \`\`\`bash
 ${script}
 \`\`\`
+
+</details>
 
 The script stops at the first failed request other than a 404 and prints the error, for example for a 401 or a 429. A 404 is skipped and logged (see the merged-conversation trap below). Rows go to \`threads.csv.partial\` and become \`threads.csv\` only when the run reaches the end, so a stopped run never looks complete.
 
@@ -135,7 +142,7 @@ The script stops at the first failed request other than a 404 and prints the err
 
 ## Moving to Colliedesk
 
-Colliedesk's importer reads the same Inbox API 2.0, copies one Help Scout inbox per run and ends with a reconcile report that lists the id of every conversation it could not copy. It runs as a command on a self-hosted Colliedesk server; read [Import from Help Scout](/docs/import-helpscout) for the steps. Its own docs say it has not yet been checked against a live Help Scout account. Comparing the two products first? Read [Colliedesk vs Help Scout](/vs/help-scout), then see [pricing](/pricing) for Cloud and self-host. Leaving Zendesk too? Read [Export your tickets from Zendesk](/migrate/zendesk/export).
+Colliedesk's importer reads the same Inbox API 2.0, copies one Help Scout inbox per run and ends with a reconcile report that lists the id of every conversation it could not copy. It runs as a command; the steps in [Import from Help Scout](/docs/import-helpscout) run it on your own Colliedesk server. Its own docs say it has not yet been checked against a live Help Scout account. Comparing the two products first? Read [Colliedesk vs Help Scout](/vs/help-scout), then see [pricing](/pricing) for Cloud and self-host. Leaving Zendesk too? Read [Export your tickets from Zendesk](/migrate/zendesk/export).
 
 ## Sources
 
@@ -155,7 +162,7 @@ const page: Page = {
   jsonLd: [],
   name: 'Export conversations from Help Scout',
   path: '/migrate/help-scout/export',
-  updated: '2026-11-17',
+  updated: '2026-11-19',
   section: 'Migrate',
   title: 'Help Scout Export: Thread Text to CSV, Closed Ones Too',
   description:
@@ -163,7 +170,7 @@ const page: Page = {
   summary: 'Export Help Scout conversations: Reports export (fields only) vs Inbox API (every thread); steps, a CSV script and the API traps',
   eyebrow: 'Migrate · Help Scout · Export',
   h1: 'Export the Help Scout thread text the Reports CSV leaves out, closed conversations included',
-  lede: 'A 44-line bash script reads every conversation in one inbox from the Inbox API and writes one CSV row per thread: customer messages, replies, notes, chats and line items.',
+  lede: 'The Reports CSV has the conversation fields but not the messages. This page gives a script for them and the counts to check before you cancel, and points to Colliedesk\'s importer if you are leaving.',
   cta: true,
   ctaCall: { href: '/docs/import-helpscout', label: 'Import from Help Scout' },
   body,
