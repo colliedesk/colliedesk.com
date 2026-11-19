@@ -115,7 +115,7 @@ ${aiSection}
 
 ## How this compares
 
-Most helpdesks charge per agent, then charge again for AI. For five agents, Freshdesk Pro with Freddy AI Copilot lists at $5,040 a year billed annually, or $505 a month billed monthly. Colliedesk Cloud Team is ${PRICE.yearly} a year or ${PRICE.monthly} a month for the workspace, plus ${AI_EXTRA}. Prices and sources: [vs Freshdesk](/vs/freshdesk), [vs Zendesk](/vs/zendesk), [vs Help Scout](/vs/help-scout).`;
+Most helpdesks charge per agent, then charge again for AI. For five agents, Freshdesk Pro with Freddy AI Copilot lists at $5,040 a year billed annually, or $505 a month billed monthly. Colliedesk Cloud Team is ${PRICE.yearly} a year or ${PRICE.monthly} a month for the workspace, plus ${AI_EXTRA}. Seven helpdesks without per-agent prices: [flat pricing compared](/helpdesk-flat-pricing). Prices and sources: [vs Freshdesk](/vs/freshdesk), [vs Zendesk](/vs/zendesk), [vs Help Scout](/vs/help-scout).`;
 
 // While Founding is open it leads, and Team 25 sits beside it for teams of 11 to 25 agents. The rest of
 // the ladder is what new workspaces choose once the places are taken; the site rebuilds when that happens.
@@ -190,7 +190,7 @@ ${aiSection}
 
 ## How this compares
 
-For five agents, Freshdesk Pro with Freddy AI Copilot lists at $5,040 a year billed annually. Founding is $396 a year ($99 every 3 months) for the workspace, plus ${AI_EXTRA}. Prices and sources: [vs Freshdesk](/vs/freshdesk), [vs Zendesk](/vs/zendesk), [vs Help Scout](/vs/help-scout).`;
+For five agents, Freshdesk Pro with Freddy AI Copilot lists at $5,040 a year billed annually. Founding is $396 a year ($99 every 3 months) for the workspace, plus ${AI_EXTRA}. Seven helpdesks without per-agent prices: [flat pricing compared](/helpdesk-flat-pricing). Prices and sources: [vs Freshdesk](/vs/freshdesk), [vs Zendesk](/vs/zendesk), [vs Help Scout](/vs/help-scout).`;
 
 const foundingPage = {
   title: 'Colliedesk pricing: $396 a year for your team, not per agent',
