@@ -13,6 +13,7 @@ import migrateFreshdeskExport from './migrate-freshdesk-export';
 import migrateFreshdeskSwitch from './migrate-freshdesk-switch';
 import migrateZendeskExport from './migrate-zendesk-export';
 import migrateHelpScoutExport from './migrate-help-scout-export';
+import helpdeskFlatPricing from './helpdesk-flat-pricing';
 import helpdeskMcpServer from './helpdesk-mcp-server';
 import openSource from './open-source';
 import pricing from './pricing';
@@ -39,7 +40,7 @@ let cache: readonly Page[] | undefined;
 // only a build needs; astro check and the config load must work without it.
 export function allPages(): readonly Page[] {
   cache ??= [
-    home, pricing, migrateFreshdesk, migrateFreshdeskDoneForYou, migrateFreshdeskSwitch, migrateFreshdeskExport, migrateZendeskExport, migrateHelpScoutExport, helpdeskMcpServer, audit,
+    home, pricing, migrateFreshdesk, migrateFreshdeskDoneForYou, migrateFreshdeskSwitch, migrateFreshdeskExport, migrateZendeskExport, migrateHelpScoutExport, helpdeskMcpServer, helpdeskFlatPricing, audit,
     compare, vsFreshdesk, vsZendesk, vsHelpScout, vsFront, vsZammad, vsChatwoot, vsFreescout,
     vsZohoDesk, vsHappyfox, vsGorgias, vsHubspotServiceHub, vsGroove, freshdeskAlternative, freshdeskPricingHistory, selfHostedHelpdesk, helpdeskForSmallTeams, openSource, roadmapPage(), changelog,
     privacy, terms, ...docsPages(),

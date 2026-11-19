@@ -26,7 +26,7 @@ const body = `## What a small support team needs
 
 - **One shared inbox** where everyone sees who owns a ticket: assignee, status, priority, tags, private notes.
 - **Email in and out** on your own support address.
-- **A price you can predict** when you hire the next person.
+- **A price you can predict** when you hire the next person. Seven helpdesks that do not charge per agent are in [flat pricing compared](/helpdesk-flat-pricing).
 - **Your history**, moved in from the old tool without losing replies or attachments.
 - **AI drafts** that do not cost another seat licence.
 
