@@ -1,7 +1,8 @@
 // Content QA for the marketing pages, read from their Markdown twins in _site/. A page fails when
 // its prose reads above READING_GRADE_MAX, uses an em dash or an AI-slop phrase, has no call to
 // action in the body, quotes a competitor price without a source link, has a title or meta
-// description outside the length the top results use, or links fewer than 2 other pages here. Any
+// description outside the length the top results use, links fewer than 2 other pages here, or shows
+// a code block over CODE_LINES_MAX lines outside a <details> block. Any
 // page this site writes, legal pages and release notes included, fails when it says "beta" or states the
 // retired AI price. While Founding is open (founding-state.json), a page, its Markdown twin or an llms
 // file that names a monthly Cloud plan price before it names Founding fails. Pages listed in
@@ -42,6 +43,8 @@ export const TITLE_MAX = 60;
 export const DESCRIPTION_MIN = 120;
 export const DESCRIPTION_MAX = 160;
 export const INTERNAL_LINKS_MIN = 2;
+// Longer code goes in a closed <details> block, so the page reads for a support lead first.
+export const CODE_LINES_MAX = 12;
 // Body links to another page of this site; app.colliedesk.com is not one.
 const INTERNAL_LINK_RE = /\]\((?:https:\/\/colliedesk\.com)?(\/[^)\s#]*)(?:#[^)\s]*)?\)/g;
 
@@ -92,6 +95,44 @@ export function readingGrade(text) {
   return 0.39 * (words.length / sentences.length) + 11.8 * (syl / words.length) - 15.59;
 }
 
+// A <details> block without the open attribute starts closed, so its code is out of the way.
+const DETAILS_TAG_RE = /<(\/?)details\b([^>]*)>/gi;
+// List markers and blockquote marks in front of a fence, as in "4. ```bash" or "> ```".
+const CONTAINER_RE = /^(?:\s*(?:>|[-*+]\s|\d+[.)]\s))*\s*/;
+const FENCE_RE = /^(`{3,}|~{3,})(.*)$/;
+const startsOpen = (attrs) => /(?:^|\s)open(?:[\s=]|$)/i.test(attrs.replace(/"[^"]*"|'[^']*'/g, '""'));
+
+/**
+ * Line count of each fenced code block outside a closed <details>, CommonMark style. A details tag
+ * counts only at the start of a line (an HTML block), and hides code only once its </details> is found.
+ */
+export function openCodeBlockLengths(md) {
+  const blocks = [];
+  const details = []; // unclosed <details> tags, innermost last
+  let fence = null;
+  let count = 0;
+  const end = () => blocks.push({ count, inside: details.filter((d) => !d.open) });
+  for (const line of md.replace(/\r/g, '').split('\n')) {
+    const [, mark = '', rest = ''] = line.replace(CONTAINER_RE, '').match(FENCE_RE) ?? [];
+    if (fence) {
+      if (mark[0] === fence[0] && mark.length >= fence.length && !rest.trim()) {
+        end();
+        fence = null;
+      } else count++;
+    } else if (mark && !(mark[0] === '`' && rest.includes('`'))) {
+      fence = mark;
+      count = 0;
+    } else if (/^\s*<\/?details\b/i.test(line)) {
+      for (const [, close, attrs] of line.matchAll(DETAILS_TAG_RE)) {
+        if (!close) details.push({ open: startsOpen(attrs), closed: false });
+        else if (details.length) details.pop().closed = true;
+      }
+    }
+  }
+  if (fence) end();
+  return blocks.filter((b) => !b.inside.some((d) => d.closed)).map((b) => b.count);
+}
+
 /** Findings for one page's Markdown twin; an empty array means it passes. */
 export function checkPage({ path, md, title, description }, debt = {}) {
   const findings = [];
@@ -122,6 +163,12 @@ export function checkPage({ path, md, title, description }, debt = {}) {
   }
   if (description !== undefined && (description.length < DESCRIPTION_MIN || description.length > DESCRIPTION_MAX) && !owes('description')) {
     findings.push(`${path}: meta description is ${description.length} characters; keep it between ${DESCRIPTION_MIN} and ${DESCRIPTION_MAX}`);
+  }
+  // A long script in the open pushes the prose off the screen for a reader who will never run it.
+  for (const lines of openCodeBlockLengths(md)) {
+    if (lines > CODE_LINES_MAX) {
+      findings.push(`${path}: code block of ${lines} lines in the open; keep it at ${CODE_LINES_MAX} or fewer, or put it in a <details> block: a <summary> line, a blank line, the fence, a blank line, then </details>`);
+    }
   }
   const linked = new Set([...md.matchAll(INTERNAL_LINK_RE)].map((m) => m[1].replace(/\/$/, '') || '/').filter((p) => p !== path));
   if (linked.size < INTERNAL_LINKS_MIN && !owes('links')) {

@@ -241,6 +241,11 @@ td:has(> .badge) { width: 1%; white-space: nowrap; }
 .prose li { margin: .35rem 0; }
 .prose li::marker { color: var(--text-3); }
 .prose pre { background: var(--surface-1); border: 1px solid var(--line); color: var(--text-1); border-radius: var(--radius); padding: var(--space-4) var(--space-5); overflow-x: auto; font: 13px/1.7 var(--font-mono); }
+/* A long script sits closed under a summary line; the reader opens it only to copy it. */
+.prose details { margin: 1.5rem 0; border-radius: var(--radius); box-shadow: 0 0 0 1px var(--line); }
+.prose summary { cursor: pointer; padding: var(--space-3) var(--space-4); font-weight: 600; color: var(--text-1); }
+.prose details[open] summary { border-bottom: 1px solid var(--line); }
+.prose details pre { margin: 0; border: 0; border-radius: 0 0 var(--radius) var(--radius); }
 /* A note is paper: a neutral sheet on a hairline ring. Orange is for the primary action, not for notes. */
 .prose blockquote { margin: 1.5rem 0; padding: var(--space-3) var(--space-4); border: 0; border-radius: var(--radius); background: var(--surface-0); box-shadow: 0 0 0 1px var(--line); color: var(--text-1); }
 .prose blockquote p:last-child { margin: 0; }
