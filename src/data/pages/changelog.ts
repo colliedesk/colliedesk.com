@@ -4,6 +4,16 @@ import type { ChangelogEntry, Page } from '../../lib/page';
 // Newest first. Each entry also feeds /changelog.xml.
 export const ENTRIES: readonly ChangelogEntry[] = [
   {
+    version: 'privacy-2026-11-20',
+    date: '2026-11-20',
+    title: 'Privacy: reading a connected Gmail inbox',
+    md: `The [Google user data section of the privacy policy](/privacy#google-user-data) now covers reading a connected Gmail inbox:
+
+- Where Colliedesk offers it, connecting Gmail can also ask Google to **read email** (\`gmail.readonly\`). The admin can untick it; Gmail then only sends, as before.
+- With it, Colliedesk reads only **new emails in the inbox** after the connection and keeps each one as a conversation, like forwarded email. It never reads Sent, Drafts or Spam, never changes or deletes anything in the mailbox, and does not import older mail.
+- An **AI feature an admin turns on** (reply drafts, triage) works on these conversations too and sends them to the AI provider the admin chose, only to write the draft or suggestion. No data from Google is used to train AI models.`,
+  },
+  {
     version: 'terms-2026-11-06',
     date: '2026-11-06',
     title: 'Terms: 99.9% uptime, service credits and support response times',
