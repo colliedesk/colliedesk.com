@@ -7,7 +7,7 @@ import { FOUNDING_ACTION, FOUNDING_OPEN } from '../../lib/cloud-price';
 const faq: Faq[] = [
   {
     q: 'What do I need to self-host Colliedesk?',
-    a: 'A Linux server with Docker and Compose v2. Colliedesk runs as one server container plus PostgreSQL 16 or newer. One install command starts both and creates your first workspace.',
+    a: 'A Linux server with Docker and Compose v2. Colliedesk runs as one server container plus PostgreSQL. One install command starts both, on PostgreSQL 19, and creates your first workspace; an external database needs PostgreSQL 16 or newer.',
   },
   {
     q: 'Is the self-hosted version limited?',
@@ -36,7 +36,7 @@ If none of these apply, [Colliedesk Cloud](/pricing) runs the same code${FOUNDIN
 | Part | Detail |
 |---|---|
 | Server | One container image: \`ghcr.io/colliedesk/colliedesk\` |
-| Database | PostgreSQL 16 or newer, in the same Compose stack or external |
+| Database | PostgreSQL 19 in the same Compose stack (the installer's), or an external PostgreSQL 16 or newer |
 | Requirements | Docker with Compose v2 |
 | Workspace isolation | PostgreSQL row-level security; requests run as a database user that can only read the signed-in workspace |
 | Sign-in | One-time links, no passwords to store |
@@ -74,7 +74,7 @@ const page: Page = {
   title: 'Self-hosted helpdesk: open source, every feature free',
   description:
     'Run Colliedesk, an AGPL-3.0 open-source helpdesk, on your own server: Docker and PostgreSQL, one install command, every feature free, and what you take on.',
-  summary: 'Self-host Colliedesk free: one container plus PostgreSQL 16, one install command, every feature, AGPL-3.0; what you must run yourself',
+  summary: 'Self-host Colliedesk free: one container plus PostgreSQL, one install command, every feature, AGPL-3.0; what you must run yourself',
   eyebrow: 'Self-host',
   h1: 'Self-host Colliedesk free: every feature, no agent limit, AGPL-3.0.',
   lede: 'Colliedesk is open source. Run it on your own server with Docker and PostgreSQL, free, with every feature. Here is what that takes.',
