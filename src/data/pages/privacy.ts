@@ -4,7 +4,7 @@ import { CONTACT_EMAIL } from '../../lib/site';
 
 // /terms reads LEGAL_UPDATED; privacy has its own date.
 export const LEGAL_UPDATED = '2026-11-06';
-export const PRIVACY_UPDATED = '2026-11-04';
+export const PRIVACY_UPDATED = '2026-11-20';
 export { CONTACT_EMAIL };
 
 const body = `## The short version
@@ -42,6 +42,7 @@ It does **not** cover a Colliedesk server that you run yourself. A self-hosted s
 | Your email address and name | To sign you in and to tell you about your account | You, or Google if you sign in with Google |
 | Workspace content: customer emails, replies, notes, contacts, tags, attachments | To run your helpdesk | You, your teammates and your customers |
 | Permission to send email from a Gmail account an admin connects, and that account's address | To send your team's replies from your own address | Google, when an admin connects Gmail |
+| New emails in the inbox of that Gmail account, from the time it is connected, if the admin allows Colliedesk to read email | To turn your customers' emails into conversations your team answers | Google, when an admin connects Gmail and allows reading |
 | Permission to send email from a Microsoft 365 or Outlook.com mailbox an admin connects, and that account's address | To send your team's replies from your own address | Microsoft, when an admin connects Microsoft 365 |
 | Billing details: name, email, country, plan, invoices | To charge for Colliedesk Cloud | Polar, our payment provider. We never see your card number |
 | A keyed fingerprint of your verified email address and of your IP address at sign-up | To allow one free trial per person and stop mass sign-ups | Your sign-up |
@@ -77,9 +78,11 @@ A self-hosted Colliedesk server never sends anything to Meta, and has no setting
 
 Colliedesk's use and transfer of information received from Google APIs adheres to the [Google API Services User Data Policy](https://developers.google.com/terms/api-services-user-data-policy), including the Limited Use requirements.
 
-When an admin connects Gmail, Colliedesk asks Google only for permission to send email (\`gmail.send\`) and to see the account's address. It cannot read the mailbox. We use this access only to send the replies your team writes. The only Google data we store is the token Google gives us to send mail, encrypted on our servers in Germany, and the connected address.
+When an admin connects Gmail, Colliedesk asks Google for permission to send email (\`gmail.send\`) and to see the account's address. Where Colliedesk offers it, Google's page also asks to read email (\`gmail.readonly\`); the admin can untick it, and Gmail then only sends. With read access, Colliedesk reads only the new messages that arrive in the inbox after the connection, and keeps each one as a conversation in your workspace, as it does with email forwarded to it. It never reads Sent, Drafts or Spam, never changes, labels or deletes anything in the mailbox, and does not import older mail.
 
-Colliedesk does not use, retain or transfer data obtained through Google Workspace APIs to develop, improve, or train generalized AI and/or ML models. We do not build databases for model training. Colliedesk's AI features, such as reply drafts and triage, never receive data obtained from Google APIs. This follows the [Google Workspace API user data and developer policy](https://developers.google.com/workspace/workspace-api-user-data-developer-policy).
+We use this access only to send the replies your team writes and to bring your customers' emails into your helpdesk. The Google data we store is the token Google gives us, encrypted on our servers in Germany, the connected address, and the emails read from the inbox, which are workspace content (see "How long we keep data").
+
+Colliedesk does not use, retain or transfer data obtained through Google Workspace APIs to develop, improve, or train generalized AI and/or ML models. We do not build databases for model training. Colliedesk's AI features are off until an admin turns one on. If an admin turns on a feature such as reply drafts or triage, it receives the conversations it works on, including emails read from a connected Gmail inbox, and sends them to the AI provider the admin chose, only to write the draft or suggestion your team sees. On Colliedesk Cloud that provider is Anthropic, which does not train its models on this data. The access to send email is never given to an AI feature. This follows the [Google Workspace API user data and developer policy](https://developers.google.com/workspace/workspace-api-user-data-developer-policy).
 
 We do not sell or transfer data received from Google, or use it for advertising. People at Colliedesk do not read it except to keep the service secure, to follow the law, or when you ask us to.
 
@@ -104,10 +107,10 @@ Some of the providers below are outside the European Union (for example in the U
 | Hetzner | Servers and encrypted backups | Germany |
 | Clerk | Sign-in with an email code or Google | United States |
 | Google | Sign-in, only if you choose "Continue with Google" | United States |
-| Google | Sends your replies through the Gmail API, only for workspaces that connect Gmail | United States |
+| Google | Sends your replies through the Gmail API, and reads new emails in the inbox when an admin allows it, only for workspaces that connect Gmail | United States |
 | Microsoft | Sends your replies through Microsoft Graph from your own mailbox, only for workspaces that connect Microsoft 365 | United States |
 | Polar | Payments, invoices and tax, as merchant of record | United States |
-| Anthropic | Cloud AI provider (Claude models): receives, only when an admin turns on AI features (reply drafts, triage), what the feature needs: the ticket messages, the customer's name, matching published knowledge base articles and short excerpts of similar solved tickets (other customers' names and emails removed). Private notes are never sent. We do not use it for Google or Microsoft data | United States |
+| Anthropic | Cloud AI provider (Claude models): receives, only when an admin turns on AI features (reply drafts, triage), what the feature needs: the ticket messages, the customer's name, matching published knowledge base articles and short excerpts of similar solved tickets (other customers' names and emails removed). Private notes are never sent. This includes emails read from a connected Gmail inbox; it never receives Microsoft data and does not train on what it receives | United States |
 | Resend | Sends the replies your team writes, and our service emails | United States |
 | Cloudflare | DNS and network protection | Global |
 | PostHog | Website statistics (with a cookie only after you accept cookies) and anonymous usage counts. It does not store your IP address | United States |
@@ -143,7 +146,7 @@ When you use **Report a problem** in Colliedesk Cloud, we receive what you write
 - **Active workspace:** as long as your subscription or trial runs.
 - **Ended trial or subscription:** the workspace is locked. You can still sign in and export everything.
 - **Locked for 12 months:** we delete the workspace with all its content and attachments. We email the admins 30 days before.
-- **Gmail access:** until an admin disconnects Gmail or the workspace is deleted. Disconnecting deletes it from our servers and asks Google to revoke it. You can also remove it at any time in your Google Account, under [Third-party connections](https://myaccount.google.com/connections).
+- **Gmail access:** until an admin disconnects Gmail or the workspace is deleted. Disconnecting deletes it from our servers and asks Google to revoke it, and reading the inbox stops at once. Emails already read from the inbox stay in the workspace like any customer email, until your team deletes them or the workspace is deleted. You can also remove it at any time in your Google Account, under [Third-party connections](https://myaccount.google.com/connections).
 - **Microsoft 365 access:** until an admin disconnects it or the workspace is deleted. Disconnecting deletes it from our servers. Remove Colliedesk in your Microsoft account too, as described under [Microsoft user data](#microsoft-user-data).
 - **Backups:** an encrypted copy can stay in backups for up to 30 days after a deletion, then it expires.
 - **Sign-up fingerprints:** as long as Colliedesk Cloud runs (see above).
