@@ -31,7 +31,7 @@ const body = `## The short answer
 | Licence | AGPL-3.0 | ${c.source} |
 | Self-host | Free core, unlimited agents; paid modules with lifetime licences per instance | ${c.free} |
 | Official hosting | None; the FreeScout wiki lists third-party hosts | ${c.price} |
-| Stack | PHP 8.2+ (Laravel) with MySQL, MariaDB or PostgreSQL; runs on shared hosting | One container plus PostgreSQL 16+ |
+| Stack | PHP 8.2+ (Laravel) with MySQL, MariaDB or PostgreSQL; runs on shared hosting | One container plus PostgreSQL 19+ |
 | Knowledge base, live chat, tags, workflows | Paid modules | Tags and knowledge base shipped; automations and live chat later, all in the free code |
 | AI | Free AI Integration module | ${c.ai} |
 
