@@ -10,6 +10,10 @@ export const AUDIT_TEAM_SIZES: readonly { value: string; label: string }[] = [
   { value: 'more than 100', label: 'More than 100 agents' },
 ];
 
+// The only consent to more email. Unticked and optional: the audit never depends on it. public/audit.js
+// sends this wording, as shown, with the request; scripts/check.mjs fails a pre-ticked or required box.
+export const AUDIT_RECHECK_CONSENT = "Also re-check my help center every month and email me only what's new. Unsubscribe anytime.";
+
 export const AUDIT_NOTE = 'Built by Colliedesk, an open-source helpdesk. You get the list whether or not you ever switch.';
 
 export function AuditForm() {
@@ -24,6 +28,10 @@ export function AuditForm() {
         <option value="" disabled>Choose a size</option>
         {AUDIT_TEAM_SIZES.map((size) => <option key={size.value} value={size.value}>{size.label}</option>)}
       </select>
+      <div className="audit-consent">
+        <input id="audit-recheck" name="recheck" type="checkbox" value="yes" />
+        <label htmlFor="audit-recheck">{AUDIT_RECHECK_CONSENT}</label>
+      </div>
       <input className="updates-trap" name="website" type="text" tabIndex={-1} autoComplete="off" aria-hidden="true" />
       <button type="submit" className="btn btn-primary btn-lg">Send me the audit</button>
       <p className="audit-status" role="status" aria-live="polite"></p>

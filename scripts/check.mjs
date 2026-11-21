@@ -171,6 +171,16 @@ for (const file of pages) {
     if (!/<label for="updates-email"/.test(form) || !/<input[^>]*id="updates-email"[^>]*type="email"[^>]*required/.test(form)) fail(`${where}: updates form has no labelled required email field`);
     if (!/<input[^>]*name="website"[^>]*tabindex="-1"/.test(form)) fail(`${where}: updates form has no honeypot`);
   }
+  // The audit form's "monthly re-check" box is the only consent to more email, so it must be a labelled
+  // checkbox that starts unticked and is not required: the audit itself never depends on it (GDPR bars
+  // bundled or pre-ticked consent; see public/audit.js for how the answer is recorded).
+  const auditForm = html.match(/<form[^>]*data-audit-form[^>]*>[\s\S]*?<\/form>/)?.[0] || '';
+  if (auditForm) {
+    const box = auditForm.match(/<input[^>]*id="audit-recheck"[^>]*>/)?.[0] || '';
+    if (!/type="checkbox"/.test(box) || !/name="recheck"/.test(box)) fail(`${where}: audit form has no "recheck" checkbox`);
+    else if (/\s(checked|required)(\s|=|>|\/)/.test(box)) fail(`${where}: audit form re-check box is pre-ticked or required`);
+    if (!/<label[^>]*for="audit-recheck"[^>]*>[^<]*\S[^<]*<\/label>/.test(auditForm)) fail(`${where}: audit form re-check box has no label`);
+  }
 
   for (const m of html.matchAll(/<script([^>]*)>([\s\S]*?)<\/script>/g)) {
     if (m[1].includes('application/ld+json')) {

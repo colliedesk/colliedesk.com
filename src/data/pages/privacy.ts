@@ -4,7 +4,7 @@ import { CONTACT_EMAIL } from '../../lib/site';
 
 // /terms reads LEGAL_UPDATED; privacy has its own date.
 export const LEGAL_UPDATED = '2026-11-06';
-export const PRIVACY_UPDATED = '2026-11-20';
+export const PRIVACY_UPDATED = '2026-11-21';
 export { CONTACT_EMAIL };
 
 const body = `## The short version
@@ -49,6 +49,7 @@ It does **not** cover a Colliedesk server that you run yourself. A self-hosted s
 | Technical data: IP address, browser, request times, errors | To keep the service secure and to fix problems | Your browser |
 | Usage counts: active agents, replies sent | To understand how Colliedesk is used, without names or content | The Colliedesk server |
 | Your email address, if you subscribe to release notes | To send one email per release | You |
+| Your work email, help center address and team size, if you ask for a free help center audit | To send you the audit. Only if you tick the monthly re-check box: to email you once a month the problems that are new in your help center, until you unsubscribe. We keep the time you asked, the page and the exact words of the box you ticked, as proof you asked | You |
 | The Meta ad click ID (\`fbclid\`) in the link you followed, if you came from one of our ads | To tell Meta which ad led to a trial or a paid plan | The link of the ad you clicked |
 | The name of the website that linked you to the sign-in page (for example \`claude.ai\`, never the page address), and the campaign names in that link (\`utm_*\`) | To know which sites and posts bring new trials | Your browser, kept in that tab for at most a day |
 
