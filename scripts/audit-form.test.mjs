@@ -1,7 +1,9 @@
 // public/audit.js sends the /audit form to the Colliedesk web form channel and, only after the
 // endpoint accepts it (202), reports a Lead to the Meta pixel and an event to PostHog. The pixel and
 // PostHog are loaded by public/consent.js alone; audit.js only calls them when they exist, and never
-// passes the email or the help center address to either.
+// passes the email or the help center address to either. The optional, unticked "monthly re-check" box
+// is the only consent to more email: its answer and the exact wording shown go into the message, which
+// the web form channel keeps with its time and page, so the conversation is the proof of consent.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -9,9 +11,11 @@ import { runInNewContext } from 'node:vm';
 
 const source = readFileSync(new URL('../public/audit.js', import.meta.url), 'utf8');
 const ENDPOINT = 'https://app.colliedesk.com/api/v1/public/forms/hclabs';
+// The opt-in wording the owner approved on 21/11/2026.
+const RECHECK_WORDING = "Also re-check my help center every month and email me only what's new. Unsubscribe anytime.";
 
 /** Loads audit.js against a stub page, fills the form, submits it and waits for the result. */
-async function submit({ url = 'https://help.example.com', email = 'ana@example.com', band = '11-25', trap = '', respond = { status: 202 }, search = '', pixel = true, posthog = true } = {}) {
+async function submit({ url = 'https://help.example.com', email = 'ana@example.com', band = '11-25', trap = '', respond = { status: 202 }, search = '', pixel = true, posthog = true, recheck = false } = {}) {
   const calls = { fetch: [], fbq: [], posthog: [] };
   let onSubmit;
   const status = { textContent: '', dataset: {} };
@@ -19,7 +23,9 @@ async function submit({ url = 'https://help.example.com', email = 'ana@example.c
   const form = {
     action: ENDPOINT,
     helpcenter: { value: url }, email: { value: email }, team: { value: band }, website: { value: trap },
-    querySelector: (sel) => (sel === '.audit-status' ? status : sel === 'button' ? button : null),
+    recheck: { checked: recheck },
+    querySelector: (sel) => (sel === '.audit-status' ? status : sel === 'button' ? button
+      : sel === 'label[for="audit-recheck"]' ? { textContent: `  ${RECHECK_WORDING}\n ` } : null),
     addEventListener: (type, fn) => { if (type === 'submit') onSubmit = fn; },
     reset: () => {},
   };
@@ -52,7 +58,7 @@ const leads = (calls) => calls.fbq.filter((c) => c[0] === 'track' && c[1] === 'L
 test('a 202 reports one Lead to Meta and audit_requested to PostHog, with the team size only', async () => {
   const { calls, status } = await submit({});
   assert.deepEqual(plain(leads(calls)), [['track', 'Lead', { content_name: 'audit' }]]);
-  assert.deepEqual(plain(calls.posthog), [['audit_requested', { team_size: '11-25' }]]);
+  assert.deepEqual(plain(calls.posthog), [['audit_requested', { team_size: '11-25', monthly_recheck: false }]]);
   assert.equal(status.dataset.state, 'ok');
   assert.equal(status.textContent, 'Got it. You will get the list by email within 24 hours.');
   const sent = JSON.stringify([calls.fbq, calls.posthog]);
@@ -88,7 +94,7 @@ test('the JSON body has exactly email, message, source and website', async () =>
   assert.equal(body.website, '');
   assert.equal(
     body.message,
-    'Help center audit request\nHelp center: https://help.example.com\nAgents: 11-25\nPage: https://colliedesk.com/audit\nUTM: utm_source=meta utm_campaign=audit-nov utm_content=v1',
+    'Help center audit request\nHelp center: https://help.example.com\nAgents: 11-25\nMonthly re-check: no\nPage: https://colliedesk.com/audit\nUTM: utm_source=meta utm_campaign=audit-nov utm_content=v1',
   );
 });
 
@@ -96,7 +102,7 @@ test('the UTM line is left out when the visit has no UTM', async () => {
   const { calls } = await submit({ search: '?fbclid=abc' });
   assert.equal(
     JSON.parse(calls.fetch[0].init.body).message,
-    'Help center audit request\nHelp center: https://help.example.com\nAgents: 11-25\nPage: https://colliedesk.com/audit',
+    'Help center audit request\nHelp center: https://help.example.com\nAgents: 11-25\nMonthly re-check: no\nPage: https://colliedesk.com/audit',
   );
 });
 
@@ -112,4 +118,20 @@ test('a help center address that is not http(s) is rejected before anything is s
 test('the honeypot value is sent as website', async () => {
   const { calls } = await submit({ trap: 'spam.example' });
   assert.equal(JSON.parse(calls.fetch[0].init.body).website, 'spam.example');
+});
+
+test('a ticked box sends "yes" with the exact wording shown, and PostHog gets monthly_recheck true', async () => {
+  const { calls } = await submit({ recheck: true });
+  assert.equal(
+    JSON.parse(calls.fetch[0].init.body).message,
+    `Help center audit request\nHelp center: https://help.example.com\nAgents: 11-25\nMonthly re-check: yes, ticked "${RECHECK_WORDING}"\nPage: https://colliedesk.com/audit`,
+  );
+  assert.deepEqual(plain(calls.posthog), [['audit_requested', { team_size: '11-25', monthly_recheck: true }]]);
+});
+
+test('an unticked box still sends the audit request, marked "no"', async () => {
+  const { calls, status } = await submit({ recheck: false });
+  assert.equal(calls.fetch.length, 1);
+  assert.match(JSON.parse(calls.fetch[0].init.body).message, /\nMonthly re-check: no\n/);
+  assert.equal(status.dataset.state, 'ok');
 });

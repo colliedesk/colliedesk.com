@@ -25,6 +25,10 @@ One team's help center had 383 articles. 19 links led to pages that no longer ex
 
 The audit comes by email. A person at Colliedesk reads it before it is sent, so every item on the list is one you can act on.
 
+## A monthly re-check, if you want one
+
+Help centers break again: articles get edited, pages move, prices change. Tick the box on the form and we re-check your help center once a month and email you only the problems that are new since the last list. The box starts unticked and the audit does not depend on it. Every one of those emails has a link to stop them.
+
 Keep the list and fix it yourself. If you want to see what a switch would look like, read [how a Freshdesk migration works](/migrate/freshdesk) or the [Colliedesk pricing](/pricing).`;
 
 const page: Page = {
@@ -36,12 +40,12 @@ const page: Page = {
   description:
     'Paste your Freshdesk help center address. We email you every dead link, outdated answer and price that disagrees with your pricing page, within 24 hours.',
   summary: 'Free audit of a Freshdesk help center: dead links, answers dated in the past, prices that disagree with the pricing page and searches that return nothing, emailed within 24 hours after a person reads it',
-  updated: '2026-11-09',
+  updated: '2026-11-21',
   eyebrow: 'Free audit',
   h1: 'Free help center audit',
   lede: 'Dead links, outdated answers and wrong prices in your help center, sent to you by email within 24 hours.',
   pre: 'audit-form',
-  preMd: `Use the form on this page: your public help center address, a work email and your team size. ${AUDIT_NOTE}`,
+  preMd: `Use the form on this page: your public help center address, a work email and your team size. An optional box asks for a monthly re-check by email; it starts unticked. ${AUDIT_NOTE}`,
   body,
 };
 page.jsonLd = [techArticle(page)];

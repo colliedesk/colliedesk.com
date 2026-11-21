@@ -2,7 +2,9 @@
 // workspace) and reports the result in the form's status line. Only after the endpoint answers 202
 // does it tell the Meta pixel (Lead) and PostHog (audit_requested, team size only) about it, and only
 // when public/consent.js has loaded them. It never loads a tracker and never passes the email or the
-// help center address to one. scripts/audit-form.test.mjs covers it.
+// help center address to one. The optional "monthly re-check" box is the only consent to more email:
+// the message carries its answer and, when ticked, the exact wording shown, so the conversation (with
+// its time and page) is the proof of consent. scripts/audit-form.test.mjs covers it.
 (function () {
   document.addEventListener('DOMContentLoaded', function () {
     var form = document.querySelector('[data-audit-form]');
@@ -26,10 +28,17 @@
       return parts.length ? '\nUTM: ' + parts.join(' ') : '';
     };
 
-    var track = function (band) {
+    var recheckLine = function (optIn) {
+      if (!optIn) return '\nMonthly re-check: no';
+      var label = form.querySelector('label[for="audit-recheck"]');
+      var wording = label ? label.textContent.replace(/\s+/g, ' ').trim() : '';
+      return '\nMonthly re-check: yes, ticked "' + wording + '"';
+    };
+
+    var track = function (band, optIn) {
       try {
         if (typeof window.fbq === 'function') window.fbq('track', 'Lead', { content_name: 'audit' });
-        if (window.posthog && typeof window.posthog.capture === 'function') window.posthog.capture('audit_requested', { team_size: band });
+        if (window.posthog && typeof window.posthog.capture === 'function') window.posthog.capture('audit_requested', { team_size: band, monthly_recheck: optIn });
       } catch (e) { /* a blocked tracker must not turn a sent request into an error */ }
     };
 
@@ -37,13 +46,14 @@
       event.preventDefault();
       var helpCenter = form.helpcenter.value.trim();
       var band = form.team.value;
+      var optIn = !!(form.recheck && form.recheck.checked);
       if (!isWebAddress(helpCenter)) {
         say('Enter your help center address, starting with https://', 'error');
         return;
       }
       button.disabled = true;
       say('Sending…', 'busy');
-      var message = 'Help center audit request\nHelp center: ' + helpCenter + '\nAgents: ' + band +
+      var message = 'Help center audit request\nHelp center: ' + helpCenter + '\nAgents: ' + band + recheckLine(optIn) +
         '\nPage: ' + location.origin + location.pathname + utmLine();
       fetch(form.action, {
         method: 'POST',
@@ -53,7 +63,7 @@
         if (res.status === 202) {
           form.reset();
           say('Got it. You will get the list by email within 24 hours.', 'ok');
-          track(band);
+          track(band, optIn);
         }
         else if (res.status === 422) say('That email address or help center address does not look right.', 'error');
         else if (res.status === 429) say('Too many tries. Wait a minute and try again.', 'error');
