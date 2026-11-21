@@ -4,6 +4,16 @@ import type { ChangelogEntry, Page } from '../../lib/page';
 // Newest first. Each entry also feeds /changelog.xml.
 export const ENTRIES: readonly ChangelogEntry[] = [
   {
+    version: 'privacy-2026-11-21',
+    date: '2026-11-21',
+    title: 'Privacy: the help center audit and its monthly re-check',
+    md: `The [data table of the privacy policy](/privacy) now lists the [free help center audit](/audit):
+
+- The form takes your **work email, help center address and team size**, only to send you the audit.
+- A **monthly re-check** box, unticked by default, asks us to email you once a month the problems that are new in your help center. The audit does not depend on it, and every re-check email has a link to stop them.
+- When you tick it we keep the time, the page and the exact words of the box, as proof you asked.`,
+  },
+  {
     version: 'privacy-2026-11-20',
     date: '2026-11-20',
     title: 'Privacy: reading a connected Gmail inbox',
