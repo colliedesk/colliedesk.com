@@ -7,7 +7,7 @@ import { FOUNDING_ACTION, FOUNDING_OPEN } from '../../lib/cloud-price';
 const faq: Faq[] = [
   {
     q: 'What do I need to self-host Colliedesk?',
-    a: 'A Linux server with Docker and Compose v2. Colliedesk runs as one server container plus PostgreSQL. One install command starts both, on PostgreSQL 19, and creates your first workspace; an external database needs PostgreSQL 16 or newer.',
+    a: 'A Linux server with Docker and Compose v2. Colliedesk runs as one server container plus PostgreSQL 19 or newer. One install command starts both and creates your first workspace; an external database works too when it runs PostgreSQL 19 or newer.',
   },
   {
     q: 'Is the self-hosted version limited?',
@@ -36,7 +36,7 @@ If none of these apply, [Colliedesk Cloud](/pricing) runs the same code${FOUNDIN
 | Part | Detail |
 |---|---|
 | Server | One container image: \`ghcr.io/colliedesk/colliedesk\` |
-| Database | PostgreSQL 19 in the same Compose stack (the installer's), or an external PostgreSQL 16 or newer |
+| Database | PostgreSQL 19 in the same Compose stack (the installer's), or an external PostgreSQL 19 or newer |
 | Requirements | Docker with Compose v2 |
 | Workspace isolation | PostgreSQL row-level security; requests run as a database user that can only read the signed-in workspace |
 | Sign-in | One-time links, no passwords to store |
