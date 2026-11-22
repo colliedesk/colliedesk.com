@@ -16,7 +16,7 @@ const faq: Faq[] = [
   },
   {
     q: 'Can I import from Freshdesk on the Chatwoot free plan?',
-    a: 'Yes. Since 19 November 2026 the Chatwoot importer runs on every plan, including the free Hacker plan. Hacker allows up to 2 agents, live chat only and 500 conversations a month, so a larger team still needs a paid plan to work in the imported history. An account administrator starts the import in Settings, Data. One import runs per account at a time.',
+    a: 'Yes. Since 19 November 2026 the Chatwoot importer runs on every plan, including the free Hacker plan. Hacker allows up to 2 agents, live chat only, 500 conversations a month and 30 days of data retention, so a larger team still needs a paid plan to work in the imported history. An account administrator starts the import in Settings, Data. One import runs per account at a time.',
   },
   {
     q: 'How much is Chatwoot Cloud for 5 agents?',
@@ -47,7 +47,7 @@ Chatwoot Cloud prices are per agent per month, as shown on the Chatwoot pricing 
 | 5 agents | 5 × $39 = **$195 per month** | ${OUR_CELL} + ${AI_EXTRA} |
 | 10 agents | 10 × $39 = **$390 per month** | ${OUR_CELL} + ${AI_EXTRA} |
 
-Business is the Chatwoot plan with automation rules and teams.
+Business is the lowest Chatwoot plan with automation rules and teams.
 
 ## Moving from Freshdesk
 
@@ -57,7 +57,7 @@ Business is the Chatwoot plan with automation rules and teams.
 | Conversations, replies, private notes | Yes, as resolved history in separate import inboxes | Yes |
 | Attachments | Not transferred; a note on each message counts the skipped files | Downloaded and checksummed (SHA-256) |
 | Agents | Not recreated | Matched by email to your Colliedesk agents |
-| Ticket count | Freshdesk API cap of 30,000 tickets | Archived tickets included; totals checked against what Freshdesk reports |
+| Ticket count | Stops at Freshdesk's API cap of 30,000 tickets | Archived tickets included; totals checked against what Freshdesk reports |
 | Proof that nothing was lost | Counts of what was imported, plus error and skip logs as CSV | Reconcile report against the totals Freshdesk reports |
 
 ## What Colliedesk does today
