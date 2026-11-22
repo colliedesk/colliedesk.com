@@ -1,4 +1,5 @@
 const PRICES_READ = '16 October 2026';
+const CHATWOOT_READ = '23 November 2026';
 import { faqPage, techArticle } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
 import { AI_EXTRA } from '../../lib/site';
@@ -22,13 +23,13 @@ const faq: Faq[] = [
 
 const body = `## The alternatives, side by side
 
-Prices for 5 agents per month, billed annually, from each vendor's page on ${PRICES_READ}. Every row links to a full comparison with sources.
+Prices for 5 agents per month, billed annually where the vendor offers it, from each vendor's page on ${PRICES_READ} unless the row gives another date. Every row links to a full comparison with sources.
 
 | Helpdesk | 5 agents | Pricing model | Open source | Freshdesk import | Comparison |
 |---|---|---|---|---|---|
 | **Colliedesk** | ${FOUNDING_OPEN ? '**$99 every 3 months** (Founding, $396 a year); after the 10 Founding places, $57.50 (Team, $690 a year)' : '**$57.50** (Team, $690 a year)'} + ${AI_EXTRA} | Flat per workspace, up to 10 agents | AGPL-3.0 | Shipped, with reconcile report | — |
 | Zammad | €35 (Starter, max 5 agents); €80–90 (Professional) | Per agent (hosted, in euros) | AGPL-3.0 | Released, self-serve | [vs Zammad](/vs/zammad) |
-| Chatwoot | $195 (Business) | Per agent | MIT (core) | Every plan; no attachments | [vs Chatwoot](/vs/chatwoot) |
+| Chatwoot | $195 (Business; monthly, no annual price listed; read ${CHATWOOT_READ}) | Per agent | MIT (core) | Every plan; no attachments | [vs Chatwoot](/vs/chatwoot) |
 | FreeScout | Hosting + modules | Free core, paid modules, no official cloud | AGPL-3.0 | Third-party or community module | [vs FreeScout](/vs/freescout) |
 | Zendesk | €825 (with Copilot) | Per agent (in euros) | No | — | [vs Zendesk](/vs/zendesk) |
 | Help Scout | $125 (Standard) | Per user, plus $0.75 per AI resolution | No | — | [vs Help Scout](/vs/help-scout) |
