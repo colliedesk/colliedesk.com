@@ -1,4 +1,4 @@
-const PRICES_READ = '16 October 2026';
+const PRICES_READ = 'between 14 and 17 October 2026';
 const CHATWOOT_READ = '23 November 2026';
 import { faqPage, techArticle } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
@@ -17,13 +17,13 @@ const faq: Faq[] = [
   },
   {
     q: 'Which Freshdesk alternative is cheapest for 5 agents?',
-    a: `${FOUNDING_LEAD ? `${FOUNDING_LEAD} Among the other paid plans` : 'Among the paid plans'} we compared on ${PRICES_READ}, the lowest prices for 5 agents are plans capped at five: Zammad Starter and Zoho Desk Express, each €7 per agent, so €35 a month. ${AFTER_FOUNDING}Colliedesk Cloud Team is $690 a year per workspace ($57.50 a month, or $69 billed monthly), which keeps the same price up to 10 agents. Helply (formerly Groove) is ${HELPLY.plus.yearly} a month for up to 5 agents billed annually, or ${HELPLY.plus.monthly} billed monthly (read ${HELPLY.read}). The free plans of Zoho Desk and HubSpot cost nothing if you can live with their limits.`,
+    a: `${FOUNDING_LEAD ? `${FOUNDING_LEAD} Among the other paid plans` : 'Among the paid plans'} we compared (read ${PRICES_READ} unless the table gives another date), the lowest prices for 5 agents are plans capped at five: Zammad Starter and Zoho Desk Express, each €7 per agent, so €35 a month. ${AFTER_FOUNDING}Colliedesk Cloud Team is $690 a year per workspace ($57.50 a month, or $69 billed monthly), which keeps the same price up to 10 agents. Helply (formerly Groove) is ${HELPLY.plus.yearly} a month for up to 5 agents billed annually, or ${HELPLY.plus.monthly} billed monthly (read ${HELPLY.read}). The free plans of Zoho Desk and HubSpot cost nothing if you can live with their limits.`,
   },
 ];
 
 const body = `## The alternatives, side by side
 
-Prices for 5 agents per month, billed annually where the vendor offers it, from each vendor's page read between 14 and 16 October 2026 unless the row gives another date. Every row links to a full comparison with sources.
+Prices for 5 agents per month, billed annually where the vendor offers it, from each vendor's page read ${PRICES_READ} unless the row gives another date. Every row links to a full comparison with sources.
 
 | Helpdesk | 5 agents | Pricing model | Open source | Freshdesk import | Comparison |
 |---|---|---|---|---|---|
