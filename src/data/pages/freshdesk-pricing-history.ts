@@ -3,7 +3,7 @@
 import { faqPage, techArticle } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
 import { TRIAL_HREF } from '../../lib/site';
-import { FOUNDING_ACTION, OUR_PLAN, OUR_PRICE } from '../../lib/cloud-price';
+import { FOUNDING_ACTION, FOUNDING_LEAD, OUR_PLAN, OUR_PRICE } from '../../lib/cloud-price';
 
 const READ = '23 November 2026';
 
@@ -52,7 +52,7 @@ Price per agent per month, billed annually. Each row is read from an archived co
 |---|---|---|---|---|---|---|
 | 16 June 2021 | Sprout: free, unlimited agents | Plans then: Blossom $15, Garden $35, Estate $49, Forest $99 | | | | [archive](${SRC.jun2021}) |
 | 19 December 2022 | Free, up to 10 agents | $15 | $49 | $79 | | [archive](${SRC.dec2022}) |
-| 14 January 2024 | Free, up to 10 agents | $15 | $49 | $79 | | [archive](${SRC.jan2024}) |
+| 14 January 2024 | Free, up to 10 agents | $15 | $49 | $79 | Listed as free, no price yet (Pro, Enterprise) | [archive](${SRC.jan2024}) |
 | 4 November 2024 | Free forever, up to 2 agents | $15 | $49 | $79 | $29 | [archive](${SRC.nov2024}) |
 | 19 January 2025 | Free forever, up to 2 agents | $15 | $49 | $79 | $29 | [archive](${SRC.jan2025}) |
 | 8 December 2025 | 6-month free program, up to 2 agents | $15 | $49 | $79 | | [archive](${SRC.dec2025}) |
@@ -64,10 +64,10 @@ An empty Copilot cell means we did not see the Copilot price in that copy. The 2
 ## What changed
 
 - **The last rise came between 8 December 2025 and 16 January 2026.** The rise added 27% on Growth, 12% on Pro and 13% on Enterprise, billed annually (our arithmetic; [before](${SRC.dec2025}), [after](${SRC.jan2026})).
-- **Before that, Growth and Pro held for three years**, at $15 and $49 per agent a month billed annually, from [December 2022](${SRC.dec2022}) to [December 2025](${SRC.dec2025}).
+- **Before that, Growth and Pro were $15 and $49** per agent a month billed annually in every copy we read from [December 2022](${SRC.dec2022}) to [December 2025](${SRC.dec2025}).
 - **Monthly billing went up too.** In January 2024 Growth was $18, Pro $59 and Enterprise $95 billed monthly ([archive](${SRC.jan2024})). On ${READ} they are $23, $66 and $107 ([pricing page](${SRC.pricing})).
 - **The free tier shrank** from unlimited agents (2021) to 10 agents (2022), then 2 agents (November 2024), then 6 months for 2 agents (December 2025).
-- **AI became a per-agent add-on.** Freddy AI Copilot is on the page by November 2024 at $29 per agent a month billed annually ([archive](${SRC.nov2024})). Today it is $29 billed annually or $35 billed monthly ([pricing page](${SRC.pricing})).
+- **AI became a per-agent add-on.** In January 2024 the page listed Freddy Copilot as free on Pro and Enterprise, before it had a price ([archive](${SRC.jan2024})). It is on the page by November 2024 at $29 per agent a month billed annually ([archive](${SRC.nov2024})). Today it is $29 billed annually or $35 billed monthly ([pricing page](${SRC.pricing})).
 - **AI Agent sessions cost more each.** In November 2024 extra sessions were $100 per 1,000 ([archive](${SRC.nov2024})). By December 2025 they were $49 per 100 ([archive](${SRC.dec2025})). By our arithmetic, that is 10 cents a session going to 49 cents.
 
 ## Plans today
@@ -132,7 +132,7 @@ A per-agent bill grows with every hire. A flat price stays the same as you add a
 
 ## One price for the team instead
 
-Five agents on Freshdesk Pro with Copilot pay $5,040 a year billed annually ([pricing page](${SRC.pricing}), read on ${READ}). Colliedesk ${OUR_PLAN} is ${OUR_PRICE} for up to 10 agents, with AI reply drafts included up to a monthly allowance. [Start the 14-day trial, no card](${TRIAL_HREF}).
+Five agents on Freshdesk Pro with Copilot pay $5,040 a year billed annually ([pricing page](${SRC.pricing}), read on ${READ}). ${FOUNDING_LEAD || `Colliedesk ${OUR_PLAN} is ${OUR_PRICE} for up to 10 agents.`} AI reply drafts are included up to a monthly allowance. [Start the 14-day trial, no card](${TRIAL_HREF}).
 
 Compare features on [Colliedesk vs Freshdesk](/vs/freshdesk), or see other options in [Freshdesk alternatives](/freshdesk-alternative). The [Freshdesk import](/migrate/freshdesk) moves tickets, replies, private notes and attachments. See what your workspace would pay on [Colliedesk pricing](/pricing).
 
@@ -153,7 +153,7 @@ const page: Page = {
   path: '/freshdesk-pricing-history',
   updated: '2026-11-23',
   section: 'Compare',
-  title: 'Freshdesk pricing 2026: $19 to $89 per agent billed yearly',
+  title: 'Freshdesk pricing 2026: $19–$89, and every price since 2021',
   description:
     'Freshdesk costs $19 to $89 per agent a month billed annually, or $23 to $107 billed monthly, in November 2026. Every plan, add-on and price change since 2021.',
   summary:
