@@ -125,7 +125,7 @@ Read these lines on a pricing page before you count on a flat bill.
 - **A team that sits just past a step.** Four agents on Colliedesk pay for ${TEAM.name}, which seats ten.
 - **You need what a larger suite has.** Zendesk lists a Contact Center plan and a Workforce Engagement bundle. Compare by feature on [Colliedesk vs Freshdesk](/vs/freshdesk) and [Colliedesk vs Zendesk](/vs/zendesk).
 
-From three agents up, each of the four flat-priced rows in the bill table costs less than a $55 per-agent plan. Read [the helpdesk guide for small teams](/helpdesk-for-small-teams) for what such a team needs. To pay no licence at all, read [the self-hosted helpdesk page](/self-hosted-helpdesk).
+From three agents up, each of the four flat-priced rows in the bill table costs less than a $55 per-agent plan. Read [the helpdesk guide for small teams](/helpdesk-for-small-teams) for what such a team needs. To pay no licence at all, read [the self-hosted helpdesk page](/self-hosted-helpdesk). Leaving Freshdesk? [Freshdesk alternatives by team size](/freshdesk-alternative) shows what each import keeps.
 
 ## Sources
 
