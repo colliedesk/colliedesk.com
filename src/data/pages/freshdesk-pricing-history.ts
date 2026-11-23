@@ -41,11 +41,11 @@ const faq: Faq[] = [
   },
   {
     q: 'When did Freshdesk last raise its prices?',
-    a: `Between 8 December 2025 and 16 January 2026, judging by archived copies of the pricing page. Growth went from $15 to $19 per agent a month billed annually, Pro from $49 to $55 and Enterprise from $79 to $89 ([before](${SRC.dec2025}), [after](${SRC.jan2026})). On ${READ} the prices are the same.`,
+    a: `Between 8 December 2025 and 16 January 2026, judging by archived copies of the pricing page. Growth went from $15 to $19 per agent a month billed annually, Pro from $49 to $55 and Enterprise from $79 to $89 ([before](${SRC.dec2025}), [after](${SRC.jan2026})). On ${READ} the [pricing page](${SRC.pricing}) shows the same prices.`,
   },
   {
     q: 'What does a 5-agent team pay for Freshdesk Pro with Copilot?',
-    a: `5 × ($55 + $29) = $420 a month billed annually, which is $5,040 a year. Billed monthly it is 5 × ($66 + $35) = $505 a month. In January 2025 the annual figure was 5 × ($49 + $29) = $390 a month ([archive](${SRC.jan2025})).`,
+    a: `5 × ($55 + $29) = $420 a month billed annually, which is $5,040 a year. Billed monthly it is 5 × ($66 + $35) = $505 a month ([pricing page](${SRC.pricing}), read on ${READ}). In January 2025 the annual figure was 5 × ($49 + $29) = $390 a month ([archive](${SRC.jan2025})).`,
   },
 ];
 
@@ -137,9 +137,9 @@ A per-agent bill grows with every hire. A flat price stays the same as you add a
 
 ## One price for the team instead
 
-${FLAT} AI reply drafts are included, with a monthly allowance, or run on your own key. Five agents on Freshdesk Pro with Copilot pay $5,040 a year billed annually.
+${FLAT} AI reply drafts are included, with a monthly allowance, or run on your own key. Five agents on Freshdesk Pro with Copilot pay $5,040 a year billed annually ([pricing page](${SRC.pricing}), read on ${READ}).
 
-Compare features on [Colliedesk vs Freshdesk](/vs/freshdesk), or see other options in [Freshdesk alternatives](/freshdesk-alternative). The [Freshdesk import](/migrate/freshdesk) copies tickets, replies, notes and attachments. See what your workspace would pay on [Colliedesk pricing](/pricing), or [start the 14-day trial, no card](${TRIAL_HREF}).
+Compare features on [Colliedesk vs Freshdesk](/vs/freshdesk), or see other options in [Freshdesk alternatives](/freshdesk-alternative). The [Freshdesk import](/migrate/freshdesk) moves tickets, replies, private notes and attachments. See what your workspace would pay on [Colliedesk pricing](/pricing), or [start the 14-day trial, no card](${TRIAL_HREF}).
 
 ## Method
 
@@ -165,7 +165,7 @@ const page: Page = {
     'Freshdesk pricing on 23 November 2026: plans $19 to $107 per agent, add-ons, hidden costs, the bill for 3, 5 and 10 agents, and every price change since 2021 from Wayback snapshots',
   eyebrow: 'Compare · Freshdesk pricing',
   h1: 'Freshdesk pricing: $19 to $107 per agent, and every change since 2021',
-  lede: 'On 23 November 2026, Freshdesk costs $19 per agent a month for Growth billed annually, up to $107 for Enterprise billed monthly. The last rise came between 8 December 2025 and 16 January 2026, when Growth went from $15 to $19 and Pro from $49 to $55.',
+  lede: `On ${READ}, Freshdesk costs $19 per agent a month for Growth billed annually, up to $107 for Enterprise billed monthly ([pricing page](${SRC.pricing})). The last rise came between [8 December 2025](${SRC.dec2025}) and [16 January 2026](${SRC.jan2026}), when Growth went from $15 to $19 and Pro from $49 to $55.`,
   cta: true,
   ctaFounding: FOUNDING_ACTION,
   body,
