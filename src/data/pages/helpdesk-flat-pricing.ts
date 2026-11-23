@@ -58,7 +58,7 @@ const faq: Faq[] = [
 
 const body = `Seven helpdesks publish a price for the team, not for each agent: Colliedesk, Crisp, Jitbit, HelpSpot, HappyFox, Frappe Helpdesk and FreeScout. For five agents you pay ${OURS}, $95 a month on Crisp and $129 a month on Jitbit. Freshdesk Pro at $55 per agent comes to ${perAgent(55, 5)} a month, billed annually.
 
-Every price below comes from the vendor's own pricing page, read on ${READ}. Prices are in US dollars, before tax.${FOUNDING_LEAD ? `
+Every price below comes from the vendor's own pricing page, read on ${READ} (Frappe Helpdesk on 23 November 2026). Prices are in US dollars, before tax.${FOUNDING_LEAD ? `
 
 ${FOUNDING_LEAD} The tables show the monthly Cloud plans after that.` : ''}
 
@@ -79,7 +79,7 @@ ${FOUNDING_LEAD} The tables show the monthly Cloud plans after that.` : ''}
 | [Jitbit](${JITBIT}) | The plan | Freelancer $29 (1 agent), Startup $69 (4 agents), Company $129 (7 agents), Enterprise $249 (9 agents) | Enterprise lists "9 agents, $29 extra" |
 | [HelpSpot](${HELPSPOT}) | The agent tier, sold by the year | $899 a year (3 agents), $1,299 (5), $1,799 (7), $2,199 (10), $4,999 (25) | Move up a tier; HelpSpot prorates the difference |
 | [HappyFox](${HAPPYFOX}) | A yearly ticket allowance | Growth $1,999 (20,000 tickets a year), Scale $3,999 (150,000), Scale Plus $5,999 (300,000), each billed annually | A fee for each ticket over the allowance |
-| [Frappe Helpdesk](${FRAPPE}) | The server on Frappe Cloud | From $5 a month. No limit on agents, tickets or customers. | Product support from Frappe starts on the $50 plan |
+| [Frappe Helpdesk](${FRAPPE}) | The site size on Frappe Cloud | From $20 a month (Starter, read 23 November 2026). Every size has every feature and unlimited agents. | Move to a larger size; each size is billed for the days your site was on it |
 | [FreeScout](${FREESCOUT}) | Nothing for the core app. You run the server. | $0. No limit on agents, tickets or mailboxes. | Official [modules](${FREESCOUT_MODULES}) are sold as lifetime licences for one install |
 
 Colliedesk plans differ in agents and attachment storage, and in how much of the move from your old helpdesk we do. Every feature is on every plan. A year costs ten months.
@@ -125,17 +125,17 @@ Read these lines on a pricing page before you count on a flat bill.
 - **A team that sits just past a step.** Four agents on Colliedesk pay for ${TEAM.name}, which seats ten.
 - **You need what a larger suite has.** Zendesk lists a Contact Center plan and a Workforce Engagement bundle. Compare by feature on [Colliedesk vs Freshdesk](/vs/freshdesk) and [Colliedesk vs Zendesk](/vs/zendesk).
 
-From three agents up, each of the four flat-priced rows in the bill table costs less than a $55 per-agent plan. Read [the helpdesk guide for small teams](/helpdesk-for-small-teams) for what such a team needs. To pay no licence at all, read [the self-hosted helpdesk page](/self-hosted-helpdesk).
+From three agents up, each of the four flat-priced rows in the bill table costs less than a $55 per-agent plan. Read [the helpdesk guide for small teams](/helpdesk-for-small-teams) for what such a team needs. To pay no licence at all, read [the self-hosted helpdesk page](/self-hosted-helpdesk). Leaving Freshdesk? [Freshdesk alternatives by team size](/freshdesk-alternative) shows what each import keeps.
 
 ## Sources
 
-All read ${READ}.
+All read ${READ}, except Frappe Helpdesk.
 
 - Crisp: [Pricing and plans](${CRISP}).
 - Jitbit: [SaaS help desk pricing](${JITBIT}).
 - HelpSpot: [Simple Annual Pricing](${HELPSPOT}).
 - HappyFox: [Help Desk pricing](${HAPPYFOX}), agent-based and unlimited-agent plans.
-- Frappe Helpdesk: [Pricing](${FRAPPE}).
+- Frappe Helpdesk: [Pricing](${FRAPPE}), read 23 November 2026.
 - FreeScout: [the GitHub repository](${FREESCOUT}) and [the modules page](${FREESCOUT_MODULES}).
 - Freshdesk: [Pricing and plans](${FRESHDESK}).
 - Zendesk: [Pricing plans](${ZENDESK}).
@@ -146,7 +146,7 @@ const page: Page = {
   jsonLd: [],
   name: 'Helpdesks with flat pricing compared',
   path: '/helpdesk-flat-pricing',
-  updated: '2026-11-19',
+  updated: '2026-11-23',
   section: 'Compare',
   title: `Helpdesk flat pricing: 7 compared. Ours: ${OUR_PRICE}`,
   description:
