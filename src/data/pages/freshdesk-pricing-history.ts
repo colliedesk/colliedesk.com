@@ -2,8 +2,8 @@
 // Monthly prices are the ones the pricing page shows after you switch its toggle to Monthly.
 import { faqPage, techArticle } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
-import { TEAM, TRIAL_HREF, dollars } from '../../lib/site';
-import { FOUNDING_ACTION, foundingFirst } from '../../lib/cloud-price';
+import { TRIAL_HREF } from '../../lib/site';
+import { FOUNDING_ACTION, OUR_PLAN, OUR_PRICE } from '../../lib/cloud-price';
 
 const READ = '23 November 2026';
 
@@ -20,11 +20,6 @@ const SRC = {
   dec2025: 'https://web.archive.org/web/20251208031227/https://www.freshworks.com/freshdesk/pricing/',
   jan2026: 'https://web.archive.org/web/20260116021858/https://www.freshworks.com/freshdesk/pricing/',
 } as const;
-
-// One price for the whole workspace, Founding first while its places are open.
-const FLAT = foundingFirst(
-  `Colliedesk Cloud Team is ${dollars(TEAM.monthly)} a month for up to 10 agents, or ${dollars(TEAM.yearly)} a year.`,
-);
 
 const faq: Faq[] = [
   {
@@ -68,11 +63,11 @@ An empty Copilot cell means we did not see the Copilot price in that copy. The 2
 
 ## What changed
 
-- **The last rise came between 8 December 2025 and 16 January 2026.** Growth went from $15 to $19 (+27%), Pro from $49 to $55 (+12%) and Enterprise from $79 to $89 (+13%). The percentages are our arithmetic.
-- **Before that, Growth and Pro held for three years**, at $15 and $49 from December 2022 to December 2025.
-- **Monthly billing went up too.** In January 2024 Growth was $18, Pro $59 and Enterprise $95 billed monthly ([archive](${SRC.jan2024})). On ${READ} they are $23, $66 and $107.
+- **The last rise came between 8 December 2025 and 16 January 2026.** The rise added 27% on Growth, 12% on Pro and 13% on Enterprise, billed annually (our arithmetic; [before](${SRC.dec2025}), [after](${SRC.jan2026})).
+- **Before that, Growth and Pro held for three years**, at $15 and $49 per agent a month billed annually, from [December 2022](${SRC.dec2022}) to [December 2025](${SRC.dec2025}).
+- **Monthly billing went up too.** In January 2024 Growth was $18, Pro $59 and Enterprise $95 billed monthly ([archive](${SRC.jan2024})). On ${READ} they are $23, $66 and $107 ([pricing page](${SRC.pricing})).
 - **The free tier shrank** from unlimited agents (2021) to 10 agents (2022), then 2 agents (November 2024), then 6 months for 2 agents (December 2025). The live page lists no free plan.
-- **AI became a per-agent add-on.** Freddy AI Copilot is on the page by November 2024 at $29 per agent a month, and still is today.
+- **AI became a per-agent add-on.** Freddy AI Copilot is on the page by November 2024 at $29 per agent a month billed annually ([archive](${SRC.nov2024})). Today it is $29 billed annually or $35 billed monthly ([pricing page](${SRC.pricing})).
 - **AI Agent sessions cost more each.** In November 2024 extra sessions were $100 per 1,000 ([archive](${SRC.nov2024})). By December 2025 they were $49 per 100 ([archive](${SRC.dec2025})). By our arithmetic, that is 10 cents a session going to 49 cents.
 
 ## Plans today
@@ -85,7 +80,7 @@ Read on the [Freshdesk pricing page](${SRC.pricing}) on ${READ}. Prices are per 
 | Pro | $55 | $66 | Everything in Growth, plus a multilingual helpdesk, custom dashboards and reports, intelligent routing, multiple SLA policies and external collaborators |
 | Enterprise | $89 | $107 | Everything in Pro, plus Freddy AI Insights, skill-based routing, a sandbox, audit logs, and allowed domains and IP whitelisting |
 
-Freshworks labels annual billing "Save 20%". The page lists no free plan. It offers a 14-day free trial of Enterprise.
+For the free plan, the trial and the annual discount, see the [questions below](#faq).
 
 ## Add-ons and what they cost
 
@@ -101,9 +96,9 @@ Read on the [Freshdesk pricing page](${SRC.pricing}) on ${READ}.
 
 You can buy Copilot for some agents only. On email, one AI Agent session is a 72-hour window from the customer's first email.
 
-**If you need chat or phone.** Freshworks sells these as a bundle or as separate products, not as Freshdesk add-ons. Prices are per agent per month, billed annually, then monthly.
+**If you need chat or phone.** The Freshdesk pricing page lists no chat or phone add-on. Freshworks prices chat in Freshdesk Omni or Freshchat, and phone as the Omni Voice add-on or Freshcaller. Prices are per agent per month, billed annually, then monthly.
 
-- **Freshdesk Omni** (Freshworks' omnichannel plan): Growth $29 or $35, Pro $79 or $95, Enterprise $119 or $143. Its voice add-on is $15 or $18, $39 or $47, and $69 or $83 ([Omni pricing](${SRC.omni})).
+- **Freshdesk Omni** (Freshworks' omnichannel plan): Growth $29 or $35, Pro $79 or $95, Enterprise $119 or $143. Its Voice add-on is $15 or $18, $39 or $47, and $69 or $83 ([Omni pricing](${SRC.omni})).
 - **Freshchat** (live chat): free for up to 10 agents. Growth $19 or $23, Pro $49 or $59, Enterprise $79 or $95 ([Freshchat pricing](${SRC.chat})).
 - **Freshcaller** (phone): Growth $15 or $18, Pro $39 or $47, Enterprise $69 or $83, each plus a price per minute ([Freshcaller pricing](${SRC.phone})). Paid plans include 2,000, 3,000 or 5,000 incoming minutes a month.
 
@@ -114,8 +109,8 @@ Each line is stated on, or computed from, the [pricing page](${SRC.pricing}) rea
 - **AI is billed per agent.** Copilot adds $29 to each Pro seat that has it, so one Pro agent with Copilot costs $84 a month billed annually.
 - **Copilot is on Pro and Enterprise only.** Our reading: a Growth team must move to Pro before it can buy Copilot.
 - **The 500 free AI Agent sessions come once per account.** Then you pay $49 per 100, and an unused pack expires with your payment cycle.
-- **Changes wait for the end of the term.** An upgrade is instant. A downgrade or a cancellation takes effect at the end of your term. Freshworks states there are no cancellation fees.
-- **Card only.** You pay by Visa, Mastercard, Discover or American Express. PayPal is not accepted.
+- **Downgrades and cancellations wait for the end of the term.** An upgrade is instant. A downgrade or a cancellation takes effect at the end of your term. Freshworks states there are no cancellation fees.
+- **No PayPal.** Freshworks takes Visa, Mastercard, Discover and American Express. Offline payments are in USD, and it takes no purchase orders over the phone.
 - **No seat minimum is stated.** The page states no minimum number of agents.
 
 ## What 3, 5 and 10 agents pay, monthly vs annual
@@ -137,9 +132,9 @@ A per-agent bill grows with every hire. A flat price stays the same as you add a
 
 ## One price for the team instead
 
-${FLAT} AI reply drafts are included, with a monthly allowance, or run on your own key. Five agents on Freshdesk Pro with Copilot pay $5,040 a year billed annually ([pricing page](${SRC.pricing}), read on ${READ}).
+Five agents on Freshdesk Pro with Copilot pay $5,040 a year billed annually ([pricing page](${SRC.pricing}), read on ${READ}). Colliedesk ${OUR_PLAN} is ${OUR_PRICE} for up to 10 agents, with AI reply drafts included up to a monthly allowance. [Start the 14-day trial, no card](${TRIAL_HREF}).
 
-Compare features on [Colliedesk vs Freshdesk](/vs/freshdesk), or see other options in [Freshdesk alternatives](/freshdesk-alternative). The [Freshdesk import](/migrate/freshdesk) moves tickets, replies, private notes and attachments. See what your workspace would pay on [Colliedesk pricing](/pricing), or [start the 14-day trial, no card](${TRIAL_HREF}).
+Compare features on [Colliedesk vs Freshdesk](/vs/freshdesk), or see other options in [Freshdesk alternatives](/freshdesk-alternative). The [Freshdesk import](/migrate/freshdesk) moves tickets, replies, private notes and attachments. See what your workspace would pay on [Colliedesk pricing](/pricing).
 
 ## Method
 
@@ -158,14 +153,14 @@ const page: Page = {
   path: '/freshdesk-pricing-history',
   updated: '2026-11-23',
   section: 'Compare',
-  title: 'Freshdesk pricing 2026: $19 to $107 per agent, every change',
+  title: 'Freshdesk pricing 2026: $19 to $89 per agent billed yearly',
   description:
-    'Freshdesk costs $19 to $107 per agent a month in November 2026. Every plan, add-on and price change since 2021, and the bill for 3, 5 and 10 agents.',
+    'Freshdesk costs $19 to $89 per agent a month billed annually, or $23 to $107 billed monthly, in November 2026. Every plan, add-on and price change since 2021.',
   summary:
-    'Freshdesk pricing on 23 November 2026: plans $19 to $107 per agent, add-ons, hidden costs, the bill for 3, 5 and 10 agents, and every price change since 2021 from Wayback snapshots',
+    'Freshdesk pricing on 23 November 2026: plans $19 to $89 per agent billed annually ($23 to $107 monthly), add-ons, hidden costs, the bill for 3, 5 and 10 agents, and every price change since 2021 from 7 Wayback snapshots',
   eyebrow: 'Compare · Freshdesk pricing',
-  h1: 'Freshdesk pricing: $19 to $107 per agent, and every change since 2021',
-  lede: `On ${READ}, Freshdesk costs $19 per agent a month for Growth billed annually, up to $107 for Enterprise billed monthly ([pricing page](${SRC.pricing})). The last rise came between [8 December 2025](${SRC.dec2025}) and [16 January 2026](${SRC.jan2026}), when Growth went from $15 to $19 and Pro from $49 to $55.`,
+  h1: 'Freshdesk pricing: $19 to $89 per agent billed annually ($23 to $107 monthly), and every change since 2021',
+  lede: `We compared 7 dated copies of the Freshdesk pricing page since June 2021 with the [live page](${SRC.pricing}) on ${READ}, where it costs $19 to $89 per agent a month billed annually. The last rise came between [8 December 2025](${SRC.dec2025}) and [16 January 2026](${SRC.jan2026}), when Growth went from $15 to $19 per agent a month billed annually, and Pro from $49 to $55.`,
   cta: true,
   ctaFounding: FOUNDING_ACTION,
   body,
