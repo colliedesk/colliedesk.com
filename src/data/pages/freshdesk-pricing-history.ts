@@ -59,6 +59,7 @@ Price per agent per month, billed annually. Each row is read from an archived co
 | 19 December 2022 | Free, up to 10 agents | $15 | $49 | $79 | | [archive](${SRC.dec2022}) |
 | 14 January 2024 | Free, up to 10 agents | $15 | $49 | $79 | | [archive](${SRC.jan2024}) |
 | 4 November 2024 | Free forever, up to 2 agents | $15 | $49 | $79 | $29 | [archive](${SRC.nov2024}) |
+| 19 January 2025 | Free forever, up to 2 agents | $15 | $49 | $79 | $29 | [archive](${SRC.jan2025}) |
 | 8 December 2025 | 6-month free program, up to 2 agents | $15 | $49 | $79 | | [archive](${SRC.dec2025}) |
 | 16 January 2026 | 6-month free program, 1 or 2 agents | **$19** | **$55** | **$89** | | [archive](${SRC.jan2026}) |
 | ${READ} (live) | None listed | $19 | $55 | $89 | $29 | [freshworks.com](${SRC.pricing}) |
@@ -94,7 +95,7 @@ Read on the [Freshdesk pricing page](${SRC.pricing}) on ${READ}.
 |---|---|---|
 | Freddy AI Copilot | $29 per agent a month billed annually, $35 billed monthly | Pro and Enterprise |
 | Extra Freddy AI Agent sessions | $49 per 100 sessions, after 500 free sessions once per account | Growth, Pro and Enterprise |
-| Day passes for occasional agents | $2 a pass on Growth, $7 on Pro, $12 on Enterprise | All three; none for Copilot |
+| Day passes | $2 a pass on Growth, $7 on Pro, $12 on Enterprise | All three; none for Copilot |
 | Connector app tasks | $80 per 5,000 tasks | All three |
 | MCP actions | $15 per 1,000 actions | All three |
 
@@ -108,9 +109,9 @@ You can buy Copilot for some agents only. On email, one AI Agent session is a 72
 
 ## Hidden costs
 
-Each line is stated on the [pricing page](${SRC.pricing}) read on ${READ}, unless it says "our reading".
+Each line is stated on, or computed from, the [pricing page](${SRC.pricing}) read on ${READ}, unless it says "our reading".
 
-- **AI is billed per agent.** Copilot adds $29 to each Pro seat, so one Pro agent with Copilot costs $84 a month billed annually.
+- **AI is billed per agent.** Copilot adds $29 to each Pro seat that has it, so one Pro agent with Copilot costs $84 a month billed annually.
 - **Copilot is on Pro and Enterprise only.** Our reading: a Growth team must move to Pro before it can buy Copilot.
 - **The 500 free AI Agent sessions come once per account.** Then you pay $49 per 100, and an unused pack expires with your payment cycle.
 - **Changes wait for the end of the term.** An upgrade is instant. A downgrade or a cancellation takes effect at the end of your term. Freshworks states there are no cancellation fees.
