@@ -66,7 +66,7 @@ An empty Copilot cell means we did not see the Copilot price in that copy. The 2
 - **The last rise came between 8 December 2025 and 16 January 2026.** The rise added 27% on Growth, 12% on Pro and 13% on Enterprise, billed annually (our arithmetic; [before](${SRC.dec2025}), [after](${SRC.jan2026})).
 - **Before that, Growth and Pro held for three years**, at $15 and $49 per agent a month billed annually, from [December 2022](${SRC.dec2022}) to [December 2025](${SRC.dec2025}).
 - **Monthly billing went up too.** In January 2024 Growth was $18, Pro $59 and Enterprise $95 billed monthly ([archive](${SRC.jan2024})). On ${READ} they are $23, $66 and $107 ([pricing page](${SRC.pricing})).
-- **The free tier shrank** from unlimited agents (2021) to 10 agents (2022), then 2 agents (November 2024), then 6 months for 2 agents (December 2025). The live page lists no free plan.
+- **The free tier shrank** from unlimited agents (2021) to 10 agents (2022), then 2 agents (November 2024), then 6 months for 2 agents (December 2025).
 - **AI became a per-agent add-on.** Freddy AI Copilot is on the page by November 2024 at $29 per agent a month billed annually ([archive](${SRC.nov2024})). Today it is $29 billed annually or $35 billed monthly ([pricing page](${SRC.pricing})).
 - **AI Agent sessions cost more each.** In November 2024 extra sessions were $100 per 1,000 ([archive](${SRC.nov2024})). By December 2025 they were $49 per 100 ([archive](${SRC.dec2025})). By our arithmetic, that is 10 cents a session going to 49 cents.
 
