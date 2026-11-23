@@ -58,7 +58,7 @@ const faq: Faq[] = [
 
 const body = `Seven helpdesks publish a price for the team, not for each agent: Colliedesk, Crisp, Jitbit, HelpSpot, HappyFox, Frappe Helpdesk and FreeScout. For five agents you pay ${OURS}, $95 a month on Crisp and $129 a month on Jitbit. Freshdesk Pro at $55 per agent comes to ${perAgent(55, 5)} a month, billed annually.
 
-Every price below comes from the vendor's own pricing page, read on ${READ}. Prices are in US dollars, before tax.${FOUNDING_LEAD ? `
+Every price below comes from the vendor's own pricing page, read on ${READ} (Frappe Helpdesk on 23 November 2026). Prices are in US dollars, before tax.${FOUNDING_LEAD ? `
 
 ${FOUNDING_LEAD} The tables show the monthly Cloud plans after that.` : ''}
 
