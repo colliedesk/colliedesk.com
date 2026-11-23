@@ -117,7 +117,7 @@ Read these lines on a pricing page before you count on a flat bill.
 - **A ticket allowance.** The three priced HappyFox unlimited-agent plans include 20,000 to 300,000 tickets a year and charge for each ticket over that.
 - **A customer limit.** Crisp lists 5,000 customer profiles on Mini and 50,000 on Essentials.
 - **AI credits.** Crisp includes $5 of AI credits on Mini and $25 on Essentials. Freshdesk lists Freddy AI Copilot at $29 per agent a month, billed annually, on Pro.
-- **The billing period.** HelpSpot sells by the year only. Freshdesk and Zendesk show the yearly-billing price first.
+- **The billing period.** HelpSpot sells by the year only. Freshdesk and Zendesk show the yearly-billing price first. Freshdesk's monthly prices, and every change since 2021, are on [Freshdesk pricing](/freshdesk-pricing-history).
 
 ## When a flat price saves little
 
