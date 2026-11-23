@@ -153,7 +153,7 @@ const page: Page = {
   path: '/freshdesk-pricing-history',
   updated: '2026-11-23',
   section: 'Compare',
-  title: 'Freshdesk pricing 2026: $19–$89, and every price since 2021',
+  title: 'Freshdesk pricing history 2026: $19–$89/agent billed yearly',
   description:
     'Freshdesk costs $19 to $89 per agent a month billed annually, or $23 to $107 billed monthly, in November 2026. Every plan, add-on and price change since 2021.',
   summary:
