@@ -31,9 +31,10 @@ Z="https://$ZENDESK_SUBDOMAIN.zendesk.com"
 trap 'rm -f auth-header.txt page.json headers.txt' EXIT
 
 # 1. Get a read-only token that lasts 2 days. The secret goes through stdin.
-TOKEN=$(printf 'grant_type=client_credentials&client_id=%s&client_secret=%s&scope=read&expires_in=172800' \
-  "$ZENDESK_CLIENT_ID" "$ZENDESK_CLIENT_SECRET" |
-  curl -sSf -X POST "$Z/oauth/tokens" --data @- | jq -er .access_token)
+TOKEN=$(printf '%s' "$ZENDESK_CLIENT_SECRET" |
+  curl -sSf -X POST "$Z/oauth/tokens" --data-urlencode client_secret@- \
+    -d grant_type=client_credentials --data-urlencode "client_id=$ZENDESK_CLIENT_ID" \
+    -d scope=read -d expires_in=172800 | jq -er .access_token)
 printf 'Authorization: Bearer %s\n' "$TOKEN" > auth-header.txt
 
 # 2. Read one incremental export from the start, one page every 6 seconds.
@@ -61,10 +62,12 @@ export_all() { # $1 = name in the response, $2 = extra query parameters
 export_all ticket_events '&include=comment_events&support_type_scope=all'
 export_all users ''
 export_all organizations ''
-echo "done: $(jq -r .ticket_id ticket_events.ndjson | sort -u | wc -l) tickets," \
-  "$(wc -l < users.ndjson) users, $(wc -l < organizations.ndjson) organizations"`;
+# Time-based exports can repeat an item, so count unique ids.
+count() { jq -r "$1" "$2" | sort -u | wc -l; }
+echo "done: $(count .ticket_id ticket_events.ndjson) tickets," \
+  "$(count .id users.ndjson) users, $(count .id organizations.ndjson) organizations"`;
 
-const body = `The Zendesk CSV export has no comments, so a full conversation comes out only through the JSON or XML data export or through the Incremental Ticket Event Export API with \`include=comment_events\`. The data export is not on Team plans and stays off until Zendesk Support turns it on; the API works on every plan.
+const body = `The Zendesk CSV export has no comments, so the full conversation comes out only through the JSON or XML data export or the Incremental Ticket Event Export API with \`include=comment_events\`. Team plans have no data export and Zendesk stopped new API tokens on 27 October 2026, so section 3 gives a 41-line script that gets an OAuth token and exports every comment, user and organization on any plan.
 
 | What you get | Data export: CSV | Data export: JSON | Data export: XML | Incremental Export API |
 |---|---|---|---|---|
@@ -109,7 +112,7 @@ curl -sS -H @auth-header.txt \\
 
 \`auth-header.txt\` holds one line, \`Authorization: Bearer <token>\`; the script below writes it. Without \`include=comment_events\`, the events say only that a comment exists, not what it says.
 
-**Get a token first.** Zendesk stopped all new API tokens on 27 October 2026, and every existing token stops working on 30 April 2027. Use an OAuth token instead:
+**Get a token first.** Zendesk stopped all new API tokens on 27 October 2026. An existing token works until 30 April 2027 only if it is used at least once every 30 days; an unused one deactivates after 30 days. Use an OAuth token instead:
 
 1. In **Admin Center**, open **Apps and integrations > APIs > OAuth clients** and add a client. You must be an admin.
 2. Set the client kind to **Confidential**. The script uses the client credentials flow, which needs no redirect URL.
@@ -119,7 +122,7 @@ curl -sS -H @auth-header.txt \\
 The script below writes \`ticket_events.ndjson\` (every comment), \`users.ndjson\` and \`organizations.ndjson\`, one JSON object per line. It needs \`curl\` and \`jq\`. We ran it against a local stand-in for the Zendesk API, not a live Zendesk account, so check the counts before you cancel.
 
 <details>
-<summary>Show the script (38 lines of bash)</summary>
+<summary>Show the script (41 lines of bash)</summary>
 
 \`\`\`bash
 ${script}
@@ -127,14 +130,14 @@ ${script}
 
 </details>
 
-The script waits 6 seconds between pages, because the incremental exports allow 10 requests per minute. On a 429 it waits for the time in the \`Retry-After\` header. Rows go to a \`.partial\` file that is renamed only when Zendesk reports \`end_of_stream\`, so a stopped run never looks complete.
+The script waits 6 seconds between pages to stay under the rate limit below. On a 429 it waits for the time in the \`Retry-After\` header. Rows go to a \`.partial\` file that is renamed only when Zendesk reports \`end_of_stream\`, so a stopped run never looks complete.
 
 ## Limits and traps in the Zendesk docs
 
 - **Rate limit.** Incremental exports allow 10 requests per minute on every plan, or 30 with the High Volume API add-on. The add-on needs Suite Growth or Support Professional and up, with at least 10 agent seats.
-- **Duplicates.** Time-based exports can return the same item twice. Zendesk says to filter ticket events by \`id\` and \`created_at\`, users and organizations by \`id\` and \`updated_at\`. The script counts unique ticket ids for the same reason.
-- **AI agent tickets.** The API leaves them out unless you add \`support_type_scope=all\`, as the script does. The data export cannot export them.
-- **Deleted tickets** stay in the API stream. Zendesk scrubs their content 30 days after deletion, and drops the record 90 days after permanent deletion.
+- **Duplicates.** Time-based exports can return the same item twice. Zendesk says to filter ticket events by \`id\` and \`created_at\`, users and organizations by \`id\` and \`updated_at\`. The script counts unique ids for the same reason.
+- **AI agent tickets.** The API leaves them out unless you add \`support_type_scope=all\`, as the script does.
+- **Deleted tickets** stay in the API stream. Zendesk scrubs their content 30 days after deletion, or at once when you permanently delete them, and drops the record 90 days after permanent deletion.
 - **The last minute is missing.** The ticket and ticket event exports never return the most recent minute.
 - **Third-party apps lose access.** Zendesk is closing the incremental APIs to third-party apps and integrations between 2 December 2026 and 19 January 2027, Marketplace or not. Zendesk keeps them open for internal integrations, such as a script your own admin runs. A migration vendor that exports for you must use other endpoints; an admin can request a 60-day extension for it in **Apps & integrations > APIs > API Configuration**.
 
@@ -164,7 +167,7 @@ Archived tickets count; deleted tickets do not. Admins see a warning above 80%. 
 
 ## Moving to Colliedesk
 
-Colliedesk imports from Freshdesk and Help Scout today, and each import ends with a reconcile report that compares what the old helpdesk holds with what Colliedesk holds. A Zendesk importer is on the [roadmap](/roadmap) under Later. Leaving Zendesk before it ships? Keep your export as the backup and start fresh: every Colliedesk Cloud workspace starts with a 14-day free trial, no card. [Start the free trial](${TRIAL_HREF}), or compare the plans on [Colliedesk pricing](/pricing). Comparing the two products first? Read [Colliedesk vs Zendesk](/vs/zendesk). Leaving Help Scout too? Read [Export conversations from Help Scout](/migrate/help-scout/export).
+Colliedesk imports from Freshdesk and Help Scout today, and each import ends with a reconcile report that compares what the old helpdesk holds with what Colliedesk holds. A Zendesk importer is on the [roadmap](/roadmap) under Later. Leaving Zendesk before it ships? Keep your export as the backup and start fresh on Colliedesk Cloud: one flat price for the workspace with no per-agent fees, every feature on every plan, and a 14-day free trial with no card. [Start the free trial](${TRIAL_HREF}), or compare the plans on [Colliedesk pricing](/pricing). Comparing the two products first? Read [Colliedesk vs Zendesk](/vs/zendesk). Leaving Help Scout too? Read [Export conversations from Help Scout](/migrate/help-scout/export).
 
 ## Sources
 
@@ -187,12 +190,12 @@ const page: Page = {
   path: '/migrate/zendesk/export',
   updated: '2026-11-24',
   section: 'Migrate',
-  title: 'Export Zendesk tickets with comments, users and orgs (2026)',
+  title: 'Export Zendesk tickets with comments: a 41-line OAuth script',
   description:
     'The Zendesk CSV export has no comments and new API tokens stopped on 27 October 2026. Export every comment, user and organization, on any plan, step by step.',
   summary: 'Export Zendesk tickets with comments, users and organizations: CSV vs JSON/XML vs Incremental Export API with OAuth; plans, limits, a script and the 2026 API changes',
   eyebrow: 'Migrate · Zendesk · Export',
-  h1: 'Export Zendesk tickets with every comment, plus users and organizations',
+  h1: 'Export every Zendesk comment, user and organization with one 41-line script, on any plan',
   lede: 'The CSV leaves out every comment, the built-in export is not on Team plans, and Zendesk stopped new API tokens on 27 October 2026. Here is the route that still works in each case.',
   cta: true,
   body,
