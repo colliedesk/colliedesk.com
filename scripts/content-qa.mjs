@@ -59,7 +59,7 @@ const RULE_FINDING = {
 };
 export const KNOWN_DEBT = {
   cta: [
-    '/migrate/zendesk/export', '/open-source', '/vs/chatwoot', '/vs/front', '/vs/gorgias', '/vs/groove',
+    '/open-source', '/vs/chatwoot', '/vs/front', '/vs/gorgias', '/vs/groove',
     '/vs/happyfox', '/vs/hubspot-service-hub', '/vs/zoho-desk',
   ],
   links: [
