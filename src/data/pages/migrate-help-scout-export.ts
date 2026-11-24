@@ -16,7 +16,7 @@ const faq: Faq[] = [
   },
   {
     q: 'Can I connect Help Scout to Looker Studio?',
-    a: 'Google\'s list of available connectors for Looker Studio, called Data Studio again since April 2026, has no Help Scout entry. Import `threads.csv` into Google Sheets and connect that sheet with the Google Sheets connector, or upload the file with the CSV file upload connector.',
+    a: 'Not with a Google connector: Google\'s list of available connectors for Looker Studio, called Data Studio again since April 2026, has no Help Scout entry. Help Scout points to Fivetran for analytics tools. Without an extra tool, import `threads.csv` into Google Sheets and connect that sheet with the Google Sheets connector, or upload the file with the CSV file upload connector.',
   },
   {
     q: 'Can Colliedesk import my Help Scout inbox?',
@@ -69,11 +69,11 @@ done < conversation-ids.txt
 mv threads.csv.partial threads.csv
 echo "done: $(wc -l < conversation-ids.txt) conversations, $(wc -l < skipped-404.txt) skipped (404)"`;
 
-const body = `Help Scout's Reports export (CSV or XLSX) leaves out the conversation thread contents, so the messages come out only through the Inbox API 2.0, which the Free plan does not include. The script below writes every thread to \`threads.csv\`, closed conversations included, and you open that file in Google Sheets with **File > Import** or in Excel with **Data > From Text/CSV**.
+const body = `Help Scout's Reports export (CSV or XLSX) has no message text and the Free plan has no API, so the 44-line script below pulls every thread through the Inbox API 2.0 into \`threads.csv\`, closed conversations included. You open that file in Google Sheets with **File > Import** or in Excel with **Data > From Text/CSV**.
 
 | What you get | Reports export | Customer list on request | Inbox API 2.0 |
 |---|---|---|---|
-| Conversation fields | Yes | No | Yes |
+| Conversation fields | Yes, but not for still open conversations | No | Yes |
 | Reporting data | Yes | No | Plus and Pro plans only |
 | Replies, notes and other threads | No | No | Yes |
 | Format | CSV or XLSX | CSV | JSON |
@@ -99,7 +99,7 @@ Each report exports a different set of conversations:
 | User or Team | That user's or team's conversations |
 | Happiness | Rated conversations |
 
-Times in the XLSX file are in UTC. Times in the CSV file use the company time zone from **Settings > Company**.
+Help Scout also leaves data on still open conversations, and totals, averages and percentages, out of the export. Times in the XLSX file are in UTC. Times in the CSV file use the company time zone from **Settings > Company**.
 
 ## 2. Inbox API: every thread, as a CSV
 
@@ -109,7 +109,7 @@ Help Scout says that exporting through the API is currently the only means of ge
 2. **Use an active user.** The app must belong to an active, invited user in the account, or the API returns 401.
 3. **Set three values** in your shell: \`HELPSCOUT_APP_ID\`, \`HELPSCOUT_APP_SECRET\` and \`MAILBOX\` (the inbox id).
 4. **Run the script.** It needs \`curl\` and \`jq\`.
-5. **Open \`threads.csv\`** in a spreadsheet. The \`body\` column holds the message HTML.
+5. **Open \`threads.csv\`** in a spreadsheet. The \`body\` column holds each thread's text as the API returns it.
 
 <details>
 <summary>Show the script (44 lines of bash)</summary>
@@ -146,7 +146,7 @@ A spreadsheet in Google Sheets holds up to 20 million cells or 100 MB. The scrip
 
 ## Help Scout to Excel
 
-For conversation fields only, the Reports export in section 1 already gives an XLSX file. For the message text, open \`threads.csv\`. These are Microsoft's steps for newer versions of Excel, such as Excel for Microsoft 365:
+For conversation fields without the messages, the Reports export in section 1 already gives an XLSX file, without still open conversations. For the message text, open \`threads.csv\`. These are Microsoft's steps for newer versions of Excel, such as Excel for Microsoft 365:
 
 1. Click the cell where the data should start.
 2. On the **Data** tab, in the **Get & Transform Data** group, click **From Text/CSV**.
@@ -158,7 +158,7 @@ You can also open the file with **File > Open**. Excel then reads each column wi
 
 ## Help Scout to Looker Studio
 
-Looker Studio is called Data Studio again since April 2026, and its menus use the new name. Google's list of available connectors has no Help Scout entry, so both routes below start from the CSV the script writes.
+Looker Studio is called Data Studio again since April 2026, and its menus use the new name. Google's list of available connectors has no Help Scout entry. Help Scout points to Fivetran's integration for sending its data to an analytics tool, and calls that a large do-it-yourself project. The two routes below need no extra tool and start from the CSV the script writes.
 
 **Through Google Sheets (keeps the message text).** Import \`threads.csv\` into Google Sheets as above, then:
 
@@ -170,7 +170,7 @@ Looker Studio is called Data Studio again since April 2026, and its menus use th
 
 Keep the sheet in a normal Drive folder: Google says Data Studio does not support files on Team Drive.
 
-**CSV file upload.** Click **Create**, then **Data source**, select the **CSV file upload** connector, click **Add data set**, upload the file and click **Connect**. The script's header row already follows Google's rule for column names: letters, numbers and underscores, starting with a letter. But file upload does not support line breaks inside your data, even in quotes, and the \`body\` column holds message HTML. If your messages have line breaks, use the Google Sheets route. File upload has a 100 MB limit per data set.
+**CSV file upload.** Click **Create**, then **Data source**, select the **CSV file upload** connector, click **Add data set**, upload the file and click **Connect**. The script's header row already follows Google's rule for column names: letters, numbers and underscores, starting with a letter. But file upload does not support line breaks inside your data, even in quotes. If any \`body\` has a line break, use the Google Sheets route. File upload has a 100 MB limit per data set.
 
 ## Before you cancel Help Scout
 
@@ -188,7 +188,7 @@ Colliedesk's importer reads the same Inbox API 2.0, copies one Help Scout inbox 
 
 All read 24 November 2026.
 
-- Reports export: [docs.helpscout.com article 849](https://docs.helpscout.com/article/849-export-reporting-data)
+- Reports export, what it leaves out, and Fivetran for analytics tools: [docs.helpscout.com article 849](https://docs.helpscout.com/article/849-export-reporting-data)
 - Export options and the customer list: [docs.helpscout.com article 466](https://docs.helpscout.com/article/466-data-export-options)
 - Google Sheets entry on Help Scout's integrations page: [helpscout.com/help-desk-integration](https://www.helpscout.com/help-desk-integration/)
 - API access, reporting endpoints and rate limits per plan: [docs.helpscout.com article 1140](https://docs.helpscout.com/article/1140-mailbox-api)
@@ -219,9 +219,9 @@ const page: Page = {
   summary: 'Export Help Scout conversations to Google Sheets, Excel or Looker Studio: Reports export (fields only) vs Inbox API (every thread); a CSV script, import steps and the API traps',
   eyebrow: 'Migrate · Help Scout · Export',
   h1: 'Export Help Scout conversations to Google Sheets, Excel or Looker Studio, with the message text the Reports CSV leaves out',
-  lede: 'The Reports CSV has the conversation fields but not the messages. This page gives a script for them, the import steps for Google Sheets, Excel and Looker Studio, and the counts to check before you cancel.',
+  lede: 'Google Sheets holds up to 20 million cells and Excel up to 1,048,576 rows, so this page gives each tool\'s import steps and limits, Looker Studio included. It ends with the counts to check before you cancel Help Scout.',
   cta: true,
-  ctaCall: { href: '/docs/import-helpscout', label: 'Import from Help Scout' },
+  ctaCall: { href: '/docs/import-helpscout', label: 'Import Help Scout with a reconcile report' },
   body,
   faq,
 };
