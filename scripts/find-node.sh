@@ -3,7 +3,7 @@
 # Needs: the major version in .nvmrc (the one CI uses) or newer, built with TypeScript
 # stripping, because some tests import .ts modules. Distro builds (Debian/Ubuntu nodejs)
 # ship without it and fail with ERR_UNKNOWN_FILE_EXTENSION.
-# Order: the active node, then fnm and nvm installs of the .nvmrc major, then newer majors.
+# Order: the active node, then mise, fnm and nvm installs of the .nvmrc major, then newer majors.
 # Usage: export PATH="$(scripts/find-node.sh):$PATH"
 set -euo pipefail
 
@@ -30,6 +30,7 @@ fi
 # Installed versions, newest first; the .nvmrc major goes before newer majors.
 installed=()
 for dir in \
+  "${MISE_DATA_DIR:-$HOME/.local/share/mise}"/installs/node/[0-9]*/bin \
   "${FNM_DIR:-$HOME/.local/share/fnm}"/node-versions/v*/installation/bin \
   "$HOME/Library/Application Support/fnm"/node-versions/v*/installation/bin \
   "${NVM_DIR:-$HOME/.nvm}"/versions/node/v*/bin; do
@@ -37,8 +38,7 @@ for dir in \
 done
 if [ "${#installed[@]}" -gt 0 ]; then
   ordered="$(for dir in "${installed[@]}"; do
-    v="$(grep -oE 'v[0-9]+\.[0-9]+\.[0-9]+' <<< "$dir" | tail -1)"
-    v="${v#v}"
+    v="$(grep -oE '[0-9]+\.[0-9]+\.[0-9]+' <<< "$dir" | tail -1)"
     [ "${v%%.*}" = "$want" ] && rank=0 || rank=1
     printf '%s\t%s\t%s\n' "$rank" "$v" "$dir"
   done | sort -t "$(printf '\t')" -k1,1n -k2,2Vr | cut -f3)"
@@ -55,7 +55,7 @@ have="none"
 cat >&2 <<EOF
 find-node: this repo needs Node $want or newer with TypeScript stripping (see .nvmrc, same as CI).
   active node: ${active:-not on PATH} (${have:-unknown}; second field is TypeScript support)
-  no fnm or nvm install fits either.
-  fix: fnm install $want   (or: nvm install $want)
+  no mise, fnm or nvm install fits either.
+  fix: mise install node@$want   (agent hosts get mise from the dotfiles: chezmoi apply)
 EOF
 exit 1

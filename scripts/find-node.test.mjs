@@ -25,6 +25,7 @@ function sandbox(nvmrc = '22\n') {
   writeFileSync(join(root, '.nvmrc'), nvmrc);
   const fnm = (v, ts) => stubNode(join(root, 'fnm', 'node-versions', `v${v}`, 'installation', 'bin'), v, ts);
   const nvm = (v, ts) => stubNode(join(root, 'nvm', 'versions', 'node', `v${v}`, 'bin'), v, ts);
+  const mise = (v, ts) => stubNode(join(root, 'mise', 'installs', 'node', v, 'bin'), v, ts);
   const active = (v, ts) => stubNode(join(root, 'active'), v, ts);
   const run = () =>
     spawnSync('bash', [join(root, 'scripts', 'find-node.sh')], {
@@ -33,10 +34,11 @@ function sandbox(nvmrc = '22\n') {
         HOME: join(root, 'home'),
         FNM_DIR: join(root, 'fnm'),
         NVM_DIR: join(root, 'nvm'),
+        MISE_DATA_DIR: join(root, 'mise'),
         PATH: `${join(root, 'active')}:/usr/bin:/bin`,
       },
     });
-  return { root, fnm, nvm, active, run };
+  return { root, fnm, nvm, mise, active, run };
 }
 
 test('keeps the active node when it is new enough and strips TypeScript', () => {
@@ -76,6 +78,15 @@ test('finds a node installed by nvm', () => {
   assert.equal(r.stdout.trim(), bin);
 });
 
+test('finds a node installed by mise', () => {
+  const s = sandbox();
+  s.active('22.22.1', 'false');
+  const bin = s.mise('22.23.5', 'strip');
+  const r = s.run();
+  assert.equal(r.status, 0, r.stderr);
+  assert.equal(r.stdout.trim(), bin);
+});
+
 test('fails fast and names the needed version when no node fits', () => {
   const s = sandbox();
   s.active('22.22.1', 'false');
@@ -85,7 +96,7 @@ test('fails fast and names the needed version when no node fits', () => {
   assert.equal(r.stdout, '');
   assert.match(r.stderr, /Node 22 or newer/);
   assert.match(r.stderr, /22\.22\.1/);
-  assert.match(r.stderr, /fnm install 22/);
+  assert.match(r.stderr, /mise install node@22/);
 });
 
 test('reads a v-prefixed .nvmrc', () => {
