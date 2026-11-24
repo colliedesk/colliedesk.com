@@ -69,7 +69,7 @@ done < conversation-ids.txt
 mv threads.csv.partial threads.csv
 echo "done: $(wc -l < conversation-ids.txt) conversations, $(wc -l < skipped-404.txt) skipped (404)"`;
 
-const body = `Help Scout's Reports export (CSV or XLSX) has no message text and the Free plan has no API, so the 44-line script below pulls every thread through the Inbox API 2.0 into \`threads.csv\`, closed conversations included. You open that file in Google Sheets with **File > Import** or in Excel with **Data > From Text/CSV**.
+const body = `Help Scout's Reports export (CSV or XLSX) has no message text, so the 44-line script below pulls every thread through the Inbox API 2.0 (not on the Free plan) into \`threads.csv\`, closed conversations included. Open \`threads.csv\`, one row per thread with the message text, in Google Sheets with **File > Import** or in Excel with **Data > From Text/CSV**.
 
 | What you get | Reports export | Customer list on request | Inbox API 2.0 |
 |---|---|---|---|
@@ -170,7 +170,7 @@ Looker Studio is called Data Studio again since April 2026, and its menus use th
 
 Keep the sheet in a normal Drive folder: Google says Data Studio does not support files on Team Drive.
 
-**CSV file upload.** Click **Create**, then **Data source**, select the **CSV file upload** connector, click **Add data set**, upload the file and click **Connect**. The script's header row already follows Google's rule for column names: letters, numbers and underscores, starting with a letter. But file upload does not support line breaks inside your data, even in quotes. If any \`body\` has a line break, use the Google Sheets route. File upload has a 100 MB limit per data set.
+**CSV file upload.** Click **Create**, then **Data source**, select the **CSV file upload** connector, click **Add data set**, upload the file and click **Connect**. Google says this upload flow is being released gradually, so you may not see it yet; if you do not, use the Google Sheets route. The script's header row already follows Google's rule for column names: letters, numbers and underscores, starting with a letter. But file upload does not support line breaks inside your data, even in quotes. If any \`body\` has a line break, use the Google Sheets route. File upload has a 100 MB limit per data set.
 
 ## Before you cancel Help Scout
 
@@ -219,7 +219,7 @@ const page: Page = {
   summary: 'Export Help Scout conversations to Google Sheets, Excel or Looker Studio: Reports export (fields only) vs Inbox API (every thread); a CSV script, import steps and the API traps',
   eyebrow: 'Migrate · Help Scout · Export',
   h1: 'Export Help Scout conversations to Google Sheets, Excel or Looker Studio, with the message text the Reports CSV leaves out',
-  lede: 'Google Sheets holds up to 20 million cells and Excel up to 1,048,576 rows, so this page gives each tool\'s import steps and limits, Looker Studio included. It ends with the counts to check before you cancel Help Scout.',
+  lede: 'Google Sheets holds up to 20 million cells or 100 MB, and Excel up to 1,048,576 rows, so this page gives each tool\'s import steps and limits, Looker Studio included. It ends with the counts to check before you cancel Help Scout.',
   cta: true,
   ctaCall: { href: '/docs/import-helpscout', label: 'Import Help Scout with a reconcile report' },
   body,
