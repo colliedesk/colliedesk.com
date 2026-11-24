@@ -55,7 +55,7 @@ In 2025 Help Scout moved to contact-based pricing and then reversed it after cus
 - The account owner can request a **CSV of customer names and emails**, without history.
 - The **Mailbox API** returns conversations with threads (pass \`status=all\`; the default is active only). The Free plan has **no API**.
 
-${c.export} The [Help Scout importer](/docs/import-helpscout) copies one inbox at a time through that API, with a reconcile report.
+${c.export} The [Help Scout importer](/docs/import-helpscout) copies one inbox at a time through that API, with a reconcile report. To keep a copy in a spreadsheet, [export Help Scout conversations to Google Sheets](/migrate/help-scout/export#export-help-scout-conversations-to-google-sheets) with the script on our export page.
 
 ## What Colliedesk does today
 
