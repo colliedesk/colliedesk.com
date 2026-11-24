@@ -98,7 +98,7 @@ jobs:
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v6
         with:
-          node-version: '22.x'
+          node-version-file: .nvmrc
           package-manager-cache: false
       - run: sh scripts/brand-name-check.sh
       - run: pnpm install --frozen-lockfile
