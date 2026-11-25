@@ -63,7 +63,7 @@ export const KNOWN_DEBT = {
     '/vs/happyfox', '/vs/hubspot-service-hub', '/vs/zoho-desk',
   ],
   links: [
-    '/open-source', '/vs/chatwoot', '/vs/freescout', '/vs/front', '/vs/gorgias', '/vs/groove', '/vs/happyfox',
+    '/open-source', '/vs/chatwoot', '/vs/front', '/vs/gorgias', '/vs/groove', '/vs/happyfox',
     '/vs/hubspot-service-hub', '/vs/zammad', '/vs/zoho-desk',
   ],
 };
