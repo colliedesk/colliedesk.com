@@ -19,6 +19,7 @@ const SRC = {
   zammadLicence: 'https://github.com/zammad/zammad',
   chatwoot: 'https://www.chatwoot.com/pricing',
   chatwootImport: 'https://www.chatwoot.com/hc/user-guide/articles/1696162432-how-to-migrate-from-zendesk-to-chatwoot',
+  chatwootSelf: 'https://www.chatwoot.com/pricing/self-hosted-plans/',
   chatwootLicence: 'https://github.com/chatwoot/chatwoot/blob/develop/LICENSE',
   zoho: 'https://www.zoho.com/desk/pricing.html',
   zohoExpress: 'https://www.zoho.com/desk/express/',
@@ -42,26 +43,28 @@ const OUR_CELL = FOUNDING_OPEN
   ? `$33 (Founding, $99 every 3 months for up to 10 agents); after the 10 places, ${dollars(TEAM.monthly)} (Team); free self-hosted`
   : `${dollars(TEAM.monthly)} (Team, up to 10 agents); free self-hosted`;
 const HOSTED_LINE = FOUNDING_OPEN
-  ? `${OURS_5}, $35 on Zoho Desk Express and €35 on Zammad Starter`
-  : `$35 on Zoho Desk Express, €35 on Zammad Starter and ${OURS_5}`;
+  ? `${OURS_5}, $35 on Zoho Desk Express and €35 on Zammad Starter, both billed yearly`
+  : `$35 on Zoho Desk Express and €35 on Zammad Starter, both billed yearly, or ${OURS_5}`;
 
 // The short form for the lede; the conditions are in the table.
 const LEDE_HOSTED = FOUNDING_OPEN
-  ? '$33 a month on Colliedesk Founding ($99 a quarter, 10 places), $35 on Zoho Desk Express (yearly) or €35 plus VAT on Zammad'
-  : `$35 a month on Zoho Desk Express (yearly), €35 plus VAT on Zammad or ${dollars(TEAM.monthly)} on Colliedesk Team`;
+  ? '$33 a month on Colliedesk Founding ($99 a quarter, 10 places), $35 on Zoho Desk Express or €35 plus VAT on Zammad, both billed yearly'
+  : `${dollars(TEAM.monthly)} a month on Colliedesk Team, $35 on Zoho Desk Express or €35 plus VAT on Zammad, the last two billed yearly`;
+// The lowest paid hosted price for 5 agents, for the title-like H1.
+const LOWEST_HOSTED = FOUNDING_OPEN ? '$33' : '$35';
 
 const faq: Faq[] = [
   {
     q: 'What is the cheapest Zendesk alternative for a 5-person team?',
-    a: `With no licence fee, an open-source helpdesk on your own server: Colliedesk, FreeScout or Zammad. You pay for the server and the time to run it. Help Scout Free is $0 for 5 users with 1 inbox and 25 contacts a month ([pricing](${SRC.helpScout})). On a paid hosted plan, 5 agents pay ${HOSTED_LINE} (Zammad before VAT). Zendesk Suite Team is $55 per agent paid yearly, $275 for 5 ([Zendesk pricing](${SRC.zendesk}), read ${READ}).`,
+    a: `With no licence fee, an open-source helpdesk on your own server: Colliedesk, FreeScout, Zammad or the Chatwoot Community Edition. You pay for the server and the time to run it. Help Scout Free is $0 for 5 users with 1 inbox and 25 contacts a month ([pricing](${SRC.helpScout})). On a paid hosted plan, 5 agents pay ${HOSTED_LINE} (Zammad before VAT). Zendesk Suite Team is $55 per agent paid yearly, $275 for 5 ([Zendesk pricing](${SRC.zendesk}), read ${READ}).`,
   },
   {
     q: 'Is there a free open-source Zendesk alternative?',
-    a: `Yes. FreeScout and Zammad are AGPL-3.0, and so is Colliedesk, which you can self-host with every feature. Chatwoot is MIT outside its enterprise folder ([licence](${SRC.chatwootLicence})). Two hosted plans are free with limits: [Help Scout Free](${SRC.helpScout}) (5 users, 1 inbox, 25 contacts a month) and [Zoho Desk](${SRC.zoho}) Free (3 users).`,
+    a: `Yes. FreeScout and Zammad are AGPL-3.0, and so is Colliedesk, which you can self-host with every feature. Chatwoot is MIT outside its enterprise folder ([licence](${SRC.chatwootLicence})), and its self-hosted Community Edition is $0 ([self-hosted plans](${SRC.chatwootSelf})). Three hosted plans are free with limits: [Help Scout Free](${SRC.helpScout}) (5 users, 1 inbox, 25 contacts a month), [Zoho Desk](${SRC.zoho}) Free (3 users) and [Chatwoot](${SRC.chatwoot}) Hacker (2 agents, 500 conversations a month, live chat only).`,
   },
   {
     q: 'Can I keep my Zendesk ticket history when I switch?',
-    a: `Yes, if you export it before you cancel. The Zendesk CSV export has no comments. The JSON and XML exports have them, but they are off until Zendesk Support turns them on, and they are not on Team plans ([Zendesk export](${SRC.zendeskExport})). The API works on every plan. [Export Zendesk tickets with comments](/migrate/zendesk/export) has the steps and a script.`,
+    a: `Yes, if you export it before you cancel. The Zendesk CSV export has no comments. The JSON and XML exports have them (JSON drops comments on a ticket over 1 MB), but they are off until Zendesk Support turns them on, and they are not on Team plans ([Zendesk export](${SRC.zendeskExport})). The API works on every plan. [Export Zendesk tickets with comments](/migrate/zendesk/export) has the steps and a script.`,
   },
   {
     q: 'Does Colliedesk import from Zendesk?',
@@ -86,7 +89,7 @@ const body = `Prices below are list prices for 5 agents a month, read on each ve
 | **Colliedesk** | ${OUR_CELL} | Cloud or your server | **No Zendesk importer yet.** [Export your data](/migrate/zendesk/export) and start fresh |
 | [FreeScout](${SRC.freescout}) | $0, plus your server | Your server | Through a paid migration service; [ticket numbers not kept](${SRC.freescoutImport}) |
 | [Zammad](${SRC.zammad}) | €35 (Starter, €7 per agent billed yearly, max 5 agents, before VAT); free self-hosted | Cloud or your server | [Built-in migrator](${SRC.zammadImport}), one run, asks for a Zendesk API key |
-| [Chatwoot](${SRC.chatwoot}) | $95 (Startups, $19 per agent) | Cloud or your server | [Contacts by CSV, conversations through its API](${SRC.chatwootImport}) |
+| [Chatwoot](${SRC.chatwoot}) | $95 (Startups, $19 per agent); [free self-hosted](${SRC.chatwootSelf}) (Community Edition) | Cloud or your server | [Contacts by CSV, conversations through its API](${SRC.chatwootImport}) |
 | [Zoho Desk](${SRC.zohoExpress}) | $35 (Express, $7 per user billed yearly, max 5 users) | Cloud | [Free migration guided by Zoho](${SRC.zoho}) |
 | [Freshdesk](${SRC.freshdesk}) | $95 (Growth, $19 per agent billed yearly) | Cloud | [Through a migration service](${SRC.freshdeskImport}) such as Help Desk Migration |
 | [Gorgias](${SRC.gorgias}) | $90 (Basic, billed monthly, 300 tickets a month) | Cloud | [Built in](${SRC.gorgiasImport}), up to 2 years of tickets; needs an active Zendesk API token |
@@ -103,7 +106,7 @@ These cost no licence fee on your own server. See [Colliedesk open source](/open
 - **Colliedesk, self-hosted.** Free, with every feature, under AGPL-3.0. It runs as one container plus PostgreSQL ([self-hosted helpdesk](/self-hosted-helpdesk)).
 - **FreeScout.** AGPL-3.0, PHP and MySQL, and it runs on shared hosting, with unlimited agents, tickets and mailboxes ([GitHub](${SRC.freescout})). To move from Zendesk, its wiki points to Help Desk Migration: the demo is free, the full run is paid. Ticket numbers are not kept, and you create agents by hand ([migration guide](${SRC.freescoutImport})).
 - **Zammad.** AGPL-3.0 ([GitHub](${SRC.zammadLicence})). Hosted Starter is €7 per agent a month billed yearly or €9 monthly, for up to 5 agents, before VAT ([pricing](${SRC.zammad})). Its Zendesk migrator runs once, with no catch-up run, and needs a Zendesk plan with API support ([migrator](${SRC.zammadImport})).
-- **Chatwoot.** MIT outside its enterprise folder ([licence](${SRC.chatwootLicence})). The free Hacker cloud plan has up to 2 agents, 500 conversations a month, live chat only and 30 days of data. Startups is $19 per agent a month, with 300 Captain AI credits ([pricing](${SRC.chatwoot})). From Zendesk you upload contacts as a CSV and bring conversations through its API yourself ([Zendesk guide](${SRC.chatwootImport})).
+- **Chatwoot.** MIT outside its enterprise folder ([licence](${SRC.chatwootLicence})). The self-hosted Community Edition is $0, without Captain AI or roles and permissions ([self-hosted plans](${SRC.chatwootSelf})). The free Hacker cloud plan has up to 2 agents, 500 conversations a month, live chat only and 30 days of data. Startups is $19 per agent a month, with 300 Captain AI credits ([pricing](${SRC.chatwoot})). From Zendesk you upload contacts as a CSV and bring conversations through its API yourself ([Zendesk guide](${SRC.chatwootImport})).
 
 ## Hosted, on a budget
 
@@ -140,7 +143,7 @@ Read on ${READ}:
 - Zendesk: [pricing](${SRC.zendesk}), [data export](${SRC.zendeskExport}), [API token removal](${SRC.zendeskTokens}).
 - FreeScout: [GitHub](${SRC.freescout}), [migration guide](${SRC.freescoutImport}).
 - Zammad: [pricing](${SRC.zammad}), [Zendesk migrator](${SRC.zammadImport}), [licence](${SRC.zammadLicence}).
-- Chatwoot: [pricing](${SRC.chatwoot}), [Zendesk guide](${SRC.chatwootImport}), [licence](${SRC.chatwootLicence}).
+- Chatwoot: [pricing](${SRC.chatwoot}), [self-hosted plans](${SRC.chatwootSelf}), [Zendesk guide](${SRC.chatwootImport}), [licence](${SRC.chatwootLicence}).
 - Zoho Desk: [pricing](${SRC.zoho}), [Express](${SRC.zohoExpress}).
 - Freshdesk: [pricing](${SRC.freshdesk}), [migration guide](${SRC.freshdeskImport}).
 - Help Scout: [pricing](${SRC.helpScout}), [import guide](${SRC.helpScoutImport}), [moving from Zendesk](${SRC.helpScoutZendesk}).
@@ -153,14 +156,14 @@ const page: Page = {
   path: '/zendesk-alternative',
   updated: '2026-11-25',
   section: 'Compare',
-  title: 'Cheapest Zendesk alternatives for small teams: 4 are free',
+  title: 'Cheapest Zendesk alternatives for small teams: 5 are free',
   description:
     'What 5 agents pay a month on 9 Zendesk alternatives, free and open source first, each price sourced, and what each Zendesk import brings over.',
   summary:
     '9 Zendesk alternatives for small teams: what 5 agents pay a month with a source per price, a free and open-source group, what each Zendesk import brings, and the export checklist',
   eyebrow: `Compare · Prices read ${READ}`,
-  h1: 'What 5 agents pay on 9 Zendesk alternatives, and what each import brings',
-  lede: `Four Zendesk alternatives are free for 5 agents: Help Scout Free (25 contacts a month), and Colliedesk, FreeScout or Zammad self-hosted. Paid and hosted, 5 agents pay ${LEDE_HOSTED}, against $275 on Zendesk Suite Team (yearly). Colliedesk has no Zendesk importer yet.`,
+  h1: `9 Zendesk alternatives for 5 agents: $0 self-hosted, ${LOWEST_HOSTED} hosted, and their imports`,
+  lede: `Five Zendesk alternatives are free for 5 agents: Help Scout Free (25 contacts a month), and Colliedesk, FreeScout, Zammad or Chatwoot self-hosted. Paid and hosted: ${LEDE_HOSTED}. Colliedesk has no Zendesk importer yet.`,
   cta: true,
   ctaFounding: FOUNDING_ACTION,
   body,
