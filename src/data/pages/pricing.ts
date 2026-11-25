@@ -5,6 +5,7 @@ import {
 import { FOUNDING_SLOTS, foundingState } from '../../lib/founding';
 import { faqPage, softwareApplication } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
+import { EXPORT_FAQ, MCP_EVERY_PLAN_FAQ } from './direct-answers';
 
 // Shared with the home FAQ.
 export const PER_WORKSPACE_FAQ: Faq = {
@@ -31,7 +32,7 @@ const ladderFaq: Faq[] = [
   },
   {
     q: 'Is there a free plan?',
-    a: `Not on Cloud. Every Cloud workspace starts with a 14-day free trial, no card, and the cheapest plan is Solo at ${dollars(SOLO.monthly)} a month. Self-hosting is free forever, with every feature.`,
+    a: `No, not on Cloud: every Cloud workspace starts with a 14-day free trial, no card, the cheapest plan is Solo at ${dollars(SOLO.monthly)} a month, and self-hosting is free forever with every feature.`,
   },
   {
     q: 'How much storage is included?',
@@ -63,6 +64,8 @@ const ladderFaq: Faq[] = [
     q: 'When can I use Colliedesk Cloud?',
     a: `Now. Colliedesk is generally available on Colliedesk Cloud, and every workspace starts with a 14-day free trial, no card. [Start the free trial](${TRIAL_HREF}). See the [roadmap](/roadmap) for what comes next.`,
   },
+  MCP_EVERY_PLAN_FAQ,
+  EXPORT_FAQ,
 ];
 
 // Business has no checkout: its row books the call.
@@ -147,6 +150,12 @@ const foundingFaq: Faq[] = [
   ABOVE_25_FAQ,
   AI_FAQ,
   SELF_HOST_FAQ,
+  {
+    q: 'Does adding an agent raise the price?',
+    a: "No: you pay per workspace, and adding an agent changes the price only when your team passes its plan's agent limit, 10 on Founding ([flat pricing compared](/helpdesk-flat-pricing)).",
+  },
+  MCP_EVERY_PLAN_FAQ,
+  EXPORT_FAQ,
 ];
 
 // Team 25 beside Founding: the plan for teams of 11 to 25 agents.

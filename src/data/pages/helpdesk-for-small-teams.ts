@@ -1,6 +1,7 @@
 import { AI_RESOLUTION, FOUNDING_HREF, TRIAL_HREF } from '../../lib/site';
 import { faqPage, techArticle } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
+import { AGENT_REPLY_FAQ, AI_INCLUDED_FAQ } from './direct-answers';
 import { statusTable } from './collie-status';
 import { FOUNDING_ACTION, FOUNDING_LEAD, FOUNDING_OPEN, foundingFirst } from '../../lib/cloud-price';
 
@@ -20,6 +21,12 @@ const faq: Faq[] = [
     q: 'What if my team outgrows Cloud Team?',
     a: `${FOUNDING_OPEN ? 'Founding covers up to 10 agents; a bigger team moves to a Cloud plan. ' : ''}Cloud Team 25 covers up to 25 agents for a flat $149 per workspace per month ($1,490 per year). Above 25 agents, Business covers 26 to 100 agents at $499 a month, sold on a call with the founder. Self-hosting has no agent limit.`,
   },
+  {
+    q: 'Does Colliedesk import from Freshdesk and Help Scout?',
+    a: 'Yes: the Freshdesk importer (any Freshdesk plan except Free) and the Help Scout importer (one inbox at a time, with the `collie import helpscout` command) each end with a reconcile report that lists anything missing ([Help Scout import](/docs/import-helpscout)).',
+  },
+  AI_INCLUDED_FAQ,
+  AGENT_REPLY_FAQ,
 ];
 
 const body = `## What a small support team needs

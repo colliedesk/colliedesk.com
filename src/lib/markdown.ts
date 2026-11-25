@@ -1,5 +1,5 @@
 import { Marked } from 'marked';
-import { ORIGIN } from './site';
+import { ORIGIN } from './site.ts';
 
 export const slugify = (text: string): string =>
   text.toLowerCase().replace(/<[^>]+>/g, '').replace(/&[a-z]+;/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
@@ -92,5 +92,11 @@ export const absolutizeMarkdownLinks = (md: string, pagePath?: string): string =
     return pagePath === undefined ? rooted : rooted.replace(/\]\(#/g, `](${ORIGIN}${pagePath}#`);
   });
 
-// Markdown -> plain text for meta descriptions and JSON-LD.
-export const plain = (md: string): string => md.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1').replace(/[*_`]/g, '');
+// Markdown -> plain text for meta descriptions and JSON-LD. A code span keeps its text as written
+// (`ai_assist:create` stays ai_assist:create); only emphasis marks outside code are dropped.
+export const plain = (md: string): string =>
+  md
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+    .split(/(`[^`]+`)/)
+    .map((part) => (/^`[^`]+`$/.test(part) ? part.slice(1, -1) : part.replace(/[*_`]/g, '')))
+    .join('');

@@ -1,6 +1,7 @@
 import { REPO } from '../../lib/site';
 import { faqPage, techArticle } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
+import { EXPORT_FAQ } from './direct-answers';
 
 const faq: Faq[] = [
   {
@@ -15,6 +16,15 @@ const faq: Faq[] = [
     q: 'Do contributions need a CLA?',
     a: 'HC Labs holds the copyright of Colliedesk, and every contributor signs the HC Labs Contributor License Agreement. The CLA text and signing process will follow; until then, external contributions cannot be merged.',
   },
+  {
+    q: 'Is the open-source version the same product as Colliedesk Cloud?',
+    a: 'Yes: a self-hosted server runs every feature except billing, the free trial, the sign-up page and the ready-made `support@<workspace>.colliedesk.com` address ([self-host guide](/docs/self-host)).',
+  },
+  {
+    q: 'Is the Colliedesk roadmap public?',
+    a: 'Yes: the roadmap, the product decisions and the code are public, and the [roadmap](/roadmap) lists what is live now and what comes later, such as the Zendesk importer.',
+  },
+  EXPORT_FAQ,
 ];
 
 const body = `## Wait, what are you selling me?
