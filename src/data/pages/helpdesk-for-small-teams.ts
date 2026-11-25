@@ -23,7 +23,7 @@ const faq: Faq[] = [
   },
   {
     q: 'Does Colliedesk import from Freshdesk and Help Scout?',
-    a: 'Yes: the Freshdesk importer (any Freshdesk plan except Free) and the Help Scout importer (one inbox at a time) each end with a reconcile report that lists anything missing.',
+    a: 'Yes: the Freshdesk importer (any Freshdesk plan except Free) and the Help Scout importer (one inbox at a time, with the `collie import helpscout` command) each end with a reconcile report that lists anything missing ([Help Scout import](/docs/import-helpscout)).',
   },
   AI_INCLUDED_FAQ,
   AGENT_REPLY_FAQ,

@@ -22,7 +22,7 @@ const faq: Faq[] = [
   },
   {
     q: 'Is the Colliedesk roadmap public?',
-    a: 'Yes: the roadmap, the product decisions and the code are public, and the [roadmap](/roadmap) shows what is live and what comes next.',
+    a: 'Yes: the roadmap, the product decisions and the code are public, and the [roadmap](/roadmap) lists what is live now and what comes later, such as the Zendesk importer.',
   },
   EXPORT_FAQ,
 ];

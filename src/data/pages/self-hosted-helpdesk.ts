@@ -24,7 +24,7 @@ const faq: Faq[] = [
   },
   {
     q: 'Does a self-hosted Colliedesk have an agent limit?',
-    a: 'No: a self-hosted server has no agent limit and no licence fee, under AGPL-3.0.',
+    a: 'No: a self-hosted server has no agent limit and no licence fee under AGPL-3.0, so a 50-agent team pays Colliedesk $0 ([install guide](/docs/self-host)).',
   },
   {
     q: 'Can a self-hosted Colliedesk import from Freshdesk?',

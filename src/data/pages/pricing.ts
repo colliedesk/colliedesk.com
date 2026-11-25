@@ -32,7 +32,7 @@ const ladderFaq: Faq[] = [
   },
   {
     q: 'Is there a free plan?',
-    a: `No, not on Cloud. Every Cloud workspace starts with a 14-day free trial, no card, and the cheapest plan is Solo at ${dollars(SOLO.monthly)} a month. Self-hosting is free forever, with every feature.`,
+    a: `No, not on Cloud: every Cloud workspace starts with a 14-day free trial, no card, the cheapest plan is Solo at ${dollars(SOLO.monthly)} a month, and self-hosting is free forever with every feature.`,
   },
   {
     q: 'How much storage is included?',
@@ -152,7 +152,7 @@ const foundingFaq: Faq[] = [
   SELF_HOST_FAQ,
   {
     q: 'Does adding an agent raise the price?',
-    a: "No: you pay per workspace, and the price changes only when your team passes its plan's agent limit.",
+    a: "No: you pay per workspace, and adding an agent changes the price only when your team passes its plan's agent limit, 10 on Founding ([flat pricing compared](/helpdesk-flat-pricing)).",
   },
   MCP_EVERY_PLAN_FAQ,
   EXPORT_FAQ,

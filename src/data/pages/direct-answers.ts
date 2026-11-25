@@ -21,5 +21,5 @@ export const AGENT_REPLY_FAQ: Faq = {
 
 export const AI_INCLUDED_FAQ: Faq = {
   q: 'Are AI reply drafts included in the Colliedesk price?',
-  a: 'Yes: reply drafts and triage suggestions are included in every Cloud plan up to a monthly allowance, and your own model key adds no Colliedesk fee.',
+  a: 'Yes: reply drafts and triage suggestions are included in every Cloud plan up to a monthly allowance (Settings → AI & agents → Usage), and on your own model key, Cloud or self-hosted, Colliedesk adds no fee ([pricing](/pricing)).',
 };
