@@ -15,7 +15,7 @@ const faq: Faq[] = [
   },
   {
     q: 'Can FreeScout import users?',
-    a: 'Yes, with the paid LDAP Integration module: it imports and syncs agents from Active Directory, OpenLDAP or FreeIPA. Without it you create agents by hand, or through the API with the paid API & Webhooks module. Customers come in from a CSV file with the paid Customers Management (CRM) module.',
+    a: 'Agents, yes, if you run Active Directory, OpenLDAP or FreeIPA: the paid LDAP Integration module imports and syncs them. It needs the PHP LDAP extension, and each user needs an email attribute and the person or inetOrgPerson class. Without LDAP you create agents by hand, or through the API with the paid API & Webhooks module, which creates regular users only, never admins. Customers come in from a CSV file with the paid Customers Management (CRM) module.',
   },
   {
     q: 'Should I pick FreeScout or Colliedesk?',
@@ -35,7 +35,7 @@ const body = `## The short answer
 | Licence | AGPL-3.0 | ${c.source} |
 | Self-host | Free core, unlimited agents; paid modules with lifetime licences per instance | ${c.free} |
 | Official hosting | None; the FreeScout wiki lists third-party hosts | ${c.price} |
-| Stack | PHP 8.2+ (Laravel) with MySQL, MariaDB or PostgreSQL; runs on shared hosting | One container plus PostgreSQL 19+ |
+| Stack | PHP 7.4 to 8.x, not 8.1 (Laravel) with MySQL, MariaDB or PostgreSQL; runs on shared hosting | One container plus PostgreSQL 19+ |
 | Knowledge base, live chat, tags, workflows | Paid modules | Tags and knowledge base shipped; automations and live chat later, all in the free code |
 | AI | Free AI Integration module | ${c.ai} |
 
@@ -45,15 +45,13 @@ FreeScout has no importer of its own for another helpdesk: for old tickets, its 
 
 | What you bring in | How FreeScout does it | What it needs |
 |---|---|---|
-| Agents (users) | Create them by hand, or import and sync them from Active Directory, OpenLDAP or FreeIPA | LDAP Integration module (paid). Agents only, each with an email attribute and the person or inetOrgPerson class |
+| Agents (users) | Create them by hand, or import and sync them from Active Directory, OpenLDAP or FreeIPA | LDAP Integration module (paid) and the PHP LDAP extension on the server. Agents only, each with an email attribute and the person or inetOrgPerson class |
 | Agents through the API | \`POST /api/users\` creates regular users, never admins. No invite email goes out, and the new user can open no mailbox until you grant it | API & Webhooks module (paid) |
 | Mailboxes | Set up each one by hand. The API lists mailboxes, their folders and their custom fields; it has no call that creates one | Nothing extra |
 | Customers | Import a CSV file, custom fields included | Customers Management (CRM) module (paid) |
-| Old email in the support mailbox | Manage » System » Tools fetches all unread email. To keep the original dates, set \`APP_USE_MAIL_DATE_ON_FETCHING=true\` in \`.env\` and clear the cache, fetch, then remove it and clear the cache again | Nothing extra. FreeScout skips email that someone already read in that mailbox |
+| Old email in the support mailbox | Manage » System » Tools fetches all unread email. The console command \`php artisan freescout:fetch-emails --days=3 --unseen=0\` fetches all email of the last 3 days, read or not. To keep the original dates, set \`APP_USE_MAIL_DATE_ON_FETCHING=true\` in \`.env\` and clear the cache, fetch, then remove it and clear the cache again | Nothing extra. Background fetching takes unread email only |
 | Tickets from another helpdesk | Help Desk Migration: a free demo, then a paid full run | The latest API & Webhooks module (paid); the Custom Fields and Tags modules (paid) to bring those along |
 | Tickets through your own script | \`POST /api/conversations\` with \`"imported": true\` sends no email, notification or auto reply, and takes the old \`createdAt\` and \`closedAt\` | API & Webhooks module (paid) |
-
-Paid modules are lifetime licences for one FreeScout instance.
 
 ### The migration order in FreeScout's wiki
 
@@ -65,18 +63,18 @@ Paid modules are lifetime licences for one FreeScout instance.
 6. Run the free demo on a small set, check it in FreeScout, and fix the mapping.
 7. Pay, then run the full migration. Change nothing in FreeScout while it runs.
 
-Two things do not come across: the old ticket numbers, and the link to chat customers, so a reply to an imported chat never reaches them. Coming from Help Scout or Freshdesk, FreeScout's Community Modules wiki also lists "Help Scout to FreeScout Migration" and "Freshdesk Import"; FreeScout says it cannot guarantee community modules are 100% reliable and secure.
+Two things do not come across: the old ticket numbers, and the link to chat customers, so a reply to an imported chat never reaches them. Coming from Help Scout, FreeScout's Community Modules wiki also lists a "Help Scout to FreeScout Migration" module; FreeScout says it cannot guarantee community modules are 100% reliable and secure.
 
 ## Moving from Freshdesk
 
 | Import | FreeScout | Colliedesk (**Shipped**) |
 |---|---|---|
 | Importer | No official one. Third-party paid service, or a community module "not guaranteed" by the FreeScout team | Official importer, free on every install |
-| Attachments | Depends on the tool | Downloaded and checksummed (SHA-256) |
+| Attachments | Not described in FreeScout's migration wiki | Downloaded and checksummed (SHA-256) |
 | Proof that nothing was lost | Not described | Reconcile report |
 | Done for you | Through the third-party service, priced by them | [Free for founding customers](/migrate/freshdesk/done-for-you) |
 
-[See each step of the Freshdesk import into Colliedesk](/migrate/freshdesk).
+A Freshdesk import into Colliedesk takes 6 steps, from counting your tickets to closing Freshdesk once the reconcile report matches. [Read the 6 steps](/migrate/freshdesk).
 
 ## What Colliedesk does today
 
@@ -93,22 +91,22 @@ Read on ${PRICES_READ}.
 - Importing users: [LDAP Integration module](https://freescout.net/module/ldap/)
 - Importing customers: [Customers Management (CRM) module](https://freescout.net/module/crm/)
 - API, users, mailboxes and imported conversations: [API & Webhooks module](https://freescout.net/module/api-webhooks/) and [FreeScout API docs](https://api-docs.freescout.net/)
-- Fetching old email with its dates: [FreeScout wiki, FAQ](https://github.com/freescout-help-desk/freescout/wiki/FAQ)
+- Fetching old email with its dates: [FreeScout wiki, FAQ](https://github.com/freescout-help-desk/freescout/wiki/FAQ), [fetching emails](https://github.com/freescout-help-desk/freescout/wiki/Fetching-Emails) and [console commands](https://github.com/freescout-help-desk/freescout/wiki/Console-Commands)
 - Community modules: [FreeScout wiki, community modules](https://github.com/freescout-help-desk/freescout/wiki/Community-Modules)
-- Requirements: [FreeScout installation guide](https://github.com/freescout-help-desk/freescout/wiki/Installation-Guide)`;
+- Requirements: [FreeScout README](https://github.com/freescout-help-desk/freescout#requirements) and [installation guide](https://github.com/freescout-help-desk/freescout/wiki/Installation-Guide)`;
 
 const page: Page = {
   jsonLd: [],
   path: '/vs/freescout',
   updated: '2026-11-25',
   section: 'Compare',
-  title: 'Colliedesk vs FreeScout: paid modules vs every feature free',
+  title: 'FreeScout vs Colliedesk: imports, paid modules, free code',
   description:
     `Both AGPL-3.0: FreeScout sells modules, no official cloud; Colliedesk has every feature free and ${OUR_PLAN} hosting at ${OUR_PRICE}, up to 10 agents.`,
   summary: `FreeScout free core plus paid modules, no official cloud or Freshdesk importer vs Colliedesk every feature free, flat-priced Cloud (${OUR_PLAN} ${OUR_PRICE}), importer available now`,
   eyebrow: 'Compare · Open source',
-  h1: 'Colliedesk vs FreeScout: FreeScout sells tags and a knowledge base as modules, Colliedesk ships both free',
-  lede: 'Both are open source under AGPL-3.0. FreeScout is a PHP helpdesk that runs even on shared hosting; you buy modules such as Tags or Live Chat, and old tickets come in through a paid third-party service. Colliedesk keeps every feature in the free code, its Freshdesk importer included. Here is the difference, with sources.',
+  h1: 'Colliedesk vs FreeScout: tags and a knowledge base as paid modules, or in the free code',
+  lede: 'Both are open source under AGPL-3.0. FreeScout runs even on shared hosting, sells modules such as Tags or Live Chat, and its wiki sends old tickets from most helpdesks through a paid third-party service. Colliedesk keeps every feature in the free code, its Freshdesk importer included.',
   cta: true,
   ctaFounding: FOUNDING_ACTION,
   body,
