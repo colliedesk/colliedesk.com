@@ -47,13 +47,13 @@ const HOSTED_LINE = FOUNDING_OPEN
 
 // The short form for the lede; the conditions are in the table.
 const LEDE_HOSTED = FOUNDING_OPEN
-  ? '$33 a month on Colliedesk Founding, $35 on Zoho Desk Express or €35 plus VAT on Zammad'
-  : `$35 a month on Zoho Desk Express, €35 plus VAT on Zammad or ${dollars(TEAM.monthly)} on Colliedesk Team`;
+  ? '$33 a month on Colliedesk Founding ($99 a quarter, 10 places), $35 on Zoho Desk Express (yearly) or €35 plus VAT on Zammad'
+  : `$35 a month on Zoho Desk Express (yearly), €35 plus VAT on Zammad or ${dollars(TEAM.monthly)} on Colliedesk Team`;
 
 const faq: Faq[] = [
   {
     q: 'What is the cheapest Zendesk alternative for a 5-person team?',
-    a: `With no licence fee, an open-source helpdesk on your own server: Colliedesk, FreeScout or Zammad. You pay for the server and the time to run it. Hosted, 5 agents pay ${HOSTED_LINE} (before VAT for Zammad). Zendesk Suite Team is $55 per agent paid yearly, $275 for 5 ([Zendesk pricing](${SRC.zendesk}), read ${READ}).`,
+    a: `With no licence fee, an open-source helpdesk on your own server: Colliedesk, FreeScout or Zammad. You pay for the server and the time to run it. Help Scout Free is $0 for 5 users with 1 inbox and 25 contacts a month ([pricing](${SRC.helpScout})). On a paid hosted plan, 5 agents pay ${HOSTED_LINE} (Zammad before VAT). Zendesk Suite Team is $55 per agent paid yearly, $275 for 5 ([Zendesk pricing](${SRC.zendesk}), read ${READ}).`,
   },
   {
     q: 'Is there a free open-source Zendesk alternative?',
@@ -76,8 +76,8 @@ const body = `Prices below are list prices for 5 agents a month, read on each ve
 1. **The bill at 5 agents.** A per-agent price is multiplied by 5. A flat price stays the same up to the plan's agent limit. [Helpdesks with flat pricing](/helpdesk-flat-pricing) compares seven of them.
 2. **Hosted or your own server.** Open-source helpdesks cost no licence fee on your own server. Read [self-hosted helpdesks](/self-hosted-helpdesk) for the work that takes.
 3. **The AI bill.** Some vendors charge AI per agent, others per answer or per conversation. Read the AI line, not only the plan price.
-4. **How your tickets get out of Zendesk.** The CSV export has no comments, and the full export is not on Team plans. Check this first: it decides what you keep.
-5. **Your Zendesk API token.** Several importers below ask for one. Zendesk stopped new API tokens on 27 October 2026 ([Zendesk announcement](${SRC.zendeskTokens})).
+4. **How your tickets get out of Zendesk.** It decides what you keep. Read [the export checklist](#before-you-switch-the-zendesk-export) below first.
+5. **Your Zendesk API token.** The Zammad, Front and Gorgias importers ask for one, and Zendesk no longer issues new ones.
 
 ## The bill for 5 agents, side by side
 
@@ -90,30 +90,30 @@ const body = `Prices below are list prices for 5 agents a month, read on each ve
 | [Zoho Desk](${SRC.zohoExpress}) | $35 (Express, $7 per user billed yearly, max 5 users) | Cloud | [Free migration guided by Zoho](${SRC.zoho}) |
 | [Freshdesk](${SRC.freshdesk}) | $95 (Growth, $19 per agent billed yearly) | Cloud | [Through a migration service](${SRC.freshdeskImport}) such as Help Desk Migration |
 | [Gorgias](${SRC.gorgias}) | $90 (Basic, billed monthly, 300 tickets a month) | Cloud | [Built in](${SRC.gorgiasImport}), up to 2 years of tickets; needs an active Zendesk API token |
-| [Help Scout](${SRC.helpScout}) | $125 (Standard, $25 per user billed yearly) | Cloud | [Import2](${SRC.helpScoutImport}): tickets, customers, tags; free up to 500,000 records |
-| [Front](${SRC.front}) | $125 (Starter, $25 per seat billed yearly) | Cloud | [Free importer, not actively maintained](${SRC.frontImport}); no tags |
+| [Help Scout](${SRC.helpScout}) | $125 (Standard, $25 per user billed yearly) | Cloud | [Import2](${SRC.helpScoutImport}): tickets, customers, tags |
+| [Front](${SRC.front}) | $125 (Starter, $25 per seat billed yearly) | Cloud | [Free importer, not actively maintained](${SRC.frontImport}), asks for a Zendesk API token; no tags |
 | Zendesk, for reference | $95 (Support Team, $19 per agent) or $275 (Suite Team, $55 per agent), both paid yearly | Cloud | Not needed |
 
-The cheapest rows are the open-source ones on your own server. Hosted, the lowest prices for 5 agents are ${HOSTED_LINE}. Compare what one price covers for your team on [Colliedesk pricing](/pricing).
+Not in the table: Help Scout Free costs $0 for 5 users, with 1 inbox and 25 contacts a month. See what one Colliedesk price covers for your team on [Colliedesk pricing](/pricing).
 
 ## Free and open source
 
 These cost no licence fee on your own server. See [Colliedesk open source](/open-source) for its licence.
 
-- **Colliedesk, self-hosted.** Free, with every feature, under AGPL-3.0. It runs as one container plus PostgreSQL ([self-hosted helpdesk](/self-hosted-helpdesk)). There is no Zendesk importer yet.
+- **Colliedesk, self-hosted.** Free, with every feature, under AGPL-3.0. It runs as one container plus PostgreSQL ([self-hosted helpdesk](/self-hosted-helpdesk)).
 - **FreeScout.** AGPL-3.0, PHP and MySQL, and it runs on shared hosting, with unlimited agents, tickets and mailboxes ([GitHub](${SRC.freescout})). To move from Zendesk, its wiki points to Help Desk Migration: the demo is free, the full run is paid. Ticket numbers are not kept, and you create agents by hand ([migration guide](${SRC.freescoutImport})).
-- **Zammad.** AGPL-3.0 ([GitHub](${SRC.zammadLicence})). Hosted Starter is €7 per agent a month billed yearly or €9 monthly, for up to 5 agents, before VAT; AI features cost €0.03 per AI call ([pricing](${SRC.zammad})). Its Zendesk migrator runs once, with no catch-up run, and needs a Zendesk plan with API support ([migrator](${SRC.zammadImport})).
+- **Zammad.** AGPL-3.0 ([GitHub](${SRC.zammadLicence})). Hosted Starter is €7 per agent a month billed yearly or €9 monthly, for up to 5 agents, before VAT ([pricing](${SRC.zammad})). Its Zendesk migrator runs once, with no catch-up run, and needs a Zendesk plan with API support ([migrator](${SRC.zammadImport})).
 - **Chatwoot.** MIT outside its enterprise folder ([licence](${SRC.chatwootLicence})). The free Hacker cloud plan has up to 2 agents, 500 conversations a month, live chat only and 30 days of data. Startups is $19 per agent a month, with 300 Captain AI credits ([pricing](${SRC.chatwoot})). From Zendesk you upload contacts as a CSV and bring conversations through its API yourself ([Zendesk guide](${SRC.chatwootImport})).
 
 ## Hosted, on a budget
 
-- **Colliedesk Cloud.** ${foundingFirst(`Team is ${dollars(TEAM.monthly)} a month for up to 10 agents.`)} AI reply drafts are in every plan, with a monthly allowance. It has the email channel today. Live chat is coming in Q1 2027, and automations, macros and CSAT are not built yet. There is no Zendesk importer yet, so you start fresh.
+- **Colliedesk Cloud.** ${foundingFirst(`Team is ${dollars(TEAM.monthly)} a month for up to 10 agents.`)} AI reply drafts are in every plan, with a monthly allowance. It has the email channel today. Live chat, automations, macros and CSAT are not built yet.
 - **Zoho Desk.** Express is $7 per user a month billed yearly, or $9 monthly, for up to 5 users ([Express](${SRC.zohoExpress})). The Free edition has 3 users. Zoho offers to guide your move from another helpdesk for free ([pricing](${SRC.zoho})).
-- **Freshdesk.** Growth is $19 per agent a month billed yearly, with 500 AI agent sessions, then $49 per 100 ([pricing](${SRC.freshdesk})). Its migration guide points to automated services such as Help Desk Migration ([migration guide](${SRC.freshdeskImport})). Leaving Freshdesk instead? Read [Freshdesk alternatives](/freshdesk-alternative).
+- **Freshdesk.** Growth is $19 per agent a month billed yearly, with 500 free AI agent sessions once per account, then $49 per 100 ([pricing](${SRC.freshdesk})). Its migration guide points to automated services such as Help Desk Migration ([migration guide](${SRC.freshdeskImport})). Leaving Freshdesk instead? Read [Freshdesk alternatives](/freshdesk-alternative).
 
 ## Email-first teams
 
-- **Help Scout.** Free for 5 users, 1 inbox and 25 contacts a month. Standard is $25 per user a month billed yearly, or $30 monthly. AI answers cost $0.75 per resolution ([pricing](${SRC.helpScout})). Import2 runs on Standard, Plus and Pro. It brings tickets with customer profiles and tags, but not users, saved replies or rules. It is free up to 500,000 records, then $500 per 500,000 ([import guide](${SRC.helpScoutImport})). Help center articles from Zendesk need an older tool; ask Help Scout before you start ([Zendesk guide](${SRC.helpScoutZendesk})).
+- **Help Scout.** Free for 5 users, 1 inbox and 25 contacts a month. Standard is $25 per user a month billed yearly, or $30 monthly. AI answers cost $0.75 per resolution ([pricing](${SRC.helpScout})). Import2 runs on Standard, Plus and Pro. It brings tickets with customer profiles and tags, but not users, saved replies or rules. Started from inside Help Scout, an import of up to 500,000 records is free. A larger one is billed at $500 per 500,000 records, the first 500,000 included ([import guide](${SRC.helpScoutImport})). Help center articles from Zendesk need an older tool; ask Help Scout before you start ([Zendesk guide](${SRC.helpScoutZendesk})).
 - **Front.** Starter is $25 per seat a month billed yearly, for up to 10 seats. Copilot is a $20 per seat add-on ([pricing](${SRC.front})). Front's own Zendesk importer costs nothing but is not actively maintained; Front recommends Help Desk Migration or ClonePartner. It brings inboxes, contacts, conversations, attachments and comments, but not tags or rules. Its steps start by creating a Zendesk API token ([import guide](${SRC.frontImport})).
 
 ## E-commerce
@@ -131,7 +131,7 @@ These cost no licence fee on your own server. See [Colliedesk open source](/open
 
 ## Where Colliedesk fits
 
-Colliedesk is for **support teams of 3 to 10 agents, mostly on email**, who want one price for the team and their data in an open database. It does not import from Zendesk yet. If you need your Zendesk history inside the new helpdesk on day one, pick one with a Zendesk import above. If a fresh start with your export kept as a backup works for you, [start the 14-day free trial, no card](${TRIAL_HREF}), or see [Colliedesk pricing](/pricing). Comparing the two products feature by feature? Read [Colliedesk vs Zendesk](/vs/zendesk).
+Colliedesk is for **support teams of 3 to 10 agents, mostly on email**, who want one price for the team and their data in an open database. It does not import from Zendesk yet. If you need your Zendesk history inside the new helpdesk on day one, pick one with a Zendesk import above. If a fresh start works for you, first [export every Zendesk comment with the 41-line script](/migrate/zendesk/export), then [open a Colliedesk workspace for 14 days, no card](${TRIAL_HREF}) and forward your support address to it. Prices for your team size are on [Colliedesk pricing](/pricing). Comparing the two products feature by feature? Read [Colliedesk vs Zendesk](/vs/zendesk).
 
 ## Sources
 
@@ -153,14 +153,14 @@ const page: Page = {
   path: '/zendesk-alternative',
   updated: '2026-11-25',
   section: 'Compare',
-  title: 'Cheapest Zendesk alternatives for small teams (5 agents)',
+  title: 'Cheapest Zendesk alternatives for small teams: 4 are free',
   description:
-    'What 5 agents pay a month on 9 Zendesk alternatives, free and open source first, each price sourced, and which imports ask for a Zendesk API token.',
+    'What 5 agents pay a month on 9 Zendesk alternatives, free and open source first, each price sourced, and what each Zendesk import brings over.',
   summary:
     '9 Zendesk alternatives for small teams: what 5 agents pay a month with a source per price, a free and open-source group, what each Zendesk import brings, and the export checklist',
   eyebrow: `Compare · Prices read ${READ}`,
-  h1: 'What 5 agents pay on 9 Zendesk alternatives, and which imports need an API token',
-  lede: `The cheapest Zendesk alternatives for 5 agents charge no licence fee: Colliedesk, FreeScout and Zammad are open source and run on your server. Hosted, 5 agents pay ${LEDE_HOSTED}, against $275 on Zendesk Suite Team. Colliedesk has no Zendesk importer yet: you start fresh and keep your [export](/migrate/zendesk/export).`,
+  h1: 'What 5 agents pay on 9 Zendesk alternatives, and what each import brings',
+  lede: `Four Zendesk alternatives are free for 5 agents: Help Scout Free (25 contacts a month), and Colliedesk, FreeScout or Zammad self-hosted. Paid and hosted, 5 agents pay ${LEDE_HOSTED}, against $275 on Zendesk Suite Team (yearly). Colliedesk has no Zendesk importer yet.`,
   cta: true,
   ctaFounding: FOUNDING_ACTION,
   body,
