@@ -162,7 +162,7 @@ const page: Page = {
   summary:
     '9 Zendesk alternatives for small teams: what 5 agents pay a month with a source per price, a free and open-source group, what each Zendesk import brings, and the export checklist',
   eyebrow: `Compare · Prices read ${READ}`,
-  h1: `9 Zendesk alternatives for 5 agents: $0 self-hosted, ${LOWEST_HOSTED} hosted, and their imports`,
+  h1: `9 Zendesk alternatives for 5 agents: $0 self-hosted, ${LOWEST_HOSTED} paid, and their imports`,
   lede: `Five Zendesk alternatives are free for 5 agents: Help Scout Free (25 contacts a month), and Colliedesk, FreeScout, Zammad or Chatwoot self-hosted. Paid and hosted: ${LEDE_HOSTED}. Colliedesk has no Zendesk importer yet.`,
   cta: true,
   ctaFounding: FOUNDING_ACTION,
