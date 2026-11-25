@@ -54,7 +54,7 @@ Third-party sites list US prices of $19, $55 and $115 for the same three plans; 
 - The **CSV export has no comments**, so it cannot carry a conversation.
 - The **Incremental Export API** returns tickets with full comments (\`include=comment_events\`), 1,000 per page, at **10 requests per minute**.
 
-${c.export} A Zendesk importer is on the [roadmap](/roadmap) for later.
+${c.export} A Zendesk importer is on the [roadmap](/roadmap) for later. Weighing more than one option? [Cheapest Zendesk alternatives for small teams](/zendesk-alternative) prices nine of them for 5 agents.
 
 ## What Colliedesk does today
 

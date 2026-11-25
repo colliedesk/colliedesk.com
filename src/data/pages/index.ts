@@ -4,6 +4,7 @@ import audit from './audit';
 import changelog from './changelog';
 import compare from './compare';
 import freshdeskAlternative from './freshdesk-alternative';
+import zendeskAlternative from './zendesk-alternative';
 import freshdeskPricingHistory from './freshdesk-pricing-history';
 import helpdeskForSmallTeams from './helpdesk-for-small-teams';
 import home from './home';
@@ -42,7 +43,7 @@ export function allPages(): readonly Page[] {
   cache ??= [
     home, pricing, migrateFreshdesk, migrateFreshdeskDoneForYou, migrateFreshdeskSwitch, migrateFreshdeskExport, migrateZendeskExport, migrateHelpScoutExport, helpdeskMcpServer, helpdeskFlatPricing, audit,
     compare, vsFreshdesk, vsZendesk, vsHelpScout, vsFront, vsZammad, vsChatwoot, vsFreescout,
-    vsZohoDesk, vsHappyfox, vsGorgias, vsHubspotServiceHub, vsGroove, freshdeskAlternative, freshdeskPricingHistory, selfHostedHelpdesk, helpdeskForSmallTeams, openSource, roadmapPage(), changelog,
+    vsZohoDesk, vsHappyfox, vsGorgias, vsHubspotServiceHub, vsGroove, freshdeskAlternative, zendeskAlternative, freshdeskPricingHistory, selfHostedHelpdesk, helpdeskForSmallTeams, openSource, roadmapPage(), changelog,
     privacy, terms, ...docsPages(),
   ];
   return cache;

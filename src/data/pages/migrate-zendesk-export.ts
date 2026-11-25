@@ -167,7 +167,7 @@ Archived tickets count; deleted tickets do not. Admins see a warning above 80%. 
 
 ## Moving to Colliedesk
 
-Colliedesk imports from Freshdesk and Help Scout today, and each import ends with a reconcile report that compares what the old helpdesk holds with what Colliedesk holds. A Zendesk importer is on the [roadmap](/roadmap) under Later. Leaving Zendesk before it ships? Keep your export as the backup and start fresh on Colliedesk Cloud: one flat price for the workspace with no per-agent fees, every feature on every plan, and a 14-day free trial with no card. [Start the free trial](${TRIAL_HREF}), or compare the plans on [Colliedesk pricing](/pricing). Comparing the two products first? Read [Colliedesk vs Zendesk](/vs/zendesk). Leaving Help Scout too? Read [Export conversations from Help Scout](/migrate/help-scout/export).
+Colliedesk imports from Freshdesk and Help Scout today, and each import ends with a reconcile report that compares what the old helpdesk holds with what Colliedesk holds. A Zendesk importer is on the [roadmap](/roadmap) under Later. Leaving Zendesk before it ships? Keep your export as the backup and start fresh on Colliedesk Cloud: one flat price for the workspace with no per-agent fees, every feature on every plan, and a 14-day free trial with no card. [Start the free trial](${TRIAL_HREF}), or compare the plans on [Colliedesk pricing](/pricing). Comparing the two products first? Read [Colliedesk vs Zendesk](/vs/zendesk). Still choosing a helpdesk? [Zendesk alternatives for small teams](/zendesk-alternative) shows what 5 agents pay on each and what each Zendesk import brings. Leaving Help Scout too? Read [Export conversations from Help Scout](/migrate/help-scout/export).
 
 ## Sources
 
