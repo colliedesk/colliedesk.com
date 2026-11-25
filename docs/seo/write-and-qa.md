@@ -5,7 +5,8 @@ every check and merges once the QA agent finds no "no". The writer and the QA re
 
 ## Write
 
-1. Read the issue brief: target keyword, search intent, the top 3 results and what they miss.
+1. Read the issue brief: target keyword, search intent, the top 3 results and what they miss, and the
+   AI search words: what ChatGPT, Perplexity and Claude searched for this question (their fan-out queries).
 2. Read [serp-patterns.md](serp-patterns.md) for this page type: the sections the top 3 cover and
    the title shape. Cover those sections, then add what the brief says they miss.
 3. Read the pages it links to (`src/data/pages/*.ts`) and `src/lib/site.ts` for prices and facts.
@@ -13,6 +14,12 @@ every check and merges once the QA agent finds no "no". The writer and the QA re
 5. Add or edit one `Page` module. New page: register it in `src/data/pages/index.ts`. Articles go
    under `/blog/<slug>` when `/blog` exists (colliedesk.com#64); until then, a top-level path.
 6. Shape the page for the reader in the brief:
+   - Title and URL slug start with the words people and AI assistants search: the keyword, or the
+     closest AI search words in the brief. Then the concrete fact. One page, one search intent.
+     Why: among pages ChatGPT's search returns, the ones it cites have titles closer to its own
+     search words, and readable slugs are cited 90% of the time against 81% for opaque ones
+     ([Ahrefs, 1.4M prompts, April 2026](https://ahrefs.com/blog/why-chatgpt-cites-pages)).
+     The H1 is free to be the sharper line; that study measured titles and URLs, not H1s.
    - Answer the search question in the first two sentences.
    - One idea per section. Tables for numbers, numbered steps for procedures.
    - Every competitor price: a source link and the date you read it ("read 20 October 2026").
@@ -37,6 +44,8 @@ the writer fixes it and the reviewer runs the whole checklist again.
 6. Are title and meta description specific to this page? (`check:content` checks their length.)
 7. Is the call to action the next step for this intent, not a generic "sign up"?
 8. Does `pnpm check:content` pass without a new `KNOWN_DEBT` entry?
+9. Do the title and the URL slug start with the keyword or the AI search words in the brief, and
+   does the page target one search intent only?
 
 ## Claim check
 
