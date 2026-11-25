@@ -1,6 +1,7 @@
 import { GA_DOC, REPO } from '../../lib/site';
 import { faqPage, techArticle } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
+import { MCP_EVERY_PLAN_FAQ } from './direct-answers';
 import { statusTable } from './collie-status';
 import { FOUNDING_ACTION, FOUNDING_OPEN } from '../../lib/cloud-price';
 
@@ -21,6 +22,15 @@ const faq: Faq[] = [
     q: 'Can I move from self-hosted to Cloud, or back?',
     a: 'Yes. Your data is in PostgreSQL with an open model, and an admin can download everything as one ZIP file. See [export all your data](/docs/export).',
   },
+  {
+    q: 'Does a self-hosted Colliedesk have an agent limit?',
+    a: 'No: a self-hosted server has no agent limit and no licence fee, under AGPL-3.0.',
+  },
+  {
+    q: 'Can a self-hosted Colliedesk import from Freshdesk?',
+    a: 'Yes: an admin imports it in the app or with `collie import freshdesk` on your server, from any Freshdesk plan except Free, which has no API ([import guide](/docs/import-freshdesk)).',
+  },
+  MCP_EVERY_PLAN_FAQ,
 ];
 
 const body = `## When self-hosting is the right call

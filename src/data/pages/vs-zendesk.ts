@@ -1,6 +1,7 @@
 import { AI_EXTRA, AI_RESOLUTION, PRICES_READ } from '../../lib/site';
 import { faqPage, techArticle } from '../../lib/schema';
 import type { Faq, Page } from '../../lib/page';
+import { AGENT_REPLY_FAQ, AI_INCLUDED_FAQ } from './direct-answers';
 import { collieFacts as c, statusTable } from './collie-status';
 import { FOUNDING_ACTION, OUR_CELL, OUR_PLAN, OUR_PRICE, foundingFirst } from '../../lib/cloud-price';
 
@@ -19,8 +20,10 @@ const faq: Faq[] = [
   },
   {
     q: 'Does Colliedesk import from Zendesk?',
-    a: 'Not yet. Colliedesk imports from Freshdesk and Help Scout today. A Zendesk importer is on the roadmap for later.',
+    a: 'No, not yet: Colliedesk imports from Freshdesk and Help Scout today, and a Zendesk importer is on the [roadmap](/roadmap) for later.',
   },
+  AI_INCLUDED_FAQ,
+  AGENT_REPLY_FAQ,
 ];
 
 const body = `## The short answer
