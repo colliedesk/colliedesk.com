@@ -49,7 +49,7 @@ FreeScout has no importer of its own for another helpdesk: for old tickets, its 
 | Agents through the API | \`POST /api/users\` creates regular users, never admins. No invite email goes out, and the new user can open no mailbox until you grant it | API & Webhooks module (paid) |
 | Mailboxes | Set up each one by hand. The API lists mailboxes, their folders and their custom fields; it has no call that creates one | Nothing extra |
 | Customers | Import a CSV file, custom fields included | Customers Management (CRM) module (paid) |
-| Old email in the support mailbox | Manage » System » Tools fetches all unread email. The console command \`php artisan freescout:fetch-emails --days=3 --unseen=0\` fetches all email of the last 3 days, read or not. To keep the original dates, set \`APP_USE_MAIL_DATE_ON_FETCHING=true\` in \`.env\` and clear the cache, fetch, then remove it and clear the cache again | Nothing extra. Background fetching takes unread email only |
+| Old email in the support mailbox | Manage » System » Tools fetches all unread email; FreeScout's FAQ says a large fetch from there hits a 504 Gateway Time-out and sends you to the console command. The console command \`php artisan freescout:fetch-emails --days=3 --unseen=0\` fetches all email of the last 3 days, read or not. To keep the original dates, set \`APP_USE_MAIL_DATE_ON_FETCHING=true\` in \`.env\` and clear the cache, fetch, then remove it and clear the cache again | Nothing extra. Background fetching takes unread email only |
 | Tickets from another helpdesk | Help Desk Migration: a free demo, then a paid full run | The latest API & Webhooks module (paid); the Custom Fields and Tags modules (paid) to bring those along |
 | Tickets through your own script | \`POST /api/conversations\` with \`"imported": true\` sends no email, notification or auto reply, and takes the old \`createdAt\` and \`closedAt\` | API & Webhooks module (paid) |
 
@@ -100,7 +100,7 @@ const page: Page = {
   path: '/vs/freescout',
   updated: '2026-11-25',
   section: 'Compare',
-  title: 'FreeScout vs Colliedesk: imports, paid modules, free code',
+  title: 'FreeScout vs Colliedesk: imports, paid Tags, free code',
   description:
     `Both AGPL-3.0: FreeScout sells modules, no official cloud; Colliedesk has every feature free and ${OUR_PLAN} hosting at ${OUR_PRICE}, up to 10 agents.`,
   summary: `FreeScout free core plus paid modules, no official cloud or Freshdesk importer vs Colliedesk every feature free, flat-priced Cloud (${OUR_PLAN} ${OUR_PRICE}), importer available now`,
