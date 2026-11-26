@@ -38,7 +38,7 @@ You get a **reconcile report**: the Freshdesk count and the Colliedesk count for
 
 ## How the switch works
 
-1. Book a 30-minute call with the founder. We look at the size of your Freshdesk account, your renewal date and the first queue to move.
+1. [Book a 30-minute call with the founder](${SWITCH_CALL_HREF}). We look at the size of your Freshdesk account, your renewal date and the first queue to move.
 2. You create a Freshdesk API key and send it to us. We run the import into your Colliedesk Cloud workspace.
 3. You check the reconcile report and a sample of your own tickets.
 4. Your team answers one queue in Colliedesk. Freshdesk keeps running for the rest.

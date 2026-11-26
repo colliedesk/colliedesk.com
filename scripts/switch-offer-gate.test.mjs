@@ -17,7 +17,9 @@ Team 25 and Business only. The 14-day free trial is unchanged and comes first. <
 const MOVES = 'Tickets (archived ones included), replies, private notes, attachments, tags, contacts, companies and time entries. A reconcile report with counts and a SHA-256 checksum for every attachment.';
 const TRUST = 'Colliedesk is generally available. Run one queue next to Freshdesk. We run the import. Nightly encrypted backups, and we test a restore every week. It is open source.';
 const CTAS = `<a class="btn btn-primary" href="https://app.colliedesk.com/sign-in?intent=trial">Start free trial</a> <a class="btn" href="${SWITCH_CALL}">Book a 30-min switch call</a>`;
-const SWITCH_PAGE = `<link rel="canonical" href="https://colliedesk.com${SWITCH_PATH}"><script src="/attribution.js" defer></script>${CTAS}${TEAM_25}${BUSINESS}${OFFER}${MOVES}${TRUST}`;
+// The first step of "How the switch works" is the call; PostHog recorded visitors tapping its text (07/11/2026).
+const STEPS = `<h2 id="how-the-switch-works">How the switch works</h2><ol><li><a href="${SWITCH_CALL}" rel="noopener">Book a 30-minute call with the founder</a>. We look at the size of your Freshdesk account.</li><li>You create a Freshdesk API key.</li></ol>`;
+const SWITCH_PAGE = `<link rel="canonical" href="https://colliedesk.com${SWITCH_PATH}"><script src="/attribution.js" defer></script>${CTAS}${TEAM_25}${BUSINESS}${OFFER}${MOVES}${STEPS}${TRUST}`;
 
 test('business card: price, size, storage and a "Talk to us" call link pass', () => {
   assert.deepEqual(businessCardFindings({ path: '/pricing', html: BUSINESS }), []);
@@ -77,6 +79,16 @@ test('switch page: no call CTA, no Business card and no backup line fail', () =>
     `${SWITCH_PATH}: no Business card`,
     `${SWITCH_PATH}: trust paragraph lacks "restore"`,
   ]);
+});
+
+test('switch page: a step that says to book the call but does not link it fails', () => {
+  const html = SWITCH_PAGE.replace(`<a href="${SWITCH_CALL}" rel="noopener">Book a 30-minute call with the founder</a>`, 'Book a 30-minute call with the founder');
+  assert.deepEqual(switchPageFindings({ path: SWITCH_PATH, html }), [`${SWITCH_PATH}: "Book a 30-minute call" is plain text; link it to ${SWITCH_CALL}`]);
+});
+
+test('switch page: the call words linked somewhere else fail too', () => {
+  const html = SWITCH_PAGE.replace(`<a href="${SWITCH_CALL}" rel="noopener">Book a 30-minute`, '<a href="/migrate/freshdesk/done-for-you">Book a 30-minute');
+  assert.deepEqual(switchPageFindings({ path: SWITCH_PATH, html }), [`${SWITCH_PATH}: "Book a 30-minute call" is plain text; link it to ${SWITCH_CALL}`]);
 });
 
 test('switch page: a trial link that is not the sign-up entry fails', () => {

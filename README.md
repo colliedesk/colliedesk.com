@@ -6,7 +6,7 @@ React renders at build time only: the browser gets HTML, CSS and small vanilla s
 copies the page's Markdown twin and "Copy MCP URL", `public/docs-search.js`, search with Cmd/Ctrl+K, and `public/docs-feedback.js`, the
 "Was this page helpful?" question that sends the PostHog event `docs_feedback`) plus PostHog web analytics (`public/analytics.js`:
 cookieless until the visitor accepts cookies in the banner of `public/consent.js`, then cookie
-and masked session replay; JavaScript errors always; no person profiles, IP discarded; `pnpm check` fails if that changes), no framework runtime.
+and masked session replay; JavaScript errors always, except those thrown only by code an in-app browser or extension injected and the bare cross-origin "Script error." (`scripts/analytics-errors.test.mjs`); no person profiles, IP discarded; `pnpm check` fails if that changes), no framework runtime.
 
 ```sh
 git clone --filter=blob:none https://github.com/colliedesk/colliedesk product   # docs source, gitignored
