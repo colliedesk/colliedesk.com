@@ -59,6 +59,10 @@ export function switchPageFindings({ path, html }) {
   const links = linksIn(html);
   if (!links.some((l) => l.href === TRIAL && l.label === 'Start free trial')) findings.push(`${path}: no "Start free trial" link to ${TRIAL}`);
   if (!links.some((l) => l.href === SWITCH_CALL && l.label === 'Book a 30-min switch call')) findings.push(`${path}: no "Book a 30-min switch call" link to ${SWITCH_CALL}`);
+  // Words that tell the reader to book the call are the call link: PostHog recorded visitors tapping the
+  // plain-text first step of "How the switch works" (07/11/2026).
+  const callLink = new RegExp(`<a\\b[^>]*\\bhref="${SWITCH_CALL.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}"[^>]*>[\\s\\S]*?</a>`, 'g');
+  if (/book a 30-minute call/i.test(html.replace(callLink, ''))) findings.push(`${path}: "Book a 30-minute call" is plain text; link it to ${SWITCH_CALL}`);
   for (const plan of ['Team 25', 'Business']) if (!cardOf(html, plan)) findings.push(`${path}: no ${plan} card`);
   for (const w of WHAT_MOVES) if (!lower.includes(w.toLowerCase())) findings.push(`${path}: does not say the migration moves "${w}"`);
   for (const w of TRUST) if (!lower.includes(w.toLowerCase())) findings.push(`${path}: trust paragraph lacks "${w}"`);

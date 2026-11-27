@@ -13,7 +13,9 @@
 //   - with the cookie banner open (it shows only on colliedesk.com, so it is opened here through the
 //     "Your privacy choices" button), it covers a button or link-button that starts in the first view of a
 //     1280x800 desktop or a 390x844 phone, or takes more than 15% of that screen (30/10/2026 it hid half of
-//     "Join for $99 every 3 months" on /pricing and a quarter of every phone screen).
+//     "Join for $99 every 3 months" on /pricing and a quarter of every phone screen);
+//   - on the pages ads link to, the hero's action ends under the open cookie banner on a small phone or laptop
+//     (scripts/render-first-screen.mjs).
 // No dependencies: Chrome DevTools Protocol over Node's built-in WebSocket.
 //   node scripts/check-render.mjs            (needs _site/ and a Chrome binary; CHROME_BIN overrides)
 import { spawn } from 'node:child_process';
@@ -23,6 +25,7 @@ import { join, relative, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { checkSizes, CLIPPED_KEYS } from './render-sizes.mjs';
 import { checkStates } from './render-states.mjs';
+import { checkFirstScreen } from './render-first-screen.mjs';
 
 const WIDTH = 375;
 // Narrow phones (320: iPhone SE 1st gen, small Android) and the common 390 are checked for sideways scroll too.
@@ -187,6 +190,7 @@ try {
   }
   failures.push(...await checkSizes({ send: c.send, once: c.once, sessionId, port }));
   failures.push(...await checkStates({ send: c.send, once: c.once, sessionId, port }));
+  failures.push(...await checkFirstScreen({ send: c.send, once: c.once, sessionId, port }));
   for (const screen of BANNER_SCREENS) {
     await c.send('Emulation.setDeviceMetricsOverride', { width: screen.width, height: screen.height, deviceScaleFactor: 1, mobile: screen.mobile }, sessionId);
     for (const path of list) {
@@ -212,4 +216,4 @@ try {
 }
 
 if (failures.length) { failures.forEach((f) => console.error('FAIL ' + f)); process.exit(1); }
-console.log(`OK ${list.length} pages fit ${[WIDTH, ...MORE_WIDTHS].sort((a, b) => a - b).join(', ')}px without sideways scroll; every control reads at ${MIN_CONTRAST}:1 in both themes; buttons and type are PostHog's sizes and every key's base has room; the cookie banner covers no button in the first view of a desktop or phone screen`);
+console.log(`OK ${list.length} pages fit ${[WIDTH, ...MORE_WIDTHS].sort((a, b) => a - b).join(', ')}px without sideways scroll; every control reads at ${MIN_CONTRAST}:1 in both themes; buttons and type are PostHog's sizes and every key's base has room; the cookie banner covers no button in the first view of a desktop or phone screen, nor the action on the pages ads link to`);

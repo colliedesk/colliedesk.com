@@ -409,6 +409,11 @@ p.switch-offer-print { padding-left: 0; }
   .lede { font-size: 1.05rem; }
   .cta-row { flex-direction: column; }
   .cta-row .btn { width: 100%; }
+  /* The switch page's keys stay above the cookie banner on a 360 x 640 phone (scripts/render-first-screen.mjs):
+     the compact top the /audit hero already has. Its hero is the one that books the switch call. */
+  .page-hero:has(.cta-row a[href*="/colliedesk-switch"]) { padding-top: var(--space-6); }
+  .page-hero:has(.cta-row a[href*="/colliedesk-switch"]) .eyebrow { margin-bottom: var(--space-2); }
+  .page-hero:has(.cta-row a[href*="/colliedesk-switch"]) .cta-row { margin-top: var(--space-5); }
   /* minmax(0, 1fr), not 1fr: the track never grows past the screen to fit the email field's width. */
   .footer-grid { grid-template-columns: minmax(0, 1fr); }
   .footer-grid a { min-height: var(--touch); display: inline-flex !important; align-items: center; }
