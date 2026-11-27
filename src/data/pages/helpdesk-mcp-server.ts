@@ -5,14 +5,19 @@ import { CLAUDE_DIRECTORY_URL, MCP_URL } from './home-sections';
 import { mcpToolCount } from './repo-docs';
 
 // Vendor facts were read on their own documentation on READ; the links are in the Sources section.
-const READ = '18 November 2026';
+const READ = '25 November 2026';
 const TOOLS = mcpToolCount();
 
 const FRESHDESK_MCP = 'https://support.freshdesk.com/support/solutions/articles/50000012670';
 const FRESHDESK_FAQ = 'https://support.freshdesk.com/support/solutions/articles/50000014407';
-const ZENDESK_MCP = 'https://support.zendesk.com/hc/en-us/articles/11400026079130-Connecting-external-AI-agents-to-Zendesk-EAP';
+const ZENDESK_MCP =
+  'https://support.zendesk.com/hc/en-us/articles/11400026079130-Connecting-external-AI-agents-to-the-Zendesk-MCP-server-or-Zendesk-AI-agents-EAP';
+const ZENDESK_BRIDGE =
+  'https://support.zendesk.com/hc/en-us/articles/11398710406554-Understanding-Zendesk-Bridge-and-allowing-external-AI-agents-to-perform-actions-in-Zendesk-EAP';
+const ZENDESK_MCP_CLIENT = 'https://support.zendesk.com/hc/en-us/articles/11105393853210-Announcing-the-general-availability-of-the-MCP-client';
 const HELP_SCOUT_MCP = 'https://docs.helpscout.com/article/1779-help-scout-mcp-server';
 const INTERCOM_MCP = 'https://developers.intercom.com/docs/guides/mcp';
+const INTERCOM_CONNECTOR = 'https://www.intercom.com/integrations/connectors/intercom-mcp-server';
 
 const faq: Faq[] = [
   {
@@ -29,7 +34,7 @@ const faq: Faq[] = [
   },
   {
     q: 'Does an MCP call cost extra?',
-    a: `On Freshdesk, yes, after the yearly allowance: 1,200 actions on Growth, 6,000 on Pro and 12,000 on Enterprise, for the whole account. Every call counts as one action, a read as much as a write. On Colliedesk the MCP server is on every plan, and [plans](/pricing) differ only in agents, attachment storage and how much of the move we do.`,
+    a: `On Freshdesk, yes, after the yearly allowance: 1,200 actions on Growth, 6,000 on Pro and 12,000 on Enterprise, for the whole account, prorated on a shorter billing cycle. Every call counts as one action, a read as much as a write. On Colliedesk the MCP server is on every plan, and [plans](/pricing) differ only in agents, attachment storage and how much of the move we do.`,
   },
   {
     q: 'Can I self-host a helpdesk that has an MCP server?',
@@ -38,6 +43,8 @@ const faq: Faq[] = [
 ];
 
 const body = `Colliedesk, Freshdesk, Zendesk, Help Scout and Intercom each run an MCP server that your AI agent can connect to. Two of them name a tool that sends a reply to a customer: Colliedesk (\`colliedesk_reply_send\`, one of ${TOOLS} tools) and Freshdesk (\`replyTicket\`, one of 37).
+
+Three publish a tool count: Intercom 16, Freshdesk 37 and Colliedesk ${TOOLS}. Zendesk and Help Scout do not.
 
 Every row below comes from the vendor's own documentation, read on ${READ}. Where the documentation does not say, the cell says "not stated".
 
@@ -48,7 +55,7 @@ Every row below comes from the vendor's own documentation, read on ${READ}. Wher
 | Colliedesk | Shipped | \`${MCP_URL}\` on Cloud, \`/mcp\` on your own domain when self-hosted | ${TOOLS} | Yes, when the token holds \`messages:send\`. With \`ai_assist:create\` instead, it leaves a draft for a person. |
 | [Freshdesk](${FRESHDESK_MCP}) | Generally available since 10 September 2026 | \`https://<subdomain>.freshdesk.com/mcp\` | 37 in the tool table | Yes: \`replyTicket\` |
 | [Zendesk](${ZENDESK_MCP}) | Early access program | \`https://<subdomain>.zendesk.com/mcp\` | Not stated; up to 150 tools and AI agents on one pre-built connection | Not stated. It creates and updates tickets after a person confirms. |
-| [Help Scout](${HELP_SCOUT_MCP}) | Generally available | \`https://mcp.helpscout.net/mcp\` | Not stated | No. New connections are read-only. |
+| [Help Scout](${HELP_SCOUT_MCP}) | Generally available | \`https://mcp.helpscout.net/mcp\` | Not stated | No. New connections are read-only; a few early accounts kept write tools. |
 | [Intercom](${INTERCOM_MCP}) | Live | \`https://mcp.intercom.com/mcp\` (US), \`https://mcp.eu.intercom.com/mcp\` (EU) | 16, plus 5 Fin Operator tools on an OAuth connection when the workspace has Fin Operator | No. It adds an internal note and writes help articles. |
 
 ## Sign-in, plans and limits
@@ -56,40 +63,55 @@ Every row below comes from the vendor's own documentation, read on ${READ}. Wher
 | Helpdesk | Sign-in | Plans and limits |
 |---|---|---|
 | Colliedesk | OAuth for an AI app, or an agent token for a script | Every plan, and self-hosted |
-| Freshdesk | An API key for each user | Growth, Pro and Enterprise, on Freshdesk Standalone 2021 or Freshdesk Unified Omni 2026 only. 1,200, 6,000 and 12,000 actions a year for the account. Rate limit of 25, 50 and 100 actions a minute. |
+| Freshdesk | An API key for each user | Growth, Pro and Enterprise, on Freshdesk Standalone 2021 or Freshdesk Unified Omni 2026 only. 1,200, 6,000 and 12,000 actions a year for the account, prorated on a shorter billing cycle. Rate limit of 25, 50 and 100 actions a minute. |
 | Zendesk | OAuth | Suite Team and up, Support Team and up. Free during early access. |
 | Help Scout | OAuth, each person as themselves | Standard, Plus and Pro. Report tools need Plus or Pro. |
 | Intercom | OAuth, or a bearer token | US and EU workspaces. AU workspaces are not supported yet. Plans are not stated. |
 
-## Four things to check before you connect an agent
+## Zendesk MCP server: what it can do
 
-### 1. Can it write, or only read?
+Zendesk's MCP server is in an early access program. Zendesk calls it Zendesk Bridge, and it is free during early access. Packaging and pricing might change at general availability. Source: [Zendesk help](${ZENDESK_MCP}), read ${READ}.
 
-A read-only server is fine for "summarize this week's refund tickets". It cannot clear a queue.
+- **Get it:** join the External AI early access program. Then in Admin Center, open **AI** → **External AI** → **Add connection**.
+- **Server URL:** \`https://<subdomain>.zendesk.com/mcp\`, on the connection's **Setup** tab.
+- **Plans:** Suite Team, Growth, Professional, Enterprise and Enterprise Plus. Support Team, Professional and Enterprise.
+- **Sign-in:** OAuth. With a pre-built provider, each user authorizes the app for their own Zendesk account.
+- **Tools that write:** you pick them per connection, up to 150 tools and AI agents on a pre-built provider such as Claude, ChatGPT or Codex. Zendesk names creating and updating tickets and applying macros. During early access, destructive actions, bulk exports and third-party integrations are not supported, and Admin Center actions are read-only ([Understanding Zendesk Bridge](${ZENDESK_BRIDGE}), read ${READ}).
+- **Can it send a reply?** Not stated. The agent proposes each change, and a person confirms it before Zendesk makes it.
+- **Limit during early access:** one connection for each pre-built provider. For a second Claude agent, Zendesk suggests a custom connection.
 
-- **Help Scout** is read-only for a connection made today. A small number of early accounts kept write tools.
-- **Intercom** adds an internal note that only teammates see. Its docs say the tool cannot send a reply the customer sees.
-- **Zendesk** proposes each change and asks a person to confirm it first.
-- **Freshdesk** and **Colliedesk** send the reply.
+Many results for "Zendesk MCP" describe the Zendesk MCP client instead. That is the other direction: Zendesk calls another vendor's MCP server from its action flows. The client is generally available since 10 August 2026, on Suite Growth and up and Support Team and up. Source: [Zendesk announcement](${ZENDESK_MCP_CLIENT}), read ${READ}.
 
-### 2. Who is the agent signed in as?
+## Intercom MCP server: what it can do
 
-With OAuth, each person approves the app in a browser, and the agent acts as that person. Colliedesk, Zendesk, Help Scout and Intercom work this way.
+Intercom's MCP server reads conversations, contacts and companies, and writes help articles and internal notes. Source: [Intercom developer guide](${INTERCOM_MCP}), read ${READ}.
 
-Freshdesk uses an API key. Its FAQ says each user connects by hand with their own key and the server URL.
+- **Server URL:** \`https://mcp.intercom.com/mcp\` for a US workspace (\`app.intercom.com\`), \`https://mcp.eu.intercom.com/mcp\` for an EU workspace (\`app.eu.intercom.com\`). AU workspaces are not supported yet. Intercom's [connector page](${INTERCOM_CONNECTOR}) still says US-hosted workspaces only; the developer guide lists both.
+- **Sign-in:** OAuth in the browser, or a bearer token from an Intercom app.
+- **Tools:** 16. The ones that write are \`create_article\`, \`update_article\` and \`add_internal_note\`. Each write is attributed to the teammate the connection acts as.
+- **Can it send a reply?** No. \`add_internal_note\` is visible to teammates only. A note on a snoozed conversation assigned to someone else reopens it.
+- **Fin Operator:** an OAuth connection also lists 5 Fin Operator tools. They run only when the workspace has Fin Operator and you may use it in Intercom. \`send_operator_message\` uses Operator credits.
+- **Plans:** not stated.
 
-### 3. Can you limit what it does?
+## Freshdesk MCP server: what it can do
 
-- **Freshdesk:** not per tool. Its FAQ says tool-level access management is not available. Each call still follows the user's Freshdesk role, and an admin can turn MCP off.
-- **Zendesk:** an admin picks the tools for each connection.
+Freshdesk's MCP server is generally available since 10 September 2026 and can reply to a customer with \`replyTicket\`. It is on by default for Growth, Pro and Enterprise, on Freshdesk Standalone 2021 or Freshdesk Unified Omni 2026. Sources: [Freshdesk MCP article](${FRESHDESK_MCP}) and [MCP FAQ](${FRESHDESK_FAQ}), read ${READ}.
+
+- **Get it:** in Freshdesk, open **Admin Settings** → **Apps & Integrations** → **MCP**. Copy the server URL and generate an API key there. An admin can turn MCP off on the same page.
+- **Server URL:** \`https://<subdomain>.freshdesk.com/mcp\`. Custom domains are not supported.
+- **Sign-in:** an API key only. Each user adds the URL and their own key to the AI app by hand. Freshdesk is not a listed connector in Claude or Gemini yet.
+- **Tools that write:** the tool table lists 37 tools, among them \`replyTicket\`, \`createTicketNote\`, \`updateTicket\`, \`createTicketBulkUpdate\` and \`createAgent\`.
+- **Can you limit the tools?** No. Every tool is available to anyone with a valid API key, within that user's Freshdesk role.
+- **Cost:** each successful tool call is one action, a read as much as a write. Growth includes 1,200 actions a year for the account, Pro 6,000 and Enterprise 12,000, prorated on a shorter billing cycle. Unused actions do not roll over, and an MCP Action Pack add-on buys more.
+
+## Can you limit what the agent does?
+
+A read-only server is fine for "summarize this week's refund tickets". It cannot clear a queue. Check who can narrow what the agent does:
+
 - **Help Scout:** you turn off single tools in your AI app.
 - **Colliedesk:** an agent token follows a role, or holds a fixed list of your permissions. It never does more than the person who made it. Give it \`messages:send\` only when you want it to write to customers.
 
-### 4. Does each call count?
-
-Freshdesk counts every successful tool call as one action. A read costs the same as a write. The Growth allowance is 1,200 actions a year for the whole account, an average of 100 a month. The FAQ says unused actions do not roll over. You buy an action pack to go past it.
-
-Zendesk is free during early access and says pricing might change after it.
+Zendesk lets an admin pick the tools per connection, and Freshdesk has no per-tool limit; both are in their sections above.
 
 ## What the Colliedesk server does
 
@@ -97,7 +119,7 @@ Colliedesk lists ${TOOLS} tools in [its MCP guide](/docs/mcp), each with the per
 
 To connect an AI app:
 
-1. In Claude, open [Colliedesk in the Claude directory](${CLAUDE_DIRECTORY_URL}) and choose **Connect**. In Codex, Cursor, VS Code or ChatGPT, add a remote MCP server with the URL \`${MCP_URL}\`.
+1. On Colliedesk Cloud, in Claude, open [Colliedesk in the Claude directory](${CLAUDE_DIRECTORY_URL}) and choose **Connect**. In Codex, Cursor, VS Code or ChatGPT, add a remote MCP server with the URL \`${MCP_URL}\`. A self-hosted Colliedesk is added the same way with \`https://<your-domain>/mcp\`.
 2. A Colliedesk page opens in your browser. Check the app name and the workspace, then choose **Allow**.
 3. Ask the agent: "Triage the open conversations nobody owns. Tag billing questions with \`billing\` and leave a note with a summary."
 
@@ -122,22 +144,22 @@ If you want an agent that works the whole queue, check the reply column first. T
 All read ${READ}.
 
 - Freshdesk: [Model Context Protocol (MCP) integration in Freshdesk](${FRESHDESK_MCP}) and [the MCP FAQ](${FRESHDESK_FAQ}).
-- Zendesk: [Connecting external AI agents to Zendesk (EAP)](${ZENDESK_MCP}).
+- Zendesk: [Connecting external AI agents to the Zendesk MCP server or Zendesk AI agents (EAP)](${ZENDESK_MCP}) and [Understanding Zendesk Bridge (EAP)](${ZENDESK_BRIDGE}) and [the MCP client announcement](${ZENDESK_MCP_CLIENT}).
 - Help Scout: [Connect your AI Agent to Help Scout via MCP](${HELP_SCOUT_MCP}).
-- Intercom: [the MCP guide for developers](${INTERCOM_MCP}).
+- Intercom: [the MCP guide for developers](${INTERCOM_MCP}) and [the MCP server connector page](${INTERCOM_CONNECTOR}).
 - Colliedesk: [Connect an AI agent (MCP)](/docs/mcp) and [Roles and permissions](/docs/roles-and-permissions).`;
 
 const page: Page = {
   jsonLd: [],
   name: 'Helpdesk MCP servers compared',
   path: '/helpdesk-mcp-server',
-  updated: '2026-11-18',
+  updated: '2026-11-25',
   section: 'Compare',
   title: `Helpdesk MCP servers compared: 16 tools to ${TOOLS}`,
   description:
-    'Colliedesk, Freshdesk, Zendesk, Help Scout and Intercom each have an MCP server. See the URL, sign-in, tool count, limits and which two can reply.',
+    'Colliedesk, Freshdesk, Zendesk, Help Scout and Intercom each have an MCP server. See the URL, sign-in, tool count, limits and which two name a reply tool.',
   summary: 'Five helpdesk MCP servers compared from vendor docs: URL, sign-in, tool count, plans, limits and which can reply to a customer.',
-  eyebrow: 'Compared from vendor docs, 18 November 2026',
+  eyebrow: `Compared from vendor docs, ${READ}`,
   h1: `Which helpdesk has an MCP server? 5 compared, from 16 tools to ${TOOLS}`,
   lede: 'Two of the five name a tool that sends a reply to a customer. One is read-only. One counts every call against a yearly allowance.',
   cta: true,
