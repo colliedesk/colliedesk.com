@@ -29,8 +29,10 @@ export const FACTS: readonly (readonly [fact: string, line: string, link: string
   ['1 restore test a week', 'backups in another EU data centre', 'how we test', GA_BACKUPS],
 ];
 
+// A before-and-after the reader can picture (the empty export, then the matching columns), not a list of
+// record types: the report right under it already lists them.
 export const MIGRATE_LEDE =
-  "Freshdesk's CSV export leaves the conversations out. Our importer brings tickets, replies, notes, attachments, tags, time entries, contacts, companies, saved replies and your help center, then counts both sides.";
+  "Open Freshdesk's CSV export and the conversations are not in it. Run our importer and you open a report like this one: every ticket, reply and attachment, counted in Freshdesk and in Colliedesk, side by side.";
 /** The sample reconcile report: illustrative counts, labelled as an example account. */
 export const REPORT_ROWS: readonly (readonly [record: string, count: string])[] = [
   ['Tickets, archived ones included', '18,422'],
